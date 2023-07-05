@@ -14,6 +14,8 @@ import UserProfilePicture from './UserProfilePicture';
 export default async function Page({ params }) {
   const user = await getRequestCookie(cookies())
 
+  const requestedUser = await getUserFromProfileId(params.id);
+
   return (
     <div className="flex flex-col h-screen dark:bg-black">
       <Head>
@@ -25,7 +27,7 @@ export default async function Page({ params }) {
       </div>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
-    <h1 className="text-7xl font-semibold text-gray-900 dark:text-white pt-5">{params.user}</h1>
+    <h1 className="text-7xl font-semibold text-gray-900 dark:text-white pt-5">{params.id}</h1>
     <UserProfilePicture />
 
 

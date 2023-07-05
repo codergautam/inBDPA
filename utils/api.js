@@ -1,8 +1,62 @@
 // Import the necessary modules
 import fetch from 'node-fetch';
 import { convertHexToBuffer, deriveKeyFromPassword } from './encryptPassword';
+import mongoose from 'mongoose';
 // Define the base URL of the API
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
+const MONGO_URI = 'mongodb+srv://bdpa:southernmn@cluster0.w1j6cq5.mongodb.net/'
+
+
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useFindAndModify: false,
+  useCreateIndex: true
+}).then((res) => {
+  console.log("Connected to MongoDB");
+}).catch((err) => {
+  console.log(err);
+});
+
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+
+const profileSchema = new Schema({
+  id: ObjectId,
+  user_id: String,
+  link: String,
+});
+const Profile = mongoose.model('Profile', profileSchema);
+
+async function createNewProfile({ user_id, link }) {
+  const newProfile = new Profile({
+    user_id,
+    link,
+  });
+
+  try {
+    // Attempt to save the new profile to the database
+    const savedProfile = await newProfile.save();
+    console.log('Profile successfully saved: ', savedProfile);
+    return false;
+  } catch (error) {
+   return false;
+  }
+}
+
+export async function changeProfileLink(user_id, newLink) {
+  try {
+      const updatedProfile = await Profile.findOneAndUpdate(
+          { user_id: user_id }, // find a document with this filter
+          { link: newLink }, // document to insert when nothing was found
+          { new: true, upsert: true } // options
+      );
+      console.log('Profile link successfully updated: ', updatedProfile);
+  } catch (error) {
+      console.log('Error while trying to update profile link: ', error);
+  }
+}
+
 
 // Define the common headers for all requests
 const headers = {
@@ -107,6 +161,7 @@ export async function getUsers(after = null, updatedAfter = null) {
 
 export async function createUser(user) {
   const url = `${BASE_URL}/users`;
+  
   return sendRequest(url, 'POST', user);
 }
 
@@ -168,4 +223,8 @@ export async function addConnection(userId, connectionId) {
 export async function removeConnection(userId, connectionId) {
   const url = `${BASE_URL}/users/${userId}/connections/${connectionId}`;
   return sendRequest(url, 'DELETE');
+};
+
+export async function getUserFromProfileId(profileId) {
+
 }
