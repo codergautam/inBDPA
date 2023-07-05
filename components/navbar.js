@@ -3,7 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 
-export default function Navbar() {
+export default function Navbar({user}) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -28,18 +28,24 @@ export default function Navbar() {
 
           <div className={`flex-1 md:flex md:items-center md:justify-between ${isOpen ? '' : 'hidden'} md:flex`}>
             <div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
-              <Link href="/feature-a" className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
-                Feature A
+              {/* Existing code */}
+            </div>
+
+            <div className="flex items-center mt-4 md:mt-0">
+              { user ? (
+                <Link href="/api/auth/logout" className="px-2 py-1 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
+                  Logout
+                </Link>
+              ) : (
+                <>
+              <Link href="/auth/login" className="px-2 py-1 mt-2 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
+                Login
               </Link>
-              <Link href="/feature-b" className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
-Feature
+              <Link href="/auth/signup" className="px-2 py-1 mt-2 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
+                Signup
               </Link>
-              <Link href="/auth/login" className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
-              Login
-              </Link>
-              <Link href="/auth/signup" className="px-2 py-1 mx-2 mt-2 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
-             Signup
-              </Link>
+              </>
+              )}
             </div>
           </div>
         </div>

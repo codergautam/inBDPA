@@ -7,6 +7,8 @@ export default function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+  const [error, setError] = useState("");
+  const [btnText, setBtnText] = useState("Sign In");
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-gray-800 text-black dark:text-white py-2">
@@ -22,11 +24,38 @@ export default function Login() {
             className="bg-white dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-6 pb-8 mb-4"
             onSubmit={event => {
               event.preventDefault();
-              // Do login logic here
+              setError("");
+              setBtnText("Signing in...");
+              fetch("/api/auth/login", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                  username,
+                  password,
+                  rememberMe
+                }),
+                credentials: "include"
+              }).then(response => {
+                setBtnText("Sign In");
+                response.json().then(data => {
+                  if(data.error) {
+                    setError(data.error);
+                    return;
+                  }
+                  // Redirect to home page
+                  window.location.href = "/";
+                });
+              }).catch(error => {
+                setBtnText("Sign In");
+                setError("An error occurred while signing in.");
+              });
             }}
           >
           <h1 className="text-2xl mb-6 text-center font-bold dark:text-gray-200">Welcome back to inBDPA</h1>
 
+            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="mb-4">
               <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="username">
                 Username
@@ -71,11 +100,11 @@ export default function Login() {
                 className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white text-xl "
                 type="submit"
               >
-                Sign In
+                {btnText}
               </button>
             </div>
             <p className="text-center text-gray-700 dark:text-gray-200 mt-5">
-            Don't have an account yet? <Link href="/auth/signup" className="text-blue-600 dark:text-blue-400">Sign up here</Link>
+            Don&rsquo;t have an account yet? <Link href="/auth/signup" className="text-blue-600 dark:text-blue-400">Sign up here</Link>
           </p>
           </form>
 

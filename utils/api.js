@@ -1,21 +1,23 @@
 // Import the necessary modules
 import fetch from 'node-fetch';
+import { convertHexToBuffer, deriveKeyFromPassword } from './encryptPassword';
 // Define the base URL of the API
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 
 // Define the common headers for all requests
 const headers = {
-  'Authorization': 'b57e7a45-6df3-4cbb-a0e7-f9302f12c353',
+  'Authorization': 'bearer b57e7a45-6df3-4cbb-a0e7-f9302f12c353',
   'Content-Type': 'application/json'
 };
 
 // Define the sendRequest function to make API requests
 async function sendRequest(url, method, body = null) {
   try {
+    console.log(url, method, body);
     const response = await fetch(url, {
       method,
       headers,
-      body: JSON.stringify(body)
+      body: body ? JSON.stringify(body) : null
     });
     const data = await response.json();
     return data;
@@ -126,6 +128,23 @@ export async function updateUser(userId, updates) {
 export async function deleteUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;
   return sendRequest(url, 'DELETE');
+}
+
+export async function loginUser(username, password) {
+  console.log("Logging in user", username);
+let user = await getUserByUsername(username);
+console.log(user, user.success);
+  if(!user.success) {
+    return user;
+  }
+  const { salt } = user.user;
+  const key = await deriveKeyFromPassword(password, convertHexToBuffer(salt));
+  let auth = await authenticateUser(user.user.user_id, key.keyString);
+  if(auth.success) {
+    return user;
+  } else {
+    return { success: false, error: "Invalid username or password"}
+  }
 }
 
 export async function authenticateUser(userId, key) {

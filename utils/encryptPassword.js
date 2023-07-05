@@ -23,7 +23,7 @@ const convertBufferToHex = (buffer) => {
 
 // A function that converts a string of hexadecimal digits into an array of
 // bytes (you should verify that the string is hex first!)
-const convertHexToBuffer = (hexString) => {
+export const convertHexToBuffer = (hexString) => {
   return Uint8Array.from(
     // Keep in mind that:
     // 1 byte = 8 bits
@@ -35,7 +35,7 @@ const convertHexToBuffer = (hexString) => {
 };
 
 // Turns a password (string) and salt (buffer) into a key and salt (hex strings)
-const deriveKeyFromPassword = async (passwordString, saltBuffer) => {
+export const deriveKeyFromPassword = async (passwordString, saltBuffer) => {
   // We'll use a TextEncoder to convert strings into arrays of bytes:
   const textEncoder = new TextEncoder('utf-8');
 
@@ -97,8 +97,6 @@ const deriveKeyFromPassword = async (passwordString, saltBuffer) => {
 
 export async function encryptPassword(password) {
   let { keyString, saltString } = await deriveKeyFromPassword(password)
-  console.log(`Key: ${keyString}, Length: ${keyString.length}`)
-  console.log(`Salt: ${saltString}, Length: ${saltString.length}`)
   let data = {};
   data.key = keyString;
   data.salt = saltString;
