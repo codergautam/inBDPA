@@ -1,12 +1,16 @@
+import Navbar from '@/components/navbar'
 import Head from 'next/head'
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen py-2">
+    <div className="flex flex-col h-screen">
       <Head>
         <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className='w-full'>
+        <Navbar />
+      </div>
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         {/* Welcome section */}
@@ -21,7 +25,7 @@ export default function Home() {
 
           <div className="flex flex-wrap items-center justify-center max-w-4xl mt-6 sm:w-full md:w-full sm:space-x-0 md:space-x-0 lg:space-x-12">
             <a
-              href="/signup"
+              href="/auth/signup"
               className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
             >
               <h3 className="text-2xl font-bold">Sign up &rarr;</h3>
@@ -31,7 +35,7 @@ export default function Home() {
             </a>
 
             <a
-              href="/login"
+              href="/auth/login"
               className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
             >
               <h3 className="text-2xl font-bold">Log in &rarr;</h3>
