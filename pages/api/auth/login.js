@@ -19,7 +19,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
   // store in session
   if(user.success) {
-    req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type};
+    req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link};
     console.log(req.session.user);
     await req.session.save();
   } else {

@@ -1,8 +1,90 @@
 // Import the necessary modules
 import fetch from 'node-fetch';
 import { convertHexToBuffer, deriveKeyFromPassword } from './encryptPassword';
+import mongoose, { get } from 'mongoose';
+import generateRandomId from './generateRandomProfileId';
 // Define the base URL of the API
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
+const MONGO_URI = 'mongodb+srv://bdpa:southernmn@cluster0.w1j6cq5.mongodb.net/inbdpa'
+
+
+mongoose.connect(MONGO_URI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+}).then((res) => {
+  console.log("Connected to MongoDB");
+}).catch((err) => {
+  console.log(err);
+});
+
+const Schema = mongoose.Schema;
+const ObjectId = Schema.ObjectId;
+
+const profileSchema = new Schema({
+  id: ObjectId,
+  user_id: String,
+  link: String,
+});
+const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
+
+async function createNewProfile({ user_id, link }) {
+  const newProfile = new Profile({
+    user_id,
+    link,
+  });
+
+  try {
+    // Attempt to save the new profile to the database
+    const savedProfile = await newProfile.save();
+    console.log('Profile successfully saved: ', savedProfile);
+    return false;
+  } catch (error) {
+   return false;
+  }
+}
+
+export async function getUserFromProfileId(profileId) {
+  try {
+    const profile = await Profile.findOne({ link: profileId });
+    if (profile) {
+      const user = await getUser(profile.user_id);
+      if (user) {
+        return user;
+      }
+    }
+    return false;
+  } catch (error) {
+    console.log('Error while trying to get user from profile id: ', error);
+    return false;
+  }
+}
+
+async function getProfileIdFromUserId(userId) {
+  try {
+    const profile = await Profile.findOne({ user_id: userId });
+    if (profile) {
+      return profile.link;
+    }
+    return false;
+  } catch (error) {
+    console.log('Error while trying to get profile id from user id: ', error);
+    return false;
+  }
+}
+
+export async function changeProfileLink(user_id, newLink) {
+  try {
+      const updatedProfile = await Profile.findOneAndUpdate(
+          { user_id: user_id }, // find a document with this filter
+          { link: newLink }, // document to insert when nothing was found
+          { new: true, upsert: true } // options
+      );
+      console.log('Profile link successfully updated: ', updatedProfile);
+  } catch (error) {
+      console.log('Error while trying to update profile link: ', error);
+  }
+}
+
 
 // Define the common headers for all requests
 const headers = {
@@ -107,7 +189,15 @@ export async function getUsers(after = null, updatedAfter = null) {
 
 export async function createUser(user) {
   const url = `${BASE_URL}/users`;
-  return sendRequest(url, 'POST', user);
+
+  let res = await sendRequest(url, 'POST', user);
+  if(res.success) {
+    console.log("Creating new profile");
+    res.user.link = generateRandomId();
+    await createNewProfile({ user_id: res.user.user_id, link: res.user.link });
+  }
+  return res;
+
 }
 
 export async function getUser(userId) {
@@ -141,6 +231,14 @@ console.log(user, user.success);
   const key = await deriveKeyFromPassword(password, convertHexToBuffer(salt));
   let auth = await authenticateUser(user.user.user_id, key.keyString);
   if(auth.success) {
+    let link = await getProfileIdFromUserId(user.user.user_id);
+    if(!link) {
+      // Make a new profile
+      link = generateRandomId();
+      await createNewProfile({ user_id: user.user.user_id, link });
+    }
+    console.log("Link: ", link);
+    user.user.link = link;
     return user;
   } else {
     return { success: false, error: "Invalid username or password"}
@@ -168,4 +266,4 @@ export async function addConnection(userId, connectionId) {
 export async function removeConnection(userId, connectionId) {
   const url = `${BASE_URL}/users/${userId}/connections/${connectionId}`;
   return sendRequest(url, 'DELETE');
-}
+};
