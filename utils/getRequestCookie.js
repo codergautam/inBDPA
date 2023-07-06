@@ -7,9 +7,7 @@ import { cookieName, cookiePassword } from "./ironConfig";
  * @param cookies ReadonlyRequestCookies
  * @returns SessionUser or null
  */
-export async function getRequestCookie(
-  cookies
-){
+export async function getRequestCookie(cookies) {
   const found = cookies.get(cookieName);
 
   if (!found) return null;

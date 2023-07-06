@@ -43,7 +43,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
     email,
     key,
     salt,
-    type: "inner"
+    type: "administrator"
   });
   // store in session
   if(user.success) {
