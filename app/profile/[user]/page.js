@@ -10,6 +10,7 @@ import UserConnections from './UserConnections';
 import UserViewStatus from './UserViewStatus';
 import { cookies } from 'next/headers';
 import UserProfilePicture from './UserProfilePicture';
+import { getUserFromProfileId } from '@/utils/api';
 
 export default async function Page({ params }) {
   const user = await getRequestCookie(cookies())
