@@ -1,10 +1,7 @@
 import Head from 'next/head'
 import Navbar from '@/components/navbar';
 import UserStats from '@/components/UserStats';
-import UserEducation from '@/components/UserEducation';
-import UserExperience from '@/components/UserExperience';
-import UserSkills from '@/components/UserSkills';
-import UserVolunteering from '@/components/UserVolunteering';
+
 import UserConnections from '@/components/UserConnections';
 import UserViewStatus from '@/components/UserViewStatus';
 import UserProfilePicture from '@/components/UserProfilePicture';
@@ -13,6 +10,7 @@ import { countSessionsForUser, getUserFromProfileId } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
+import UserInfo from '@/components/UserInfo';
 
 export default function Page({ user, requestedUser, activeSessions }) {
   const [activeSess, setActiveSessions] = useState(0);
@@ -46,23 +44,23 @@ export default function Page({ user, requestedUser, activeSessions }) {
 
           <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Education</h2>
-            <UserEducation />
+            <UserInfo type="education" user={user} requestedUser={requestedUser} />
           </div>
         </div>
 
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Experience</h2>
-          <UserExperience />
+          <UserInfo type="experience" user={user} requestedUser={requestedUser} />
         </div>
 
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Skills</h2>
-          <UserSkills />
+          <UserInfo type="skills" user={user} requestedUser={requestedUser} />
         </div>
 
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Volunteering</h2>
-          <UserVolunteering />
+          <UserInfo type="volunteering" user={user} requestedUser={requestedUser} />
         </div>
 
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
