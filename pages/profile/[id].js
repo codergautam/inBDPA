@@ -92,7 +92,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   const activeSessions = (await countSessionsForUser(requestedUser.user_id)).active;
 
   return {
-    props: { user: req.session.user, requestedUser, activeSessions },
+    props: { user: req.session.user ?? null, requestedUser, activeSessions },
   };
 },
 ironOptions);

@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import { useState } from 'react';
 import Link from 'next/link'
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '@/utils/ironConfig';
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -113,3 +115,21 @@ export default function Login() {
     </div>
   )
 }
+export const getServerSideProps = withIronSessionSsr(async function ({
+  req,
+  res,
+}) {
+  if(req.session.user) {
+    // redirect to home page
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/",
+      },
+    }
+  }
+  return {
+    props: {},
+  }
+},
+ironOptions);
