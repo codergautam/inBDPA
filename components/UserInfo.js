@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import Modal from 'react-modal';
 
 const MAX_TITLE_LENGTH = 100;
 const MAX_LOCATION_LENGTH = 30;
@@ -68,6 +69,10 @@ const MyComponent = () => {
           ))}
         </div>
       ) : (
+        <Modal
+        isOpen={mode !== 'view'}
+        contentLabel="Example Modal"
+      >
         <div className="space-y-4">
           {items.map((item, index) => (
             <div className="border border-gray-200 p-4" key={index}>
@@ -129,6 +134,7 @@ const MyComponent = () => {
             Save
           </button>
         </div>
+        </Modal>
       )}
     </div>
   );
