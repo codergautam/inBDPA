@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/Navbar";
 import { getRequestCookie } from "@/utils/getRequestCookie";
 import { cookies } from "next/headers";
 import Head from "next/head";
@@ -21,7 +21,7 @@ export default async function Home() {
           <h1 className="text-4xl sm:text-6xl font-bold">
             Welcome to{" "}
             <a className="text-blue-600" href="https://inbdpa.com">
-              inBDPA!
+              inBDPA! 
             </a>
           </h1>
 

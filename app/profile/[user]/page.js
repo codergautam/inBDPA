@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Navbar from '@/components/navbar';
+import Navbar from '@/components/Navbar';
 import { getRequestCookie } from '@/utils/getRequestCookie';
 import UserStats from './UserStats';
 import UserEducation from './UserEducation';
@@ -35,7 +35,7 @@ export default async function Page({ params }) {
 
         <div className="flex flex-col md:flex-row gap-4 mt-8">
           <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
-            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Profile Statistics</h2>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Profile Statistijklfa;lfcs </h2>
             <UserStats views={123} activeSessions={10} connectionStatus="Second-order connection"/>
           </div>
 
