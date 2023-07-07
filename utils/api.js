@@ -239,6 +239,7 @@ console.log(user, user.success);
     }
     console.log("Link: ", link);
     user.user.link = link;
+    user.user.key = key.keyString;
     return user;
   } else {
     return { success: false, error: "Invalid username or password"}

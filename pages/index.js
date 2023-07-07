@@ -1,11 +1,12 @@
 import Navbar from "@/components/navbar";
-import { getRequestCookie } from "@/utils/getRequestCookie";
-import { cookies } from "next/headers";
+import { ironOptions } from "@/utils/ironConfig";
+import { withIronSessionSsr } from "iron-session/next";
 import Head from "next/head";
 import Link from "next/link";
 
-export default async function Home() {
-  const user = await getRequestCookie(cookies());
+export default function Home(props) {
+  const user = props?.user;
+  console.log(user);
   return (
     <div className="flex flex-col">
       <Head>
@@ -21,9 +22,9 @@ export default async function Home() {
         <div className="flex flex-col items-center justify-center h-screen">
           <h1 className="text-4xl sm:text-6xl font-bold">
             Welcome to{" "}
-            <a className="text-blue-600" href="https://inbdpa.com">
+            <Link className="text-blue-600" href="/">
               inBDPA!
-            </a>
+            </Link>
           </h1>
 
           <p className="mt-3 text-xl md:text-2xl">
@@ -38,7 +39,7 @@ export default async function Home() {
             </>
           ) : (
             <div className="flex flex-wrap items-center justify-center max-w-4xl mt-6 sm:w-full md:w-full sm:space-x-0 md:space-x-0 lg:space-x-12">
-              <a
+              <Link
                 href="/auth/signup"
                 className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
               >
@@ -46,9 +47,9 @@ export default async function Home() {
                 <p className="mt-4 text-xl">
                   Start connecting with professionals today.
                 </p>
-              </a>
+              </Link>
 
-              <a
+              <Link
                 href="/auth/login"
                 className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
               >
@@ -56,7 +57,7 @@ export default async function Home() {
                 <p className="mt-4 text-xl">
                   Already have an account? Log in here.
                 </p>
-              </a>
+              </Link>
             </div>
           )}
         </div>
@@ -259,3 +260,13 @@ export default async function Home() {
     </div>
   );
 }
+
+export const getServerSideProps = withIronSessionSsr(async function ({
+  req,
+  res,
+}) {
+  return {
+    props: { user: req.session.user },
+  };
+},
+ironOptions);

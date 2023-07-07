@@ -1,22 +1,25 @@
 import Head from 'next/head'
 import Navbar from '@/components/navbar';
-import { getRequestCookie } from '@/utils/getRequestCookie';
-import UserStats from './UserStats';
-import UserEducation from './UserEducation';
-import UserExperience from './UserExperience';
-import UserSkills from './UserSkills';
-import UserVolunteering from './UserVolunteering';
-import UserConnections from './UserConnections';
-import UserViewStatus from './UserViewStatus';
-import { cookies } from 'next/headers';
-import UserProfilePicture from './UserProfilePicture';
-import { getUserFromProfileId } from '@/utils/api';
+import UserStats from '@/components/UserStats';
+import UserEducation from '@/components/UserEducation';
+import UserExperience from '@/components/UserExperience';
+import UserSkills from '@/components/UserSkills';
+import UserVolunteering from '@/components/UserVolunteering';
+import UserConnections from '@/components/UserConnections';
+import UserViewStatus from '@/components/UserViewStatus';
+import UserProfilePicture from '@/components/UserProfilePicture';
 
-export default async function Page({ params }) {
-  const user = await getRequestCookie(cookies())
+import { countSessionsForUser, getUserFromProfileId } from '@/utils/api';
+import { useEffect, useState } from 'react';
+import { withIronSessionSsr } from 'iron-session/next';
+import { ironOptions } from '@/utils/ironConfig';
 
-   const requestedUser = (await getUserFromProfileId(params.id)).user;
-  console.log(requestedUser, params.id);
+export default function Page({ user, requestedUser, activeSessions }) {
+  const [activeSess, setActiveSessions] = useState(0);
+  useEffect(() => {
+    setActiveSessions(activeSessions);
+  }, [activeSessions]);
+
 
   return (
     <div className="flex flex-col h-screen dark:bg-black">
@@ -38,7 +41,7 @@ export default async function Page({ params }) {
         <div className="flex flex-col md:flex-row gap-4 mt-8">
           <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Profile Statistics</h2>
-            <UserStats views={123} activeSessions={10} connectionStatus="Second-order connection"/>
+            <UserStats views={requestedUser.views} activeSessions={activeSess} connectionStatus="Second-order connection"/>
           </div>
 
           <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
@@ -75,3 +78,21 @@ export default async function Page({ params }) {
     </div>
   );
 }
+
+export const getServerSideProps = withIronSessionSsr(async function ({
+  req,
+  res,
+  params
+}) {
+
+  // Get id param of dynamic route
+  // ex: /profile/1
+  const id = params.id;
+  const requestedUser = (await getUserFromProfileId(id)).user;
+  const activeSessions = (await countSessionsForUser(requestedUser.user_id)).active;
+
+  return {
+    props: { user: req.session.user, requestedUser, activeSessions },
+  };
+},
+ironOptions);
