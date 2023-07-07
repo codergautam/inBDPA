@@ -1,4 +1,4 @@
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/Navbar";
 import { ironOptions } from "@/utils/ironConfig";
 import { withIronSessionSsr } from "iron-session/next";
 import Head from "next/head";

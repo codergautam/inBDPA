@@ -2,9 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+
 
 export default function Navbar({user}) {
   const [isOpen, setIsOpen] = useState(false);
+  console.log("User:")
+  console.log(user)
 
   return (
     <nav className="bg-white shadow dark:bg-gray-800 w-full">
@@ -34,7 +38,7 @@ export default function Navbar({user}) {
             <div className="flex items-center mt-4 md:mt-0">
               { user ? (
                 <>
-                {user.type == "administrator" ? <Link href={`/admin/${user.username}`} className="px-2 py-1 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
+                {user.type == "administrator" ? <Link href={`/admin/${user.link}`} className="px-2 py-1 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
                   Admin
                 </Link>: null}
                 <Link href="/api/auth/logout" className="px-2 py-1 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">

@@ -10,8 +10,8 @@ export default withIronSessionApiRoute(handler, ironOptions);
   if(req.method !== "POST") return res.send({ error: "Method not allowed" });
 
 
-  const { email, password, username, rememberMe } = req.body;
-  if(!email || !password || !username) {
+  const { email, password, username, rememberMe, type } = req.body;
+  if(!email || !password || !username || !type) {
     return res.send({ error: "Missing required fields" });
   }
   // Validate email
@@ -43,7 +43,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
     email,
     key,
     salt,
-    type: "administrator"
+    type: type || "inner"
   });
   // store in session
   if(user.success) {

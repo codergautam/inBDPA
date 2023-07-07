@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Navbar from '@/components/navbar';
+import Navbar from '@/components/Navbar';
 import UserStats from '@/components/UserStats';
 
 import UserConnections from '@/components/UserConnections';
@@ -87,6 +87,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   // ex: /profile/1
   const id = params.id;
   const requestedUser = (await getUserFromProfileId(id)).user;
+  console.log("User:")
+  console.log(requestedUser)
   const activeSessions = (await countSessionsForUser(requestedUser.user_id)).active;
 
   return {
