@@ -2,6 +2,7 @@ import Navbar from "@/components/Navbar";
 import { getRequestCookie } from "@/utils/getRequestCookie";
 import { cookies } from "next/headers";
 import Head from "next/head";
+import Link from "next/link";
 
 export default async function Home() {
   const user = await getRequestCookie(cookies());
@@ -29,7 +30,12 @@ export default async function Home() {
             The professional network for the digital age.
           </p>
           {user ? (
+            <>
             <p className="mt-3 text-2xl">Welcome back, <b className="text-blue-600">{user.username}!</b></p>
+            <Link href={`/profile/${user.link}`} className="bg-blue-900 rounded-md p-2">
+              Profile
+            </Link>
+            </>
           ) : (
             <div className="flex flex-wrap items-center justify-center max-w-4xl mt-6 sm:w-full md:w-full sm:space-x-0 md:space-x-0 lg:space-x-12">
               <a
@@ -108,7 +114,7 @@ export default async function Home() {
               potential employers.
             </p>
           </div>
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Skill Development</h2>
             <p className="text-sm sm:text-lg text-center">
@@ -120,7 +126,7 @@ export default async function Home() {
               marketability in the job market.
             </p>
           </div> */}
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Recommendations and Personalization
@@ -133,7 +139,7 @@ export default async function Home() {
               time and focus on the opportunities that matter most to you.
             </p>
           </div> */}
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Company Pages</h2>
             <p className="text-sm sm:text-lg text-center">
@@ -146,7 +152,7 @@ export default async function Home() {
               career.
             </p>
           </div> */}
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Job Application Tracking
@@ -159,7 +165,7 @@ export default async function Home() {
               important update and helps you stay on top of your job search.
             </p>
           </div> */}
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Industry Insights</h2>
             <p className="text-sm sm:text-lg text-center">
@@ -182,7 +188,7 @@ export default async function Home() {
               professional network.
             </p>
           </div>
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Events and Webinars</h2>
             <p className="text-sm sm:text-lg text-center">
@@ -208,7 +214,7 @@ export default async function Home() {
               the perfect job opportunity.
             </p>
           </div>
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Job Alerts and Notifications
@@ -221,7 +227,7 @@ export default async function Home() {
               and ensures you never miss out on important opportunities.
             </p>
           </div> */}
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Company Reviews and Ratings
@@ -235,7 +241,7 @@ export default async function Home() {
               potential employers.
             </p>
           </div> */}
-{/* 
+{/*
           <div className="flex flex-col items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Mobile Application</h2>
             <p className="text-sm sm:text-lg text-center">
