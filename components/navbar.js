@@ -12,9 +12,10 @@ export default function Navbar({user}) {
 
   return (
 
-<div className={`flex-1 md:flex md:items-center md:justify-between ${isOpen ? '' : 'hidden'} md:flex`}>
-<div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
-  {/* Existing code */}
+    <div class="flex flex-row content-center justify-between w-full h-1/6 background-opacity-0 border-b-2 border-black p-8 text-center">
+    <div class="flex flex-row self-center text-5xl font-bold text-black cursor-pointer select-none"><img class="w-12 h-12" src="https://bdpa.org/wp-content/uploads/2020/12/f0e60ae421144f918f032f455a2ac57a.png" alt="BDPA logo"/>
+    <div>inBDPA</div>
+
 </div>
 
 <div className="flex items-center mt-4 md:mt-0">
