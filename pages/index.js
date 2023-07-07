@@ -33,7 +33,7 @@ export default function Home(props) {
           {user ? (
             <>
             <p className="mt-3 text-2xl">Welcome back, <b className="text-blue-600">{user.username}!</b></p>
-            <Link href={`/profile/${user.link}`} className="bg-blue-900 rounded-md p-2">
+            <Link href={`/profile/${user.link}`} className="bg-blue-900 hover:bg-slate-800 transition duration-300 ease-in-out rounded px-4 py-2 mt-2">
               Profile
             </Link>
             </>

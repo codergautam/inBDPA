@@ -33,9 +33,14 @@ export default function Navbar({user}) {
 
             <div className="flex items-center mt-4 md:mt-0">
               { user ? (
+                <>
+                {user.type == "administrator" ? <Link href={`/admin/${user.username}`} className="px-2 py-1 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
+                  Admin
+                </Link>: null}
                 <Link href="/api/auth/logout" className="px-2 py-1 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">
                   Logout
                 </Link>
+                </>
               ) : (
                 <>
               <Link href="/auth/login" className="px-2 py-1 mt-2 text-sm font-medium text-gray-700 rounded-md dark:text-gray-200 dark:hover:bg-gray-700 hover:bg-gray-200 md:mt-0">

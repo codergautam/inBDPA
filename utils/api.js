@@ -95,7 +95,7 @@ const headers = {
 // Define the sendRequest function to make API requests
 async function sendRequest(url, method, body = null) {
   try {
-    console.log(url, method, body);
+    // console.log(url, method, body);
     const response = await fetch(url, {
       method,
       headers,
