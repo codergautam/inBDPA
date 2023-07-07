@@ -1,5 +1,4 @@
 import Head from 'next/head'
-<<<<<<< HEAD:pages/profile/[id].js
 import Navbar from '@/components/navbar';
 import UserStats from '@/components/UserStats';
 import UserEducation from '@/components/UserEducation';
@@ -9,20 +8,6 @@ import UserVolunteering from '@/components/UserVolunteering';
 import UserConnections from '@/components/UserConnections';
 import UserViewStatus from '@/components/UserViewStatus';
 import UserProfilePicture from '@/components/UserProfilePicture';
-=======
-import Navbar from '@/components/Navbar';
-import { getRequestCookie } from '@/utils/getRequestCookie';
-import UserStats from './UserStats';
-import UserEducation from './UserEducation';
-import UserExperience from './UserExperience';
-import UserSkills from './UserSkills';
-import UserVolunteering from './UserVolunteering';
-import UserConnections from './UserConnections';
-import UserViewStatus from './UserViewStatus';
-import { cookies } from 'next/headers';
-import UserProfilePicture from './UserProfilePicture';
-import { getUserFromProfileId } from '@/utils/api';
->>>>>>> 97755b8989932646377eaa0777d44670bd9789e2:app/profile/[id]/page.js
 
 import { countSessionsForUser, getUserFromProfileId } from '@/utils/api';
 import { useEffect, useState } from 'react';
