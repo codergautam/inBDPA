@@ -1,10 +1,5 @@
 import { useState } from "react"
 
-const getAllUsers = async () => {
-    let listOfUsers = await fetch("/api/getUsers");
-    return listOfUsers
-}
-
 
 export default function PromoteUser() {
     const listOfTypes = [
@@ -12,28 +7,28 @@ export default function PromoteUser() {
         "staff",
         "administrator"
     ]
-    // const [users, setUsers] = useState(usrs)
+
     const [error, setError] = useState("")
     const [hasError, setHasError] = useState("")
     const [nextPosition, setNextPosition] = useState("")
+    const [previousPosition, setPreviousPosition] = useState("")
     const [outputUser, setOutputUser] = useState(null)
     const [outputUserStatus, setOutputUserStatus] = useState("")
     const [promotionDisabled, setPromotionDisabled] = useState(false)
-    // const [output, setOutput] = useState([...users.slice(0, 6), "..."])
+
     const [query, setQuery] = useState("")
 
     const checkForUser = async (value) => {
         setOutputUserStatus("...")
         console.log(value)
-        let obj = {
-            username: value
-        }
         let user = await fetch("/api/getUser", {
             method: "POST",
             headers: {
               "Content-Type": "application/json"
             },
-            body: JSON.stringify(obj),
+            body: JSON.stringify({
+                username: value
+            }),
             credentials: "include"
         }).then(res => res.json())
         if(user.success) {
@@ -45,6 +40,11 @@ export default function PromoteUser() {
                 let newPos = listOfTypes[listOfTypes.indexOf(user.user.type)+1];
                 console.log(`New Position: ${newPos}`)
                 setNextPosition(newPos)
+            }
+            if(user.user.type != "inner") {
+                let newPos = listOfTypes[listOfTypes.indexOf(user.user.type)-1];
+                console.log(`Previous Position: ${newPos}`)
+                setPreviousPosition(newPos)
             }
             return
         } else {
@@ -93,10 +93,10 @@ export default function PromoteUser() {
         console.log("Data:")
         console.log(data)
         if(data.success) {
-            setOutputUserStatus("Promoted User to " + newPos)
+            setOutputUserStatus("Changed User to " + newPos)
             setTimeout(()=>{setOutputUserStatus("")}, 1000)
         } else {
-            setOutputUserStatus("Failed to promote user...")
+            setOutputUserStatus("Failed to change user type...")
             setTimeout(()=>{setOutputUserStatus("")}, 1000)
         }
     }
@@ -124,9 +124,15 @@ export default function PromoteUser() {
                 <p className="text-base">
                     <span className="text-gray-700">Total Views:</span> {outputUser.views}
                 </p>
-                {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-gray-900 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
-                    Promote to <span className="text-blue-500">{nextPosition}</span>
-                </button> : <></>}
+                <div className="flex flex-col">
+                    {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-gray-900 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
+                        Promote to <span className="text-blue-500">{nextPosition}</span>
+                    </button> : <></>}
+                    {/* Administrators can not demote other admins!!!! */}
+                    {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-gray-900 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
+                        Demote to <span className="text-red-500">{previousPosition}</span>
+                    </button> : <></>}
+                </div>
             </div> : <></>}
             
         </div>

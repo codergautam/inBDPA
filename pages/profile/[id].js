@@ -32,6 +32,7 @@ export default function Page({ user, requestedUser, activeSessions }) {
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
     <h1 className="text-7xl font-semibold text-gray-900 dark:text-white pt-5">{requestedUser.username}</h1>
+    <h1 className="text-xl text-gray-900 dark:text-white mt-2 mb-4">{requestedUser.type}</h1>
     <UserProfilePicture />
 
 

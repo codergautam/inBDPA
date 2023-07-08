@@ -11,7 +11,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
 
   const { email, password, username, rememberMe, type } = req.body;
-  if(!email || !password || !username || !type) {
+  if(!email || !password || !username) {
     return res.send({ error: "Missing required fields" });
   }
   // Validate email
