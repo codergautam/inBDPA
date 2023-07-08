@@ -12,9 +12,9 @@ export default function Navbar({user}) {
 
   return (
 
-    <div class="flex flex-row content-center justify-between self-center w-full h-1/6 bg-white border-b-2 border-black p-4 text-center">
+    <div class="flex flex-row content-center justify-between self-center w-full h-1/6 bg-white border-b-2 dark:bg-gray-800 border-black dark:border-gray-500 p-4 text-center">
   
-    <div class="flex flex-row self-center text-5xl font-bold text-black cursor-pointer select-none">
+    <div class="flex flex-row self-center text-5xl font-bold text-black dark:text-gray-200 cursor-pointer select-none">
     <div>in</div>
     <img class="w-10 h-10 self-center" src="https://bdpa.org/wp-content/uploads/2020/12/f0e60ae421144f918f032f455a2ac57a.png" alt="BDPA logo"/>
     <div>dpa</div>
