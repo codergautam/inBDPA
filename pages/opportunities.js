@@ -1,5 +1,5 @@
 import Head from 'next/head'
-import Navbar from '@/components/Navbar';
+import Navbar from '@/components/navbar';
 import UserStats from '@/components/UserStats';
 
 import UserConnections from '@/components/UserConnections';
@@ -34,7 +34,7 @@ export default function Page({ user, opportunities }) {
   };
 
   return (
-    <div className="flex flex-col h-screen dark:bg-black">
+    <div className="flex flex-col  dark:bg-black">
       <Head>
         <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
@@ -91,7 +91,7 @@ export default function Page({ user, opportunities }) {
           )}
         </div>
       </main>
-    </div>
+      </div>
   );
 }
 
