@@ -9,7 +9,15 @@ const MAX_DESCRIPTION_LENGTH = 250;
 
 const MyComponent = ({user, requestedUser, section}) => {
   const [mode, setMode] = useState('view');
-  const [items, setItems] = useState(requestedUser.sections[section] ?? []);
+  const [items, setItems] = useState(requestedUser.sections[section]?.map((s) => {
+    return {
+      title: s.title,
+      startedAt: new Date(s.startedAt),
+      endedAt: new Date(s.endedAt),
+      location: s.location,
+      description: s.description,
+    };
+  }) ?? []);
   const editable = user.id === requestedUser.user_id;
 
   const toggleMode = () => {
@@ -41,6 +49,28 @@ const MyComponent = ({user, requestedUser, section}) => {
 
   const saveChanges = () => {
     // Save changes to a database or perform any necessary actions
+    // started and endedAt needs to be a Date.now utc timestamp
+    const items2 = items.map((item) => {
+      return {
+        title: item.title,
+        startedAt: item.startedAt.getTime(),
+        endedAt: item.endedAt.getTime(),
+        location: item.location,
+        description: item.description,
+      };
+    });
+
+    fetch('/api/updateUserSection', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        section,
+        content: items2,
+      }),
+    });
+
     setMode('view');
   };
 
@@ -50,9 +80,9 @@ const MyComponent = ({user, requestedUser, section}) => {
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={toggleMode}
-          style={{ display: mode === 'edit' ? 'none' : 'block' }}
+          style={{ display: editable ? 'block' : 'none' }}
         >
-          {mode === 'view' ? 'Edit' : ''}
+          Edit
         </button>
       </div>
 

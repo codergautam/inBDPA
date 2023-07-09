@@ -18,6 +18,8 @@ export default function Page({ user, requestedUser, activeSessions }) {
     setActiveSessions(activeSessions);
   }, [activeSessions]);
 
+  const sections = ["volunteering", "skills", "experience", "education"]
+
 
   return (
     <div className="flex flex-col h-screen dark:bg-black">
@@ -43,12 +45,12 @@ export default function Page({ user, requestedUser, activeSessions }) {
             <UserStats views={requestedUser.views} activeSessions={activeSess} connectionStatus="Second-order connection"/>
           </div>
 
-          <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
+           <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Education</h2>
             <UserInfo type="education" user={user} requestedUser={requestedUser} section="education" />
           </div>
         </div>
-
+{/*
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Experience</h2>
           <UserInfo type="experience" user={user} requestedUser={requestedUser} section="experience" />
@@ -62,7 +64,14 @@ export default function Page({ user, requestedUser, activeSessions }) {
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2" section="volunteering" >Volunteering</h2>
           <UserInfo type="volunteering" user={user} requestedUser={requestedUser} />
-        </div>
+        </div> */}
+
+        {sections.filter((s)=>requestedUser.sections[s].length > 0 || requestedUser.user_id == user.id).map((section) => (
+          <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow" key={section}>
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">{section}</h2>
+            <UserInfo type={section} user={user} requestedUser={requestedUser} section={section} />
+          </div>
+        ))}
 
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Connections</h2>
