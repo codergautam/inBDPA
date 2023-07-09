@@ -45,22 +45,22 @@ export default function Page({ user, requestedUser, activeSessions }) {
 
           <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Education</h2>
-            <UserInfo type="education" user={user} requestedUser={requestedUser} />
+            <UserInfo type="education" user={user} requestedUser={requestedUser} section="education" />
           </div>
         </div>
 
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
           <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Experience</h2>
-          <UserInfo type="experience" user={user} requestedUser={requestedUser} />
+          <UserInfo type="experience" user={user} requestedUser={requestedUser} section="experience" />
         </div>
 
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Skills</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2" section="skills" >Skills</h2>
           <UserInfo type="skills" user={user} requestedUser={requestedUser} />
         </div>
 
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Volunteering</h2>
+          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2" section="volunteering" >Volunteering</h2>
           <UserInfo type="volunteering" user={user} requestedUser={requestedUser} />
         </div>
 

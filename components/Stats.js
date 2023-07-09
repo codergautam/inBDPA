@@ -1,10 +1,9 @@
 "use client"
 
-import { get } from "mongoose";
 import { useEffect, useState } from "react"
 
 async function getInfoData() {
-  let data = await fetch("http://localhost:3000/api/info").then((res)=> res.json());
+  let data = await fetch("/api/info").then((res)=> res.json());
   return data;
 }
 
@@ -14,9 +13,8 @@ export default function Stats() {
     const [sessions, setSessions] = useState(0);
     const [opportunities, setOpportunities] = useState(0);
 
-    
-    useEffect(async ()=>{
-        setUsers("...");
+    async function dostuff() {
+      setUsers("...");
         setTotalViews("...");
         setSessions("...");
         setOpportunities("...");
@@ -28,6 +26,10 @@ export default function Stats() {
             setSessions(data.info.sessions);
             setOpportunities(data.info.opportunities);
         }
+    }
+
+    useEffect(()=>{
+        dostuff();
     }, [])
 
     return (

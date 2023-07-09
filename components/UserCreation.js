@@ -66,10 +66,10 @@ export default function UserCreation(){
     }
 
     return (<>
-        {showStatus ? 
+        {showStatus ?
         <p className={`mt-4 text-base text-center w-1/3 mx-auto ${error ? "text-red-500" : "text-green-500"}`}>
             {status}
-        </p> : 
+        </p> :
         <></>}
             <p onClick={()=>setShowingForm(!showingForm)} className={`mt-4 mx-auto ${showingForm ? "text-red-500" : ""} cursor-pointer text-base font-bold mb-2`}>
                 Click this to {!showingForm ? "make a user" : "close the form"}
@@ -87,8 +87,8 @@ export default function UserCreation(){
             <input onChange={(e) => setPassword(e.target.value)} className="w-full mx-2 rounded bg-gray-700 px-4 py-2 mb-4" placeholder="Password..." type="password" />
             <label className="text-white text-lg mb-2">Type of User:</label> <br />
             <select onChange={(e) => setType(e.target.value)} className="text-white bg-gray-700 rounded px-4 py-2 mt-2 w-1/2 mx-auto" value={type} name="type" id="">
-                {types.map(type => (
-                    <option value={type == "admin" ? "administrator" : type}>{type}</option>
+                {types.map((type, i) => (
+                    <option value={type == "admin" ? "administrator" : type} key={i}>{type}</option>
                 ))}
             </select> <br />
             <button onClick={handleSubmit} className="rounded bg-gray-700 px-4 py-2 text-white mt-4">
