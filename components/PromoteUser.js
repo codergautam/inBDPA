@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 
 
 export default function PromoteUser() {
@@ -17,11 +17,20 @@ export default function PromoteUser() {
     const [promotionDisabled, setPromotionDisabled] = useState(false)
 
     const [query, setQuery] = useState("")
+    let promotionRef = useRef();
+
+    useEffect(()=> {
+        return () => clearTimeout(promotionRef.current)
+    })
 
     const checkForUser = async (value) => {
+        clearTimeout(promotionRef.current)
         setOutputUserStatus("...")
         console.log(value)
         let user = await fetch("/api/getUser", {
+            next: {
+                revalidate: 2
+            },
             method: "POST",
             headers: {
               "Content-Type": "application/json"
@@ -36,6 +45,7 @@ export default function PromoteUser() {
             console.log("User:")
             console.log(user.user)
             setOutputUser(user.user)
+            clearTimeout(promotionRef.current)
             if(user.user.type != "administrator") {
                 let newPos = listOfTypes[listOfTypes.indexOf(user.user.type)+1];
                 console.log(`New Position: ${newPos}`)
@@ -50,7 +60,7 @@ export default function PromoteUser() {
         } else {
             setOutputUserStatus("No user found...")
             setOutputUser(null)
-            setTimeout(()=>{setOutputUserStatus("")}, 1000);
+            promotionRef.current = setTimeout(()=>{setOutputUserStatus("")}, 1000);
             return
         }
         //Error stuff
@@ -77,10 +87,11 @@ export default function PromoteUser() {
     // }
 
     const changeUserType = async (id, newPos) => {
+        clearTimeout(promotionRef.current)
         setOutputUser(null)
         setQuery("")
         setOutputUserStatus("...")
-        let data = await fetch("/api/updateUserType", {
+        let data = await fetch("/api/admin/updateUserType", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -94,16 +105,17 @@ export default function PromoteUser() {
         console.log(data)
         if(data.success) {
             setOutputUserStatus("Changed User to " + newPos)
-            setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            promotionRef.current = setTimeout(()=>{setOutputUserStatus("")}, 1000)
         } else {
             setOutputUserStatus("Failed to change user type...")
-            setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            promotionRef.current = setTimeout(()=>{setOutputUserStatus("")}, 1000)
         }
     }
 
     return (
         <div className="mt-4 mb-4 flex flex-col w-1/4 mx-auto text-center">
-            <label className="text-white text-lg mb-2">Username:</label>
+            <p className="text-2xl text-white font-bold">Promote</p>
+            <label className="text-gray-700 text-lg mb-2">Username:</label>
             <input value={query} onChange={(e)=>{
                 setQuery(e.target.value)
                 checkForUser(e.target.value)

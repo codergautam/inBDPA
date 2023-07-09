@@ -1,4 +1,4 @@
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/navbar";
 import { ironOptions } from "@/utils/ironConfig";
 import { withIronSessionSsr } from "iron-session/next";
 import Head from "next/head";
@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function Home(props) {
   const user = props?.user;
-  console.log(user);
   return (
     <div className="flex flex-col">
       <Head>
@@ -45,7 +44,7 @@ export default function Home(props) {
               >
                 <h3 className="text-2xl font-bold">Sign up &rarr;</h3>
                 <p className="mt-4 text-xl">
-                  Start connecting with professionals today.
+                  Start connecting with professionals today!
                 </p>
               </Link>
 
@@ -261,7 +260,7 @@ export default function Home(props) {
   );
 }
 
-export const getServerSideProps = withIronSessionSsr(async function ({
+export const getServerSideProps = withIronSessionSsr(function ({
   req,
   res,
 }) {

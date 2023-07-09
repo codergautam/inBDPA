@@ -59,7 +59,7 @@ export async function getUserFromProfileId(profileId) {
   }
 }
 
-async function getProfileIdFromUserId(userId) {
+export async function getProfileIdFromUserId(userId) {
   try {
     const profile = await Profile.findOne({ user_id: userId });
     if (profile) {

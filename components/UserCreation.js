@@ -1,7 +1,7 @@
 "use client"
 
 import { set } from "mongoose";
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 
 export default function UserCreation(){
     let types = [
@@ -20,7 +20,15 @@ export default function UserCreation(){
     const [status, setStatus] = useState(false);
     const [error, setError] = useState(false);
 
+    let creationRef = useRef();
+
+    useEffect(()=> {
+        return () => clearTimeout(creationRef.current)
+    })
+
     const handleSubmit = async () => {
+        clearTimeout(creationRef.current)
+        setStatus("")
         let obj = {
             username,
             email,
@@ -50,7 +58,7 @@ export default function UserCreation(){
             setStatus(`Error: ${res.error}`)
             setError(true);
         }
-        setTimeout(()=>{
+        creationRef.current = setTimeout(()=>{
             setShowStatus(false);
             setError(false);
             setStatus("")
