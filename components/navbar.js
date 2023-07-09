@@ -26,7 +26,7 @@ export default function Navbar({user}) {
             {/* <div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
               Existing code
             </div> */}
-            <div class="flex flex-row content-center justify-between self-center w-full h-1/6 bg-white border-b-2 dark:bg-gray-800 border-black dark:border-gray-500 p-4 text-center">
+            <div class="flex flex-row content-center justify-between self-center portrait:default:focus-visible w-full h-1/6 bg-white border-b-2 dark:bg-gray-800 border-black dark:border-gray-500 p-4 text-center">
   
   <div className="flex flex-row self-center text-5xl font-bold text-black dark:text-gray-200 cursor-pointer select-none">
   <div>in</div>
