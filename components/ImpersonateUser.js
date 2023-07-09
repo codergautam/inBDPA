@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGhost } from "@fortawesome/free-solid-svg-icons"
+import { faMask } from "@fortawesome/free-solid-svg-icons"
 import { useRouter } from "next/router"
 
 
@@ -102,7 +102,7 @@ export default function ImpersonateUser() {
                     <span className="text-gray-700">Total Views:</span> {outputUser.views}
                 </p>
                 {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-gray-900 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
-                        Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faGhost}></FontAwesomeIcon>
+                        Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
                     </button>: <></>}
             </div> : <></>}
         </div>
