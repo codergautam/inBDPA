@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faGhost } from "@fortawesome/free-solid-svg-icons"
+import { faMask } from "@fortawesome/free-solid-svg-icons"
 
 export default function Navbar({user}) {
   let router = useRouter()
@@ -38,7 +38,7 @@ export default function Navbar({user}) {
   { user ? (
     <>
     {user.impersonating ? <button onClick={leaveImpersonation} className="w-min min-w-max group flex text-sm font-medium text-gray-700 rounded dark:text-gray-200 hover:font-bold  md:mt-0">
-      Leave Impersonation <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out w-5 h-5" icon={faGhost}></FontAwesomeIcon>
+      Leave Impersonation <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out w-5 h-5" icon={faMask}></FontAwesomeIcon>
     </button>: null}
     {user.type == "administrator" ? <Link href={`/admin/${user.link}`} className="px-2 py-1 text-lg font-medium text-black rounded-md dark:text-gray-200 dark:hover:font-bold hover:font-bold md:mt-0">
       Admin

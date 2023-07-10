@@ -54,7 +54,7 @@ export default function Login() {
               });
             }}
           >
-          <h1 className="text-2xl mb-6 text-center font-bold dark:text-gray-200">Welcome back to inBDPA</h1>
+          <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">Welcome back to inBDPA</h1>
 
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
             <div className="mb-4">
@@ -84,21 +84,21 @@ export default function Login() {
               />
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
+              <label className="block text-gray-700 dark:text-gray-200 text-sm mb-2">
                 <input
                   className="mr-2 leading-tight"
                   type="checkbox"
                   checked={rememberMe}
                   onChange={event => setRememberMe(event.target.checked)}
                 />
-                <span className="text-sm">
+                <span className="text-sm font-bold">
                   Remember me
                 </span>
               </label>
             </div>
             <div className="flex items-center justify-center">
               <button
-                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white text-xl "
+                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white focus:text-blue-600 border-black dark:border-white text-xl "
                 type="submit"
               >
                 {btnText}
@@ -106,6 +106,9 @@ export default function Login() {
             </div>
             <p className="text-center text-gray-700 dark:text-gray-200 mt-5">
             Don&rsquo;t have an account yet? <Link href="/auth/signup" className="text-blue-600 dark:text-blue-400">Sign up here</Link>
+          </p>
+          <p className="text-center text-gray-700 dark:text-gray-200 mt-5 text-sm">
+             <Link href="http://localhost:3000/forgotpassword?email=email" className="text-blue-600 dark:text-blue-400">Forgot Password?</Link>
           </p>
           </form>
 
