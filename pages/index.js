@@ -16,32 +16,40 @@ export default function Home(props) {
         <Navbar user={user} />
       </div>
 
-      <main className="flex flex-col items-center justify-center w-full flex-1 px-4 md:w-4/5 3xl:w-2/3 mx-auto text-center">
+      <main className="flex flex-col items-center justify-center w-7/8 px-4 md:px-0 flex-1 md:w-5/6 3xl:w-2/3 mx-auto text-center">
         {/* Welcome section */}
         <div className="flex flex-col items-center justify-center h-screen">
-        <h1 className="text-4xl sm:text-6xl font-bold flex items-center">
-  <span>Welcome to </span>
-  <Link className="text-blue-600 flex items-center" href="/">
-    <div class="flex flex-row content-center justify-between self-center w-full h-1/6 p-4 text-center">
-      <div className="flex flex-row self-center text-5xl font-bold text-black dark:text-gray-200 cursor-pointer select-none">
-        <h1 className="text-4xl sm:text-6xl font-bold">in</h1>
-        <img className="w-10 h-10 self-center" src="https://bdpa.org/wp-content/uploads/2020/12/f0e60ae421144f918f032f455a2ac57a.png" alt="BDPA logo"/>
-        <h1 className="text-4xl sm:text-6xl font-bold">dpa</h1>
-      </div>
-    </div>
-  </Link>
-</h1>
-
+          <h1 className="text-4xl sm:text-6xl font-bold flex items-center">
+            <span>Welcome to </span>
+            <Link className="text-blue-600 flex items-center" href="/">
+              <div className="flex flex-row content-center justify-between self-center w-full h-1/6 p-4 text-center">
+                <div className="flex flex-row self-center text-5xl font-bold text-black dark:text-gray-200 cursor-pointer select-none">
+                  <h1 className="text-4xl sm:text-6xl font-bold">in</h1>
+                  <img
+                    className="w-10 h-10 self-center"
+                    src="https://bdpa.org/wp-content/uploads/2020/12/f0e60ae421144f918f032f455a2ac57a.png"
+                    alt="BDPA logo"
+                  />
+                  <h1 className="text-4xl sm:text-6xl font-bold">dpa</h1>
+                </div>
+              </div>
+            </Link>
+          </h1>
 
           <p className="mt-3 text-xl md:text-2xl">
             The professional network for the digital age.
           </p>
           {user ? (
             <>
-            <p className="mt-3 text-2xl">Welcome back, <b className="text-blue-600">{user.username}!</b></p>
-            <Link href={`/profile/${user.link}`} className="bg-blue-900 hover:bg-slate-800 transition duration-300 ease-in-out rounded px-4 py-2 mt-2">
-              Profile
-            </Link>
+              <p className="mt-3 text-2xl">
+                Welcome back, <b className="text-blue-600">{user.username}!</b>
+              </p>
+              <Link
+                href={`/profile/${user.link}`}
+                className="bg-blue-600 hover:bg-slate-800 transition duration-300 ease-in-out rounded px-4 py-2 mt-2"
+              >
+                Profile
+              </Link>
             </>
           ) : (
             <div className="flex flex-wrap items-center justify-center max-w-4xl mt-6 sm:w-full md:w-full sm:space-x-0 md:space-x-0 lg:space-x-12">
@@ -69,35 +77,68 @@ export default function Home(props) {
         </div>
 
         <div className="container">
-
-          <div className="flex flex-col items-center justify-center mb-48">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">User Profiles</h2>
-            <p className="text-sm sm:text-lg text-center">
-              Create a personalized profile to showcase your skills,
-              experiences, and achievements. Customize your profile with
-              pictures, background themes, and detailed information about your
-              work history, education, certifications, skills, and more. Connect
-              with others, receive recommendations, and manage your privacy
-              settings. Our user profiles feature empowers you to present
-              yourself professionally and make meaningful connections within our
-              community.
-            </p>
+          <div className="mb-48">
+            <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
+              <div className="text-center">
+                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+                  User Profiles
+                </h2>
+                <p className="text-center lg:text-left text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
+                  Create a personalized profile to showcase your skills,
+                  experiences, and achievements. Customize your profile with
+                  pictures, background themes, and detailed information about
+                  your work history, education, certifications, skills, and
+                  more. Connect with others, receive recommendations, and manage
+                  your privacy settings. Our user profiles feature empowers you
+                  to present yourself professionally and make meaningful
+                  connections within our community.
+                </p>
+                <Link
+                  href="/"
+                  className="collapse lg:visible border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                >
+                  Try it out!
+                </Link>
+              </div>
+              <img
+                className="w-3/4 lg:w-1/2 self-center"
+                src="https://cdn.discordapp.com/attachments/1121115967120998540/1126549457064964166/Screenshot_2023-07-06_at_11.22.56_AM.png"
+                alt="User Profile"
+              />
+            </div>
+            <Link
+              href="/"
+              className="lg:collapse border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+            >
+              Try it out!
+            </Link>
+          </div>
+          <div className="flex flex-col md:flex-row flex-items-center justify-center y-48">
+            <div className="md:w-1/2">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+                Job Search
+              </h2>
+              <p className="text-sm sm:text-lg text-center">
+                Find your dream job with ease using our comprehensive job search
+                functionality. Our advanced filters allow you to refine your
+                search based on location, industry, salary, and more. Spend less
+                time searching and more time applying to relevant opportunities.
+                We streamline the job search process, giving you the competitive
+                edge in finding the perfect position that matches your skills
+                and aspirations.
+              </p>
+            </div>
+            <div className="w-1/2 flex flex-wrap">
+              <Link
+                href="/"
+                className="border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded-full m-2 h-min px-4 py-3"
+              >
+                Try it out!
+              </Link>
+            </div>
           </div>
 
-          <div className="flex flex-col items-center justify-center my-48">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Job Search</h2>
-            <p className="text-sm sm:text-lg text-center">
-              Find your dream job with ease using our comprehensive job search
-              functionality. Our advanced filters allow you to refine your
-              search based on location, industry, salary, and more. Spend less
-              time searching and more time applying to relevant opportunities.
-              We streamline the job search process, giving you the competitive
-              edge in finding the perfect position that matches your skills and
-              aspirations.
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center justify-center my-48">
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Networking Opportunities
             </h2>
@@ -110,8 +151,10 @@ export default function Home(props) {
             </p>
           </div>
 
-          <div className="flex flex-col items-center justify-center my-48">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Resume Builder</h2>
+          <div className="flex flex-row items-center justify-center my-48">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+              Resume Builder
+            </h2>
             <p className="text-sm sm:text-lg text-center">
               Build professional resumes tailored to your desired job positions
               with our user-friendly resume builder tool. Create a visually
@@ -121,8 +164,8 @@ export default function Home(props) {
               potential employers.
             </p>
           </div>
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Skill Development</h2>
             <p className="text-sm sm:text-lg text-center">
               Stay ahead in your career by accessing online courses, tutorials,
@@ -133,8 +176,8 @@ export default function Home(props) {
               marketability in the job market.
             </p>
           </div> */}
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Recommendations and Personalization
             </h2>
@@ -146,8 +189,8 @@ export default function Home(props) {
               time and focus on the opportunities that matter most to you.
             </p>
           </div> */}
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Company Pages</h2>
             <p className="text-sm sm:text-lg text-center">
               Explore dedicated pages for companies where you can discover
@@ -159,8 +202,8 @@ export default function Home(props) {
               career.
             </p>
           </div> */}
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Job Application Tracking
             </h2>
@@ -172,8 +215,8 @@ export default function Home(props) {
               important update and helps you stay on top of your job search.
             </p>
           </div> */}
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Industry Insights</h2>
             <p className="text-sm sm:text-lg text-center">
               Gain valuable insights and trends about specific industries or job
@@ -184,8 +227,10 @@ export default function Home(props) {
             </p>
           </div> */}
 
-          <div className="flex flex-col items-center justify-center my-48">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Collaborative Projects</h2>
+          <div className="flex flex-row items-center justify-center my-48">
+            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+              Collaborative Projects
+            </h2>
             <p className="text-sm sm:text-lg text-center">
               Collaborate on projects, join teams, and showcase your teamwork
               and collaboration skills. Engage with like-minded professionals,
@@ -195,8 +240,8 @@ export default function Home(props) {
               professional network.
             </p>
           </div>
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Events and Webinars</h2>
             <p className="text-sm sm:text-lg text-center">
               Participate in virtual or in-person events, webinars, or workshops
@@ -207,7 +252,7 @@ export default function Home(props) {
             </p>
           </div> */}
 
-          <div className="flex flex-col items-center justify-center mt-48">
+          <div className="flex flex-row items-center justify-center mt-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Messaging and Communication
             </h2>
@@ -221,8 +266,8 @@ export default function Home(props) {
               the perfect job opportunity.
             </p>
           </div>
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Job Alerts and Notifications
             </h2>
@@ -234,8 +279,8 @@ export default function Home(props) {
               and ensures you never miss out on important opportunities.
             </p>
           </div> */}
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Company Reviews and Ratings
             </h2>
@@ -248,8 +293,8 @@ export default function Home(props) {
               potential employers.
             </p>
           </div> */}
-{/*
-          <div className="flex flex-col items-center justify-center my-48">
+          {/*
+          <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Mobile Application</h2>
             <p className="text-sm sm:text-lg text-center">
               Access our platform on the go with our mobile application. Enjoy a
@@ -260,19 +305,14 @@ export default function Home(props) {
               control of your professional journey.
             </p>
           </div> */}
-
         </div>
       </main>
     </div>
   );
 }
 
-export const getServerSideProps = withIronSessionSsr(function ({
-  req,
-  res,
-}) {
+export const getServerSideProps = withIronSessionSsr(function ({ req, res }) {
   return {
-    props: { user: req.session.user ?? null},
+    props: { user: req.session.user ?? null },
   };
-},
-ironOptions);
+}, ironOptions);
