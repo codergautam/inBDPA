@@ -1,38 +1,38 @@
-// Import global CSS styles
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import "@/public/globals.css"
 
-// Import necessary modules
-import { useRouter } from "next/router";
-import { useEffect } from "react";
-
-// Define the App component
 const App = ({ Component, pageProps }) => {
-  // Get the router object
   const router = useRouter();
 
-  // Add an event listener to the router to log when a route change starts
+  // State to keep track of the previous page
+  // Initialize it with the current path
+  const [prevPath, setPrevPath] = useState(router.asPath);
+
   useEffect(() => {
-    // Define the function to be executed when a route change starts
-    const exitingFunction = async () => {
-      console.log("exiting...");
+    // Function to handle when a route change starts
+    const handleRouteChangeStart = (url) => {
+      console.log("Moving from page: ", prevPath);
+      console.log("Moving to page: ", url);
     };
 
-    // Add the function as an event listener to the router
-    router.events.on("routeChangeStart", exitingFunction);
+    // Function to handle when a route change completes
+    const handleRouteChangeComplete = (url) => {
+      setPrevPath(url);  // Set the current path as the new previous path
+    };
 
-    // Add the function as an event listener to the window's beforeunload event
-    window.onbeforeunload = exitingFunction;
+    // Add the event listeners to the router
+    router.events.on("routeChangeStart", handleRouteChangeStart);
+    router.events.on("routeChangeComplete", handleRouteChangeComplete);
 
-    // Remove the event listener from the router when the component unmounts
+    // Remove the event listeners when the component unmounts
     return () => {
-      console.log("unmounting component...");
-      router.events.off("routeChangeStart", exitingFunction);
+      router.events.off("routeChangeStart", handleRouteChangeStart);
+      router.events.off("routeChangeComplete", handleRouteChangeComplete);
     };
-  }, []);
+  }, [prevPath]);  // Rerun the effect when prevPath changes
 
-  // Render the component with its props
   return <Component {...pageProps} />;
 };
 
-// Export the App component as the default export
 export default App;
