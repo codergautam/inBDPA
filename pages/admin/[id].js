@@ -5,8 +5,7 @@ import Navbar from "@/components/navbar"
 import { getUserFromProfileId } from "@/utils/api";
 import Stats from "@/components/Stats";
 import UserCreation from "@/components/UserCreation";
-import PromoteUser from "@/components/PromoteUser";
-import ImpersonateUser from "@/components/ImpersonateUser";
+import UserSearch from "@/components/UserSearch";
 import { ironOptions } from "@/utils/ironConfig";
 import { useRouter } from "next/router";
 
@@ -74,8 +73,7 @@ export default function Page({user}){
             {user.username}
           </div>
           <Stats></Stats>
-          <ImpersonateUser></ImpersonateUser>
-          <PromoteUser></PromoteUser>
+          <UserSearch></UserSearch>
           <UserCreation></UserCreation>
           <div className="pb-52"></div>
         </div>

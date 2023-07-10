@@ -23,12 +23,15 @@ const ObjectId = Schema.ObjectId;
 const profileSchema = new Schema({
   id: ObjectId,
   user_id: String,
+  username: String,
   link: String,
 });
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
-
-async function createNewProfile({ user_id, link }) {
+// addUserNameToSchema()
+async function createNewProfile({ user_id, username, link }) {
+  console.log("username:", username)
   const newProfile = new Profile({
+    username,
     user_id,
     link,
   });
@@ -111,6 +114,17 @@ async function sendRequest(url, method, body = null) {
 
 // Define the API functions
 
+async function addUserNameToSchema() {
+  let profiles = await Profile.find();
+  console.log("Profiles:", profiles.slice(0,3))
+  for(let i = 0; i < profiles.length; i++) {
+    let curr = profiles[i]
+    let data = await getUser(curr.user_id)
+    if(data.success) {
+      await Profile.updateOne({link: curr.link}, { $set: {username: data.user.username}})
+    }
+  }
+}
 // Info Endpoints
 export async function getInfo() {
   const url = `${BASE_URL}/info`;
@@ -194,7 +208,7 @@ export async function createUser(user) {
   if(res.success) {
     console.log("Creating new profile");
     res.user.link = generateRandomId();
-    await createNewProfile({ user_id: res.user.user_id, link: res.user.link });
+    await createNewProfile({ user_id: res.user.user_id, username: res.user.username, link: res.user.link });
   }
   return res;
 
@@ -235,7 +249,7 @@ console.log(user, user.success);
     if(!link) {
       // Make a new profile
       link = generateRandomId();
-      await createNewProfile({ user_id: user.user.user_id, link });
+      await createNewProfile({ user_id: user.user.user_id, username: user.user.username, link });
     }
     console.log("Link: ", link);
     user.user.link = link;

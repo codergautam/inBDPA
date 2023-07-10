@@ -10,7 +10,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
   if(req.method !== "POST") return res.send({ error: "Method not allowed" });
 
 
-  const { email, password, username, rememberMe, type } = req.body;
+  const { email, password, username, rememberMe, type, changeUser } = req.body;
   if(!email || !password || !username) {
     return res.send({ error: "Missing required fields" });
   }
@@ -46,7 +46,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
     type: type || "inner"
   });
   // store in session
-  if(user.success) {
+  if(user.success && changeUser) {
     req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link, salt, key};
     await req.session.save();
   }

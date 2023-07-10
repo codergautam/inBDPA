@@ -1,4 +1,4 @@
-export const cookieName = "inbdpa";
+export const cookieName = "doulai";
 export const cookiePassword = "MvNMDTwaVbRT5cbPQL6HgnxCCNRQXR5w";
 
 export const ironOptions = {

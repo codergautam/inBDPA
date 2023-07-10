@@ -33,7 +33,8 @@ export default function UserCreation(){
             username,
             email,
             password,
-            type: type
+            type: type,
+            changeUser: false
         }
         console.log(obj)
         let res = await fetch("/api/auth/signup", {
@@ -53,7 +54,9 @@ export default function UserCreation(){
         setEmail("");
         setShowStatus(true)
         if(res.success) {
+            setError(false)
             setStatus(`Successfully created user. Username: ${obj.username}, Email: ${obj.email}, Password: ${obj.password}, Type: ${obj.type}`);
+
         } else {
             setStatus(`Error: ${res.error}`)
             setError(true);
