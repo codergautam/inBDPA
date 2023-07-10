@@ -18,7 +18,7 @@ export default function Page({ user, requestedUser, activeSessions }) {
     setActiveSessions(activeSessions);
   }, [activeSessions]);
 
-  const sections = ["volunteering", "skills", "experience", "education"]
+  const sections = ["volunteering", "skills", "experience"]
 
 
   return (

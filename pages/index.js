@@ -19,12 +19,19 @@ export default function Home(props) {
       <main className="flex flex-col items-center justify-center w-full flex-1 px-4 md:w-4/5 3xl:w-2/3 mx-auto text-center">
         {/* Welcome section */}
         <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-4xl sm:text-6xl font-bold">
-            Welcome to{" "}
-            <Link className="text-blue-600" href="/">
-              inBDPA!
-            </Link>
-          </h1>
+        <h1 className="text-4xl sm:text-6xl font-bold flex items-center">
+  <span>Welcome to </span>
+  <Link className="text-blue-600 flex items-center" href="/">
+    <div class="flex flex-row content-center justify-between self-center w-full h-1/6 p-4 text-center">
+      <div className="flex flex-row self-center text-5xl font-bold text-black dark:text-gray-200 cursor-pointer select-none">
+        <h1 className="text-4xl sm:text-6xl font-bold">in</h1>
+        <img className="w-10 h-10 self-center" src="https://bdpa.org/wp-content/uploads/2020/12/f0e60ae421144f918f032f455a2ac57a.png" alt="BDPA logo"/>
+        <h1 className="text-4xl sm:text-6xl font-bold">dpa</h1>
+      </div>
+    </div>
+  </Link>
+</h1>
+
 
           <p className="mt-3 text-xl md:text-2xl">
             The professional network for the digital age.

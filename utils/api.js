@@ -93,7 +93,11 @@ const headers = {
 };
 
 // Define the sendRequest function to make API requests
+let simulateError = false;
 async function sendRequest(url, method, body = null) {
+  if(simulateError) {
+    return { success: false, error: "Simulated error" }
+  } else {
   try {
     // console.log(url, method, body);
     const response = await fetch(url, {
@@ -107,6 +111,7 @@ async function sendRequest(url, method, body = null) {
     console.error(error);
     throw new Error('An error occurred while making the API request');
   }
+}
 }
 
 // Define the API functions
