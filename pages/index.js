@@ -81,6 +81,127 @@ export default function Home(props) {
             <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
                 <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+                  Networking Opportunities
+                </h2>
+                <p className="text-center lg:text-left text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
+                  Connect with professionals in your industry, join communities,
+                  and participate in discussion forums. Expand your network,
+                  learn from others, and explore collaboration opportunities.
+                  Our networking feature fosters meaningful connections,
+                  allowing you to grow both personally and professionally within
+                  our community.
+                </p>
+                <Link
+                  href="/"
+                  className="collapse lg:visible border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                >
+                  Try it out!
+                </Link>
+              </div>
+              <img
+                className="w-3/4 lg:w-1/2 self-center"
+                src="https://cdn.discordapp.com/attachments/1121115967120998540/1128079632651014174/Screenshot_2023-07-10_at_4.45.19_PM.png"
+                alt="User Profile"
+              />
+            </div>
+            <Link
+              href="/"
+              className="lg:collapse border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+            >
+              Try it out!
+            </Link>
+          </div>
+          <div className="mb-48">
+            <div className="flex pb-7 flex-col lg:flex-row items-center justify-center flex-items-center y-48">
+              <div className="text-center lg:basis-3/5">
+                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+                  Job Search
+                </h2>
+                <p className="text-center lg:text-left text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
+                  Find your dream job with ease using our comprehensive job
+                  search functionality. Our advanced filters allow you to refine
+                  your search based on location, industry, salary, and more.
+                  Spend less time searching and more time applying to relevant
+                  opportunities. We streamline the job search process, giving
+                  you the competitive edge in finding the perfect position that
+                  matches your skills and aspirations.
+                </p>
+              </div>
+              <div className="flex flex-wrap lg:basis-2/5 justify-center lg:justify-normal">
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Engineering
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Finance
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Information Technology
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Chicago
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  New York
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Iowa
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  $80,000
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  $75,500
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Facebook
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  AT&T
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Intel
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="mb-48">
+            <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
+              <div className="text-center">
+                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   User Profiles
                 </h2>
                 <p className="text-center lg:text-left text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
@@ -102,7 +223,7 @@ export default function Home(props) {
               </div>
               <img
                 className="w-3/4 lg:w-1/2 self-center"
-                src="https://cdn.discordapp.com/attachments/1121115967120998540/1126549457064964166/Screenshot_2023-07-06_at_11.22.56_AM.png"
+                src="https://cdn.discordapp.com/attachments/1121115967120998540/1128079632651014174/Screenshot_2023-07-10_at_4.45.19_PM.png"
                 alt="User Profile"
               />
             </div>
@@ -112,43 +233,6 @@ export default function Home(props) {
             >
               Try it out!
             </Link>
-          </div>
-          <div className="flex flex-col md:flex-row flex-items-center justify-center y-48">
-            <div className="md:w-1/2">
-              <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
-                Job Search
-              </h2>
-              <p className="text-sm sm:text-lg text-center">
-                Find your dream job with ease using our comprehensive job search
-                functionality. Our advanced filters allow you to refine your
-                search based on location, industry, salary, and more. Spend less
-                time searching and more time applying to relevant opportunities.
-                We streamline the job search process, giving you the competitive
-                edge in finding the perfect position that matches your skills
-                and aspirations.
-              </p>
-            </div>
-            <div className="w-1/2 flex flex-wrap">
-              <Link
-                href="/"
-                className="border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded-full m-2 h-min px-4 py-3"
-              >
-                Try it out!
-              </Link>
-            </div>
-          </div>
-
-          <div className="flex flex-row items-center justify-center my-48">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
-              Networking Opportunities
-            </h2>
-            <p className="text-sm sm:text-lg text-center">
-              Connect with professionals in your industry, join communities, and
-              participate in discussion forums. Expand your network, learn from
-              others, and explore collaboration opportunities. Our networking
-              feature fosters meaningful connections, allowing you to grow both
-              personally and professionally within our community.
-            </p>
           </div>
 
           <div className="flex flex-row items-center justify-center my-48">
