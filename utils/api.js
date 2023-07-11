@@ -89,15 +89,20 @@ export async function changeProfileLink(user_id, newLink) {
 }
 
 
-// Define the common headers for all requests
-const headers = {
-  'Authorization': 'bearer b57e7a45-6df3-4cbb-a0e7-f9302f12c353',
-  'Content-Type': 'application/json'
-};
+
 
 // Define the sendRequest function to make API requests
 let simulateError = false;
 async function sendRequest(url, method, body = null) {
+  // Define the common headers for all requests
+  let headers = {
+    'Authorization': 'bearer b57e7a45-6df3-4cbb-a0e7-f9302f12c353',
+    'Content-Type': 'application/json'
+  };
+  if(method.toLowerCase() === 'delete') {
+    delete headers['Content-Type'];
+  }
+
   if(simulateError) {
     return { success: false, error: "Simulated error" }
   } else {

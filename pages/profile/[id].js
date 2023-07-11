@@ -6,17 +6,35 @@ import UserConnections from '@/components/UserConnections';
 import UserViewStatus from '@/components/UserViewStatus';
 import UserProfilePicture from '@/components/UserProfilePicture';
 
-import { countSessionsForUser, getUserFromProfileId } from '@/utils/api';
+import {  getUserFromProfileId } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
 import UserInfo from '@/components/UserInfo';
 
-export default function Page({ user, requestedUser, activeSessions }) {
-  const [activeSess, setActiveSessions] = useState(0);
+export default function Page({ user, requestedUser }) {
+  const [activeSess, setActiveSessions] = useState("...");
+
   useEffect(() => {
-    setActiveSessions(activeSessions);
-  }, [activeSessions]);
+    async function refreshActive() {
+      let data = await fetch("/api/countActiveSessions", {
+        method: "POST",
+        body: JSON.stringify({
+          view: "profile",
+          viewed_id: requestedUser.user_id
+        })
+      })
+      data = await data.json();
+      setActiveSessions(Math.max(1,data.active));
+    }
+    let activeSessInterval = setInterval(async () => {
+      await refreshActive();
+    }, 5000);
+    refreshActive();
+    return () => {
+      clearInterval(activeSessInterval);
+    }
+  }, []);
 
   const sections = ["volunteering", "skills", "experience"]
 
@@ -97,12 +115,9 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   // ex: /profile/1
   const id = params.id;
   const requestedUser = (await getUserFromProfileId(id)).user;
-  console.log("User:")
-  console.log(requestedUser)
-  const activeSessions = (await countSessionsForUser(requestedUser.user_id)).active;
 
   return {
-    props: { user: req.session.user ?? null, requestedUser, activeSessions },
+    props: { user: req.session.user ?? null, requestedUser },
   };
 },
 ironOptions);
