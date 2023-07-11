@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import Navbar from "@/components/navbar";
 import { ironOptions } from "@/utils/ironConfig";
 import { withIronSessionSsr } from "iron-session/next";
@@ -238,13 +239,16 @@ export default function Home(props) {
 
           <div className="items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl 2xl:text-4xl font-bold mb-4 text-blue-600">
-              Resume Builder
+              Resume Builder -{" "}
+              <Link href="/">
+                <u>Build Now→</u>
+              </Link>
             </h2>
             <img
-                className="w-full self-center"
-                src="https://cdn.discordapp.com/attachments/1121115967120998540/1128418009757790299/Screenshot_2023-07-11_at_3.10.01_PM.png"
-                alt="User Profile"
-              />
+              className="w-full self-center"
+              src="https://cdn.discordapp.com/attachments/1121115967120998540/1128418009757790299/Screenshot_2023-07-11_at_3.10.01_PM.png"
+              alt="User Profile"
+            />
           </div>
           {/*
           <div className="flex flex-row items-center justify-center my-48">
@@ -308,7 +312,7 @@ export default function Home(props) {
               career decisions and stay ahead in your industry.
             </p>
           </div> */}
-
+          {/* 
           <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Collaborative Projects
@@ -321,7 +325,7 @@ export default function Home(props) {
               feature enables you to showcase your talents and expand your
               professional network.
             </p>
-          </div>
+          </div> */}
           {/*
           <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Events and Webinars</h2>
@@ -334,7 +338,7 @@ export default function Home(props) {
             </p>
           </div> */}
 
-          <div className="flex flex-row items-center justify-center mt-48">
+          <div className="items-center justify-center mt-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Messaging and Communication
             </h2>
@@ -387,6 +391,17 @@ export default function Home(props) {
               control of your professional journey.
             </p>
           </div> */}
+          <div className="items-center justify-center mt-48">
+            <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-blue-600">
+              Join your friends, classmates, co-workers, and publish yourself.
+            </h2>
+            <Link
+              href="/"
+              className="collapse lg:visible border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+            >
+              Join Now!
+            </Link>
+          </div>
         </div>
       </main>
     </div>
