@@ -113,11 +113,79 @@ export default function Home(props) {
           </div>
           <div className="mb-48">
             <div className="flex pb-7 flex-col lg:flex-row items-center justify-center flex-items-center y-48">
+              <div className=" lg:pr-3 xl:pr-14 3xl:pr-16 flex flex-wrap lg:basis-2/5 justify-center lg:justify-normal">
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Engineering
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Finance
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Information Technology
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Chicago
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  New York
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Iowa
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  $80,000
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  $75,500
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Facebook
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  AT&T
+                </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  Intel
+                </Link>
+              </div>
               <div className="text-center lg:basis-3/5">
-                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+                <h2 className="text-center lg:text-right text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Job Search
                 </h2>
-                <p className="text-center lg:text-left text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
+                <p className="text-center lg:text-right text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
                   Find your dream job with ease using our comprehensive job
                   search functionality. Our advanced filters allow you to refine
                   your search based on location, industry, salary, and more.
@@ -126,74 +194,6 @@ export default function Home(props) {
                   you the competitive edge in finding the perfect position that
                   matches your skills and aspirations.
                 </p>
-              </div>
-              <div className="flex flex-wrap lg:basis-2/5 justify-center lg:justify-normal">
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  Engineering
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  Finance
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  Information Technology
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  Chicago
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  New York
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  Iowa
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  $80,000
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  $75,500
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  Facebook
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  AT&T
-                </Link>
-                <Link
-                  href="/"
-                  className="border-blue-600 border-2 hover:text-white hover:border-white transition duration-200 ease-in-out px-4 py-3 rounded-full m-2 h-min"
-                >
-                  Intel
-                </Link>
               </div>
             </div>
           </div>
@@ -204,7 +204,7 @@ export default function Home(props) {
                 <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   User Profiles
                 </h2>
-                <p className="text-center lg:text-left text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
+                <p className="text-center lg:text-left text-sm sm:text-lg w-fit mb-4 lg:mb-8">
                   Create a personalized profile to showcase your skills,
                   experiences, and achievements. Customize your profile with
                   pictures, background themes, and detailed information about
@@ -216,7 +216,7 @@ export default function Home(props) {
                 </p>
                 <Link
                   href="/"
-                  className="collapse lg:visible border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  className="collapse lg:visible border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
                   Try it out!
                 </Link>
