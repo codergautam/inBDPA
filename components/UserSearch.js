@@ -19,13 +19,10 @@ export default function UserSearch() {
     const [promotionDisabled, setPromotionDisabled] = useState(false)
 
     const [query, setQuery] = useState("")
-    let promotionRef = useRef();
+    let promotionRef
 
-    useEffect(()=> {
-        return () => clearTimeout(promotionRef.current)
-    })
     const impersonateUser = async (id) => {
-        clearTimeout(promotionRef.current)
+        clearTimeout(promotionRef)
         setShowingImpersonation(false);
         let data = await fetch("/api/admin/impersonateUser", {
             method: "POST",
@@ -43,7 +40,7 @@ export default function UserSearch() {
             setOutputUser(null);
             setOutputUserStatus("Failed to create user")
             setShowingImpersonation(true);
-            promotionRef.current = setTimeout(()=>{
+            promotionRef = setTimeout(()=>{
                 setOutputUserStatus("")
             }, 2000)
         }
@@ -51,7 +48,7 @@ export default function UserSearch() {
     }
 
     const checkForUser = async (value) => {
-        clearTimeout(promotionRef.current)
+        clearTimeout(promotionRef)
         setOutputUserStatus("...")
         console.log(value)
         let user = await fetch("/api/getUser", {
@@ -72,7 +69,7 @@ export default function UserSearch() {
             console.log("User:")
             console.log(user.user)
             setOutputUser(user.user)
-            clearTimeout(promotionRef.current)
+            clearTimeout(promotionRef)
             if(user.user.type != "administrator") {
                 let newPos = listOfTypes[listOfTypes.indexOf(user.user.type)+1];
                 console.log(`New Position: ${newPos}`)
@@ -87,7 +84,7 @@ export default function UserSearch() {
         } else {
             setOutputUserStatus("No user found...")
             setOutputUser(null)
-            promotionRef.current = setTimeout(()=>{setOutputUserStatus("")}, 1000);
+            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000);
             return
         }
         //Error stuff
@@ -114,7 +111,7 @@ export default function UserSearch() {
     // }
 
     const changeUserType = async (id, newPos) => {
-        clearTimeout(promotionRef.current)
+        clearTimeout(promotionRef)
         setOutputUser(null)
         setQuery("")
         setOutputUserStatus("...")
@@ -132,10 +129,10 @@ export default function UserSearch() {
         console.log(data)
         if(data.success) {
             setOutputUserStatus("Changed User to " + newPos)
-            promotionRef.current = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
         } else {
             setOutputUserStatus("Failed to change user type...")
-            promotionRef.current = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
         }
     }
 
