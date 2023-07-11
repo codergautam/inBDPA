@@ -80,10 +80,10 @@ export default function Home(props) {
           <div className="mb-48">
             <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
-                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+                <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Networking Opportunities
                 </h2>
-                <p className="text-center lg:text-left text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
+                <p className="text-center text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
                   Connect with professionals in your industry, join communities,
                   and participate in discussion forums. Expand your network,
                   learn from others, and explore collaboration opportunities.
@@ -98,11 +98,6 @@ export default function Home(props) {
                   Try it out!
                 </Link>
               </div>
-              <img
-                className="w-3/4 lg:w-1/2 self-center"
-                src="https://cdn.discordapp.com/attachments/1121115967120998540/1128079632651014174/Screenshot_2023-07-10_at_4.45.19_PM.png"
-                alt="User Profile"
-              />
             </div>
             <Link
               href="/"
@@ -116,13 +111,13 @@ export default function Home(props) {
               <div className=" lg:pr-3 xl:pr-14 3xl:pr-16 flex flex-wrap lg:basis-2/5 justify-center lg:justify-normal">
                 <Link
                   href="/"
-                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                  className="my-auto border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
                 >
                   Engineering
                 </Link>
                 <Link
                   href="/"
-                  className="border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                  className="my-auto border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
                 >
                   Finance
                 </Link>
@@ -180,12 +175,18 @@ export default function Home(props) {
                 >
                   Intel
                 </Link>
+                <Link
+                  href="/"
+                  className="border-blue-600 border-4 dark:border-white dark:hover:text-white dark:hover:border-blue-600 hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
+                >
+                  More <b className="text-blue-600">v</b>
+                </Link>
               </div>
               <div className="text-center lg:basis-3/5">
                 <h2 className="text-center lg:text-right text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Job Search
                 </h2>
-                <p className="text-center lg:text-right text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
+                <p className="text-center lg:text-right text-sm sm:text-lg w-fit mb-4 lg:mb-8">
                   Find your dream job with ease using our comprehensive job
                   search functionality. Our advanced filters allow you to refine
                   your search based on location, industry, salary, and more.
@@ -201,7 +202,7 @@ export default function Home(props) {
           <div className="mb-48">
             <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
-                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 text-blue-600">
                   User Profiles
                 </h2>
                 <p className="text-center lg:text-left text-sm sm:text-lg w-fit mb-4 lg:mb-8">
@@ -235,18 +236,15 @@ export default function Home(props) {
             </Link>
           </div>
 
-          <div className="flex flex-row items-center justify-center my-48">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+          <div className="items-center justify-center my-48">
+            <h2 className="text-2xl sm:text-3xl 2xl:text-4xl font-bold mb-4 text-blue-600">
               Resume Builder
             </h2>
-            <p className="text-sm sm:text-lg text-center">
-              Build professional resumes tailored to your desired job positions
-              with our user-friendly resume builder tool. Create a visually
-              appealing and comprehensive resume that highlights your skills,
-              experiences, and qualifications. Our intuitive interface guides
-              you through the process, ensuring your resume stands out to
-              potential employers.
-            </p>
+            <img
+                className="w-full self-center"
+                src="https://cdn.discordapp.com/attachments/1121115967120998540/1128418009757790299/Screenshot_2023-07-11_at_3.10.01_PM.png"
+                alt="User Profile"
+              />
           </div>
           {/*
           <div className="flex flex-row items-center justify-center my-48">
