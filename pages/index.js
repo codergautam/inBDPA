@@ -47,7 +47,7 @@ export default function Home(props) {
               </p>
               <Link
                 href={`/profile/${user.link}`}
-                className="bg-blue-600 hover:bg-slate-800 transition duration-300 ease-in-out rounded px-4 py-2 mt-2"
+                className="text-white bg-blue-600 hover:bg-slate-800 transition duration-300 ease-in-out rounded px-4 py-2 mt-2"
               >
                 Profile
               </Link>
@@ -78,13 +78,14 @@ export default function Home(props) {
         </div>
 
         <div className="container">
+          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
           <div className="mb-48">
             <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
                 <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Networking Opportunities
                 </h2>
-                <p className="text-center text-sm sm:text-lg w-fit lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 lg:mb-8">
+                <p className="text-center text-sm sm:text-lg w-fitr mb-4 lg:mb-8">
                   Connect with professionals in your industry, join communities,
                   and participate in discussion forums. Expand your network,
                   learn from others, and explore collaboration opportunities.
@@ -94,7 +95,7 @@ export default function Home(props) {
                 </p>
                 <Link
                   href="/"
-                  className="collapse lg:visible border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  className="collapse lg:visible border-black dark:border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
                   Try it out!
                 </Link>
@@ -107,6 +108,7 @@ export default function Home(props) {
               Try it out!
             </Link>
           </div>
+          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
           <div className="mb-48">
             <div className="flex pb-7 flex-col lg:flex-row items-center justify-center flex-items-center y-48">
               <div className=" lg:pr-3 xl:pr-14 3xl:pr-16 flex flex-wrap lg:basis-2/5 justify-center lg:justify-normal">
@@ -199,14 +201,14 @@ export default function Home(props) {
               </div>
             </div>
           </div>
-
+          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
           <div className="mb-48">
             <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
-                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold lg:pr-3 xl:pr-14 3xl:pr-16 mb-4 text-blue-600">
+                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-boldmb-4 text-blue-600">
                   User Profiles
                 </h2>
-                <p className="text-center lg:text-left text-sm sm:text-lg w-fit mb-4 lg:mb-8">
+                <p className="text-center lg:pr-3 xl:pr-14 3xl:pr-16  lg:text-left text-sm sm:text-lg w-fit mb-4 lg:mb-8">
                   Create a personalized profile to showcase your skills,
                   experiences, and achievements. Customize your profile with
                   pictures, background themes, and detailed information about
@@ -231,13 +233,13 @@ export default function Home(props) {
             </div>
             <Link
               href="/"
-              className="lg:collapse border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+              className="lg:collapse border-black border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
             >
               Try it out!
             </Link>
           </div>
-
-          <div className="items-center justify-center my-48">
+          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
+          <div className="items-center justify-center mb-48">
             <h2 className="text-2xl sm:text-3xl 2xl:text-4xl font-bold mb-4 text-blue-600">
               Resume Builder -{" "}
               <Link href="/">
@@ -250,6 +252,7 @@ export default function Home(props) {
               alt="User Profile"
             />
           </div>
+
           {/*
           <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">Skill Development</h2>
@@ -337,21 +340,26 @@ export default function Home(props) {
               with valuable opportunities to learn and grow professionally.
             </p>
           </div> */}
-
-          <div className="items-center justify-center mt-48">
-            <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
-              Messaging and Communication
-            </h2>
-            <p className="text-sm sm:text-lg text-center">
-              Communicate with ease through our integrated messaging
-              featuresthat facilitate seamless communication between users,
-              employers, and recruiters. Connect with potential employers,
-              schedule interviews, and stay in touch throughout the hiring
-              process. Our messaging and communication feature ensures effective
-              and efficient communication, enhancing your chances of securing
-              the perfect job opportunity.
-            </p>
+          <hr class="h-px bg-black border-0 dark:bg-gray-900 overflow" />
+          <div className="my-36">
+            <div className="items-center justify-center">
+              <div className="text-center">
+                <h2 className="text-center text-2xl sm:text-3xl font-bold text-blue-600">
+                  Messaging and Communication
+                </h2>
+                <p className="text-center text-sm sm:text-lg w-fit">
+                  Communicate with ease through our integrated messaging
+                  featuresthat facilitate seamless communication between users,
+                  employers, and recruiters. Connect with potential employers,
+                  schedule interviews, and stay in touch throughout the hiring
+                  process. Our messaging and communication feature ensures
+                  effective and efficient communication, enhancing your chances
+                  of securing the perfect job opportunity.
+                </p>
+              </div>
+            </div>
           </div>
+          
           {/*
           <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
@@ -391,13 +399,14 @@ export default function Home(props) {
               control of your professional journey.
             </p>
           </div> */}
+          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
           <div className="items-center justify-center mt-48">
             <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-blue-600">
               Join your friends, classmates, co-workers, and publish yourself.
             </h2>
             <Link
               href="/"
-              className="collapse lg:visible border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+              className="border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
             >
               Join Now!
             </Link>
