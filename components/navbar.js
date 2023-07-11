@@ -32,11 +32,6 @@ export default function Navbar({ user }) {
             dpa
           </Link>
         </div>
-          <div className={`flex-1 md:flex md:items-center md:justify-between py-2 px-2 ${isOpen ? '' : 'hidden'} md:flex`}>
-            {/* <div className="flex flex-col -mx-4 md:flex-row md:items-center md:mx-8">
-              Existing code
-            </div> */}
-            <div class="flex flex-row content-center justify-between self-center portrait:default:focus-visible w-full h-1/6 bg-white border-b-2 dark:bg-gray-800 border-black dark:border-gray-500 p-4 text-center">
 
         <div className="flex flex-col sm:flex-row items-center mt-4 md:mt-0 self-center">
           {user && (
@@ -80,8 +75,6 @@ export default function Navbar({ user }) {
           )}
         </div>
       </div>
-    </div>
-    </div>
     </div>
   );
 }
