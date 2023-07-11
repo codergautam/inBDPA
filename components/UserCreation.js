@@ -27,8 +27,9 @@ export default function UserCreation(){
     })
 
     const handleSubmit = async () => {
+        setShowingForm(false)
         clearTimeout(creationRef.current)
-        setStatus("")
+        setStatus("...")
         let obj = {
             username,
             email,

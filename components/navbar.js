@@ -8,7 +8,7 @@ import { faMask, faBars } from "@fortawesome/free-solid-svg-icons"
 
 export default function Navbar({ user }) {
   const router = useRouter();
-
+  const [isOpen, setIsOpen] = useState(false)
   const leaveImpersonation = async () => {
     let data = await fetch("/api/admin/returnToAdmin").then(res => res.json());
     if (data.success) {
