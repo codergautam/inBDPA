@@ -22,15 +22,11 @@ export default function Navbar({ user }) {
     <div className={`flex-1 flex flex-col sm:flex-row sm:items-center sm:justify-between py-2 px-2`}>
       <div className="flex flex-col sm:flex-row content-center justify-between self-center portrait:default:focus-visible w-full h-1/6 bg-white border-b-2 dark:bg-gray-800 border-black dark:border-gray-500 p-4 text-center">
         <div className="flex flex-row self-center text-2xl sm:text-4xl md:text-5xl font-bold text-black dark:text-gray-200 cursor-pointer select-none">
+
           <Link href="http://localhost:3000">
-            in
+            <img className="w-20 h-15 self-center" src="https://i.imgur.com/uWlkxIt.png" alt="BDPA logo"/>
           </Link>
-          <Link href="http://localhost:3000">
-            <img className="w-10 h-10 self-center" src="https://bdpa.org/wp-content/uploads/2020/12/f0e60ae421144f918f032f455a2ac57a.png" alt="BDPA logo"/>
-          </Link>
-          <Link href="http://localhost:3000">
-            dpa
-          </Link>
+
         </div>
 
         <div className="flex flex-col sm:flex-row items-center mt-4 md:mt-0 self-center">
