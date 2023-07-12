@@ -47,7 +47,7 @@ export async function fetchConnections(user_id, depth) {
       if(result.records[i].get('b.id') != user_id) connections.add(result.records[i].get('b.id'));
     }
   } catch (error) {
-    console.error('Error fetching connections:', error);
+    console.log('Error fetching connections:', error, user_id, depth);
   } finally {
     await session.close();
   }

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link'
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
+import Navbar from '@/components/navbar';
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -12,11 +13,15 @@ export default function Login() {
   const [btnText, setBtnText] = useState("Sign In");
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-gray-800 text-black dark:text-white py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="w-full">
+        <Navbar />
+      </div>
+
 
       <main className="flex items-center justify-center w-full flex-1 px-20 text-center">
 

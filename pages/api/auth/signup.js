@@ -50,10 +50,10 @@ export default withIronSessionApiRoute(handler, ironOptions);
   // store in session
   if(user.success && changeUser) {
     req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link, salt, key};
+  await createUserNode(user.user.user_id, []);
     await req.session.save();
   }
 
-  await createUserNode(user.user.user_id, []);
 
 
   return res.send(user);
