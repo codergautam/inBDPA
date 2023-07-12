@@ -13,6 +13,9 @@ import AboutSection from '@/components/AboutSection';
 import Link from 'next/link';
 import { fetchConnections, findConnectionDepth } from '@/utils/neo4j.mjs';
 import addSuffix from '@/utils/ordinalSuffix';
+import LinkChanger from '@/components/LinkChanger';
+
+
 
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
@@ -40,13 +43,14 @@ const handleAboutSave = (newAbout, setRequestedUser) => {
 };
 
 // Profile page component
-export default function Page({ user, requestedUser: r, depth:d, connections: c }) {
+export default function Page({ user, requestedUser: r, depth:d, connections: c , link}) {
 
   // State to store number of active sessions
   const [activeSess, setActiveSessions] = useState("...");
   const [requestedUser, setRequestedUser] = useState(r);
   const [connections, setConnections] = useState(c);
   const [depth, setDepth] = useState(d);
+
 
   const editable = user?.id === requestedUser?.user_id;
 
@@ -98,6 +102,11 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c }
           <>
     <h1 className="text-7xl font-semibold text-gray-900 dark:text-white pt-5">{requestedUser.username}</h1>
     <h1 className="text-xl text-gray-900 dark:text-white mt-2 mb-4">{requestedUser.type}</h1>
+
+{editable ? (
+<LinkChanger link={link} />
+) : null}
+
     <UserProfilePicture />
     {user ? (
       <>
@@ -220,7 +229,7 @@ if(requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
 
 
   return {
-    props: { user: req.session.user ?? null, requestedUser: requestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]] },
+    props: { user: req.session.user ?? null, requestedUser: requestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id },
   };
 },
 ironOptions)

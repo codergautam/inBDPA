@@ -56,7 +56,7 @@ async function createNewProfile({ user_id, username, link }) {
 
 export async function getUserFromProfileId(profileId) {
   try {
-    const profile = await Profile.findOne({ link: profileId });
+    const profile = await Profile.findOne({ link: profileId.toLowerCase() });
     if (profile) {
       const user = await getUser(profile.user_id);
       if (user) {
@@ -74,7 +74,7 @@ export async function getProfileIdFromUserId(userId) {
   try {
     const profile = await Profile.findOne({ user_id: userId });
     if (profile) {
-      return profile.link;
+      return profile.link.toLowerCase();
     }
     return false;
   } catch (error) {
