@@ -78,14 +78,14 @@ export default function Home(props) {
         </div>
 
         <div className="container">
-          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="mb-48">
-            <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
+          <hr class="h-px bg-black border-0 dark:bg-gray-900 overflow" />
+          <div className="my-36">
+            <div className="flex flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
                 <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Networking Opportunities
                 </h2>
-                <p className="text-center text-sm sm:text-lg w-fitr mb-4 lg:mb-8">
+                <p className="text-center text-md sm:text-lg w-fitr mb-4 lg:mb-8">
                   Connect with professionals in your industry, join communities,
                   and participate in discussion forums. Expand your network,
                   learn from others, and explore collaboration opportunities.
@@ -108,10 +108,10 @@ export default function Home(props) {
               Try it out!
             </Link>
           </div>
-          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="mb-48">
-            <div className="flex pb-7 flex-col lg:flex-row items-center justify-center flex-items-center y-48">
-              <div className=" lg:pr-3 xl:pr-14 3xl:pr-16 flex flex-wrap lg:basis-2/5 justify-center lg:justify-normal">
+          <hr class="h-px bg-black border-0 dark:bg-gray-900 overflow" />
+          <div className="my-16 sm:my-28">
+            <div className="flex flex-col lg:flex-row items-center justify-center flex-items-center y-48">
+              <div className="pb-3 lg:pb-0 lg:pr-3 xl:pr-14 3xl:pr-16 flex flex-wrap lg:basis-2/5 justify-center lg:justify-normal">
                 <Link
                   href="/"
                   className="my-auto border-blue-600 border-2 dark:hover:text-white dark:hover:border-white hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
@@ -189,7 +189,7 @@ export default function Home(props) {
                 <h2 className="text-center lg:text-right text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Job Search
                 </h2>
-                <p className="text-center lg:text-right text-sm sm:text-lg w-fit mb-4 lg:mb-8">
+                <p className="text-center lg:text-right text-md sm:text-lg w-fit">
                   Find your dream job with ease using our comprehensive job
                   search functionality. Our advanced filters allow you to refine
                   your search based on location, industry, salary, and more.
@@ -201,11 +201,11 @@ export default function Home(props) {
               </div>
             </div>
           </div>
-          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="mb-48">
-            <div className="flex pb-7 flex-col lg:flex-row items-center justify-center">
+          <hr class="h-px bg-black border-0 dark:bg-gray-900 overflow" />
+          <div className="my-36">
+            <div className="flex flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
-                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-boldmb-4 text-blue-600">
+                <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   User Profiles
                 </h2>
                 <p className="text-center lg:pr-3 xl:pr-14 3xl:pr-16  lg:text-left text-sm sm:text-lg w-fit mb-4 lg:mb-8">
@@ -238,9 +238,9 @@ export default function Home(props) {
               Try it out!
             </Link>
           </div>
-          <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="items-center justify-center mb-48">
-            <h2 className="text-2xl sm:text-3xl 2xl:text-4xl font-bold mb-4 text-blue-600">
+          <hr class="h-px bg-black border-0 dark:bg-gray-900 overflow" />
+          <div className="items-center justify-center my-36">
+            <h2 className="text-2xl sm:text-3xl 2xl:text-4xl font-bold mb-6 text-blue-600">
               Resume Builder -{" "}
               <Link href="/">
                 <u>Build Now→</u>
@@ -344,7 +344,7 @@ export default function Home(props) {
           <div className="my-36">
             <div className="items-center justify-center">
               <div className="text-center">
-                <h2 className="text-center text-2xl sm:text-3xl font-bold text-blue-600">
+                <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Messaging and Communication
                 </h2>
                 <p className="text-center text-sm sm:text-lg w-fit">
@@ -400,7 +400,7 @@ export default function Home(props) {
             </p>
           </div> */}
           <hr class="h-px my-8 bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="items-center justify-center mt-48">
+          <div className="items-center justify-center my-48">
             <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-blue-600">
               Join your friends, classmates, co-workers, and publish yourself.
             </h2>
