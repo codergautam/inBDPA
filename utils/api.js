@@ -1,11 +1,13 @@
 // Import the necessary modules
 import fetch from 'node-fetch';
 import { convertHexToBuffer, deriveKeyFromPassword } from './encryptPassword';
-import mongoose, { get } from 'mongoose';
+import mongoose from 'mongoose';
 import generateRandomId from './generateRandomProfileId';
+import { config } from 'dotenv';
+config();
 // Define the base URL of the API
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
-const MONGO_URI = 'mongodb+srv://bdpa:southernmn@cluster0.w1j6cq5.mongodb.net/inbdpa'
+const MONGO_URI = process.env.MONGO_URI;
 
 
 mongoose.connect(MONGO_URI, {
@@ -25,6 +27,12 @@ const profileSchema = new Schema({
   user_id: String,
   username: String,
   link: String,
+  email: String,
+  type: String,
+  views: Number,
+  createdAt: Number,
+  sections: Object,
+  connections: [String],
 });
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 // addUserNameToSchema()
@@ -96,7 +104,7 @@ let simulateError = false;
 async function sendRequest(url, method, body = null) {
   // Define the common headers for all requests
   let headers = {
-    'Authorization': 'bearer b57e7a45-6df3-4cbb-a0e7-f9302f12c353',
+    'Authorization': 'bearer '+process.env.API_KEY,
     'Content-Type': 'application/json'
   };
   if(method.toLowerCase() === 'delete') {
@@ -208,7 +216,12 @@ export async function getUsers(after = null, updatedAfter = null) {
   if (updatedAfter) {
     url += `&updatedAfter=${updatedAfter}`;
   }
-  return sendRequest(url, 'GET');
+  try {
+  let res = await sendRequest(url, 'GET');
+  return res;
+} catch (e) {
+  return [];
+}
 }
 
 export async function createUser(user) {

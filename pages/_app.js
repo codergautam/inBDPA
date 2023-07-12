@@ -79,6 +79,8 @@ const handleRouteChangeStart = async (url, first=false) => {
       } else {
         console.log("Error renewing session", data);
       }
+    }).catch(err => {
+      console.log("Error renewing session", err);
     });
   };
 

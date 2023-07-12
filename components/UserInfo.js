@@ -18,7 +18,7 @@ const MyComponent = ({user, requestedUser, section}) => {
       description: s.description,
     };
   }) ?? []);
-  const editable = user.id === requestedUser.user_id;
+  const editable = user?.id === requestedUser.user_id;
 
   const toggleMode = () => {
     setMode(mode === 'view' ? 'edit' : 'view');
