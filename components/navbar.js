@@ -26,7 +26,7 @@ export default function Navbar({ user }) {
       <div className="flex flex-col sm:flex-row content-center justify-between self-center portrait:default:focus-visible w-full h-1/6 bg-white border-b-2 dark:bg-gray-800 border-black dark:border-gray-500 p-4 text-center">
         <div className="flex flex-row self-center text-2xl sm:text-4xl md:text-5xl font-bold text-black dark:text-gray-200 cursor-pointer select-none">
           <Link href="http://localhost:3000">
-            <img className="w-22 h-16 self-center dark:bg-black" src="https://i.imgur.com/uWlkxIt.png" alt="BDPA logo"/>
+            <img className="w-22 h-16 self-center" src="https://i.imgur.com/uWlkxIt.png" alt="BDPA logo"/>
           </Link>
         </div>
 
