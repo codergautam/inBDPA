@@ -1,6 +1,5 @@
 "use client"
 
-import { set } from "mongoose";
 import { useState, useRef, useEffect } from "react"
 
 export default function UserCreation(){

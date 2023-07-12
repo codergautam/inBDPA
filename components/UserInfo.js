@@ -18,7 +18,7 @@ const MyComponent = ({user, requestedUser, section}) => {
       description: s.description,
     };
   }) ?? []);
-  const editable = user.id === requestedUser.user_id;
+  const editable = user?.id === requestedUser.user_id;
 
   const toggleMode = () => {
     setMode(mode === 'view' ? 'edit' : 'view');
@@ -76,13 +76,13 @@ const MyComponent = ({user, requestedUser, section}) => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-center mx-auto p-4">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={toggleMode}
           style={{ display: editable ? 'block' : 'none' }}
         >
-          Edit
+          {items.length > 0 ? 'Edit' : 'Add this section'}
         </button>
       </div>
 
@@ -103,6 +103,7 @@ const MyComponent = ({user, requestedUser, section}) => {
         <Modal
         isOpen={mode !== 'view'}
         contentLabel="Example Modal"
+        overlayClassName={`fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black bg-opacity-50`}
         className={`border border-gray-200 p-4 ${mode === 'view' ? 'hidden' : ''} bg-white dark:bg-gray-800 max-w-2xl mx-auto mt-12`}
       >
         <div className="space-y-4">

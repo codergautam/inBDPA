@@ -2,9 +2,7 @@ import Head from 'next/head'
 import Navbar from '@/components/navbar';
 import UserStats from '@/components/UserStats';
 
-import UserConnections from '@/components/UserConnections';
-import UserViewStatus from '@/components/UserViewStatus';
-import UserProfilePicture from '@/components/UserProfilePicture';
+
 
 import { useEffect, useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next';

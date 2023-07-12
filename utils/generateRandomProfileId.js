@@ -1,6 +1,7 @@
 export default function generateRandomId() {
-  var min = 1000000; // Minimum 7-digit number
-  var max = 9999999; // Maximum 7-digit number
-  var randomId = Math.floor(Math.random() * (max - min + 1)) + min;
-  return randomId.toString();
+  // Random 7 digit alphanumeric string
+  let chars = "0123456789abcdefghijklmnopqrstuvwxyz";
+  let result = "";
+  for (let i = 7; i > 0; --i) result += chars[Math.floor(Math.random() * chars.length)];
+  return result;
 }

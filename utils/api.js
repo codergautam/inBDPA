@@ -3,9 +3,11 @@ import fetch from 'node-fetch';
 import { convertHexToBuffer, deriveKeyFromPassword } from './encryptPassword';
 import mongoose from 'mongoose';
 import generateRandomId from './generateRandomProfileId';
+import { config } from 'dotenv';
+config();
 // Define the base URL of the API
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
-const MONGO_URI = 'mongodb+srv://bdpa:southernmn@cluster0.w1j6cq5.mongodb.net/inbdpa'
+const MONGO_URI = process.env.MONGO_URI;
 
 
 mongoose.connect(MONGO_URI, {
@@ -25,6 +27,13 @@ const profileSchema = new Schema({
   user_id: String,
   username: String,
   link: String,
+  email: String,
+  type: String,
+  views: Number,
+  createdAt: Number,
+  sections: Object,
+  connections: [String],
+  pfp: String,
 });
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 // addUserNameToSchema()
@@ -48,7 +57,7 @@ async function createNewProfile({ user_id, username, link }) {
 
 export async function getUserFromProfileId(profileId) {
   try {
-    const profile = await Profile.findOne({ link: profileId });
+    const profile = await Profile.findOne({ link: profileId.toLowerCase() });
     if (profile) {
       const user = await getUser(profile.user_id);
       if (user) {
@@ -66,7 +75,7 @@ export async function getProfileIdFromUserId(userId) {
   try {
     const profile = await Profile.findOne({ user_id: userId });
     if (profile) {
-      return profile.link;
+      return profile.link.toLowerCase();
     }
     return false;
   } catch (error) {
@@ -96,7 +105,7 @@ let simulateError = false;
 async function sendRequest(url, method, body = null) {
   // Define the common headers for all requests
   let headers = {
-    'Authorization': 'bearer b57e7a45-6df3-4cbb-a0e7-f9302f12c353',
+    'Authorization': 'bearer '+process.env.API_KEY,
     'Content-Type': 'application/json'
   };
   if(method.toLowerCase() === 'delete') {
@@ -208,7 +217,12 @@ export async function getUsers(after = null, updatedAfter = null) {
   if (updatedAfter) {
     url += `&updatedAfter=${updatedAfter}`;
   }
-  return sendRequest(url, 'GET');
+  try {
+  let res = await sendRequest(url, 'GET');
+  return res;
+} catch (e) {
+  return [];
+}
 }
 
 export async function createUser(user) {
@@ -224,6 +238,59 @@ export async function createUser(user) {
 
 }
 
+export async function setUserPfp(userId, pfp) {
+  // use mongodb
+  try {
+      const updatedProfile = await Profile.findOneAndUpdate(
+          { user_id: userId }, // find a document with this filter
+          { pfp }, // document to insert when nothing was found
+          { new: true, upsert: true } // options
+      );
+      console.log('Profile pfp successfully updated: ', updatedProfile);
+      return true;
+  } catch (error) {
+      console.log('Error while trying to update profile pfp: ', error);
+      return false;
+  }
+};
+
+export async function getUserPfp(userId) {
+  try {
+    const profile = await Profile.findOne({ user_id: userId });
+    if (profile) {
+      return profile.pfp;
+    }
+    return false;
+  } catch (error) {
+    console.log('Error while trying to get profile pfp from user id: ', error);
+    return false;
+  }
+}
+
+export  function getManyUsersFast(user_ids) {
+  return new Promise((resolve, reject) => {
+  Profile.find({ user_id: { $in: user_ids } })
+  .then((profiles) => {
+    // Create an object with user_id as key and user object as value
+    const usersObject = {};
+    profiles.forEach((profile) => {
+      usersObject[profile.user_id] = {
+        link: profile.link,
+        username: profile.username,
+        pfp: profile.pfp,
+      }
+    });
+
+    resolve(usersObject);
+  })
+  .catch((error) => {
+    console.error(error);
+    reject(error);
+  });
+});
+}
+
+
 export async function getUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;
   return sendRequest(url, 'GET');
@@ -237,6 +304,10 @@ export async function getUserByUsername(username) {
 export async function updateUser(userId, updates) {
   const url = `${BASE_URL}/users/${userId}`;
   return sendRequest(url, 'PATCH', updates);
+}
+
+export async function incrementUserViews(userId) {
+  return updateUser(userId, { views: "increment" });
 }
 
 export async function deleteUser(userId) {
