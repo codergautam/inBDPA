@@ -33,6 +33,7 @@ const profileSchema = new Schema({
   createdAt: Number,
   sections: Object,
   connections: [String],
+  pfp: String,
 });
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 // addUserNameToSchema()
@@ -235,6 +236,35 @@ export async function createUser(user) {
   }
   return res;
 
+}
+
+export async function setUserPfp(userId, pfp) {
+  // use mongodb
+  try {
+      const updatedProfile = await Profile.findOneAndUpdate(
+          { user_id: userId }, // find a document with this filter
+          { pfp }, // document to insert when nothing was found
+          { new: true, upsert: true } // options
+      );
+      console.log('Profile pfp successfully updated: ', updatedProfile);
+      return true;
+  } catch (error) {
+      console.log('Error while trying to update profile pfp: ', error);
+      return false;
+  }
+};
+
+export async function getUserPfp(userId) {
+  try {
+    const profile = await Profile.findOne({ user_id: userId });
+    if (profile) {
+      return profile.pfp;
+    }
+    return false;
+  } catch (error) {
+    console.log('Error while trying to get profile pfp from user id: ', error);
+    return false;
+  }
 }
 
 export async function getUser(userId) {

@@ -5,7 +5,7 @@ import UserStats from '@/components/UserStats';
 import UserConnections from '@/components/UserConnections';
 import UserProfilePicture from '@/components/UserProfilePicture';
 import UserInfo from '@/components/UserInfo';
-import {  getUserFromProfileId, incrementUserViews } from '@/utils/api';
+import {  getUserFromProfileId, getUserPfp, incrementUserViews } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next'; // server-side session handling
 import { ironOptions } from '@/utils/ironConfig'; // session configurations
@@ -43,7 +43,7 @@ const handleAboutSave = (newAbout, setRequestedUser) => {
 };
 
 // Profile page component
-export default function Page({ user, requestedUser: r, depth:d, connections: c , link}) {
+export default function Page({ user, requestedUser: r, depth:d, connections: c , link, pfp}) {
 
   // State to store number of active sessions
   const [activeSess, setActiveSessions] = useState("...");
@@ -107,7 +107,7 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
 <LinkChanger link={link} />
 ) : null}
 
-    <UserProfilePicture />
+    <UserProfilePicture editable={editable} email={requestedUser.email} pfp={pfp}/>
     {user ? (
       <>
       <h1>{connections[1].length} connections</h1>
@@ -224,12 +224,16 @@ if(requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
     console.log(e);
   }
 }
+let pfp;
+if(requestedUser) {
+  pfp = await getUserPfp(requestedUser?.user_id);
+}
 
 
 
 
   return {
-    props: { user: req.session.user ?? null, requestedUser: requestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id },
+    props: { user: req.session.user ?? null, requestedUser: requestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id, pfp: pfp ?? null },
   };
 },
 ironOptions)

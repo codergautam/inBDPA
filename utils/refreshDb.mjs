@@ -34,6 +34,7 @@ const profileSchema = new mongoose.Schema({
   connections: [{
     type: String
 }],
+pfp: String,
 });
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 
@@ -176,6 +177,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
         createdAt: latestUser.createdAt,
         sections: latestUser.sections,
         connections: userConnections,
+        pfp: 'gravatar'
       });
 
       try {

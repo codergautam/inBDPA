@@ -7,6 +7,7 @@ import Link from "next/link";
 
 export default function Home(props) {
   const user = props?.user;
+  console.log(user);
   return (
     <div className="flex flex-col">
       <Head>
@@ -315,7 +316,7 @@ export default function Home(props) {
               career decisions and stay ahead in your industry.
             </p>
           </div> */}
-          {/* 
+          {/*
           <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
               Collaborative Projects
@@ -359,7 +360,7 @@ export default function Home(props) {
               </div>
             </div>
           </div>
-          
+
           {/*
           <div className="flex flex-row items-center justify-center my-48">
             <h2 className="text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
