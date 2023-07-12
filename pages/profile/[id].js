@@ -14,6 +14,7 @@ import Link from 'next/link';
 import { fetchConnections, findConnectionDepth } from '@/utils/neo4j.mjs';
 import addSuffix from '@/utils/ordinalSuffix';
 import LinkChanger from '@/components/LinkChanger';
+import ConnectionList from '@/components/ConnectionList';
 
 
 
@@ -108,9 +109,10 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
 ) : null}
 
     <UserProfilePicture editable={editable} email={requestedUser.email} pfp={pfp}/>
+    <ConnectionList connections={connections} clickable={!!user} />
+
     {user ? (
       <>
-      <h1>{connections[1].length} connections</h1>
       {editable ? null : (
       <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={async () => {
         let data = await fetch("/api/toggleConnection", {
@@ -134,13 +136,13 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
 
     {user ? (
 
-        <div className="flex flex-col md:flex-row gap-4 mt-8">
-          <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
+        <div className="flex flex-col md:flex-row gap-4 mt-4 w-full">
+          <div className="w-full md:w-1/3 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Profile Statistics</h2>
-            <UserStats views={requestedUser.views} activeSessions={activeSess} connectionStatus={depth > 0 ? addSuffix(depth)+" connection": "Not Connected"}/>
+            <UserStats views={requestedUser.views} activeSessions={activeSess} connectionStatus={depth > 0 ? addSuffix(depth)+" connection": "Not Connected"} editable={editable}/>
             </div>
 
-           <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
+           <div className="w-full md:w-2/3 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Education</h2>
             <UserInfo type="education" user={user} requestedUser={requestedUser} section="education" />
           </div>
@@ -213,9 +215,9 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     depth = await findConnectionDepth(req.session?.user?.id, requestedUser?.user_id);
     console.log(depth);
   }
-  // Fetch 1st and 2nd order connections
-  connections.push(await fetchConnections(requestedUser?.user_id, 1), await fetchConnections(requestedUser?.user_id, 2));
 }
+connections.push(await fetchConnections(requestedUser?.user_id, 1), await fetchConnections(requestedUser?.user_id, 2));
+
 if(requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
   // Increment view count
   try {
