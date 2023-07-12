@@ -4,7 +4,9 @@
 import axios from 'axios';
 import {config } from 'dotenv';
 import mongoose from 'mongoose';
+import { createUser, updateUser, userExists } from './neo4j.mjs';
 config();
+
 
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 const MONGO_URI = process.env.MONGO_URI;
@@ -118,7 +120,7 @@ async function createNewProfile(profileData) {
   try {
     // Attempt to save the new profile to the database
     const savedProfile = await newProfile.save();
-    return false;
+    return true;
   } catch (error) {
     console.log('Error while trying to save profile');
     return false;
@@ -150,6 +152,8 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   for(let latestUser of latestUsers) {
     // CHECK IF USER EXISTS
     let user = await Profile.findOne({ user_id: latestUser.user_id });
+    let existsNeo4j = await userExists(latestUser.user_id);
+
     if(!user) {
       // CREATE NEW USER
     console.log("Creating new user in db", latestUser.user_id, latestUser.username);
@@ -173,6 +177,16 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
         sections: latestUser.sections,
         connections: userConnections,
       });
+
+      try {
+      if(!existsNeo4j) {
+        await createUser(latestUser.user_id, userConnections);
+      } else {
+        await updateUser(latestUser.user_id, userConnections);
+      }
+    } catch (error) {
+      console.log("Error while trying to create user in neo4j", latestUser.user_id, latestUser.username);
+    }
     } else {
       console.log("Updating user in db", latestUser.user_id, latestUser.username);
 
@@ -190,6 +204,16 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       user.sections = latestUser.sections;
       user.connections = connections;
       await user.save();
+
+      try {
+      if(!existsNeo4j) {
+        await createUser(latestUser.user_id, connections);
+      } else {
+        await updateUser(latestUser.user_id, connections);
+      }
+    } catch (error) {
+      console.log("Error while trying to set/update user in neo4j", latestUser.user_id, latestUser.username);
+    }
     }
   }
 

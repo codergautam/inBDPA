@@ -11,6 +11,9 @@ import { withIronSessionSsr } from 'iron-session/next'; // server-side session h
 import { ironOptions } from '@/utils/ironConfig'; // session configurations
 import AboutSection from '@/components/AboutSection';
 import Link from 'next/link';
+import { fetchConnections, findConnectionDepth } from '@/utils/neo4j.mjs';
+import addSuffix from '@/utils/ordinalSuffix';
+
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
   return new Promise((resolve, reject) => {
@@ -36,13 +39,14 @@ const handleAboutSave = (newAbout, setRequestedUser) => {
   });
 };
 
-
 // Profile page component
-export default function Page({ user, requestedUser: d }) {
+export default function Page({ user, requestedUser: r, depth:d, connections: c }) {
 
   // State to store number of active sessions
   const [activeSess, setActiveSessions] = useState("...");
-  const [requestedUser, setRequestedUser] = useState(d);
+  const [requestedUser, setRequestedUser] = useState(r);
+  const [connections, setConnections] = useState(c);
+  const [depth, setDepth] = useState(d);
 
   const editable = user?.id === requestedUser?.user_id;
 
@@ -95,6 +99,26 @@ export default function Page({ user, requestedUser: d }) {
     <h1 className="text-7xl font-semibold text-gray-900 dark:text-white pt-5">{requestedUser.username}</h1>
     <h1 className="text-xl text-gray-900 dark:text-white mt-2 mb-4">{requestedUser.type}</h1>
     <UserProfilePicture />
+    {user ? (
+      <>
+      <h1>{connections[1].length} connections</h1>
+      {editable ? null : (
+      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={async () => {
+        let data = await fetch("/api/toggleConnection", {
+          method: "POST",
+          body: JSON.stringify({
+            user_id: requestedUser.user_id
+          })
+        });
+        data = await data.json();
+        if(data.success) {
+          setConnections(() => data.connections);
+          setDepth(() => data.newDepth);
+        }
+      }}>{connections[0].includes(user.id) ? "Disconnect" : "Connect"}</button>
+      )}
+      </>
+    ): null}
     {editable || requestedUser.sections.about ? (
     <AboutSection about={requestedUser.sections.about} onSave={handleAboutSave} setRequestedUser={setRequestedUser} editable={editable}/>
     ) : null}
@@ -104,8 +128,8 @@ export default function Page({ user, requestedUser: d }) {
         <div className="flex flex-col md:flex-row gap-4 mt-8">
           <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Profile Statistics</h2>
-            <UserStats views={requestedUser.views} activeSessions={activeSess} connectionStatus="Second-order connection"/>
-          </div>
+            <UserStats views={requestedUser.views} activeSessions={activeSess} connectionStatus={depth > 0 ? addSuffix(depth)+" connection": "Not Connected"}/>
+            </div>
 
            <div className="w-full md:w-1/2 bg-white dark:bg-gray-700 p-4 rounded-md shadow">
             <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Education</h2>
@@ -169,9 +193,25 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   // ex: /profile/1
   const id = params.id;
   const requestedUser = (await getUserFromProfileId(id)).user;
+  let depth = 0;
+  let connections = []
+  let connected = false;
+  if(requestedUser && req.session?.user) {
+   connected = requestedUser.connections?.includes(req.session?.user?.id);
+   if(connected) depth = 1;
+  if(!connected && req.session?.user && (req.session?.user?.id != requestedUser?.user_id)) {
+    // Find connection depth
+    depth = await findConnectionDepth(req.session?.user?.id, requestedUser?.user_id);
+    console.log(depth);
+  }
+  // Fetch 1st and 2nd order connections
+  connections.push(await fetchConnections(requestedUser?.user_id, 1), await fetchConnections(requestedUser?.user_id, 2));
+}
 
+
+console.log(connections)
   return {
-    props: { user: req.session.user ?? null, requestedUser: requestedUser ?? null },
+    props: { user: req.session.user ?? null, requestedUser: requestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]] },
   };
 },
 ironOptions);

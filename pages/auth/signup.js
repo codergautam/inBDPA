@@ -27,6 +27,7 @@ export default function Signup() {
             className="bg-white dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-6 pb-8 mb-4"
             onSubmit={event => {
               event.preventDefault();
+              setBtnText("Signing up...");
               fetch("/api/auth/signup", {
                 method: "POST",
                 headers: {
@@ -36,7 +37,8 @@ export default function Signup() {
                   username: name,
                   email,
                   password,
-                  rememberMe
+                  rememberMe,
+                  changeUser: true
                 }),
                 credentials: "include"
               }).then(response => {

@@ -45,6 +45,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
     salt,
     type: type || "inner"
   });
+  console.log("User:", user)
   // store in session
   if(user.success && changeUser) {
     req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link, salt, key};
