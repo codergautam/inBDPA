@@ -10,6 +10,7 @@ const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 const MONGO_URI = process.env.MONGO_URI;
 
 
+
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -308,6 +309,10 @@ export async function updateUser(userId, updates) {
 
 export async function incrementUserViews(userId) {
   return updateUser(userId, { views: "increment" });
+}
+
+export async function incrementOpportunityViews(opportunityId) {
+  return updateOpportunity(opportunityId, { views: "increment" });
 }
 
 export async function deleteUser(userId) {

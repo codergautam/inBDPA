@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
 import UserInfo from '@/components/UserInfo';
-import { getOpportunities } from '@/utils/api';
+import { deleteOpportunity, getOpportunities } from '@/utils/api';
 import Modal from 'react-modal';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -30,6 +30,7 @@ export default function Page({ user, opportunities }) {
   const [title, setTitle] = useState("")
   const [creatingOpportunity, setCreatingOpportunity] = useState(false);
   const [value, setValue] = useState("");
+  console.log(`User Id: `, user)
 
 
   const makeNewOpportunity = async () => {
@@ -55,6 +56,10 @@ export default function Page({ user, opportunities }) {
     }
   }
 
+  const deleteOpportunity = async (opportunity_id) => {
+    
+  }
+
   return (
     <div className="flex flex-col  dark:bg-black">
       <Head>
@@ -66,7 +71,7 @@ export default function Page({ user, opportunities }) {
       </div>
 
       <main className="flex flex-col md:flex-row gap-2 px-4">
-        <div className="mx-auto w-1/2">
+        <div className="mx-auto w-1/2 mt-8">
           <h2 className="text-7xl font-bold mb-4">Opportunities:</h2>
           {user.type == "staff" || user.type == "administrator" ? 
           <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out" onClick={() => setCreatingOpportunity(true)}>Create Opportunity</button>
@@ -83,9 +88,9 @@ export default function Page({ user, opportunities }) {
               <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"}/>
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" onClick={makeNewOpportunity}>Create Opportunity</button>
             </Modal>
-            <div className="mr-auto space-y-2 w-1/2">
-            {opportunities.map((opportunity) => (
-              <Opportunity key={opportunity.opportunity_id} opportunity={opportunity} selected={selectedOpportunity} />
+            <div className="mr-auto space-y-2 w-1/2 pb-32">
+            {opportunities.map((opportunity, i) => (
+              <Opportunity delete={() => deleteOpportunity(opportunity.opportunity_id)} canDelete={user.id == opportunity.creator_id} i={i} key={opportunity.opportunity_id} opportunity={opportunity} selected={selectedOpportunity} />
             ))}
             </div>
         </div>
@@ -133,6 +138,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 
   let opportunities = (await getOpportunities()).opportunities;
   opportunities = opportunities.sort((a,b) => -(a.createdAt - b.createdAt)) //Arrange so that the most recent are first
+  // console.log("Opportunities (1-3): ", opportunities.slice(0,3))
   return {
     props: { user: req.session.user ?? null, opportunities },
   };
