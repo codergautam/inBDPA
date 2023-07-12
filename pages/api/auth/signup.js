@@ -2,6 +2,7 @@ import { authenticateUser, createUser } from "@/utils/api";
 import { encryptPassword } from "@/utils/encryptPassword";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";
+import { createUser as createUserNode } from "@/utils/neo4j.mjs";
 
 import { ironOptions } from "@/utils/ironConfig";
 export default withIronSessionApiRoute(handler, ironOptions);
@@ -51,6 +52,9 @@ export default withIronSessionApiRoute(handler, ironOptions);
     req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link, salt, key};
     await req.session.save();
   }
+
+  await createUserNode(user.user.user_id, []);
+
 
   return res.send(user);
 }

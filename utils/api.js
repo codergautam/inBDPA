@@ -267,6 +267,30 @@ export async function getUserPfp(userId) {
   }
 }
 
+export  function getManyUsersFast(user_ids) {
+  return new Promise((resolve, reject) => {
+  Profile.find({ user_id: { $in: user_ids } })
+  .then((profiles) => {
+    // Create an object with user_id as key and user object as value
+    const usersObject = {};
+    profiles.forEach((profile) => {
+      usersObject[profile.user_id] = {
+        link: profile.link,
+        username: profile.username,
+        pfp: profile.pfp,
+      }
+    });
+
+    resolve(usersObject);
+  })
+  .catch((error) => {
+    console.error(error);
+    reject(error);
+  });
+});
+}
+
+
 export async function getUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;
   return sendRequest(url, 'GET');

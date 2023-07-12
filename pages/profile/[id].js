@@ -109,7 +109,7 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
 ) : null}
 
     <UserProfilePicture editable={editable} email={requestedUser.email} pfp={pfp}/>
-    <ConnectionList connections={connections} clickable={!!user} />
+    <ConnectionList connections={connections} clickable={!!user} user_id={requestedUser.user_id} depth={depth} />
 
     {user ? (
       <>
@@ -232,10 +232,21 @@ if(requestedUser) {
 }
 
 
+let safeSessionUser = {
+  ...req.session?.user,
+  salt: null,
+  key: null,
+}
+let safeRequestedUser;
+if(requestedUser) safeRequestedUser = {
+  ...requestedUser,
+  salt: null,
+  key: null,
+}
 
 
   return {
-    props: { user: req.session.user ?? null, requestedUser: requestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id, pfp: pfp ?? null },
+    props: { user: safeSessionUser ?? null, requestedUser: safeRequestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id, pfp: pfp ?? null },
   };
 },
 ironOptions)

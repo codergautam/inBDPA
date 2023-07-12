@@ -65,15 +65,14 @@ export async function updateUser(user_id, newConnections) {
     let query = 'MATCH (a:User {id: $user_id})-[r:CONNECTS_TO]->() DELETE r';
     let params = { user_id };
 
-    await session.run(query, params);
-
+    let d = await session.run(query, params);
     // Then, create the new connections.
     for (let i = 0; i < newConnections.length; i++) {
       query = 'MATCH (a:User {id: $user_id}), (b:User {id: $connection_id}) ' +
               'MERGE (a)-[:CONNECTS_TO]->(b)';
       params = { user_id, connection_id: newConnections[i] };
 
-      await session.run(query, params);
+      let d = await session.run(query, params);
     }
   } catch (error) {
     console.error('Error updating user connections:', error);
