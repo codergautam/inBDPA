@@ -40,10 +40,18 @@ async function handler(req, res) {
     }
 
 
+
     try {
     await changeProfileLink(req.session.user.id, newLink);
+    req.session.user = {
+      ...req.session.user,
+      link: newLink
+    };
+    await req.session.save();
+
     res.json({success: true, newLink});
     } catch(e) {
+      console.log(e);
       res.status(500).json({ error: "Error updating link" });
     }
 }

@@ -103,6 +103,7 @@ const MyComponent = ({user, requestedUser, section}) => {
         <Modal
         isOpen={mode !== 'view'}
         contentLabel="Example Modal"
+        overlayClassName={`fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black bg-opacity-50`}
         className={`border border-gray-200 p-4 ${mode === 'view' ? 'hidden' : ''} bg-white dark:bg-gray-800 max-w-2xl mx-auto mt-12`}
       >
         <div className="space-y-4">
