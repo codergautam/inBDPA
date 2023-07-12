@@ -13,6 +13,7 @@ async function handler(req, res) {
         res.json({success: false, error: "Didn't provide a username or emial"})
     }
     let newProf = await Profile.findOne({username: username})
+    console.log("Profile:", newProf)
     if(newProf) {
         console.log("Sending req")
         let data = await getUser(username);

@@ -8,6 +8,37 @@
   --background-end-rgb: 255, 255, 255;
 }
 
+@layer base {
+  h1 {
+    @apply text-2xl;
+  }
+  h2 {
+    @apply text-xl;
+  }
+  h3 {
+    @apply text-lg;
+  }
+  h4 {
+    @apply text-base;
+  }
+  h5 {
+    @apply text-sm;
+  }
+  h6 {
+    @apply text-xs;
+  }
+  p a {
+    @apply text-blue-600 underline;
+  }
+  ol {
+    list-style-type:lower-roman;
+    @apply ml-4;
+  }
+  ul {
+    @apply list-disc ml-4;
+  }
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
