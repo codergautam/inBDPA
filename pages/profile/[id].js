@@ -5,7 +5,7 @@ import UserStats from '@/components/UserStats';
 import UserConnections from '@/components/UserConnections';
 import UserProfilePicture from '@/components/UserProfilePicture';
 import UserInfo from '@/components/UserInfo';
-import {  getUserFromProfileId } from '@/utils/api';
+import {  getUserFromProfileId, incrementUserViews } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next'; // server-side session handling
 import { ironOptions } from '@/utils/ironConfig'; // session configurations
@@ -207,11 +207,20 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   // Fetch 1st and 2nd order connections
   connections.push(await fetchConnections(requestedUser?.user_id, 1), await fetchConnections(requestedUser?.user_id, 2));
 }
+if(requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
+  // Increment view count
+  try {
+  await incrementUserViews(requestedUser?.user_id);
+  } catch(e) {
+    console.log(e);
+  }
+}
 
 
-console.log(connections)
+
+
   return {
     props: { user: req.session.user ?? null, requestedUser: requestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]] },
   };
 },
-ironOptions);
+ironOptions)

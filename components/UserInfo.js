@@ -76,13 +76,13 @@ const MyComponent = ({user, requestedUser, section}) => {
 
   return (
     <div className="container mx-auto p-4">
-      <div className="flex items-center justify-between mb-4">
+      <div className="flex items-center justify-center mx-auto p-4">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
           onClick={toggleMode}
           style={{ display: editable ? 'block' : 'none' }}
         >
-          Edit
+          {items.length > 0 ? 'Edit' : 'Add this section'}
         </button>
       </div>
 

@@ -252,6 +252,10 @@ export async function updateUser(userId, updates) {
   return sendRequest(url, 'PATCH', updates);
 }
 
+export async function incrementUserViews(userId) {
+  return updateUser(userId, { views: "increment" });
+}
+
 export async function deleteUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;
   return sendRequest(url, 'DELETE');
