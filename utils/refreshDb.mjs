@@ -111,7 +111,7 @@ async function getAllUserConnections(userId) {
     }
 
     connections.push(...d.connections);
-    await wait(300);
+    await wait(1000);
   }
   return connections;
 }
@@ -146,10 +146,11 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   }
 
   latestUsers.push(...d.users);
-  await wait(300);
+  await wait(1000);
   }
 
   console.log("Updating database...", latestUsers.length, "users");
+  let startTime = Date.now();
   for(let latestUser of latestUsers) {
     // CHECK IF USER EXISTS
     let user = await Profile.findOne({ user_id: latestUser.user_id });
@@ -157,7 +158,6 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
 
     if(!user) {
       // CREATE NEW USER
-    console.log("Creating new user in db", latestUser.user_id, latestUser.username);
 
       let userConnections;
       try {
@@ -190,7 +190,6 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       console.log("Error while trying to create user in neo4j", latestUser.user_id, latestUser.username);
     }
     } else {
-      console.log("Updating user in db", latestUser.user_id, latestUser.username);
 
       let connections;
       try {
@@ -219,5 +218,5 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     }
   }
 
-  console.log("Done!");
+  console.log("Done! Processed "+latestUsers.length+" users in "+(Date.now()-startTime)+"ms ✨");
 }
