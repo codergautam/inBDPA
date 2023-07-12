@@ -15,6 +15,8 @@ import Modal from 'react-modal';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
+import Opportunity from '@/components/Opportunity';
+import { useRouter } from 'next/router';
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor"),
@@ -25,13 +27,35 @@ const MDEditor = dynamic(
 // TODO: ADD PAGINATION TO THIS PAGE
 
 export default function Page({ user, opportunities }) {
+  const router = useRouter()
   const [selectedOpportunity, setSelectedOpportunity] = useState(null);
+  const [title, setTitle] = useState("")
   const [creatingOpportunity, setCreatingOpportunity] = useState(false);
   const [value, setValue] = useState("");
 
-  const handleOpportunityClick = (opportunity) => {
-    setSelectedOpportunity(opportunity);
-  };
+
+  const makeNewOpportunity = async () => {
+    let data = await fetch("/api/opportunities/createOpportunity", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: title,
+        contents: value
+      })
+    }).then(res => res.json())
+    if(data.success) {
+      alert("Created a new opportunity!")
+      router.reload()
+      return
+    } else {
+      alert("Failed to create a new opportunity...")
+      setCreatingOpportunity(false)
+      setValue("")
+      // setSelectedOpportunity(null)
+    }
+  }
 
   return (
     <div className="flex flex-col  dark:bg-black">
@@ -43,35 +67,33 @@ export default function Page({ user, opportunities }) {
         <Navbar user={user} />
       </div>
 
-      <main className="flex flex-col md:flex-row">
-        <div className="w-full md:w-1/3 lg:w-1/4 p-4 bg-white dark:bg-gray-800">
-          <h2 className="text-xl font-bold mb-4">Opportunities</h2>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded" onClick={() => setCreatingOpportunity(true)}>Create Opportunity</button>
+      <main className="flex flex-col md:flex-row gap-2 px-4">
+        <div className="mx-auto w-1/2">
+          <h2 className="text-7xl font-bold mb-4">Opportunities:</h2>
+          {user.type == "staff" || user.type == "administrator" ? 
+          <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out" onClick={() => setCreatingOpportunity(true)}>Create Opportunity</button>
+          : <></>}
           <Modal
             isOpen={creatingOpportunity}
             contentLabel="Create Opportunity"
           >
             <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setCreatingOpportunity(false)}>Close</button>
-              <MDEditor value={value} onChange={setValue} height={"90%"}/>
+              <div className='flex flex-col mt-8'>
+                <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
+                <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
+              </div>
+              <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"}/>
+              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" onClick={makeNewOpportunity}>Create Opportunity</button>
             </Modal>
-          <ul className="space-y-2">
+            <div className="mr-auto space-y-2 w-1/2">
             {opportunities.map((opportunity) => (
-              <li
-                key={opportunity.opportunity_id}
-                className={`p-2 cursor-pointer ${
-                  selectedOpportunity === opportunity
-                    ? 'bg-blue-500 text-white'
-                    : ''
-                }`}
-                onClick={() => handleOpportunityClick(opportunity)}
-              >
-                {opportunity.title}
-              </li>
+              <Opportunity key={opportunity.opportunity_id} opportunity={opportunity} selected={selectedOpportunity} />
             ))}
-          </ul>
+            </div>
         </div>
 
-        <div className="w-full md:w-2/3 lg:w-3/4 p-4">
+        {/* Mini Display has been subsituted for a dynamic page
+        <div className='w-2/3'>
           {selectedOpportunity ? (
             <div>
               <h2 className="text-xl font-bold mb-4">
@@ -87,9 +109,9 @@ export default function Page({ user, opportunities }) {
               </div>
             </div>
           ) : (
-            <p className="text-lg">Select an opportunity to view details.</p>
+            <p className="text-lg text-start mt-4">Select an opportunity to view details.</p>
           )}
-        </div>
+        </div> */}
       </main>
       </div>
   );
@@ -111,8 +133,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     }
   }
 
-  const opportunities = (await getOpportunities()).opportunities;
-  console.log(opportunities);
+  let opportunities = (await getOpportunities()).opportunities;
+  opportunities = opportunities.sort((a,b) => -(a.createdAt - b.createdAt)) //Arrange so that the most recent are first
   return {
     props: { user: req.session.user ?? null, opportunities },
   };

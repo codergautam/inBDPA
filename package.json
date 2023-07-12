@@ -16,8 +16,11 @@
     "autoprefixer": "10.4.14",
     "eslint": "8.44.0",
     "eslint-config-next": "13.4.8",
+    "http-proxy-agent": "^7.0.0",
     "iron-session": "^6.3.1",
+    "marked": "^5.1.1",
     "mongoose": "^7.3.1",
+    "net": "^1.0.2",
     "next": "13.4.8",
     "next-remove-imports": "^1.0.11",
     "node-fetch": "^2.6.1",
@@ -27,6 +30,7 @@
     "react-dom": "18.2.0",
     "react-modal": "^3.16.1",
     "tailwindcss": "3.3.2",
+    "tls": "^0.0.1",
     "webcrypto": "^0.1.1"
   }
 }

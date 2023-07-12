@@ -1,7 +1,7 @@
 // Import the necessary modules
 import fetch from 'node-fetch';
 import { convertHexToBuffer, deriveKeyFromPassword } from './encryptPassword';
-import mongoose, { get } from 'mongoose';
+import mongoose from 'mongoose';
 import generateRandomId from './generateRandomProfileId';
 // Define the base URL of the API
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';

@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask, faGhost } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from "next/router";
 
 
 export default function UserSearch() {
@@ -10,6 +11,7 @@ export default function UserSearch() {
         "administrator"
     ]
 
+    const router = useRouter()
     const [error, setError] = useState("")
     const [hasError, setHasError] = useState("")
     const [nextPosition, setNextPosition] = useState("")
@@ -23,7 +25,7 @@ export default function UserSearch() {
 
     const impersonateUser = async (id) => {
         clearTimeout(promotionRef)
-        setShowingImpersonation(false);
+        // setShowingImpersonation(false);
         let data = await fetch("/api/admin/impersonateUser", {
             method: "POST",
             headers: {
@@ -39,7 +41,7 @@ export default function UserSearch() {
         } else {
             setOutputUser(null);
             setOutputUserStatus("Failed to create user")
-            setShowingImpersonation(true);
+            // setShowingImpersonation(true);
             promotionRef = setTimeout(()=>{
                 setOutputUserStatus("")
             }, 2000)

@@ -54,13 +54,13 @@ export default function Navbar({ user }) {
                 </Link>
               )}
               <Link
-                href="http://localhost:3000"
+                href="/"
                 className="px-2 py-1 text-sm font-medium text-black rounded-md dark:text-gray-200 dark:hover:font-bold hover:font-bold"
               >
                 Home
               </Link>
               <Link
-                href="opportunities"
+                href="/opportunities"
                 className="px-2 py-1 text-sm font-medium text-black rounded-md dark:text-gray-200 dark:hover:font-bold hover:font-bold"
               >
                 Opportunities
