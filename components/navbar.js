@@ -26,7 +26,7 @@ export default function Navbar({ user }) {
       <div className="h-min">
         <Link href="/">
           <img
-            className="h-36 self-center dark:hidden inline"
+            className="w-36 self-center dark:hidden inline"
             src="https://i.imgur.com/uWlkxIt.png"
             alt="BDPA logo"
           />
