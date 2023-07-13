@@ -36,6 +36,7 @@ const profileSchema = new Schema({
   connections: [String],
   pfp: String,
 });
+
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 // addUserNameToSchema()
 async function createNewProfile({ user_id, username, link }) {
@@ -54,6 +55,10 @@ async function createNewProfile({ user_id, username, link }) {
   } catch (error) {
    return false;
   }
+}
+
+export async function findProfile(username) {
+  return await Profile.findOne({username: username})
 }
 
 export async function getUserFromProfileId(profileId) {
