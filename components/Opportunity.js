@@ -51,9 +51,10 @@ export default function Opportunity({opportunity, selected, i, canDelete}) {
 
     return (
         <Link href={`/opportunity/${opportunity.opportunity_id}`}>
+            <p className="text-gray-500 text-start text-base mb-1">Opportunity #{i+1}</p>
             <div
                 key={opportunity.opportunity_id}
-                className={`p-2 mt-2 rounded flex flex-col cursor-pointer group hover:bg-gray-900 hover:text-white transition duration-200 ease-in-out`}>
+                className={`p-2 rounded flex flex-col cursor-pointer group hover:bg-gray-900 hover:text-white transition duration-200 ease-in-out`}>
                     <div>
                         <p className="text-lg">{opportunity.title}</p>
                         {/* <p className="text-base"><span className={`text-gray-500 group-hover:text-blue-300 transition duration-200 ease-in-out`}>Active Viewers: </span>{active}</p> */}

@@ -40,7 +40,7 @@ export default function UserSearch() {
             router.push("/")
         } else {
             setOutputUser(null);
-            setOutputUserStatus("Failed to create user")
+            setOutputUserStatus("Failed to create user with error: " + data.error)
             // setShowingImpersonation(true);
             promotionRef = setTimeout(()=>{
                 setOutputUserStatus("")
@@ -133,7 +133,7 @@ export default function UserSearch() {
             setOutputUserStatus("Changed User to " + newPos)
             promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
         } else {
-            setOutputUserStatus("Failed to change user type...")
+            setOutputUserStatus("Failed to change user type, ecountered error: " + data.error)
             promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
         }
     }
