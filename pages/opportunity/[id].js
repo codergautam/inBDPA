@@ -5,9 +5,10 @@ import { ironOptions } from "@/utils/ironConfig"
 import { getOpportunity } from "@/utils/api"
 import { useState } from "react"
 import { marked } from "marked"
+import Link from "next/link"
 
 export default function Opportunity({user, opportunity}) {
-    const [views, setViews] = useState(opportunity.views)
+    const [views, setViews] = useState(opportunity?.views)
     const [sessions, setSessions] = useState(0)
     return (
         <>
@@ -15,6 +16,13 @@ export default function Opportunity({user, opportunity}) {
                 <Head></Head>
                 <Navbar user={user}></Navbar>
             </div>
+            {!opportunity ? (
+                <div className="w-full h-full items-center justify-center">
+                    <p className="text-5xl text-white">Opportunity not found</p>
+                    <Link href="/opportunities" className="text-2xl text-white">Go back</Link>
+
+                </div>
+            ) : (
             <main className="w-5/6 mx-auto mt-6">
                 <p className="text-5xl text-center font-bold text-white">
                     {opportunity.title}
@@ -27,6 +35,7 @@ export default function Opportunity({user, opportunity}) {
                 <p dangerouslySetInnerHTML={{__html: marked(opportunity.contents)}} className="text-lg text-center text-white">
                 </p>
             </main>
+            )}
         </>
     )
 }
@@ -47,7 +56,8 @@ export const getServerSideProps = withIronSessionSsr(async ({
       }
     }
 
-    let opportunity = (await getOpportunity(params.id)).opportunity;
+    let opportunityReq = await getOpportunity(params.id);
+    let opportunity = opportunityReq.opportunity;
     console.log("Opportunity: ", opportunity)
     console.log(`Opportunities ID: ${params.id}`)
     // const window = new JSDOM('').window

@@ -27,6 +27,27 @@ function parseUrl(url) {
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+    const start = () => {
+      console.log("start");
+      setLoading(true);
+    };
+    const end = () => {
+      console.log("finished");
+      setLoading(false);
+    };
+    router.events.on("routeChangeStart", start);
+    router.events.on("routeChangeComplete", end);
+    router.events.on("routeChangeError", end);
+    return () => {
+      router.events.off("routeChangeStart", start);
+      router.events.off("routeChangeComplete", end);
+      router.events.off("routeChangeError", end);
+    };
+  }, []);
 
   // State to keep track of the previous page
   // Initialize it with the current path
@@ -129,8 +150,17 @@ const handleRouteChangeStart = async (url, first=false) => {
   useEffect(() => {
     handleRouteChangeStart(prevPath, true);
   }, []);
+    // <>
+    //   {loading ? (
+    //     <h1>Loading...</h1>
+    //   ) : (
+    //     <Component {...pageProps} />
+    //   )}
+    // </>
+  return (
+    <Component {...pageProps} />
 
-  return <Component {...pageProps} />;
+  );
 };
 
 export default App;

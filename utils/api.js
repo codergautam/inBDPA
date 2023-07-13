@@ -64,10 +64,10 @@ export async function getUserFromProfileId(profileId) {
         return user;
       }
     }
-    return false;
+    return {success: false, error: "User not found"};
   } catch (error) {
     console.log('Error while trying to get user from profile id: ', error);
-    return false;
+    return { success: false, error: "Unexpected Error" };
   }
 }
 
@@ -101,7 +101,7 @@ export async function changeProfileLink(user_id, newLink) {
 
 
 // Define the sendRequest function to make API requests
-let simulateError = false;
+let simulateError = true;
 async function sendRequest(url, method, body = null) {
   // Define the common headers for all requests
   let headers = {
@@ -112,7 +112,7 @@ async function sendRequest(url, method, body = null) {
     delete headers['Content-Type'];
   }
 
-  if(simulateError && Math.random() < 0.1) {
+  if(simulateError && Math.random() < 0.5) {
     return { success: false, error: "Simulated error" }
   } else {
   try {

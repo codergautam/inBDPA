@@ -72,6 +72,7 @@ export default function UserSearch() {
             console.log(user.user)
             setOutputUser(user.user)
             clearTimeout(promotionRef)
+            if(user.user) {
             if(user.user.type != "administrator") {
                 let newPos = listOfTypes[listOfTypes.indexOf(user.user.type)+1];
                 console.log(`New Position: ${newPos}`)
@@ -82,6 +83,9 @@ export default function UserSearch() {
                 console.log(`Previous Position: ${newPos}`)
                 setPreviousPosition(newPos)
             }
+        } else {
+            setOutputUserStatus("No user found...")
+        }
             return
         } else {
             setOutputUserStatus("No user found...")
@@ -175,7 +179,7 @@ export default function UserSearch() {
                         </button>: <></>}
                 </div>
             </div> : <></>}
-            
+
         </div>
     )
 }

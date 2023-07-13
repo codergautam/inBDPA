@@ -25,7 +25,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
     console.log(req.session.user);
     await req.session.save();
   } else {
-    return res.send({error: "Invalid username or password"});
+    return res.send({error: user.error});
   }
 
 
