@@ -179,7 +179,7 @@ export default function Login() {
 
             {remainingAttempts === 0 && timeRemaining ? (
               <ErrorComponent error={
-              <p className="mb-1">
+              <p className=" mb-1">
                 You are temporarily blocked.
                 <br /> Please try again after {timeRemaining}.<br />
                 Hint for judges: to reset the login attempts, clear your
