@@ -63,6 +63,9 @@ const handleRouteChangeStart = async (url, first=false) => {
   console.log("Going to end session", sessionIdRef.current);
   if(!url || !parseUrl(url)) return;
 
+  //Dont change if going to same page
+  if(url == prevPath) return;
+
   if(!first && sessionIdRef.current) {
     // End old session
     let endSessionRes = await fetch('/api/endSession', {
