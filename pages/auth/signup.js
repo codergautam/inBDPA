@@ -1,21 +1,35 @@
 "use client";
 import Head from 'next/head'
-import { useState } from 'react';
 import Link from 'next/link'
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
 import Navbar from '@/components/navbar';
+import ErrorComponent from './ErrorComponent';
+
+
 
 export default function Signup() {
+  // const [visible, setVisible] = useState(true);
+
+  // useEffect(() => {
+  //   const timer = setTimeout(() => {
+  //     setVisible(false);
+  //   }, 4000); // Change the duration as needed (in milliseconds)
+
+  //   return () => clearTimeout(timer);
+  // }, []);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [btnText, setBtnText] = useState("Sign Up");
+  
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
+      {error && (<ErrorComponent error={error} />)}
       <Head>
         <title>Sign Up | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
@@ -63,7 +77,7 @@ export default function Signup() {
             }}
           >
             <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">Create an Account</h1>
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
+            
             <div className="mb-4">
               <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="name">
                 Name

@@ -7,7 +7,7 @@ export default withIronSessionApiRoute(handler, ironOptions)
 async function handler(req, res) {
     const { username } = req.body;
     if(!username) {
-        res.json({success: false, error: "Didn't provide a username or emial"})
+        res.json({success: false, error: "Didn't provide a username or email"})
     }
     let newProf = await findProfile(username)
     console.log("Profile:", newProf)
