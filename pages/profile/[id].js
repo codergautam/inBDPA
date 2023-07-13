@@ -90,7 +90,7 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
 
 
   return (
-    <div className="flex flex-col h-screen dark:bg-black">
+    <div className="flex flex-col">
       <Head>
         <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
