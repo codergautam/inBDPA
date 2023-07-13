@@ -6,6 +6,10 @@ export default withIronSessionApiRoute(handler, ironOptions)
 
 async function handler(req, res) {
     //Need to protect this route in case the current user is a non-admin manipulating the route
+    if(!req.session.user.impersonating) {
+        res.json({success: false, error: "Unauthorized"})
+    }
+
     let adminId = req.session.user.adminId;
     let adminLink = req.session.user.adminLink
     let user = await getUser(adminId);
