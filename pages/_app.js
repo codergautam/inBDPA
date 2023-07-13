@@ -61,7 +61,7 @@ const sessionIdRef = useRef(null);
 
 const handleRouteChangeStart = async (url, first=false) => {
   console.log("Going to end session", sessionIdRef.current);
-  if(!typeof url || !parseUrl(url)) return;
+  if(typeof url == "undefined" || !parseUrl(url)) return;
 
   //Dont change if going to same page
   if(url == prevPath) return;
