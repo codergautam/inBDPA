@@ -27,14 +27,14 @@ export default function Navbar({ user }) {
         <Link href="/">
           <img
             className="w-36 self-center dark:hidden inline transition duration-300 transform hover:scale-110"
-            src="https://i.imgur.com/uWlkxIt.png"
+            src="https://cdn.discordapp.com/attachments/1121115967120998540/1129195814447759410/Screenshot_2023-07-13_at_6.34.43_PM-PhotoRoom.png-PhotoRoom.png"
             alt="BDPA logo"
           />
         </Link>
         <Link href="/">
           <img
             className="w-36 self-center hidden dark:inline transition duration-300 transform hover:scale-110"
-            src="https://i.imgur.com/GOmYSIZ.png"
+            src="https://cdn.discordapp.com/attachments/1121115967120998540/1129197625619513414/Screenshot_2023-07-13_at_6.28.43_PM-PhotoRoom.png-PhotoRoom.png"
             alt="BDPA logo"
           />
         </Link>
