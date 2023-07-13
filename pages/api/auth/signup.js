@@ -54,6 +54,15 @@ export default withIronSessionApiRoute(handler, ironOptions);
     await req.session.save();
   }
 
+  if(user.error) {
+    if(user.error.toLowerCase() == 'an item with that "email" already exists') {
+      return res.send({error: "Email already in use"});
+    }
+    if(user.error.toLowerCase() == 'an item with that "username" already exists') {
+      return res.send({error: "Username taken"});
+    }
+  }
+
 
 
   return res.send(user);

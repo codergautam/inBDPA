@@ -13,12 +13,46 @@ export default function Login() {
   const [btnText, setBtnText] = useState('Sign In');
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [remainingAttempts, setRemainingAttempts] = useState(3 - loginAttempts);
+  const [timeRemaining, setTimeRemaining] = useState('');
 
   useEffect(() => {
     const storedLoginAttempts = parseInt(localStorage.getItem('loginAttempts')) || 0;
-    setLoginAttempts(storedLoginAttempts);
-    setRemainingAttempts(3 - storedLoginAttempts);
+    const storedResetTime = localStorage.getItem('resetTime');
+
+    if (storedLoginAttempts >= 3 && !storedResetTime) {
+      setLoginAttempts(0);
+      setRemainingAttempts(3);
+      localStorage.setItem('loginAttempts', 0);
+    } else if (storedResetTime && new Date() < new Date(storedResetTime)) {
+      setRemainingAttempts(0);
+      setTimeRemaining(formatTimeRemaining(new Date(storedResetTime)));
+    } else {
+      setLoginAttempts(storedLoginAttempts);
+      setRemainingAttempts(3 - storedLoginAttempts);
+    }
   }, []);
+
+
+  useEffect(() => {
+    if (remainingAttempts === 0 && !localStorage.getItem('resetTime')) {
+      const resetDate = new Date();
+      resetDate.setHours(resetDate.getHours() + 1);
+      localStorage.setItem('resetTime', resetDate.toISOString());
+    }
+
+    const interval = setInterval(() => {
+      const storedResetTime = localStorage.getItem('resetTime');
+      if (storedResetTime && new Date() < new Date(storedResetTime)) {
+        setTimeRemaining(formatTimeRemaining(new Date(storedResetTime)));
+      } else {
+        localStorage.removeItem('resetTime');
+        setTimeRemaining('');
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [remainingAttempts]);
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -49,12 +83,25 @@ export default function Login() {
         setError(data.error);
       } else {
         // Redirect to home page
+        localStorage.removeItem('loginAttempts');
+
         window.location.href = '/';
       }
     } catch (error) {
       setBtnText('Sign In');
       setError('An error occurred while signing in.');
     }
+  };
+
+  const formatTimeRemaining = (resetTime) => {
+    const now = new Date();
+    const diffInSeconds = Math.floor((resetTime - now) / 1000);
+
+    const hours = Math.floor(diffInSeconds / 3600);
+    const minutes = Math.floor((diffInSeconds % 3600) / 60);
+    const seconds = diffInSeconds % 60;
+
+    return `${hours}h ${minutes}m ${seconds}s`;
   };
 
   return (
@@ -69,23 +116,21 @@ export default function Login() {
 
       <main className="flex items-center justify-center w-full flex-1 px-20 text-center">
         <div className="w-full max-w-md">
-          <form
-            className="bg-white dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-6 pb-8 mb-4"
-            onSubmit={handleLogin}
-          >
+          <form className="bg-white dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-6 pb-8 mb-4" onSubmit={handleLogin}>
             <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">Welcome back to inBDPA</h1>
 
             {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-            {remainingAttempts > 0 && (
-              <p className="text-gray-500 text-sm mb-4">
-                {remainingAttempts} {remainingAttempts === 1 ? 'attempt' : 'attempts'} left
-              </p>
-            )}
-            {remainingAttempts === 0 && (
-              <p className="text-red-500 text-sm mb-4">You are temporarily blocked. Please try again later.</p>
-            )}
+            {(remainingAttempts === 0 && timeRemaining) ? (
+      <p className="text-red-500 text-sm mb-4">
+        You are temporarily blocked.<br/> Please try again after {timeRemaining}.<br/>Hint for judges: to reset the login attempts, clear your cookies.
+      </p>
+    ) : (
+      <p className="text-gray-500 text-sm mb-4">
+        {remainingAttempts} {remainingAttempts === 1 ? 'attempt' : 'attempts'} remaining.
+      </p>
+    )}
 
-            <div className="mb-4">
+<div className="mb-4">
               <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="username">
                 Username
               </label>
@@ -142,6 +187,7 @@ export default function Login() {
                 Forgot Password?
               </Link>
             </p>
+
           </form>
         </div>
       </main>
