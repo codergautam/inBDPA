@@ -15,6 +15,10 @@ function parseUrl(url) {
   if (dir === "") {
     dir = "home";
   }
+  if(!["home", "admin","profile","opportunity"].includes(dir)) {
+    return null;
+  }
+
 
   // Get second part of the path as the id (if it exists)
   let id = url.split("/")[2];
@@ -27,6 +31,27 @@ function parseUrl(url) {
 
 const App = ({ Component, pageProps }) => {
   const router = useRouter();
+  const [loading, setLoading] = useState(false);
+
+
+  useEffect(() => {
+    const start = () => {
+      console.log("start");
+      setLoading(true);
+    };
+    const end = () => {
+      console.log("finished");
+      setLoading(false);
+    };
+    router.events.on("routeChangeStart", start);
+    router.events.on("routeChangeComplete", end);
+    router.events.on("routeChangeError", end);
+    return () => {
+      router.events.off("routeChangeStart", start);
+      router.events.off("routeChangeComplete", end);
+      router.events.off("routeChangeError", end);
+    };
+  }, []);
 
   // State to keep track of the previous page
   // Initialize it with the current path
@@ -36,6 +61,11 @@ const sessionIdRef = useRef(null);
 
 const handleRouteChangeStart = async (url, first=false) => {
   console.log("Going to end session", sessionIdRef.current);
+  if(!url || !parseUrl(url)) return;
+
+  //Dont change if going to same page
+  if(url == prevPath) return;
+
   if(!first && sessionIdRef.current) {
     // End old session
     let endSessionRes = await fetch('/api/endSession', {
@@ -68,6 +98,9 @@ const handleRouteChangeStart = async (url, first=false) => {
 
   const renewSession = async () => {
     if(!sessionIdRef.current) return;
+  if(!url || !parseUrl(url)) return;
+
+
     fetch('/api/renewSession', {
       method: 'POST',
       body: JSON.stringify({
@@ -129,8 +162,17 @@ const handleRouteChangeStart = async (url, first=false) => {
   useEffect(() => {
     handleRouteChangeStart(prevPath, true);
   }, []);
+    // <>
+    //   {loading ? (
+    //     <h1>Loading...</h1>
+    //   ) : (
+    //     <Component {...pageProps} />
+    //   )}
+    // </>
+  return (
+    <Component {...pageProps} />
 
-  return <Component {...pageProps} />;
+  );
 };
 
 export default App;

@@ -4,9 +4,7 @@ import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { createUser as createUserNode } from "@/utils/neo4j.mjs";
 
-import { ironOptions } from "@/utils/ironConfig";
-export default withIronSessionApiRoute(handler, ironOptions);
-
+import { getIronOptions } from "@/utils/ironConfig";
  async function handler(req, res) {
   if(req.method !== "POST") return res.send({ error: "Method not allowed" });
 
@@ -54,7 +52,20 @@ export default withIronSessionApiRoute(handler, ironOptions);
     await req.session.save();
   }
 
+  if(user.error) {
+    if(user.error.toLowerCase() == 'an item with that "email" already exists') {
+      return res.send({error: "Email already in use"});
+    }
+    if(user.error.toLowerCase() == 'an item with that "username" already exists') {
+      return res.send({error: "Username taken"});
+    }
+  }
+
 
 
   return res.send(user);
+}
+
+export default function (req, res) {
+  return withIronSessionApiRoute(handler, getIronOptions(req.body.rememberMe))(req, res);
 }

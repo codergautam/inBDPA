@@ -15,6 +15,7 @@ import { fetchConnections, findConnectionDepth } from '@/utils/neo4j.mjs';
 import addSuffix from '@/utils/ordinalSuffix';
 import LinkChanger from '@/components/LinkChanger';
 import ConnectionList from '@/components/ConnectionList';
+import { get } from 'mongoose';
 
 
 
@@ -44,7 +45,7 @@ const handleAboutSave = (newAbout, setRequestedUser) => {
 };
 
 // Profile page component
-export default function Page({ user, requestedUser: r, depth:d, connections: c , link, pfp}) {
+export default function Page({ user, requestedUser: r, depth:d, connections: c , link, pfp, error}) {
 
   // State to store number of active sessions
   const [activeSess, setActiveSessions] = useState("...");
@@ -199,7 +200,7 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
 </>
       ): (
         <>
-        <h1 className="text-3xl font-semibold text-gray-900 dark:text-white pt-5 ">User not found</h1>
+        <h1 className="text-3xl font-semibold text-gray-900 dark:text-white pt-5 ">{error ?? "Unexpected Error"}</h1>
         <Link href="/" className="text-xl text-gray-900 dark:text-white mt-2 mb-4 bg-blue-200 p-2 rounded-sm dark:bg-blue-800">
           Return to home page
         </Link>
@@ -219,7 +220,13 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   // Get id param of dynamic route
   // ex: /profile/1
   const id = params.id;
-  const requestedUser = (await getUserFromProfileId(id)).user;
+  const request = await getUserFromProfileId(id);
+  const requestedUser = request.user;
+  if(request.error) {
+    return {
+      props: { user: req.session?.user ?? null, requestedUser: null, depth: 0, connections: [[],[]], link: id, pfp: null, error: request.error },
+    };
+  }
   let depth = 0;
   let connections = []
   let connected = false;
@@ -247,12 +254,6 @@ if(requestedUser) {
 }
 
 
-let safeSessionUser;
-if(req.session?.user) safeSessionUser = {
-  ...req.session?.user,
-  salt: null,
-  key: null,
-}
 let safeRequestedUser;
 if(requestedUser) safeRequestedUser = {
   ...requestedUser,
@@ -262,7 +263,7 @@ if(requestedUser) safeRequestedUser = {
 
 
   return {
-    props: { user: safeSessionUser ?? null, requestedUser: safeRequestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id, pfp: pfp ?? null },
+    props: { user: req.session?.user ?? null, requestedUser: safeRequestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id, pfp: pfp ?? null },
   };
 },
 ironOptions)

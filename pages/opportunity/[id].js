@@ -129,6 +129,13 @@ export default function Opportunity({user, opportunity, activeSessions}) {
                 <Head></Head>
                 <Navbar user={user}></Navbar>
             </div>
+            {!opportunity ? (
+                <div className="w-full h-full items-center justify-center">
+                    <p className="text-5xl text-white">Opportunity not found</p>
+                    <Link href="/opportunities" className="text-2xl text-white">Go back</Link>
+
+                </div>
+            ) : (
             <main className="w-5/6 mx-auto mt-6">
           <Modal
             isOpen={editingOpportunity}
@@ -167,6 +174,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
                 <p dangerouslySetInnerHTML={{__html: marked(opportunity.contents)}} className="text-lg text-center text-white">
                 </p>
             </main>
+            )}
         </>
     )
 }
@@ -199,6 +207,6 @@ export const getServerSideProps = withIronSessionSsr(async ({
     console.log(`Opportunities ID: ${params.id}`)
     // const window = new JSDOM('').window
     // const DOMPurify = createDOMPurify(window)
-    // opportunity.contents = DOMPurify.sanitize(marked(opportunity.contents)) 
+    // opportunity.contents = DOMPurify.sanitize(marked(opportunity.contents))
     return { props: { user: req.session.user ?? null, opportunity: opportunity ?? null, activeSessions: active ?? 0}}
 }, ironOptions)
