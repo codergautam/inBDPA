@@ -12,27 +12,28 @@ export default function Home(props) {
   console.log(user);
   const [showImage, setShowImage] = useState(true);
 
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTarget = document.getElementById("scrollTarget");
-      if (scrollTarget) {
-        const scrollPosition = window.scrollY + window.innerHeight;
-        const targetPosition =
-          scrollTarget.offsetTop + scrollTarget.offsetHeight;
+  // useEffect(() => {
+  //   const handleScroll = () => {
+  //     const scrollTarget = document.getElementById("scrollTarget");
+  //     if (scrollTarget) {
+  //       const scrollPosition = window.scrollY + window.innerHeight;
+  //       const targetPosition =
+  //         scrollTarget.offsetTop + scrollTarget.offsetHeight;
 
-        if (scrollPosition >= targetPosition) {
-          setShowImage(false);
-        } else {
-          setShowImage(true);
-        }
-      }
-    };
+  //       if (scrollPosition >= targetPosition) {
+  //         setShowImage(false);
+  //       } else {
+  //         setShowImage(true);
+  //       }
+  //     }
+  //   };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
+
   return (
     <div className="flex flex-col">
       <Head>
