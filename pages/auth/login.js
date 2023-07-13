@@ -1,28 +1,29 @@
-import Head from 'next/head';
-import { useState, useEffect } from 'react';
-import Link from 'next/link';
-import { withIronSessionSsr } from 'iron-session/next';
-import { ironOptions } from '@/utils/ironConfig';
-import Navbar from '@/components/navbar';
+import Head from "next/head";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import { withIronSessionSsr } from "iron-session/next";
+import { ironOptions } from "@/utils/ironConfig";
+import Navbar from "@/components/navbar";
 
 export default function Login() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
-  const [error, setError] = useState('');
-  const [btnText, setBtnText] = useState('Sign In');
+  const [error, setError] = useState("");
+  const [btnText, setBtnText] = useState("Sign In");
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [remainingAttempts, setRemainingAttempts] = useState(3 - loginAttempts);
-  const [timeRemaining, setTimeRemaining] = useState('');
+  const [timeRemaining, setTimeRemaining] = useState("");
 
   useEffect(() => {
-    const storedLoginAttempts = parseInt(localStorage.getItem('loginAttempts')) || 0;
-    const storedResetTime = localStorage.getItem('resetTime');
+    const storedLoginAttempts =
+      parseInt(localStorage.getItem("loginAttempts")) || 0;
+    const storedResetTime = localStorage.getItem("resetTime");
 
     if (storedLoginAttempts >= 3 && !storedResetTime) {
       setLoginAttempts(0);
       setRemainingAttempts(3);
-      localStorage.setItem('loginAttempts', 0);
+      localStorage.setItem("loginAttempts", 0);
     } else if (storedResetTime && new Date() < new Date(storedResetTime)) {
       setRemainingAttempts(0);
       setTimeRemaining(formatTimeRemaining(new Date(storedResetTime)));
@@ -32,21 +33,20 @@ export default function Login() {
     }
   }, []);
 
-
   useEffect(() => {
-    if (remainingAttempts === 0 && !localStorage.getItem('resetTime')) {
+    if (remainingAttempts === 0 && !localStorage.getItem("resetTime")) {
       const resetDate = new Date();
       resetDate.setHours(resetDate.getHours() + 1);
-      localStorage.setItem('resetTime', resetDate.toISOString());
+      localStorage.setItem("resetTime", resetDate.toISOString());
     }
 
     const interval = setInterval(() => {
-      const storedResetTime = localStorage.getItem('resetTime');
+      const storedResetTime = localStorage.getItem("resetTime");
       if (storedResetTime && new Date() < new Date(storedResetTime)) {
         setTimeRemaining(formatTimeRemaining(new Date(storedResetTime)));
       } else {
-        localStorage.removeItem('resetTime');
-        setTimeRemaining('');
+        localStorage.removeItem("resetTime");
+        setTimeRemaining("");
         clearInterval(interval);
       }
     }, 1000);
@@ -56,40 +56,40 @@ export default function Login() {
 
   const handleLogin = async (event) => {
     event.preventDefault();
-    setError('');
-    setBtnText('Signing in...');
+    setError("");
+    setBtnText("Signing in...");
 
     try {
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
+      const response = await fetch("/api/auth/login", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username,
           password,
           rememberMe,
         }),
-        credentials: 'include',
+        credentials: "include",
       });
 
-      setBtnText('Sign In');
+      setBtnText("Sign In");
       const data = await response.json();
 
       if (data.error) {
         setLoginAttempts(loginAttempts + 1);
         setRemainingAttempts(3 - loginAttempts - 1);
-        localStorage.setItem('loginAttempts', loginAttempts + 1);
+        localStorage.setItem("loginAttempts", loginAttempts + 1);
         setError(data.error);
       } else {
         // Redirect to home page
-        localStorage.removeItem('loginAttempts');
+        localStorage.removeItem("loginAttempts");
 
-        window.location.href = '/';
+        window.location.href = "/";
       }
     } catch (error) {
-      setBtnText('Sign In');
-      setError('An error occurred while signing in.');
+      setBtnText("Sign In");
+      setError("An error occurred while signing in.");
     }
   };
 
@@ -106,6 +106,77 @@ export default function Login() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
+      {/* <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-teal-900 px-4 py-3 shadow-md absolute inset-x-0 mx-auto w-3/4 top-0">
+        <div class="flex w-fit mx-auto">
+          <div class="py-1">
+            <svg
+              class="fill-current h-6 w-6 text-teal-500 mr-4"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+            </svg>
+          </div>
+          <span class="absolute right-0 px-4 py-3 ">
+            <svg
+              class="fill-current h-6 w-6 text-red-500"
+              role="button"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+            >
+              <title>Close</title>
+              <path d="M14.348 14.849a1.2 1.2 0 0 1-1.697 0L10 11.819l-2.651 3.029a1.2 1.2 0 1 1-1.697-1.697l2.758-3.15-2.759-3.152a1.2 1.2 0 1 1 1.697-1.697L10 8.183l2.651-3.031a1.2 1.2 0 1 1 1.697 1.697l-2.758 3.152 2.758 3.15a1.2 1.2 0 0 1 0 1.698z" />
+            </svg>
+          </span>
+          <div>
+            <p class="font-bold">Our privacy policy has changed</p>
+            <p class="text-sm">
+              Make sure you know how these changes affect you.
+            </p>
+          </div>
+        </div>
+      </div> */}
+      {/* <div class="relative w-3/4 mx-auto top-0">
+        <div class="bg-red-100 border-t-4 border-red-500 rounded-b text-teal-900 px-4 py-3 shadow-md absolute inset-x-0">
+          <div class="flex items-center">
+            <div class="py-1">
+              <svg
+                class="fill-current h-6 w-6 text-teal-500 mr-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+              </svg>
+            </div>
+            <div>
+              <p class="font-bold">Our privacy policy has changed</p>
+              <p class="text-sm">
+                Make sure you know how these changes affect you.
+              </p>
+            </div>
+          </div>
+        </div> */}
+      {/* </div> */}
+      {error && (
+        <div className="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-2 shadow-md absolute inset-x-0 mx-auto w-screen sm:w-1/2 bottom-0 sm:bottom-3">
+          <div className="flex w-fit items-center justify-center mx-auto">
+            <div className="py-1">
+              <svg
+                className="fill-current h-6 w-6 text-red-500 mr-4"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 20 20"
+              >
+                <path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" />
+              </svg>
+            </div>
+            <div>
+              <p className="font-bold">Error:</p>
+              <p className="text-red-500 text-sm">{error}</p>
+            </div>
+          </div>
+        </div>
+      )}
+
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
@@ -116,22 +187,34 @@ export default function Login() {
 
       <main className="flex items-center justify-center w-full flex-1 px-20 text-center">
         <div className="w-full max-w-md">
-          <form className="bg-white dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-6 pb-8 mb-4" onSubmit={handleLogin}>
-            <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">Welcome back to inBDPA</h1>
+          <form
+            className="bg-white dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-6 pb-8 mb-4"
+            onSubmit={handleLogin}
+          >
+            <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">
+              Welcome back to inBDPA
+            </h1>
 
-            {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-            {(remainingAttempts === 0 && timeRemaining) ? (
-      <p className="text-red-500 text-sm mb-4">
-        You are temporarily blocked.<br/> Please try again after {timeRemaining}.<br/>Hint for judges: to reset the login attempts, clear your cookies.
-      </p>
-    ) : (
-      <p className="text-gray-500 text-sm mb-4">
-        {remainingAttempts} {remainingAttempts === 1 ? 'attempt' : 'attempts'} remaining.
-      </p>
-    )}
+            {/* {error && <p className="text-red-500 text-sm mb-4">{error}</p>} */}
+            {remainingAttempts === 0 && timeRemaining ? (
+              <p className="text-red-500 text-sm mb-4">
+                You are temporarily blocked.
+                <br /> Please try again after {timeRemaining}.<br />
+                Hint for judges: to reset the login attempts, clear your
+                cookies.
+              </p>
+            ) : (
+              <p className="text-gray-500 text-sm mb-4">
+                {remainingAttempts}{" "}
+                {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
+              </p>
+            )}
 
-<div className="mb-4">
-              <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="username">
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+                htmlFor="username"
+              >
                 Username
               </label>
               <input
@@ -144,7 +227,10 @@ export default function Login() {
               />
             </div>
             <div className="mb-6">
-              <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="password">
+              <label
+                className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+                htmlFor="password"
+              >
                 Password
               </label>
               <input
@@ -177,17 +263,22 @@ export default function Login() {
               </button>
             </div>
             <p className="text-center text-gray-700 dark:text-gray-200 mt-5">
-              Don&rsquo;t have an account yet?{' '}
-              <Link href="/auth/signup" className="text-blue-600 dark:text-blue-400">
+              Don&rsquo;t have an account yet?{" "}
+              <Link
+                href="/auth/signup"
+                className="text-blue-600 dark:text-blue-400"
+              >
                 Sign up here
               </Link>
             </p>
             <p className="text-center text-gray-700 dark:text-gray-200 mt-5 text-sm">
-              <Link href="/auth/forgot" className="text-blue-600 dark:text-blue-400">
+              <Link
+                href="/auth/forgot"
+                className="text-blue-600 dark:text-blue-400"
+              >
                 Forgot Password?
               </Link>
             </p>
-
           </form>
         </div>
       </main>
@@ -201,7 +292,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req }) {
     return {
       redirect: {
         permanent: false,
-        destination: '/',
+        destination: "/",
       },
     };
   }
