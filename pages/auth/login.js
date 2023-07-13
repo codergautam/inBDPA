@@ -4,8 +4,7 @@ import Link from "next/link";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import Navbar from "@/components/navbar";
-import ErrorComponent from './ErrorComponent';
-
+import ErrorComponent from "./ErrorComponent";
 
 export default function Login() {
   const [username, setUsername] = useState("");
@@ -159,7 +158,7 @@ export default function Login() {
           </div>
         </div> */}
       {/* </div> */}
-      {error && (<ErrorComponent error={error} />)}
+      {error && <ErrorComponent error={error} />}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />

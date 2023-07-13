@@ -119,7 +119,10 @@ export default function Home(props) {
           <div className="my-16 sm:my-20">
             <div className="flex flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
-                <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600" id="scrollTarget">
+                <h2
+                  className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600"
+                  id="scrollTarget"
+                >
                   Networking Opportunities
                 </h2>
                 <p className="text-center text-md sm:text-lg w-fit mb-8">
