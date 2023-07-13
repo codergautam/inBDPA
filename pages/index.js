@@ -96,7 +96,7 @@ export default function Home(props) {
                 </p>
                 <Link
                   href="/"
-                  className="lg:collapse border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  className="border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
                   Connect now!
                 </Link>
