@@ -169,7 +169,7 @@ export default function Login() {
             </div>
             <div className="flex items-center justify-center">
               <button
-                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white focus:text-blue-600 border-black dark:border-white text-xl "
+                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white focus:text-blue-600 dark:bg-gray-800 border-black dark:border-white text-xl "
                 type="submit"
                 disabled={remainingAttempts === 0}
               >
@@ -183,7 +183,7 @@ export default function Login() {
               </Link>
             </p>
             <p className="text-center text-gray-700 dark:text-gray-200 mt-5 text-sm">
-              <Link href="http://localhost:3000/forgotpassword?email=email" className="text-blue-600 dark:text-blue-400">
+              <Link href="/auth/forgot" className="text-blue-600 dark:text-blue-400">
                 Forgot Password?
               </Link>
             </p>
