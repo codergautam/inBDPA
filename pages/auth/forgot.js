@@ -55,7 +55,7 @@ export default function ForgotPassword() {
               <>
                 {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
                 <p className="text-gray-500 text-sm mb-4">
-                  Enter your email address and we'll send you instructions on how to reset your password.
+                  Enter your email address and we&apos;ll send you instructions on how to reset your password.
                 </p>
                 <div className="mb-4">
                   <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="email">
