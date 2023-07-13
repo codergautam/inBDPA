@@ -183,7 +183,7 @@ export default function Login() {
               </Link>
             </p>
             <p className="text-center text-gray-700 dark:text-gray-200 mt-5 text-sm">
-              <Link href="http://localhost:3000/forgotpassword?email=email" className="text-blue-600 dark:text-blue-400">
+              <Link href="/auth/forgot" className="text-blue-600 dark:text-blue-400">
                 Forgot Password?
               </Link>
             </p>
