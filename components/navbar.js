@@ -49,7 +49,7 @@ export default function Navbar({ user }) {
             >
               Leave Impersonation
               <FontAwesomeIcon
-                className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out w-5 h-5"
+                className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 dark:text-gray-200 ease-in-out w-5 h-5"
                 icon={faMask}
               />
             </button>
@@ -59,7 +59,7 @@ export default function Navbar({ user }) {
           <>
             <Link
               href={`/admin/${user.link}`}
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200"
             >
               Admin
             </Link>
@@ -69,13 +69,13 @@ export default function Navbar({ user }) {
           <>
             <Link
               href="/"
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200"
             >
               Home
             </Link>
             <Link
               href="../opportunities"
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200"
             >
               Opportunities
             </Link>
