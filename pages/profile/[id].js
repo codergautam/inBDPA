@@ -51,6 +51,7 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
   const [requestedUser, setRequestedUser] = useState(r);
   const [connections, setConnections] = useState(c);
   const [depth, setDepth] = useState(d);
+  const [connectionLabel, setConnectionLabel] = useState(connections[0]?.includes(user?.id) ? "Disconnect" : "Connect");
 
 
   const editable = user?.id === requestedUser?.user_id;
@@ -114,7 +115,14 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
     {user ? (
       <>
       {editable ? null : (
-      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded' onClick={async () => {
+      <button
+      className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'
+      onClick={async () => {
+        // Indicate that a connection/disconnection operation is happening
+        if(connectionLabel == "Connect") setConnectionLabel("Connecting...");
+        else if(connectionLabel == "Disconnect") setConnectionLabel("Disconnecting...");
+        else return;
+
         let data = await fetch("/api/toggleConnection", {
           method: "POST",
           body: JSON.stringify({
@@ -122,11 +130,19 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
           })
         });
         data = await data.json();
-        if(data.success) {
+        if (data.success) {
           setConnections(() => data.connections);
           setDepth(() => data.newDepth);
+          // Indicate that the operation is complete
+          setConnectionLabel(data.connections[0]?.includes(user?.id) ? "Disconnect" : "Connect");
+        } else {
+          // If the operation fails, reset the button's label
+          setConnectionLabel(connections[0]?.includes(user?.id) ? "Disconnect" : "Connect");
         }
-      }}>{connections[0].includes(user.id) ? "Disconnect" : "Connect"}</button>
+      }}
+    >
+      {connectionLabel}
+    </button>
       )}
       </>
     ): null}
@@ -213,10 +229,9 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   if(!connected && req.session?.user && (req.session?.user?.id != requestedUser?.user_id)) {
     // Find connection depth
     depth = await findConnectionDepth(req.session?.user?.id, requestedUser?.user_id);
-    console.log(depth);
   }
 }
-connections.push(await fetchConnections(requestedUser?.user_id, 1), await fetchConnections(requestedUser?.user_id, 2));
+if(requestedUser) connections.push(await fetchConnections(requestedUser?.user_id, 1), await fetchConnections(requestedUser?.user_id, 2));
 
 if(requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
   // Increment view count
@@ -232,7 +247,8 @@ if(requestedUser) {
 }
 
 
-let safeSessionUser = {
+let safeSessionUser;
+if(req.session?.user) safeSessionUser = {
   ...req.session?.user,
   salt: null,
   key: null,

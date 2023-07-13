@@ -118,7 +118,7 @@ async function sendRequest(url, method, body = null) {
     delete headers['Content-Type'];
   }
 
-  if(simulateError) {
+  if(simulateError && Math.random() < 0.1) {
     return { success: false, error: "Simulated error" }
   } else {
   try {

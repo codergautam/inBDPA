@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Link from 'next/link'
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
+import Navbar from '@/components/navbar';
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -14,11 +15,15 @@ export default function Signup() {
   const [btnText, setBtnText] = useState("Sign Up");
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-gray-800 text-black dark:text-white py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
       <Head>
         <title>Sign Up | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="w-full">
+        <Navbar/>
+      </div>
+
 
       <main className="flex items-center justify-center w-full flex-1 px-20 text-center">
 
@@ -113,7 +118,7 @@ export default function Signup() {
             </div>
             <div className="flex items-center justify-center">
               <button
-                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white border-black dark:border-white text-xl "
+                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white border-black dark:border-white text-xl dark:bg-gray-800"
                 type="submit"
               >
                 {btnText}

@@ -80,13 +80,13 @@ export default function Home(props) {
 
         <div className="container">
           <hr className="h-px bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="my-16 sm:my-28">
+          <div className="my-16 sm:my-20">
             <div className="flex flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
                 <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Networking Opportunities
                 </h2>
-                <p className="text-center text-md sm:text-lg w-fit mb-4 lg:mb-8">
+                <p className="text-center text-md sm:text-lg w-fit mb-8">
                   Connect with professionals in your industry, join communities,
                   and participate in discussion forums. Expand your network,
                   learn from others, and explore collaboration opportunities.
@@ -96,21 +96,15 @@ export default function Home(props) {
                 </p>
                 <Link
                   href="/"
-                  className="collapse lg:visible border-black dark:border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  className="lg:collapse border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
-                  Try it out!
+                  Connect now!
                 </Link>
               </div>
             </div>
-            <Link
-              href="/"
-              className="lg:collapse border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
-            >
-              Try it out!
-            </Link>
           </div>
           <hr className="h-px bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="my-16 sm:my-28">
+          <div className="my-16 sm:my-20">
             <div className="flex flex-col-reverse lg:flex-row items-center justify-center flex-items-center y-48">
               <div className="lg:pr-3 xl:pr-14 3xl:pr-16 flex flex-wrap lg:basis-2/5 justify-center lg:justify-normal">
                 <Link
@@ -203,13 +197,13 @@ export default function Home(props) {
             </div>
           </div>
           <hr className="h-px bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="my-16 lg:my-28">
+          <div className="my-16 sm:my-20">
             <div className="flex flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
                 <h2 className="text-center lg:text-left text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   User Profiles
                 </h2>
-                <p className="text-center lg:pr-3 xl:pr-14 3xl:pr-16 lg:text-left text-sm sm:text-lg w-fit lg:mb-8">
+                <p className="text-center lg:pr-3 xl:pr-14 3xl:pr-16 lg:text-left text-sm sm:text-lg w-fit mb-4 md:mb-7">
                   Create a personalized profile to showcase your skills,
                   experiences, and achievements. Customize your profile with
                   pictures, background themes, and detailed information about
@@ -221,26 +215,26 @@ export default function Home(props) {
                 </p>
                 <Link
                   href="/"
-                  className="hidden lg:visible border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  className="hidden lg:inline border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
-                  Try it out!
+                  Try it out
                 </Link>
               </div>
               <img
-                className="w-3/4 mb-10 lg:mb-0 lg:w-1/2 self-center"
+                className="w-3/4 sm:w-2/3 md:w-2/4 mb-8 lg:mb-0 lg:w-1/2 self-center"
                 src="https://cdn.discordapp.com/attachments/1121115967120998540/1128079632651014174/Screenshot_2023-07-10_at_4.45.19_PM.png"
                 alt="User Profile"
               />
+              <Link
+                href="/"
+                className="lg:hidden border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+              >
+                Try it out
+              </Link>
             </div>
-            <Link
-              href="/"
-              className="lg:hidden border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
-            >
-              Try it out!
-            </Link>
           </div>
           <hr className="h-px bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="items-center justify-center my-16 sm:my-28">
+          <div className="items-center justify-center my-16 sm:my-20">
             <h2 className="text-2xl sm:text-3xl 2xl:text-4xl font-bold mb-6 text-blue-600">
               Resume Builder -{" "}
               <Link href="/">
@@ -342,13 +336,13 @@ export default function Home(props) {
             </p>
           </div> */}
           <hr className="h-px bg-black border-0 dark:bg-gray-900 overflow" />
-          <div className="my-16 sm:my-28">
+          <div className="my-16 sm:my-20">
             <div className="items-center justify-center">
               <div className="text-center">
                 <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
                   Messaging and Communication
                 </h2>
-                <p className="text-center text-sm sm:text-lg w-fit">
+                <p className="text-center text-md sm:text-lg w-fit">
                   Communicate with ease through our integrated messaging
                   featuresthat facilitate seamless communication between users,
                   employers, and recruiters. Connect with potential employers,
