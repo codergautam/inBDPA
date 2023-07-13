@@ -177,7 +177,6 @@ export default function Login() {
               Welcome back to inBDPA
             </h1>
 
-            {/* {error && <p className="text-red-500 text-sm mb-4">{error}</p>} */}
             {remainingAttempts === 0 && timeRemaining ? (
               <p className="text-red-500 text-sm mb-4">
                 You are temporarily blocked.
