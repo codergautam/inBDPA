@@ -178,12 +178,14 @@ export default function Login() {
             </h1>
 
             {remainingAttempts === 0 && timeRemaining ? (
-              <p className="text-red-500 text-sm mb-4">
+              <ErrorComponent error={
+              <p className="mb-1">
                 You are temporarily blocked.
                 <br /> Please try again after {timeRemaining}.<br />
                 Hint for judges: to reset the login attempts, clear your
                 cookies.
               </p>
+              } />
             ) : (
               <p className="text-gray-500 text-sm mb-4">
                 {remainingAttempts}{" "}
