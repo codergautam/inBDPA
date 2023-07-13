@@ -51,13 +51,22 @@ export default function Home(props) {
             <Link className="text-blue-600 flex items-center" href="/">
               <div className="flex flex-row content-center justify-between self-center w-full h-1/6 p-4 text-center">
                 <div className="flex flex-row self-center text-5xl font-bold text-black dark:text-gray-200 cursor-pointer select-none">
-                  <h1 className="text-4xl sm:text-6xl font-bold">in</h1>
-                  <img
-                    className="w-10 h-10 self-center"
-                    src="https://bdpa.org/wp-content/uploads/2020/12/f0e60ae421144f918f032f455a2ac57a.png"
-                    alt="BDPA logo"
-                  />
-                  <h1 className="text-4xl sm:text-6xl font-bold">dpa</h1>
+                  <div className="h-min">
+                    <Link href="/">
+                      <img
+                        className="w-36 self-center dark:hidden inline"
+                        src="https://i.imgur.com/uWlkxIt.png"
+                        alt="BDPA logo"
+                      />
+                    </Link>
+                    <Link href="/">
+                      <img
+                        className="w-36 self-center hidden dark:inline"
+                        src="https://i.imgur.com/GOmYSIZ.png"
+                        alt="BDPA logo"
+                      />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </Link>
