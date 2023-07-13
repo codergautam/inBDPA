@@ -37,7 +37,16 @@ const profileSchema = new Schema({
   pfp: String,
 });
 
+const resetSchema = new Schema({
+  id: ObjectId,
+  user_id: String,
+  reset_id: String,
+  createdAt: Number,
+  used: Boolean
+});
+
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
+const Reset = mongoose.models.Reset ?? mongoose.model('Reset', resetSchema);
 // addUserNameToSchema()
 async function createNewProfile({ user_id, username, link }) {
   console.log("username:", username)
@@ -87,6 +96,77 @@ export async function getProfileIdFromUserId(userId) {
   } catch (error) {
     console.log('Error while trying to get profile id from user id: ', error);
     return false;
+  }
+}
+
+export async function getUserFromEmail(email) {
+  // Get user from email
+  try {
+    const user = await Profile.findOne({ email: email });
+    if (user) {
+      return user;
+    }
+    return {success: false, error: "No user found with that email"};
+  } catch (error) {
+    console.log('Error while trying to get user from email: ', error);
+    return { success: false, error: "Unexpected Error"};
+  }
+}
+
+export async function createResetLink(email) {
+  // Get user from email
+  let user = await getUserFromEmail(email);
+  if(user.error) {
+    return user;
+  }
+  // Create reset link
+  const reset_id = generateRandomId();
+  const newReset = new Reset({
+    user_id: user.user_id,
+    reset_id,
+    createdAt: Date.now(),
+  });
+
+  try {
+    // Attempt to save the new profile to the database
+    const savedReset = await newReset.save();
+    console.log('Reset successfully saved: ', savedReset);
+    return { success: true, reset_id };
+  } catch (error) {
+    console.log('Error while trying to save reset: ', error);
+    return { success: false, error: "Unexpected Error" };
+  }
+}
+
+export async function getResetLink(reset_id) {
+  try {
+    // Retrieve user from reset link
+    const savedReset = await Reset.findOne({ reset_id: reset_id });
+    if (savedReset) {
+      return savedReset;
+    }
+    return { success: false, error: "Invalid Reset Link" };
+  } catch (error) {
+    console.log('Error while trying to get reset link: ', error);
+    return { success: false, error: "Unexpected Error" };
+  }
+}
+
+export async function useResetLink(reset_id) {
+  try {
+    // Retrieve user from reset link
+    const savedReset = await Reset.findOneAndUpdate(
+        { reset_id: reset_id }, // find a document with this filter
+        { used: true }, // document to insert when nothing was found
+        { new: true, upsert: true } // options
+    );
+    if (savedReset) {
+      return {success: true};
+    }
+    return { success: false, error: "Invalid Reset Link" };
+  } catch (error) {
+    console.log('Error while trying to get reset link: ', error);
+    return { success: false, error: "Unexpected Error" };
   }
 }
 
@@ -311,6 +391,40 @@ export async function updateUser(userId, updates) {
   const url = `${BASE_URL}/users/${userId}`;
   return sendRequest(url, 'PATCH', updates);
 }
+
+export async function changeUserPassword(user_id, password) {
+  // Get user from user_id
+  let user = await getUser(user_id);
+  if(user.error) {
+    return user;
+  }
+  // Encrypt password
+  const { keyString, saltString } = await deriveKeyFromPassword(password);
+  // Update user
+  // First in API
+  try {
+  await updateUser(user_id, { key: keyString, salt: saltString });
+  } catch (e) {
+    console.log("Error updating user: ", e);
+    return {success: false, error: "Unexpected Error"};
+  }
+
+  // Then in MongoDB
+  try {
+      const updatedUser = await Profile.findOneAndUpdate(
+          { user_id: user_id }, // find a document with this filter
+          { key: keyString, salt: saltString }, // document to insert when nothing was found
+          { new: true, upsert: true } // options
+      );
+      console.log('User successfully updated: ', updatedUser);
+      return {success: true};
+  } catch (error) {
+      console.log('Error while trying to update user: ', error);
+      return {success: false, error: "Unexpected Error"};
+  }
+}
+
+
 
 export async function incrementUserViews(userId) {
   return updateUser(userId, { views: "increment" });

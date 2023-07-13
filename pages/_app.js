@@ -15,6 +15,10 @@ function parseUrl(url) {
   if (dir === "") {
     dir = "home";
   }
+  if(!["home", "admin","profile","opportunity"].includes(dir)) {
+    return null;
+  }
+
 
   // Get second part of the path as the id (if it exists)
   let id = url.split("/")[2];
@@ -57,6 +61,8 @@ const sessionIdRef = useRef(null);
 
 const handleRouteChangeStart = async (url, first=false) => {
   console.log("Going to end session", sessionIdRef.current);
+  if(!url || !parseUrl(url)) return;
+
   if(!first && sessionIdRef.current) {
     // End old session
     let endSessionRes = await fetch('/api/endSession', {
@@ -89,6 +95,9 @@ const handleRouteChangeStart = async (url, first=false) => {
 
   const renewSession = async () => {
     if(!sessionIdRef.current) return;
+  if(!url || !parseUrl(url)) return;
+
+
     fetch('/api/renewSession', {
       method: 'POST',
       body: JSON.stringify({

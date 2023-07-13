@@ -118,7 +118,7 @@ export default function Signup() {
             </div>
             <div className="flex items-center justify-center">
               <button
-                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white border-black dark:border-white text-xl dark:bg-gray-800"
+                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 dark:bg-gray-800 hover:bg-gray-400 text-white border-black dark:border-white text-xl "
                 type="submit"
               >
                 {btnText}

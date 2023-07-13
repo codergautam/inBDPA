@@ -169,7 +169,7 @@ export default function Login() {
             </div>
             <div className="flex items-center justify-center">
               <button
-                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white focus:text-blue-600 border-black dark:border-white text-xl "
+                className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white focus:text-blue-600 dark:bg-gray-800 border-black dark:border-white text-xl "
                 type="submit"
                 disabled={remainingAttempts === 0}
               >
