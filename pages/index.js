@@ -108,7 +108,7 @@ export default function Home(props) {
                 width={50}
                 height={50}
                 alt="scroll down"
-                className="animate-bounce bg-black rounded-full"
+                className="animate-bounce bg-black w-20 rounded-full"
               />
             </div>
           )}
