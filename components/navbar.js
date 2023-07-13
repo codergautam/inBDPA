@@ -71,8 +71,22 @@ export default function Navbar({ user }) {
               >
                 Logout
               </Link>
-            </div>
+            
+                                    <Link
+                                    href="/api/auth/signup"
+                                    className="px-2 py-1 text-sm font-medium text-black rounded-md dark:text-gray-200 dark:hover:font-bold hover:font-bold"
+                                  >
+                                    Sign up
+                                  </Link>
+                                  <Link
+                                    href="/api/auth/login"
+                                    className="px-2 py-1 text-sm font-medium text-black rounded-md dark:text-gray-200 dark:hover:font-bold hover:font-bold"
+                                  >
+                                    Login
+                                  </Link>
+                                  </div>
           )}
+        
         </div>
       </div>
     </div></>
