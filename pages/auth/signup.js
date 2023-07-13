@@ -5,6 +5,8 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import Navbar from "@/components/navbar";
 import ErrorComponent from "./ErrorComponent";
+import Captcha from "../captchatry2";
+import { useState } from "react";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -13,6 +15,7 @@ export default function Signup() {
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [btnText, setBtnText] = useState("Sign Up");
+  const [captchaSolved, setSolved] = useState(false);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
@@ -68,16 +71,11 @@ export default function Signup() {
             </h1>
 
             <div className="mb-4">
-<<<<<<< Updated upstream
               <label
                 className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
                 htmlFor="name"
               >
-                Name
-=======
-              <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="name">
                 Username
->>>>>>> Stashed changes
               </label>
               <input
                 className="appearance-none rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -120,6 +118,16 @@ export default function Signup() {
                 onChange={(event) => setPassword(event.target.value)}
               />
             </div>
+            <div className="mb-6">
+              <label
+                className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+                htmlFor="captcha"
+              >
+                Captcha
+              </label>
+              {/* <Captcha setSolved={setSolved}/> */}
+            </div>
+
             <div className="mb-6">
               <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
                 <input
