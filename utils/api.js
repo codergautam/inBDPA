@@ -10,6 +10,7 @@ const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 const MONGO_URI = process.env.MONGO_URI;
 
 
+
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -35,6 +36,7 @@ const profileSchema = new Schema({
   connections: [String],
   pfp: String,
 });
+
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 // addUserNameToSchema()
 async function createNewProfile({ user_id, username, link }) {
@@ -53,6 +55,10 @@ async function createNewProfile({ user_id, username, link }) {
   } catch (error) {
    return false;
   }
+}
+
+export async function findProfile(username) {
+  return await Profile.findOne({username: username})
 }
 
 export async function getUserFromProfileId(profileId) {
@@ -308,6 +314,10 @@ export async function updateUser(userId, updates) {
 
 export async function incrementUserViews(userId) {
   return updateUser(userId, { views: "increment" });
+}
+
+export async function incrementOpportunityViews(opportunityId) {
+  return updateOpportunity(opportunityId, { views: "increment" });
 }
 
 export async function deleteUser(userId) {

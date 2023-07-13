@@ -4,10 +4,9 @@ import UserStats from '@/components/UserStats';
 
 
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
-import UserInfo from '@/components/UserInfo';
 import { getOpportunities } from '@/utils/api';
 import Modal from 'react-modal';
 import "@uiw/react-md-editor/markdown-editor.css";
@@ -15,6 +14,8 @@ import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
 import Opportunity from '@/components/Opportunity';
 import { useRouter } from 'next/router';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenNib, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor"),
@@ -29,7 +30,9 @@ export default function Page({ user, opportunities }) {
   const [selectedOpportunity, setSelectedOpportunity] = useState(null);
   const [title, setTitle] = useState("")
   const [creatingOpportunity, setCreatingOpportunity] = useState(false);
+  const [editingOpportunity, setEditingOpportunity] = useState(null)
   const [value, setValue] = useState("");
+  console.log(`User Id: `, user)
 
 
   const makeNewOpportunity = async () => {
@@ -51,8 +54,53 @@ export default function Page({ user, opportunities }) {
       alert("Failed to create a new opportunity...")
       setCreatingOpportunity(false)
       setValue("")
+      setTitle("")
       // setSelectedOpportunity(null)
     }
+  }
+
+  const deleteOpportunity = async (opportunity_id) => {
+    let data = await fetch("/api/opportunities/deleteOpportunity", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        opportunity_id
+      })
+    }).then(res => res.json());
+    if(data.success) {
+      router.reload()
+      return
+    } else {
+      alert("Failed to delete opportunity...")
+    }
+  }
+
+  const editOpportunity = async () => {
+    let data = await fetch("/api/opportunities/editOpportunity", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        opportunity_id: editingOpportunity.opportunity_id,
+        title: title,
+        contents: value
+      })
+    }).then(res => res.json())
+    if(data.success) {
+      alert("Successfully edited opportunity!")
+      router.reload()
+      return
+    } else {
+      alert("Failed to edit this opportunity...")
+      setValue("")
+      setEditingOpportunity(null)
+      setTitle("")
+      // setSelectedOpportunity(null)
+    }
+    console.log("Editing: " + opportunity_id)
   }
 
   return (
@@ -66,7 +114,7 @@ export default function Page({ user, opportunities }) {
       </div>
 
       <main className="flex flex-col md:flex-row gap-2 px-4">
-        <div className="mx-auto w-1/2">
+        <div className="mx-auto w-1/2 mt-8">
           <h2 className="text-7xl font-bold mb-4">Opportunities:</h2>
           {user.type == "staff" || user.type == "administrator" ? 
           <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out" onClick={() => setCreatingOpportunity(true)}>Create Opportunity</button>
@@ -83,9 +131,37 @@ export default function Page({ user, opportunities }) {
               <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"}/>
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" onClick={makeNewOpportunity}>Create Opportunity</button>
             </Modal>
-            <div className="mr-auto space-y-2 w-1/2">
-            {opportunities.map((opportunity) => (
-              <Opportunity key={opportunity.opportunity_id} opportunity={opportunity} selected={selectedOpportunity} />
+            
+          <Modal
+            isOpen={editingOpportunity}
+            contentLabel="Create Opportunity"
+          >
+            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setEditingOpportunity(false)}>Close</button>
+              <div className='flex flex-col mt-8'>
+                <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
+                <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
+              </div>
+              <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"}/>
+              <button className="bg-amber-500 hover:bg-orange-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-2" onClick={editOpportunity}>Complete Edits</button>
+            </Modal>
+            <div className="mr-auto space-y-1 w-1/2 pb-32 pt-4">
+            {opportunities.map((opportunity, i) => (
+              <div className="flex flex-col">
+              <Opportunity i={i} key={opportunity.opportunity_id} opportunity={opportunity} selected={selectedOpportunity} />
+              {user.id == opportunity.creator_id ? <div className='flex space-x-2 mt-2'>
+                  <span onClick={()=>deleteOpportunity(opportunity.opportunity_id)} className="cursor-pointer rounded flex bg-red-500 hover:bg-rose-500 p-1 transition duration-300 ease-in-out">
+                      Delete <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faTrash} />
+                  </span>
+                  <span onClick={()=>{
+                    setEditingOpportunity(opportunity)
+                    setTitle(opportunity.title)
+                    setValue(opportunity.contents)
+                  }} className="cursor-pointer rounded flex bg-orange-400 hover:bg-amber-500 p-1 transition duration-300 ease-in-out">
+                      Edit <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faPenNib} />
+                  </span>
+              </div>
+               : <></>}
+               </div>
             ))}
             </div>
         </div>
@@ -133,6 +209,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 
   let opportunities = (await getOpportunities()).opportunities;
   opportunities = opportunities.sort((a,b) => -(a.createdAt - b.createdAt)) //Arrange so that the most recent are first
+  // console.log("Opportunities (1-3): ", opportunities.slice(0,3))
   return {
     props: { user: req.session.user ?? null, opportunities },
   };

@@ -19,15 +19,13 @@ export default function UserCreation(){
     const [status, setStatus] = useState(false);
     const [error, setError] = useState(false);
 
-    let creationRef = useRef();
-
-    useEffect(()=> {
-        return () => clearTimeout(creationRef.current)
-    })
+    let timeout;
 
     const handleSubmit = async () => {
         setShowingForm(false)
-        clearTimeout(creationRef.current)
+        setShowStatus(true)
+        clearTimeout(timeout)
+        setError(false)
         setStatus("...")
         let obj = {
             username,
@@ -52,20 +50,26 @@ export default function UserCreation(){
         setPassword("");
         setType(types[0]);
         setEmail("");
-        setShowStatus(true)
         if(res.success) {
             setError(false)
             setStatus(`Successfully created user. Username: ${obj.username}, Email: ${obj.email}, Password: ${obj.password}, Type: ${obj.type}`);
-
+            timeout = setTimeout(()=>{
+                console.log("TImed out")
+                setShowStatus(false);
+                setError(false);
+                setStatus("")
+            }, 2000)
         } else {
+            console.log("Can you see this erro")
             setStatus(`Error: ${res.error}`)
             setError(true);
+            timeout = setTimeout(()=>{
+                console.log("TImed out")
+                setShowStatus(false);
+                setError(false);
+                setStatus("")
+            }, 2000)
         }
-        creationRef.current = setTimeout(()=>{
-            setShowStatus(false);
-            setError(false);
-            setStatus("")
-        }, 5000)
     }
 
     return (<>

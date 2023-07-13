@@ -1,9 +1,6 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
-import { getUser } from "@/utils/api";
-import mongoose from "mongoose";
-
-const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
+import { findProfile, getUser } from "@/utils/api";
 
 export default withIronSessionApiRoute(handler, ironOptions)
 
@@ -12,7 +9,7 @@ async function handler(req, res) {
     if(!username) {
         res.json({success: false, error: "Didn't provide a username or emial"})
     }
-    let newProf = await Profile.findOne({username: username})
+    let newProf = await findProfile(username)
     console.log("Profile:", newProf)
     if(newProf) {
         console.log("Sending req")
