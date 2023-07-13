@@ -107,7 +107,7 @@ export async function changeProfileLink(user_id, newLink) {
 
 
 // Define the sendRequest function to make API requests
-let simulateError = true;
+let simulateError = false;
 async function sendRequest(url, method, body = null) {
   // Define the common headers for all requests
   let headers = {
