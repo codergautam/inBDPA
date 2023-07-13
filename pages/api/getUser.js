@@ -9,7 +9,7 @@ async function handler(req, res) {
     if(!username) {
         res.json({success: false, error: "Didn't provide a username or emial"})
     }
-    let newProf = findProfile(username)
+    let newProf = await findProfile(username)
     console.log("Profile:", newProf)
     if(newProf) {
         console.log("Sending req")
