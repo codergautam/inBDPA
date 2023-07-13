@@ -9,3 +9,13 @@ export const ironOptions = {
     secure: false,
   },
 };
+
+
+export const getIronOptions = (rememberMe) => ({
+  cookieName: cookieName,
+  password: cookiePassword,
+  cookieOptions: {
+    secure: false, // Use true in production for HTTPS
+    maxAge: rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 12, // Remember for 30 days if rememberMe is true, otherwise remember for 12 hours
+  },
+});
