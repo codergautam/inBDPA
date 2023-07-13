@@ -2,12 +2,37 @@
 import Navbar from "@/components/navbar";
 import { ironOptions } from "@/utils/ironConfig";
 import { withIronSessionSsr } from "iron-session/next";
+import React, { useState, useEffect } from "react";
 import Head from "next/head";
+import Image from "next/image";
 import Link from "next/link";
 
 export default function Home(props) {
   const user = props?.user;
   console.log(user);
+  const [showImage, setShowImage] = useState(true);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTarget = document.getElementById("scrollTarget");
+      if (scrollTarget) {
+        const scrollPosition = window.scrollY + window.innerHeight;
+        const targetPosition =
+          scrollTarget.offsetTop + scrollTarget.offsetHeight;
+
+        if (scrollPosition >= targetPosition) {
+          setShowImage(false);
+        } else {
+          setShowImage(true);
+        }
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
   return (
     <div className="flex flex-col">
       <Head>
@@ -76,6 +101,17 @@ export default function Home(props) {
               </Link>
             </div>
           )}
+          {showImage && (
+            <div className="w-full flex fixed bottom-0 lg:inset-x-0 justify-center">
+              <img
+                src="https://cdn.icon-icons.com/icons2/2752/PNG/512/arrow_bottom_chevron_icon_176226.png"
+                width={50}
+                height={50}
+                alt="scroll down"
+                className="animate-bounce bg-black w-20 rounded-full"
+              />
+            </div>
+          )}
         </div>
 
         <div className="container">
@@ -83,7 +119,7 @@ export default function Home(props) {
           <div className="my-16 sm:my-20">
             <div className="flex flex-col lg:flex-row items-center justify-center">
               <div className="text-center">
-                <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600">
+                <h2 className="text-center text-2xl sm:text-3xl font-bold mb-4 text-blue-600" id="scrollTarget">
                   Networking Opportunities
                 </h2>
                 <p className="text-center text-md sm:text-lg w-fit mb-8">
