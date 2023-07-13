@@ -68,11 +68,16 @@ export default function Signup() {
             </h1>
 
             <div className="mb-4">
+<<<<<<< Updated upstream
               <label
                 className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
                 htmlFor="name"
               >
                 Name
+=======
+              <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2" htmlFor="name">
+                Username
+>>>>>>> Stashed changes
               </label>
               <input
                 className="appearance-none rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"

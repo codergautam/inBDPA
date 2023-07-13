@@ -22,7 +22,13 @@ export default function Signup() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       
-
+      <div class="alert bg-green-500">
+      
+      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+       An email has been sent to you with a link to reset your password.   
+            <a href="http://localhost:3000/forgotpassword2?email=email" className='text-blue-500'>Reset Password</a>
+       <br />
+    </div>
 
 
       <main className="flex items-center justify-center w-full flex-1 px-20 text-center">
@@ -84,10 +90,11 @@ export default function Signup() {
                 type="submit"
               >
                
-                <a href="http://localhost:3000/forgotpassword3?email=email">Send</a>
+                <a href="http://localhost:3000/forgotpassword?email=email">Send</a>
               </button>
             </div>
-          
+           
+             
           </form>
        
         </div>
