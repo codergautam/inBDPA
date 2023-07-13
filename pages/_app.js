@@ -61,7 +61,7 @@ const sessionIdRef = useRef(null);
 
 const handleRouteChangeStart = async (url, first=false) => {
   console.log("Going to end session", sessionIdRef.current);
-  if(!url || !parseUrl(url)) return;
+  if(!typeof url || !parseUrl(url)) return;
 
   //Dont change if going to same page
   if(url == prevPath) return;
@@ -98,7 +98,7 @@ const handleRouteChangeStart = async (url, first=false) => {
 
   const renewSession = async () => {
     if(!sessionIdRef.current) return;
-  if(!url || !parseUrl(url)) return;
+  if(!typeof url || !parseUrl(url)) return;
 
 
     fetch('/api/renewSession', {
