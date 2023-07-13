@@ -107,7 +107,7 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
       method: "POST",
       headers: {
         "Content-Type": "application/json"
-      }, 
+      },
       body: JSON.stringify({
         opportunity_id: lastOpp
       })
@@ -134,7 +134,7 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
       <main className="flex flex-col md:flex-row gap-2 px-4">
         <div className="mx-auto w-1/2 mt-8 mb-8">
           <h2 className="text-7xl font-bold mb-4">Opportunities:</h2>
-          {user.type == "staff" || user.type == "administrator" ? 
+          {user.type == "staff" || user.type == "administrator" ?
           <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out" onClick={() => setCreatingOpportunity(true)}>Create Opportunity</button>
           : <></>}
           <Modal
@@ -149,7 +149,7 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
               <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"}/>
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" onClick={makeNewOpportunity}>Create Opportunity</button>
             </Modal>
-            
+
           <Modal
             isOpen={editingOpportunity}
             contentLabel="Create Opportunity"
@@ -164,8 +164,8 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
             </Modal>
             <div className="mr-auto space-y-8 w-1/2 pt-4">
             {opps.map((opportunity, i) => (
-              <div className="flex flex-col">
-              <Opportunity i={i} key={opportunity.opportunity_id} opportunity={opportunity} selected={selectedOpportunity} />
+              <div className="flex flex-col" key={opportunity.opportunity_id}>
+              <Opportunity i={i}  opportunity={opportunity} selected={selectedOpportunity} />
               {user.id == opportunity.creator_id ? <div className='flex space-x-2 mt-2'>
                   <span onClick={()=>deleteOpportunity(opportunity.opportunity_id)} className="cursor-pointer rounded flex bg-red-500 hover:bg-rose-500 p-1 transition duration-300 ease-in-out">
                       Delete <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faTrash} />
