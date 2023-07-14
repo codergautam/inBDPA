@@ -27,14 +27,14 @@ export default function Navbar({ user }) {
         <Link href="/">
           <img
             className="w-36 self-center dark:hidden inline transition duration-300 transform hover:scale-110"
-            src="https://i.imgur.com/uWlkxIt.png"
+            src="https://cdn.discordapp.com/attachments/1121115967120998540/1129195814447759410/Screenshot_2023-07-13_at_6.34.43_PM-PhotoRoom.png-PhotoRoom.png"
             alt="BDPA logo"
           />
         </Link>
         <Link href="/">
           <img
-            className="w-36 self-center hidden dark:inline transition duration-300 transform hover:scale-110"
-            src="https://i.imgur.com/GOmYSIZ.png"
+            className="w-36 pt-0 relative self-center hidden dark:inline transition duration-300 transform hover:scale-110"
+            src="https://cdn.discordapp.com/attachments/1121115967120998540/1129197625619513414/Screenshot_2023-07-13_at_6.28.43_PM-PhotoRoom.png-PhotoRoom.png"
             alt="BDPA logo"
           />
         </Link>
@@ -59,7 +59,7 @@ export default function Navbar({ user }) {
           <>
             <Link
               href={`/admin/${user.link}`}
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200 hover:text-white transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200 hover:font-bold transition duration-300 ease-in-out"
             >
               Admin
             </Link>
@@ -69,19 +69,19 @@ export default function Navbar({ user }) {
           <>
             <Link
               href="/"
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200 hover:text-white transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200 hover:font-bold transition duration-300 ease-in-out"
             >
               Home
             </Link>
             <Link
               href="../opportunities"
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200 hover:text-white transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium dark:text-gray-200 hover:font-bold transition duration-300 ease-in-out"
             >
               Opportunities
             </Link>
             <Link
               href="../api/auth/logout"
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium hover:text-white transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium hover:font-bold transition duration-300 ease-in-out"
             >
               Logout
             </Link>
@@ -90,14 +90,14 @@ export default function Navbar({ user }) {
           <>
             <Link
               href="../auth/login"
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium hover:text-white transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium hover:font-bold transition duration-300 ease-in-out"
             >
               Login
             </Link>
 
             <Link
               href="../auth/signup"
-              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium hover:text-white transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-sm md:text-lg font-medium hover:font-bold transition duration-300 ease-in-out"
             >
               Sign up
             </Link>

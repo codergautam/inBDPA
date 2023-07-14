@@ -5,8 +5,9 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import Navbar from "@/components/navbar";
 import ErrorComponent from "./ErrorComponent";
-import Captcha from "../captchatry2";
 import { useState } from "react";
+// const Captcha = dynamic(() => import('../captchatry2'), { ssr: false })
+import Captcha from "@/components/Captcha"
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -35,6 +36,11 @@ export default function Signup() {
             onSubmit={(event) => {
               event.preventDefault();
               setBtnText("Signing up...");
+              if(!captchaSolved) {
+                setError("Please solve the captcha.");
+                setBtnText("Sign Up");
+                return;
+              }
               fetch("/api/auth/signup", {
                 method: "POST",
                 headers: {
@@ -102,7 +108,7 @@ export default function Signup() {
                 onChange={(event) => setEmail(event.target.value)}
               />
             </div>
-            <div className="mb-6">
+            <div className="mb-2">
               <label
                 className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
                 htmlFor="password"
@@ -125,7 +131,7 @@ export default function Signup() {
               >
                 Captcha
               </label>
-              {/* <Captcha setSolved={setSolved}/> */}
+              <Captcha setSolved={setSolved}/>
             </div>
 
             <div className="mb-6">

@@ -162,8 +162,8 @@ export default function Opportunity({user, opportunity, activeSessions}) {
                     {opportunity.title}
                 </p>
                 <p className="flex text-white text-lg w-min min-w-max mx-auto mt-2 space-x-2">
-                    <div><span className="text-gray-600">Views: </span> {views}</div>
-                    <div><span className="text-gray-600">Active Viewers: </span> {active}</div>
+                  <span><span className="text-gray-600">Views: </span> {views}</span>
+                  <span><span className="text-gray-600">Active Viewers: </span> {active}</span>
                 </p>
                 {opportunity.creator_id == user.id ? <>
                 <div className='flex space-x-2 mt-2 mx-auto w-min min-w-max'>
@@ -180,8 +180,8 @@ export default function Opportunity({user, opportunity, activeSessions}) {
                 </div>
                 </> : <></>}
                 <p className="text-gray-600 font-bold text-xl text-center mt-4">Contents:</p>
-                <p className="text-lg text-center text-white">{parsedContent}</p>
-
+                <div dangerouslySetInnerHTML={{__html: marked(opportunity.contents)}} className="text-lg text-center text-white">
+                </div>
             </main>
             )}
         </>
@@ -216,6 +216,6 @@ export const getServerSideProps = withIronSessionSsr(async ({
     console.log(`Opportunities ID: ${params.id}`)
     // const window = new JSDOM('').window
     // const DOMPurify = createDOMPurify(window)
-    // opportunity.contents = DOMPurify.sanitize(marked(opportunity.contents))
+    // opportunity.contents = marked(opportunity.contents)
     return { props: { user: req.session.user ?? null, opportunity: opportunity ?? null, activeSessions: active ?? 0}}
 }, ironOptions)
