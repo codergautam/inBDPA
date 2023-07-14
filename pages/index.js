@@ -436,12 +436,12 @@ export default function Home(props) {
           </div> */}
           <hr className="h-px bg-black border-0 dark:bg-gray-900 overflow" />
           <div className="items-center justify-center my-20">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-blue-600">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-12 text-blue-600">
               Join your friends, classmates, co-workers, and publish yourself.
             </h2>
             <Link
               href="/"
-              className="border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+              className="text-xl border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-6 py-4"
             >
               Join Now!
             </Link>
