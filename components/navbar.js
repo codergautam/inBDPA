@@ -87,7 +87,7 @@ export default function Navbar({ user }) {
             </Link>
             <Link
                 href={`/profile/${user.link}`}
-                className=" place-content-center self-center text-gray-200 bg-gray-700 hover:text-black hover:bg-gray-300 dark:text-black dark:bg-gray-200 dark:hover:text-white dark:hover:bg-gray-600 transition duration-300 ease-in-out rounded px-4 py-2 mt-2"
+                className="self-center my-2 font-medium text-gray-200 bg-gray-700 hover:text-black hover:bg-gray-300 dark:text-black dark:bg-gray-200 dark:hover:text-white dark:hover:bg-gray-600 transition duration-300 ease-in-out rounded-full px-4 py-2 mt-2"
               >
                 Profile
               </Link>
