@@ -12,7 +12,7 @@ export default function Captcha({ setSolved }) {
 
   function createCaptcha() {
     var charsArray =
-      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*';
+      'abcdeghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var lengthOtp = 6;
     var captcha = [];
     for (var i = 0; i < lengthOtp; i++) {
