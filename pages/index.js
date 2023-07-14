@@ -69,7 +69,7 @@ export default function Home(props) {
           </p>
           {user ? (
             <>
-              <p className="mt-3 text-2xl">
+              <p className="my-2 text-2xl">
                 Welcome back, <b className="text-blue-600">{user.username}!</b>
               </p>
               <Link
