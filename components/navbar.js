@@ -22,7 +22,7 @@ export default function Navbar({ user }) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between w-full border-b-2 dark:bg-gray-800 border-black dark:border-gray-600 p-3 md:p-4 lg:py-6 text-center">
+    <div className="flex flex-col sm:flex-row items-center justify-between w-full border-b-2 dark:bg-gray-800 border-black dark:border-gray-600 p-3 md:p-4 lg:py-5 text-center">
       <div className="h-min">
         <Link href="/">
           <img
@@ -69,7 +69,7 @@ export default function Navbar({ user }) {
           <>
             <Link
               href="/"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 boldease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
             >
               Home
             </Link>
