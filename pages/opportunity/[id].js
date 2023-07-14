@@ -12,6 +12,7 @@ import Modal from 'react-modal';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import dynamic from "next/dynamic";
+import Link from "next/link"
 
 const MDEditor = dynamic(
     () => import("@uiw/react-md-editor"),
@@ -59,7 +60,7 @@ const deleteOpportunity = async (opportunity_id) => {
 export default function Opportunity({user, opportunity, activeSessions}) {
     const router = useRouter()
 
-    const [views, setViews] = useState(opportunity.views)
+    const [views, setViews] = useState(opportunity?.views)
     const [active, setActive] = useState(activeSessions)
     const [editingOpportunity, setEditingOpportunity] = useState(null)
     const [value, setValue] = useState("");

@@ -28,7 +28,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({req, res, 
   };
 }, ironOptions);
 
-export default function Page({user}){ 
+export default function Page({user}){
   console.log("User:")
   console.log(user)
 
@@ -48,7 +48,7 @@ export default function Page({user}){
   //   console.log("Success!")
   //   info = data.info;
   // }
-  
+
   const handleSubmit = () => {
 
   }
@@ -58,7 +58,7 @@ export default function Page({user}){
     info.sessions++;
   }
   return (
-        <div className="flex flex-col h-screen dark:bg-black">
+        <div className="flex flex-col">
         <Head>
           <title>inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
