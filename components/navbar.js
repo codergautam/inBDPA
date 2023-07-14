@@ -69,19 +69,19 @@ export default function Navbar({ user }) {
           <>
             <Link
               href="/"
-              className="px-2 py-1 text-xs sm:text-lg font-medium dark:text-gray-200 hover:font-bold transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
             >
               Home
             </Link>
             <Link
               href="../opportunities"
-              className="px-2 py-1 text-xs sm:text-lg font-medium dark:text-gray-200 hover:font-bold transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
             >
               Opportunities
             </Link>
             <Link
               href="../api/auth/logout"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:font-bold transition duration-300 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
             >
               Logout
             </Link>
