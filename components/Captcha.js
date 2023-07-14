@@ -51,7 +51,7 @@ export default function Captcha({ setSolved }) {
 
   return (
     <div className="captcha flex justify-center items-center flex-col space-y-4">
-      <canvas id="captchaCanvas" width="100" height="35"></canvas>
+      <canvas className='px-2 py-1 rounded bg-white' id="captchaCanvas" width="100" height="35"></canvas>
       {!solved && (
         <div className="flex justify-center items-center space-x-2">
           <input
