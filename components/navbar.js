@@ -22,7 +22,7 @@ export default function Navbar({ user }) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between w-full border-b-2 dark:bg-gray-800 border-black dark:border-gray-600 p-3 md:p-4 lg:py-5 text-center">
+    <div className="flex flex-col sm:flex-row items-center justify-between w-full bg-white border-b-2 dark:bg-gray-800 border-black dark:border-gray-600 p-3 md:p-4 lg:py-5 text-center">
       <div className="h-min">
         <Link href="/">
           <img
