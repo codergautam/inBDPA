@@ -65,6 +65,8 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     const [editingOpportunity, setEditingOpportunity] = useState(null)
     const [value, setValue] = useState("");
     const [title, setTitle] = useState("")
+    const [parsedContent, setParsedContent] = useState("");
+
 
     let refreshRef = useRef()
 
@@ -78,6 +80,12 @@ export default function Opportunity({user, opportunity, activeSessions}) {
         }, 5000)
         return () => clearInterval(refreshRef.current)
     }, [])
+
+    useEffect(() => {
+      const parsed = marked(opportunity.contents);
+      setParsedContent(parsed);
+    }, [opportunity.contents]);
+
 
     const deleteOpportunity = async (opportunity_id) => {
       let data = await fetch("/api/opportunities/deleteOpportunity", {

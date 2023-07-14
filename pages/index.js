@@ -46,44 +46,38 @@ export default function Home(props) {
       <main className="flex flex-col items-center justify-center w-7/8 px-4 md:px-0 flex-1 md:w-5/6 3xl:w-2/3 mx-auto text-center">
         {/* Welcome section */}
         <div className="flex flex-col items-center justify-center h-screen">
-          <h1 className="text-4xl sm:text-6xl font-bold flex items-center">
+          <h1 className="text-4xl sm:text-6xl font-bold items-center">
             <span>Welcome to </span>
               <Link href="/">
                 <img
-                  className="w-28 sm:w-36 self-center dark:hidden inline"
+                  className="w-28 sm:w-48 self-center dark:hidden inline"
                   src="https://cdn.discordapp.com/attachments/1121115967120998540/1129195814447759410/Screenshot_2023-07-13_at_6.34.43_PM-PhotoRoom.png-PhotoRoom.png"
                   alt="BDPA logo"
                 />
               </Link>
               <Link href="/">
                 <img
-                  className="w-28 sm:w-36 self-center hidden dark:inline"
-                  src="https://cdn.discordapp.com/attachments/1121115967120998540/1129197625619513414/Screenshot_2023-07-13_at_6.28.43_PM-PhotoRoom.png-PhotoRoom.png"
+                  className="w-28 sm:w-48 self-center hidden dark:inline"
+                  src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
                   alt="BDPA logo"
                 />
               </Link>
           </h1>
 
-          <p className="mt-3 text-xl md:text-2xl">
+          <p className="mb-3 text-xl italic text-blue-600 md:text-2xl">
             The professional network for the digital age.
           </p>
           {user ? (
             <>
-              <p className="mt-3 text-2xl">
-                Welcome back, <b className="text-blue-600">{user.username}!</b>
+              <p className="my-2 text-2xl">
+                Welcome back, <b className="underline">{user.username}!</b>
               </p>
-              <Link
-                href={`/profile/${user.link}`}
-                className="text-white bg-blue-600 hover:bg-slate-800 transition duration-300 ease-in-out rounded px-4 py-2 mt-2"
-              >
-                Profile
-              </Link>
             </>
           ) : (
-            <div className="flex flex-wrap items-center justify-center max-w-4xl mt-6 sm:w-full md:w-full sm:space-x-0 md:space-x-0 lg:space-x-12">
+            <div className="flex flex-wrap items-center justify-center mt-6 sm:w-full md:w-full">
               <Link
                 href="/auth/signup"
-                className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
+                className="p-6 sm:mx-3 lg:mx-0 lg:mr-4 mt-6 text-left border w-full sm:w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
               >
                 <h3 className="text-2xl font-bold">Sign up &rarr;</h3>
                 <p className="mt-4 text-xl">
@@ -93,7 +87,7 @@ export default function Home(props) {
 
               <Link
                 href="/auth/login"
-                className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
+                className="p-6 sm:mx-3 lg:mx-0 lg:ml-4 mt-6 text-left border w-full sm:w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
               >
                 <h3 className="text-2xl font-bold">Log in &rarr;</h3>
                 <p className="mt-4 text-xl">
@@ -436,12 +430,12 @@ export default function Home(props) {
           </div> */}
           <hr className="h-px bg-black border-0 dark:bg-gray-900 overflow" />
           <div className="items-center justify-center my-20">
-            <h2 className="text-3xl sm:text-4xl font-bold mb-12 text-blue-600">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-12 text-blue-600">
               Join your friends, classmates, co-workers, and publish yourself.
             </h2>
             <Link
               href="/"
-              className="border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+              className="text-xl border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-6 py-4"
             >
               Join Now!
             </Link>
