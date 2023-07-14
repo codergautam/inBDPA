@@ -80,10 +80,10 @@ export default function Home(props) {
               </Link>
             </>
           ) : (
-            <div className="flex flex-wrap items-center justify-center max-w-4xl mt-6 sm:w-full md:w-full sm:space-x-0 md:space-x-0 lg:space-x-12">
+            <div className="flex flex-wrap items-center justify-center mt-6 sm:w-full md:w-full">
               <Link
                 href="/auth/signup"
-                className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
+                className="p-6 sm:mx-3 lg:mx-0 lg:mr-4 mt-6 text-left border w-full sm:w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
               >
                 <h3 className="text-2xl font-bold">Sign up &rarr;</h3>
                 <p className="mt-4 text-xl">
@@ -93,7 +93,7 @@ export default function Home(props) {
 
               <Link
                 href="/auth/login"
-                className="p-6 mt-6 text-left border w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
+                className="p-6 sm:mx-3 lg:mx-0 lg:ml-4 mt-6 text-left border w-full sm:w-96 rounded-xl hover:text-blue-600 focus:text-blue-600 border-black dark:border-white"
               >
                 <h3 className="text-2xl font-bold">Log in &rarr;</h3>
                 <p className="mt-4 text-xl">
