@@ -64,20 +64,14 @@ export default function Home(props) {
               </Link>
           </h1>
 
-          <p className="mt-3 text-xl md:text-2xl">
+          <p className="mb-3 text-xl italic text-blue-600 md:text-2xl">
             The professional network for the digital age.
           </p>
           {user ? (
             <>
               <p className="my-2 text-2xl">
-                Welcome back, <b className="text-blue-600">{user.username}!</b>
+                Welcome back, <b className="underline">{user.username}!</b>
               </p>
-              <Link
-                href={`/profile/${user.link}`}
-                className="text-white bg-blue-600 hover:bg-slate-800 transition duration-300 ease-in-out rounded px-4 py-2 mt-2"
-              >
-                Profile
-              </Link>
             </>
           ) : (
             <div className="flex flex-wrap items-center justify-center mt-6 sm:w-full md:w-full">
