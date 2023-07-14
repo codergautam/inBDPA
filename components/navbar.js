@@ -34,7 +34,7 @@ export default function Navbar({ user }) {
         <Link href="/">
           <img
             className="w-36 pt-0 relative self-center hidden dark:inline transition duration-300 transform hover:scale-110"
-            src="https://cdn.discordapp.com/attachments/1121115967120998540/1129197625619513414/Screenshot_2023-07-13_at_6.28.43_PM-PhotoRoom.png-PhotoRoom.png"
+            src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
             alt="BDPA logo"
           />
         </Link>
