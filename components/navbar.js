@@ -22,7 +22,7 @@ export default function Navbar({ user }) {
   };
 
   return (
-    <div className="flex flex-col sm:flex-row items-center justify-between w-full bg-white border-b-2 dark:bg-gray-800 border-black dark:border-gray-600 p-3 md:p-4 lg:py-5 text-center">
+    <div className="flex flex-col sm:flex-row items-center justify-between w-full bg-slate-100 dark:bg-gray-900 p-3 md:p-4 lg:py-5 text-center">
       <div className="h-min">
         <Link href="/">
           <img
@@ -86,14 +86,20 @@ export default function Navbar({ user }) {
               Logout
             </Link>
             <Link
-                href={`/profile/${user.link}`}
-                className="font-medium text-gray-200 bg-gray-700 hover:text-black hover:bg-gray-300 dark:text-black dark:bg-gray-200 dark:hover:text-white dark:hover:bg-gray-600 transition duration-300 ease-in-out rounded-full px-4 py-2 ml-2"
-              >
-                Profile
-              </Link>
+              href={`/profile/${user.link}`}
+              className="font-medium text-gray-200 bg-gray-700 hover:text-black hover:bg-gray-300 dark:text-black dark:bg-gray-200 dark:hover:text-white dark:hover:bg-gray-600 transition duration-300 ease-in-out rounded-full px-4 py-2 ml-2"
+            >
+              Profile
+            </Link>
           </>
         ) : (
           <>
+            <Link
+              href="/"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
+            >
+              Home
+            </Link>
             <Link
               href="../auth/login"
               className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"

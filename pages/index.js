@@ -34,7 +34,7 @@ export default function Home(props) {
     };
   }, []);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-white dark:bg-black">
       <Head>
         <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
@@ -64,12 +64,12 @@ export default function Home(props) {
               </Link>
           </h1>
 
-          <p className="mb-3 text-xl italic text-blue-600 md:text-2xl">
+          <p className="my-2 text-xl italic text-blue-600 md:text-2xl">
             The professional network for the digital age.
           </p>
           {user ? (
             <>
-              <p className="my-2 text-2xl">
+              <p className="my-2 text-2xl text-black dark:text-white">
                 Welcome back, <b className="underline">{user.username}!</b>
               </p>
             </>
@@ -130,7 +130,7 @@ export default function Home(props) {
                 </p>
                 <Link
                   href="/"
-                  className="border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  className="border-gray-400 text-slate-950 dark:border-white border dark:text-white hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
                   Connect now!
                 </Link>
@@ -249,7 +249,7 @@ export default function Home(props) {
                 </p>
                 <Link
                   href="/"
-                  className="hidden lg:inline border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  className="hidden lg:inline border-gray-400 text-slate-950 dark:border-white dark:text-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
                   Try it out
                 </Link>
@@ -261,7 +261,7 @@ export default function Home(props) {
               />
               <Link
                 href="/"
-                className="lg:hidden border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                className="lg:hidden border-gray-400 text-slate-950 dark:border-white border dark:text-white dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
               >
                 Try it out
               </Link>
@@ -435,7 +435,7 @@ export default function Home(props) {
             </h2>
             <Link
               href="/"
-              className="text-xl border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-6 py-4"
+              className="text-xl border-gray-800 dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-6 py-4"
             >
               Join Now!
             </Link>
