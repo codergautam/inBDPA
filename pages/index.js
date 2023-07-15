@@ -34,7 +34,7 @@ export default function Home(props) {
     };
   }, []);
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-white dark:bg-black">
       <Head>
         <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
@@ -48,28 +48,28 @@ export default function Home(props) {
         <div className="flex flex-col items-center justify-center h-screen">
           <h1 className="text-4xl sm:text-6xl font-bold items-center">
             <span>Welcome to </span>
-              <Link href="/">
-                <img
-                  className="w-28 sm:w-48 self-center dark:hidden inline"
-                  src="https://cdn.discordapp.com/attachments/1121115967120998540/1129195814447759410/Screenshot_2023-07-13_at_6.34.43_PM-PhotoRoom.png-PhotoRoom.png"
-                  alt="BDPA logo"
-                />
-              </Link>
-              <Link href="/">
-                <img
-                  className="w-28 sm:w-48 self-center hidden dark:inline"
-                  src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
-                  alt="BDPA logo"
-                />
-              </Link>
+            <Link href="/">
+              <img
+                className="w-28 sm:w-48 self-center dark:hidden inline"
+                src="https://cdn.discordapp.com/attachments/1121115967120998540/1129195814447759410/Screenshot_2023-07-13_at_6.34.43_PM-PhotoRoom.png-PhotoRoom.png"
+                alt="BDPA logo"
+              />
+            </Link>
+            <Link href="/">
+              <img
+                className="w-28 sm:w-48 self-center hidden dark:inline"
+                src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
+                alt="BDPA logo"
+              />
+            </Link>
           </h1>
 
-          <p className="mb-3 text-xl italic text-blue-600 md:text-2xl">
+          <p className="my-2 text-xl italic text-blue-600 md:text-2xl">
             The professional network for the digital age.
           </p>
           {user ? (
             <>
-              <p className="my-2 text-2xl">
+              <p className="my-2 text-2xl text-black dark:text-white">
                 Welcome back, <b className="underline">{user.username}!</b>
               </p>
             </>
@@ -129,8 +129,8 @@ export default function Home(props) {
                   our community.
                 </p>
                 <Link
-                  href="/"
-                  className="border-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  href="/opportunities"
+                  className="border-gray-400 text-slate-950 dark:border-white border dark:text-white hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
                   Connect now!
                 </Link>
@@ -208,7 +208,7 @@ export default function Home(props) {
                   Intel
                 </Link>
                 <Link
-                  href="/"
+                  href="/opportunities"
                   className="border-blue-600 border-4 dark:border-white dark:hover:text-white dark:hover:border-blue-600 hover:text-black hover:border-black transition duration-100 ease-in-out px-4 py-3 rounded-full m-2 h-min"
                 >
                   More <b className="text-blue-600">v</b>
@@ -247,9 +247,10 @@ export default function Home(props) {
                   to present yourself professionally and make meaningful
                   connections within our community.
                 </p>
+
                 <Link
-                  href="/"
-                  className="hidden lg:inline border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  href={user ? `/profile/${user.link}` : `/profile`}
+                  className="hidden lg:inline border-gray-400 text-slate-950 dark:border-white dark:text-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
                   Try it out
                 </Link>
@@ -260,8 +261,8 @@ export default function Home(props) {
                 alt="User Profile"
               />
               <Link
-                href="/"
-                className="lg:hidden border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                href={user ? `/profile/${user.link}` : `/profile`}
+                className="lg:hidden border-gray-400 text-slate-950 dark:border-white border dark:text-white hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
               >
                 Try it out
               </Link>
@@ -435,7 +436,7 @@ export default function Home(props) {
             </h2>
             <Link
               href="/"
-              className="text-xl border-black dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-6 py-4"
+              className="text-xl border-gray-800 dark:border-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-6 py-4"
             >
               Join Now!
             </Link>
