@@ -12,7 +12,7 @@ export default function Captcha({ setSolved }) {
 
   function createCaptcha() {
     var charsArray =
-      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@!#$%^&*';
+      'abcdeghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
     var lengthOtp = 6;
     var captcha = [];
     for (var i = 0; i < lengthOtp; i++) {
@@ -51,7 +51,7 @@ export default function Captcha({ setSolved }) {
 
   return (
     <div className="captcha flex justify-center items-center flex-col space-y-4">
-      <canvas id="captchaCanvas" width="100" height="35"></canvas>
+      <canvas className='px-2 py-1 rounded bg-white' id="captchaCanvas" width="100" height="35"></canvas>
       {!solved && (
         <div className="flex justify-center items-center space-x-2">
           <input

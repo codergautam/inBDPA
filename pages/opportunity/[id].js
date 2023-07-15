@@ -180,7 +180,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
                 </div>
                 </> : <></>}
                 <p className="text-gray-600 font-bold text-xl text-center mt-4">Contents:</p>
-                <div dangerouslySetInnerHTML={{__html: marked(opportunity.contents)}} className="text-lg text-center text-white">
+                <div dangerouslySetInnerHTML={{__html: marked(opportunity.contents)}} className="text-lg text-center text-white w-3/5 mx-auto">
                 </div>
             </main>
             )}

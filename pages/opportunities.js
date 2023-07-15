@@ -4,7 +4,7 @@ import Navbar from '@/components/navbar';
 import { useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
-import { getInfo, getOpportunities } from '@/utils/api';
+import { getInfo, getOpportunities, getUser } from '@/utils/api';
 import Modal from 'react-modal';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -239,6 +239,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   console.log(`Last Opportunity ID: ${lastOppId}`)
   opportunities = opportunities.sort((a,b) => -(a.createdAt - b.createdAt)) //Arrange so that the most recent are first
   console.log(info)
+  let type = (await getUser(req.session.user.id)).user.type;
+  req.session.user.type = type;
   // console.log("Opportunities (1-3): ", opportunities.slice(0,3))
   return {
     props: { user: req.session.user ?? null, opportunities, remainingOpps: opportunityCount, lastOppId },
