@@ -444,7 +444,15 @@ export async function loginUser(username, password) {
 let user = await getUserByUsername(username);
 console.log(user, user.success);
   if(!user.success) {
-    return user;
+    user = await getUserFromEmail(username);
+    if(user.error) {
+      return { success: false, error: user.error.includes("No user found") ? "Could not find any user with that username or email" : user.error}
+    }
+    user = await getUser(user.user_id);
+    if(!user.success) {
+      return { success: false, error: user.error}
+    }
+    console.log("User: ", user);
   }
   const { salt } = user.user;
   const key = await deriveKeyFromPassword(password, convertHexToBuffer(salt));
