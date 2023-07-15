@@ -182,8 +182,6 @@ export default function Login() {
               <p className=" mb-1">
                 You are temporarily blocked.
                 <br /> Please try again after {timeRemaining}.<br />
-                Hint for judges: to reset the login attempts, clear your
-                cookies.
               </p>
               } />
             ) : (
