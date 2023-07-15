@@ -249,7 +249,7 @@ export default function Home(props) {
                 </p>
                 <Link
                   href="/"
-                  className="hidden lg:inline border-gray-400 text-slate-950 dark:border-white dark:text-white border dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                  className="hidden lg:inline border-gray-400 text-slate-950 dark:border-white dark:text-white border hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
                 >
                   Try it out
                 </Link>
@@ -261,7 +261,7 @@ export default function Home(props) {
               />
               <Link
                 href="/"
-                className="lg:hidden border-gray-400 text-slate-950 dark:border-white border dark:text-white dark:hover:text-blue-600 dark:hover:border-blue-600 hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
+                className="lg:hidden border-gray-400 text-slate-950 dark:border-white border dark:text-white hover:text-blue-600 hover:border-blue-600 transition duration-200 ease-in-out rounded px-4 py-3"
               >
                 Try it out
               </Link>
