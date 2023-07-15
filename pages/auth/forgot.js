@@ -1,6 +1,7 @@
 import { useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
+import Navbar from "@/components/navbar";
 import ErrorComponent from "./ErrorComponent";
 
 export default function ForgotPassword() {
@@ -41,7 +42,8 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white">
+      <Navbar />
       {error && <ErrorComponent error={error} />}
 
       <Head>

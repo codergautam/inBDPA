@@ -19,15 +19,14 @@ export default function Signup() {
   const [captchaSolved, setSolved] = useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white">
+        <Navbar />
       {error && <ErrorComponent error={error} />}
       <Head>
         <title>Sign Up | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-full">
-        <Navbar />
-      </div>
+
 
       <main className="flex items-center justify-center w-full flex-1 px-20 text-center">
         <div className="w-full max-w-md">
