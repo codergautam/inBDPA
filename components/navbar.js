@@ -45,11 +45,11 @@ export default function Navbar({ user }) {
           <>
             <button
               onClick={leaveImpersonation}
-              className="w-min min-w-max group flex text-sm font-medium text-gray-700 rounded dark:text-gray-200 hover:font-bold hover:text-white transition duration-300 ease-in-out"
+              className="w-min min-w-max group flex text-sm font-medium text-gray-700 rounded dark:text-white hover:font-bold hover:text-white transition duration-300 ease-in-out"
             >
               Leave Impersonation
               <FontAwesomeIcon
-                className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 dark:text-gray-200 ease-in-out w-5 h-5"
+                className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 dark:text-white ease-in-out w-5 h-5"
                 icon={faMask}
               />
             </button>
@@ -59,7 +59,7 @@ export default function Navbar({ user }) {
           <>
             <Link
               href={`/admin/${user.link}`}
-              className="border-1 border-red-400 px-2 py-1 text-xs sm:text-lg font-bold dark:text-blue-500 hover:text-white transition duration-400 ease-in-out"
+              className="border-1 border-red-400 px-2 py-1 text-xs sm:text-lg font-bold dark:text-blue-500 hover:text-white transition duration-400 ease-in-out dark:hover:text-white"
             >
               Admin
             </Link>
@@ -69,19 +69,19 @@ export default function Navbar({ user }) {
           <>
             <Link
               href="/"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
             >
               Home
             </Link>
             <Link
               href="../opportunities"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
             >
               Opportunities
             </Link>
             <Link
               href="../api/auth/logout"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
             >
               Logout
             </Link>
@@ -96,20 +96,20 @@ export default function Navbar({ user }) {
           <>
             <Link
               href="/"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
             >
               Home
             </Link>
             <Link
               href="../auth/login"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
             >
               Login
             </Link>
 
             <Link
               href="../auth/signup"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out"
+              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
             >
               Sign up
             </Link>

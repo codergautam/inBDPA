@@ -35,6 +35,7 @@ const profileSchema = new Schema({
   sections: Object,
   connections: [String],
   pfp: String,
+  banner: String,
 });
 
 const resetSchema = new Schema({
