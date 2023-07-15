@@ -182,14 +182,17 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
 
       try {
       if(!existsNeo4j) {
+        console.log("Creating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length)
         await createUser(latestUser.user_id, userConnections);
       } else {
+        console.log("Updating user in neo4j", latestUser.user_id, latestUser.username)
         await updateUser(latestUser.user_id, userConnections);
       }
     } catch (error) {
       console.log("Error while trying to create user in neo4j", latestUser.user_id, latestUser.username);
     }
     } else {
+      console.log("Updating user", latestUser.user_id, latestUser.username);
 
       let connections;
       try {

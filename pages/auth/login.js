@@ -48,6 +48,8 @@ export default function Login() {
       } else {
         localStorage.removeItem("resetTime");
         setTimeRemaining("");
+        setRemainingAttempts(3);
+        setLoginAttempts(0);
         clearInterval(interval);
       }
     }, 1000);
