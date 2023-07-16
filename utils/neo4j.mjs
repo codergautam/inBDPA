@@ -90,7 +90,6 @@ export async function createUser(user_id, connections) {
     let params = { user_id };
 
     await session.run(query, params);
-
     // Then, create the connections.
     for (let i = 0; i < connections.length; i++) {
       query = 'MATCH (a:User {id: $user_id}), (b:User {id: $connection_id}) ' +
