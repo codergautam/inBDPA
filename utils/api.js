@@ -35,6 +35,7 @@ const profileSchema = new Schema({
   sections: Object,
   connections: [String],
   pfp: String,
+  forceLogout: Boolean,
 });
 
 const resetSchema = new Schema({
@@ -353,7 +354,7 @@ export async function getUserPfp(userId) {
   }
 }
 
-export  function getManyUsersFast(user_ids) {
+export function getManyUsersFast(user_ids) {
   return new Promise((resolve, reject) => {
   Profile.find({ user_id: { $in: user_ids } })
   .then((profiles) => {
@@ -376,7 +377,23 @@ export  function getManyUsersFast(user_ids) {
 });
 }
 
+export async function forceLogoutUserStatus(userId, status) {
+ let returnVal = await Profile.updateOne({user_id: userId}, {
+    $set: {
+      forceLogout: status
+    }
+  })
+  console.log("Logged Out User: ", returnVal)
+  if(returnVal) {
+    return {success: true}
+  } else {
+    return {success: false}
+  }
+}
 
+export async function getUserFromMongo(userId) {
+  return await Profile.findOne({user_id: userId})
+}
 export async function getUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;
   return sendRequest(url, 'GET');

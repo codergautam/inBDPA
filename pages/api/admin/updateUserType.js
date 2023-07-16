@@ -18,6 +18,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
   let data = await updateUser(userId, {type: type});
   console.log("Data: ")
   console.log(data)
-  if(data.success) req.session.user.type = type
+  // if(data.success) req.session.user.type = type
   res.json(data);
 }

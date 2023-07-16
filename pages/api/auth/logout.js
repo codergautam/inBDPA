@@ -1,4 +1,5 @@
 // Clear the session
+import { forceLogoutUserStatus } from "@/utils/api";
 import { ironOptions } from "@/utils/ironConfig";
 import { withIronSessionApiRoute } from "iron-session/next";
 

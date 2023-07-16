@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMask, faGhost } from '@fortawesome/free-solid-svg-icons';
+import { faMask, faGhost, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
 
 
@@ -115,6 +115,30 @@ export default function UserSearch() {
     //     }
     //     setOutputWords(outputList)
     // }
+    const forceLogoutUser = async (id) => {
+        clearTimeout(promotionRef)
+        setOutputUser(null)
+        setQuery("")
+        setOutputUserStatus("...")
+        let data = await fetch("/api/admin/userUpdates", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status: true
+            })
+        }).then(res => res.json());
+        console.log("Data:")
+        console.log(data)
+        if(data.success) {
+            setOutputUserStatus(`Forced ${outputUser.username} to logout`)
+            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+        } else {
+            setOutputUserStatus(`Failed to forcefully logout ${outputUser.username}, ecountered error: ${data.error}`)
+            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+        }
+    }
 
     const changeUserType = async (id, newPos) => {
         clearTimeout(promotionRef)
@@ -176,6 +200,10 @@ export default function UserSearch() {
                     </button> : <></>}
                     {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-gray-900 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
                             Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
+                        </button>: <></>}
+                        
+                    {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-gray-900 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
+                            Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
                         </button>: <></>}
                 </div>
             </div> : <></>}
