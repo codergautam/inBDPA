@@ -33,7 +33,8 @@ async function handler(req, res) {
 
     // Make sure its not already taken
     let user = await getUserFromProfileId(newLink);
-    if(user) {
+    console.log("User", user);
+    if(user.success) {
       console.log("User", user.user.user_id, "already has link", req.session.user.id);
       res.status(400).json({ error: user.user.user_id === req.session.user.id ? "You already have this link!": "Link already taken" });
       return;

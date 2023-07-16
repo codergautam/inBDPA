@@ -1,4 +1,4 @@
-import { setUserPfp } from '@/utils/api';
+import { setUserBanner } from '@/utils/api';
 import { ironOptions } from '@/utils/ironConfig';
 import fs from 'fs';
 import { withIronSessionApiRoute } from 'iron-session/next';
@@ -10,7 +10,7 @@ export default withIronSessionApiRoute(handler, ironOptions)
 // Create a multer storage configuration
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, path.join(process.cwd(), 'public', 'pfps'));
+    cb(null, path.join(process.cwd(), 'public', 'banners'));
   },
   filename: (req, file, cb) => {
     const id = uuidv4();
@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 // Create a multer instance with the storage configuration
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // Limit the file size to 2MB
+  limits: { fileSize:5 * 1024 * 1024 }, // Limit the file size to 5MB
 });
 
 function handler(req, res) {
@@ -31,10 +31,9 @@ function handler(req, res) {
     return;
   }
 
-
-  // make pfps folder if it doesn't exist
-  if (!fs.existsSync(path.join(process.cwd(), 'public', 'pfps'))) {
-    fs.mkdirSync(path.join(process.cwd(), 'public', 'pfps'));
+  // make banner folder if it doesn't exist
+  if (!fs.existsSync(path.join(process.cwd(), 'public', 'banners'))) {
+    fs.mkdirSync(path.join(process.cwd(), 'public', 'banners'));
   }
 
   if (!req.session.user) {
@@ -47,7 +46,7 @@ function handler(req, res) {
       // Multer error occurred during file upload
       console.log(error);
       if (error.code === 'LIMIT_FILE_SIZE') {
-        res.status(400).json({ error: 'File size exceeds the limit of 2MB.' });
+        res.status(400).json({ error: 'File size exceeds the limit of 5MB.' });
       } else {
         res.status(500).json({ error: 'Failed to upload the file.' });
       }
@@ -60,24 +59,24 @@ function handler(req, res) {
       const file = req.file;
 
       if (!file) {
-        // Set to gravatar
-        setUserPfp(req.session.user.id, 'gravatar')
+        // Remove banner
+        setUserBanner(req.session.user.id, null)
           .then(() => {
-            res.status(200).json({ id: 'gravatar' });
+            res.status(200).json({ id: null });
           })
           .catch((e) => {
-            res.status(500).json({ error: 'Failed to set your Profile Picture.' });
+            res.status(500).json({ error: 'Failed to remove your Banner.' });
           });
         return;
       }
 
       // Save to database
-      setUserPfp(req.session.user.id, file.filename)
+      setUserBanner(req.session.user.id, file.filename)
         .then(() => {
           res.status(200).json({ id: file.filename });
         })
         .catch((e) => {
-          res.status(500).json({ error: 'Failed to set your Profile Picture.' });
+          res.status(500).json({ error: 'Failed to set your Banner.' });
         });
     }
   });
