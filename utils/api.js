@@ -383,35 +383,32 @@ export async function forceLogoutUserStatus(userId, status) {
   if(status) {
     console.log("Now Forcing Logout")
     try {
-      const updated = await Profile.findOneAndUpdate({user_id: userId},{
-      "$set":
-            {
-              "forceLogout": true
-            }}, {
+      await Profile.updateOne({user_id: userId},{ $set: { forceLogout: true } }, {
               new: true,
               upsert: true
             })
-            console.log("updated: ", updated)
             console.log("Updated profile by imposing")
+            return {success:true}
     } catch (error) {
       console.log("error: " + error)
+      return {success:false}
     }
-    return
   } else {
     console.log("Lifting force")
     try {
-      const updated = await Profile.findOneAndUpdate({user_id: userId},{
-      "$set":
-            {
-              "forceLogout": true
-            }}, {
+      await Profile.updateOne({user_id: userId},{
+        $set: {
+          forceLogout: false
+        }
+            }, {
               new: true,
               upsert: true
             })
-            console.log("updated: ", updated)
             console.log("Updated profile by removing")
+            return {success:true}
     } catch (error) {
       console.log("error: " + error)
+      return {success:false}
     }
     return;
   }
