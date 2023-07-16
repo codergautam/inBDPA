@@ -31,6 +31,12 @@ function handler(req, res) {
     return;
   }
 
+
+  // make pfps folder if it doesn't exist
+  if (!fs.existsSync(path.join(process.cwd(), 'public', 'pfps'))) {
+    fs.mkdirSync(path.join(process.cwd(), 'public', 'pfps'));
+  }
+
   if (!req.session.user) {
     res.status(401).json({ error: 'Unauthorized' });
     return;
