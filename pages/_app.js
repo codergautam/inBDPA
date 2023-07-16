@@ -42,20 +42,20 @@ const App = ({ Component, pageProps }) => {
       console.log("Data for Forced Logout: ", data)
       if(data.forceLogout) {
         console.log("Must logout :(")
-        let moreData = await fetch("/api/admin/userUpdates", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                status: false
-            })
-        }).then(res => res.json());
+        // let moreData = await fetch("/api/admin/userUpdates", {
+        //     method: "POST",
+        //     headers: {
+        //         "Content-Type": "application/json"
+        //     },
+        //     body: JSON.stringify({
+        //         status: false
+        //     })
+        // }).then(res => res.json());
         console.log("More Data: ", moreData)
-        if(moreData.success) {
-          alert("You were forced to log out by an admin")
-          router.push("/api/auth/logout")
-        }
+        // if(moreData.success) {
+        //   alert("You were forced to log out by an admin")
+        //   router.push("/api/auth/logout")
+        // }
       }
     }, 5000)
     const start = () => {

@@ -129,15 +129,15 @@ export default function UserSearch() {
                 status: true
             })
         }).then(res => res.json());
-        console.log("Data:")
-        console.log(data)
-        if(data.success) {
-            setOutputUserStatus(`Forced ${outputUser.username} to logout`)
-            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
-        } else {
-            setOutputUserStatus(`Failed to forcefully logout ${outputUser.username}, ecountered error: ${data.error}`)
-            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
-        }
+        // console.log("Data:")
+        // console.log(data)
+        // if(data.success) {
+        //     setOutputUserStatus(`Forced ${outputUser.username} to logout`)
+        //     promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+        // } else {
+        //     setOutputUserStatus(`Failed to forcefully logout ${outputUser.username}, ecountered error: ${data.error}`)
+        //     promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+        // }
     }
 
     const changeUserType = async (id, newPos) => {

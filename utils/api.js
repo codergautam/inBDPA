@@ -378,22 +378,48 @@ export function getManyUsersFast(user_ids) {
 }
 
 export async function forceLogoutUserStatus(userId, status) {
- let returnVal = await Profile.updateOne({user_id: userId}, {
-    $set: {
-      forceLogout: status
+  let returnVal
+  if(status) {
+    console.log("Now Forcing Logout")
+    try {
+      const updated = await Profile.findOneAndUpdate({user_id: userId},{
+      "$set":
+            {
+              "forceLogout": true
+            }}, {
+              new: true,
+              upsert: true
+            })
+            console.log("updated: ", updated)
+            console.log("Updated profile by imposing")
+    } catch (error) {
+      console.log("error: " + error)
     }
-  })
-  console.log("Logged Out User: ", returnVal)
-  if(returnVal) {
-    return {success: true}
+    return
   } else {
-    return {success: false}
+    console.log("Lifting force")
+    try {
+      const updated = await Profile.findOneAndUpdate({user_id: userId},{
+      "$set":
+            {
+              "forceLogout": true
+            }}, {
+              new: true,
+              upsert: true
+            })
+            console.log("updated: ", updated)
+            console.log("Updated profile by removing")
+    } catch (error) {
+      console.log("error: " + error)
+    }
+    return;
   }
 }
 
 export async function getUserFromMongo(userId) {
   return await Profile.findOne({user_id: userId})
 }
+
 export async function getUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;
   return sendRequest(url, 'GET');
