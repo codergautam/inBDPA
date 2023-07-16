@@ -5,7 +5,7 @@ import UserStats from '@/components/UserStats';
 import UserConnections from '@/components/UserConnections';
 import UserProfilePicture from '@/components/UserProfilePicture';
 import UserInfo from '@/components/UserInfo';
-import {  getUserFromProfileId, getUserPfp, incrementUserViews } from '@/utils/api';
+import { getUserFromProfileId, getUserPfpAndBanner, incrementUserViews } from '@/utils/api';
 import { useEffect, useState } from 'react';
 import { withIronSessionSsr } from 'iron-session/next'; // server-side session handling
 import { ironOptions } from '@/utils/ironConfig'; // session configurations
@@ -16,6 +16,7 @@ import addSuffix from '@/utils/ordinalSuffix';
 import LinkChanger from '@/components/LinkChanger';
 import ConnectionList from '@/components/ConnectionList';
 import { get } from 'mongoose';
+import UserBanner from '@/components/UserBanner';
 
 
 
@@ -45,7 +46,7 @@ const handleAboutSave = (newAbout, setRequestedUser) => {
 };
 
 // Profile page component
-export default function Page({ user, requestedUser: r, depth:d, connections: c , link, pfp, error}) {
+export default function Page({ user, requestedUser: r, depth:d, connections: c , link, pfp, banner, error}) {
 
   // State to store number of active sessions
   const [activeSess, setActiveSessions] = useState("...");
@@ -99,10 +100,14 @@ export default function Page({ user, requestedUser: r, depth:d, connections: c ,
         <Navbar user={user}/>
       </div>
 
+{requestedUser ? (
+<UserBanner editable={editable} banner={banner} />
+  ) : null}
 
       <main className="flex flex-col items-center justify-center w-full flex-1 px-20 text-center">
         { requestedUser ? (
           <>
+
     <h1 className="text-7xl font-semibold text-gray-900 dark:text-white pt-5">{requestedUser.username}</h1>
     <h1 className="text-xl text-gray-900 dark:text-white mt-2 mb-4">{requestedUser.type}</h1>
 
@@ -249,9 +254,14 @@ if(requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
   }
 }
 let pfp;
+let banner
 if(requestedUser) {
-  pfp = await getUserPfp(requestedUser?.user_id);
+  const data = await getUserPfpAndBanner(requestedUser?.user_id);
+  pfp = data.pfp;
+  banner = data.banner;
+  // banner = await getUserBanner(requestedUser?.user_id, "banner");
 }
+
 
 
 let safeRequestedUser;
@@ -263,7 +273,7 @@ if(requestedUser) safeRequestedUser = {
 
 
   return {
-    props: { user: req.session?.user ?? null, requestedUser: safeRequestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id, pfp: pfp ?? null },
+    props: { user: req.session?.user ?? null, requestedUser: safeRequestedUser ?? null, depth: depth ?? 0, connections: connections ?? [[],[]], link: id, pfp: pfp ?? null, banner: banner ??null },
   };
 },
 ironOptions)

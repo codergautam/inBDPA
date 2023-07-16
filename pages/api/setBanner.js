@@ -31,6 +31,11 @@ function handler(req, res) {
     return;
   }
 
+  // make banner folder if it doesn't exist
+  if (!fs.existsSync(path.join(process.cwd(), 'public', 'banners'))) {
+    fs.mkdirSync(path.join(process.cwd(), 'public', 'banners'));
+  }
+
   if (!req.session.user) {
     res.status(401).json({ error: 'Unauthorized' });
     return;
@@ -54,8 +59,14 @@ function handler(req, res) {
       const file = req.file;
 
       if (!file) {
-        // Set to gravatar
-        res.status(400).json({ error: 'No file was uploaded.' });
+        // Remove banner
+        setUserBanner(req.session.user.id, null)
+          .then(() => {
+            res.status(200).json({ id: null });
+          })
+          .catch((e) => {
+            res.status(500).json({ error: 'Failed to remove your Banner.' });
+          });
         return;
       }
 

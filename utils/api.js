@@ -358,6 +358,7 @@ export async function setUserBanner(userId, banner) {
   }
 };
 
+
 export async function getUserPfp(userId) {
   try {
     const profile = await Profile.findOne({ user_id: userId });
@@ -371,6 +372,8 @@ export async function getUserPfp(userId) {
   }
 }
 
+
+
 export async function getUserBanner(userId) {
   try {
     const profile = await Profile.findOne({ user_id: userId });
@@ -381,6 +384,19 @@ export async function getUserBanner(userId) {
   } catch (error) {
     console.log('Error while trying to get profile banner from user id: ', error);
     return false;
+  }
+}
+
+export async function getUserPfpAndBanner(userId) {
+  try {
+    const profile = await Profile.findOne({ user_id: userId });
+    if (profile) {
+      return { pfp: profile.pfp, banner: profile.banner };
+    }
+    return { pfp: false, banner: false };
+  } catch (error) {
+    console.log('Error while trying to get profile pfp and banner from user id: ', error);
+    return { pfp: false, banner: false };
   }
 }
 
