@@ -31,10 +31,9 @@ const profileSchema = new mongoose.Schema({
   views: Number,
   createdAt: Number,
   sections: Object,
-  connections: [{
-    type: String
-}],
+  connections: [String],
 pfp: String,
+banner: String,
 });
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 

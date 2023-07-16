@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import "@/public/globals.css"
+import '@fortawesome/fontawesome-svg-core/styles.css'
 
 function parseUrl(url) {
   // Convert URL to a common format
@@ -77,17 +78,17 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   // State to keep track of the previous page
-  // Initialize it with the current path
   const [prevPath, setPrevPath] = useState(router.asPath);
 // Create a ref for the sessionId
 const sessionIdRef = useRef(null);
 
 const handleRouteChangeStart = async (url, first=false) => {
   console.log("Going to end session", sessionIdRef.current);
+  if(first) url = prevPath;
   if(typeof url == "undefined" || !parseUrl(url)) return;
 
   //Dont change if going to same page
-  if(url == prevPath) return;
+  if(!first && (url == prevPath)) return;
 
   if(!first && sessionIdRef.current) {
     // End old session
@@ -121,7 +122,7 @@ const handleRouteChangeStart = async (url, first=false) => {
 
   const renewSession = async () => {
     if(!sessionIdRef.current) return;
-  if(!typeof url || !parseUrl(url)) return;
+  if(typeof url=="undefined" || !parseUrl(url)) return;
 
 
     fetch('/api/renewSession', {
