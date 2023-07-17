@@ -1,4 +1,4 @@
-import { authenticateUser, getUserByUsername, loginUser, updateUser } from "@/utils/api";
+import { authenticateUser, getUserByUsername, loginUser, updateUser, updateUserTypeInMongo } from "@/utils/api";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";
 
@@ -18,6 +18,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
   let data = await updateUser(userId, {type: type});
   console.log("Data: ")
   console.log(data)
-  // if(data.success) req.session.user.type = type
+  await updateUserTypeInMongo(userId, type)
   res.json(data);
 }

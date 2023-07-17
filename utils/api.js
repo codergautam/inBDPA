@@ -37,6 +37,7 @@ const profileSchema = new Schema({
   pfp: String,
   banner: String,
   forceLogout: Boolean,
+  refreshSession: Boolean,
 });
 
 const opportunitySchema = new mongoose.Schema({
@@ -283,6 +284,15 @@ async function sendRequest(url, method, body = null) {
 }
 }
 
+export async function updateUserTypeInMongo(id, type) {
+  await refreshSession(id, true)
+  await Profile.findOneAndUpdate({user_id: id}, {
+    $set: {
+      type
+    }
+  })
+}
+
 // Define the API functions
 
 async function addUserNameToSchema() {
@@ -486,6 +496,14 @@ export function getManyUsersFast(user_ids) {
     reject(error);
   });
 });
+}
+
+export async function refreshSession(userId, refreshSession) {
+  await Profile.findOneAndUpdate({user_id: userId}, {
+    $set: {
+      refreshSession
+    }
+  })
 }
 
 export async function forceLogoutUserStatus(userId, status) {

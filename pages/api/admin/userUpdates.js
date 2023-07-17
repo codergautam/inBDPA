@@ -1,4 +1,4 @@
-import { authenticateUser, forceLogoutUserStatus, getUserByUsername, getUserFromMongo, loginUser, updateUser } from "@/utils/api";
+import { authenticateUser, forceLogoutUserStatus, getUserByUsername, getUserFromMongo, loginUser, refreshSession, updateUser } from "@/utils/api";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";
 
@@ -20,6 +20,9 @@ export default withIronSessionApiRoute(handler, ironOptions);
       //This is a regular user disabling their forced logout status
       userId = req.session.user.id
       status = req.body.status
+      if(status != false) {
+        return res.json({success: false, error: "You aren't able to force logout others or yourself"})
+      }
     }
     console.log(`Status: ${status}`)
     let data = await forceLogoutUserStatus(userId, status)
@@ -32,13 +35,24 @@ export default withIronSessionApiRoute(handler, ironOptions);
     // }
   } else if(req.method == "GET") {
     if(req.session.user.type == "administrator") {
+      console.log("Is an admin")
         return res.json({success:true, forceLogout: false})
     } else {
         const userId = req.session.user.id
         let user = await getUserFromMongo(userId)
+        let shouldRefresh = false
+        if(user.refreshSession) {
+          //This event only arises when someone else updates a user's type
+          req.session.user.type = user.type
+          await req.session.save()
+          shouldRefresh = true
+
+          //No longer needs to reset session
+          await refreshSession(userId, false)
+        }
         console.log("User for checking for logout: ", user)
         if(user) {
-            return res.json({success: true, forceLogout: user.forceLogout})
+            return res.json({success: true, forceLogout: user.forceLogout, shouldRefresh })
         }
     }
     // return res.json({success: false})
