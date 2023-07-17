@@ -20,6 +20,34 @@ mongoose.connect(MONGO_URI, {
   console.log(err);
 });
 
+async function getAllOpportunitiesMongo() {
+  const opportunities = await Opportunity.find();
+  return opportunities;
+}
+ async function updateOpportunityMongo(opportunityId, opportunity) {
+// Create if not exists
+try {
+  const updatedOpportunity = await Opportunity.findOneAndUpdate( { opportunity_id: opportunityId }, opportunity, { new: true, upsert: true } );
+  console.log('Opportunity successfully updated: ', updatedOpportunity);
+  return true;
+} catch (error) {
+  console.log('Error while trying to update opportunity: ', error);
+  return false;
+}
+}
+ async function getOpportunityMongo(opportunityId) {
+try {
+  const opportunity = await Opportunity.findOne({ opportunity_id: opportunityId });
+  if (opportunity) {
+    return opportunity;
+  }
+  return false;
+} catch (error) {
+  console.log('Error while trying to get opportunity: ', error);
+  return false;
+}
+}
+
 const ObjectId = mongoose.Schema.ObjectId;
 const profileSchema = new mongoose.Schema({
   id: ObjectId,
@@ -35,6 +63,17 @@ const profileSchema = new mongoose.Schema({
 pfp: String,
 banner: String,
 });
+const opportunitySchema = new mongoose.Schema({
+  id: ObjectId,
+  opportunity_id: String,
+  creator_id: String,
+  title: String,
+  views: Number,
+  createdAt: Number,
+  content: String,
+});
+
+const Opportunity = mongoose.models.Opportunity ?? mongoose.model('Opportunity', opportunitySchema);
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 
 async function sendRequest(url, method, body = null) {
@@ -126,6 +165,26 @@ async function createNewProfile(profileData) {
     return false;
   }
 }
+
+async function getAllOpportunities(lastUpdated) {
+  let opportunities = [];
+  let stop = false;
+  let after = undefined;
+  while(!stop) {
+    let d;
+     d = await getOpportunities(after, lastUpdated);
+    if(d.opportunities.length == 100) {
+      after = d.opportunities[99].opportunity_id;
+    } else {
+      stop = true;
+    }
+
+    opportunities.push(...d.opportunities);
+    await wait(1000);
+  }
+  return opportunities;
+}
+
 
 export default async function fetchDataAndSaveToDB(lastUpdated) {
   console.log("Fetching data from HSCC API...");
@@ -220,5 +279,39 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     }
   }
 
+  if(!lastUpdated) {
+    // Remove users that were not updated
+    let users = await Profile.find({});
+    for(let user of users) {
+      if(!latestUsers.find(u => u.user_id === user.user_id)) {
+        console.log("Removing user", user.user_id, user.username);
+        await user.remove();
+      }
+    }
+  }
+
   console.log("Done! Processed "+latestUsers.length+" users in "+(Date.now()-startTime)+"ms ✨");
+  startTime = Date.now();
+  // Process opportunities
+  console.log("Fetching opportunities from HSCC API...");
+  let latestOpportunities = await getAllOpportunities(lastUpdated);
+  console.log("Updating database...", latestOpportunities.length, "opportunities");
+  startTime = Date.now();
+  for(let latestOpportunity of latestOpportunities) {
+    // Update opportunity in MongoDB
+
+    updateOpportunityMongo(latestOpportunity.opportunity_id, latestOpportunity);
+  }
+
+  if(!lastUpdated) {
+    // Remove opportunities that were not updated
+    let opportunities = await Opportunity.find({});
+    for(let opportunity of opportunities) {
+      if(!latestOpportunities.find(o => o.opportunity_id === opportunity.opportunity_id)) {
+        console.log("Removing opportunity", opportunity.opportunity_id, opportunity.title);
+        await opportunity.remove();
+      }
+    }
+  }
+  console.log("Done! Processed "+latestOpportunities.length+" opportunities in "+(Date.now()-startTime)+"ms ✨");
 }
