@@ -1,3 +1,5 @@
+'use client'
+
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import Link from "next/link";
@@ -5,8 +7,13 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import Navbar from "@/components/navbar";
 import ErrorComponent from "./ErrorComponent";
+import { useSearchParams } from 'next/navigation'
+
 
 export default function Login() {
+  const searchParams = useSearchParams()
+  const loginerror = searchParams.get('error')
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -45,7 +52,7 @@ export default function Login() {
       const storedResetTime = localStorage.getItem("resetTime");
       if (storedResetTime && new Date() < new Date(storedResetTime)) {
         setTimeRemaining(formatTimeRemaining(new Date(storedResetTime)));
-      } else {
+      } else if(storedResetTime && new Date() >= new Date(storedResetTime)) {
         localStorage.removeItem("resetTime");
         setTimeRemaining("");
         setRemainingAttempts(3);
@@ -110,7 +117,8 @@ export default function Login() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white">
       <Navbar />
-      {error && <ErrorComponent error={error} />}
+      <ErrorComponent error={loginerror} side='top'/>
+      {error && <ErrorComponent error={error} side='bottom'/>}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
