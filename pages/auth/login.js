@@ -118,7 +118,7 @@ export default function Login() {
     <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white">
       <Navbar />
       <ErrorComponent error={loginerror} side='top'/>
-      {/* {error && <ErrorComponent error={error} side='bottom'/>} */}
+      {error && <ErrorComponent error={error} side='bottom'/>}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
