@@ -53,7 +53,7 @@ export default function Captcha({ setSolved }) {
     <div className="captcha flex justify-center items-center flex-col space-y-4">
       <canvas className='px-2 py-1 rounded bg-white' id="captchaCanvas" width="100" height="35"></canvas>
       {!solved && (
-        <div className="flex justify-center items-center space-x-2">
+        <div className="justify-center items-center space-x-2">
           <input
             type="text"
             placeholder="Enter Captcha"
@@ -68,7 +68,7 @@ export default function Captcha({ setSolved }) {
           <button
             type="button"
             onClick={validateCaptcha}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 my-2 focus:ring-blue-500"
           >
             Submit
           </button>
