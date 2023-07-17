@@ -154,7 +154,18 @@ export async function getResetLink(reset_id) {
   }
 }
 
-export async function useResetLink(reset_id) {
+export async function getUserCount() {
+  // Use mongodb
+  try {
+    const count = await Profile.countDocuments();
+    return count;
+  } catch (error) {
+    console.log('Error while trying to get user count: ', error);
+    return 0;
+  }
+}
+
+export async function redeemResetLink(reset_id) {
   try {
     // Retrieve user from reset link
     const savedReset = await Reset.findOneAndUpdate(

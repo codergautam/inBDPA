@@ -1,4 +1,4 @@
-import { authenticateUser, changeUserPassword, createResetLink, getResetLink, getUserByUsername, loginUser, useResetLink } from "@/utils/api";
+import { authenticateUser, changeUserPassword, createResetLink, getResetLink, getUserByUsername, loginUser, redeemResetLink } from "@/utils/api";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";
 
@@ -36,7 +36,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
   let out = await changeUserPassword(user_id, password);
   if(out.success) {
-    await useResetLink(resetId);
+    await redeemResetLink(resetId);
   }
   return res.send(out);
 }
