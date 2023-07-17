@@ -35,6 +35,8 @@ const profileSchema = new Schema({
   sections: Object,
   connections: [String],
   pfp: String,
+  banner: String,
+  forceLogout: Boolean,
 });
 
 const resetSchema = new Schema({
@@ -340,6 +342,23 @@ export async function setUserPfp(userId, pfp) {
   }
 };
 
+export async function setUserBanner(userId, banner) {
+  // use mongodb
+  try {
+      const updatedProfile = await Profile.findOneAndUpdate(
+          { user_id: userId }, // find a document with this filter
+          { banner }, // document to insert when nothing was found
+          { new: true, upsert: true } // options
+      );
+      console.log('Profile banner successfully updated: ', updatedProfile);
+      return true;
+  } catch (error) {
+      console.log('Error while trying to update profile banner: ', error);
+      return false;
+  }
+};
+
+
 export async function getUserPfp(userId) {
   try {
     const profile = await Profile.findOne({ user_id: userId });
@@ -353,7 +372,35 @@ export async function getUserPfp(userId) {
   }
 }
 
-export  function getManyUsersFast(user_ids) {
+
+
+export async function getUserBanner(userId) {
+  try {
+    const profile = await Profile.findOne({ user_id: userId });
+    if (profile) {
+      return profile.banner;
+    }
+    return false;
+  } catch (error) {
+    console.log('Error while trying to get profile banner from user id: ', error);
+    return false;
+  }
+}
+
+export async function getUserPfpAndBanner(userId) {
+  try {
+    const profile = await Profile.findOne({ user_id: userId });
+    if (profile) {
+      return { pfp: profile.pfp, banner: profile.banner };
+    }
+    return { pfp: false, banner: false };
+  } catch (error) {
+    console.log('Error while trying to get profile pfp and banner from user id: ', error);
+    return { pfp: false, banner: false };
+  }
+}
+
+export function getManyUsersFast(user_ids) {
   return new Promise((resolve, reject) => {
   Profile.find({ user_id: { $in: user_ids } })
   .then((profiles) => {
@@ -364,6 +411,7 @@ export  function getManyUsersFast(user_ids) {
         link: profile.link,
         username: profile.username,
         pfp: profile.pfp,
+        gravatarUrl: !profile.pfp || profile.pfp === 'gravatar' ? `https://www.gravatar.com/avatar/${md5(profile.email)}?d=mp` : null,
       }
     });
 
@@ -376,6 +424,45 @@ export  function getManyUsersFast(user_ids) {
 });
 }
 
+export async function forceLogoutUserStatus(userId, status) {
+  let returnVal
+  if(status) {
+    console.log("Now Forcing Logout")
+    try {
+      await Profile.updateOne({user_id: userId},{ $set: { forceLogout: true } }, {
+              new: true,
+              upsert: true
+            })
+            console.log("Updated profile by imposing")
+            return {success:true}
+    } catch (error) {
+      console.log("error: " + error)
+      return {success:false}
+    }
+  } else {
+    console.log("Lifting force")
+    try {
+      await Profile.updateOne({user_id: userId},{
+        $set: {
+          forceLogout: false
+        }
+            }, {
+              new: true,
+              upsert: true
+            })
+            console.log("Updated profile by removing")
+            return {success:true}
+    } catch (error) {
+      console.log("error: " + error)
+      return {success:false}
+    }
+    return;
+  }
+}
+
+export async function getUserFromMongo(userId) {
+  return await Profile.findOne({user_id: userId})
+}
 
 export async function getUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;

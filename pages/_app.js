@@ -1,6 +1,7 @@
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import "@/public/globals.css"
+import '@fortawesome/fontawesome-svg-core/styles.css'
 
 function parseUrl(url) {
   // Convert URL to a common format
@@ -32,9 +33,32 @@ function parseUrl(url) {
 const App = ({ Component, pageProps }) => {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const forcedLogoutRef = useRef()
 
 
   useEffect(() => {
+    forcedLogoutRef.current = setInterval(async ()=> {
+      // console.log(`Date: ${Date.now()}`)
+      let data = await fetch("/api/admin/userUpdates").then(res => res.json())
+      // console.log("Data for Forced Logout: ", data)
+      if(data.forceLogout) {
+        // console.log("Must logout :(")
+        let moreData = await fetch("/api/admin/userUpdates", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status: false
+            })
+        }).then(res => res.json());
+        // console.log("More Data: ", moreData)
+        if(moreData.success) {
+          alert("You were forced to log out by an admin")
+          router.push("/api/auth/logout")
+        }
+      }
+    }, 5000)
     const start = () => {
       console.log("start");
       setLoading(true);
@@ -54,17 +78,17 @@ const App = ({ Component, pageProps }) => {
   }, []);
 
   // State to keep track of the previous page
-  // Initialize it with the current path
   const [prevPath, setPrevPath] = useState(router.asPath);
 // Create a ref for the sessionId
 const sessionIdRef = useRef(null);
 
 const handleRouteChangeStart = async (url, first=false) => {
   console.log("Going to end session", sessionIdRef.current);
+  if(first) url = prevPath;
   if(typeof url == "undefined" || !parseUrl(url)) return;
 
   //Dont change if going to same page
-  if(url == prevPath) return;
+  if(!first && (url == prevPath)) return;
 
   if(!first && sessionIdRef.current) {
     // End old session
@@ -98,7 +122,7 @@ const handleRouteChangeStart = async (url, first=false) => {
 
   const renewSession = async () => {
     if(!sessionIdRef.current) return;
-  if(!typeof url || !parseUrl(url)) return;
+  if(typeof url=="undefined" || !parseUrl(url)) return;
 
 
     fetch('/api/renewSession', {

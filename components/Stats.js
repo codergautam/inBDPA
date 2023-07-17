@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 async function getInfoData() {
   let data = await fetch("/api/info").then((res)=> res.json());
@@ -8,12 +8,15 @@ async function getInfoData() {
 }
 
 export default function Stats() {
-    const [users, setUsers] = useState(0);
-    const [totalViews, setTotalViews] = useState(0);
-    const [sessions, setSessions] = useState(0);
-    const [opportunities, setOpportunities] = useState(0);
+    const [users, setUsers] = useState("...");
+    const [totalViews, setTotalViews] = useState("...");
+    const [sessions, setSessions] = useState("...");
+    const [opportunities, setOpportunities] = useState("...");
+
+    const intervalRef = useRef()
 
     async function dostuff() {
+      console.log("Doing stuff")
       setUsers("...");
         setTotalViews("...");
         setSessions("...");
@@ -29,7 +32,12 @@ export default function Stats() {
     }
 
     useEffect(()=>{
-        dostuff();
+      dostuff()
+      intervalRef.current = setInterval(() => {
+        // console.log("Bello there")
+        dostuff()
+      }, 30000)
+      return () => clearInterval(intervalRef.current)
     }, [])
 
     return (

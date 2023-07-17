@@ -36,6 +36,7 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable }) => {
           <textarea
             className="w-full h-20 p-2 mb-2 rounded-md resize-none dark:bg-black dark:text-white"
             value={newAbout}
+            maxLength={1000}
             onChange={handleChange}
           />
           <div className="flex justify-end">
