@@ -57,6 +57,9 @@ const App = ({ Component, pageProps }) => {
           alert("You were forced to log out by an admin")
           router.push("/api/auth/logout")
         }
+      } else if(data.shouldRefresh) {
+        alert("Your user type has been updated by an admin")
+        router.reload()
       }
     }, 5000)
     const start = () => {

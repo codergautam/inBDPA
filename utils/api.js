@@ -37,6 +37,7 @@ const profileSchema = new Schema({
   pfp: String,
   banner: String,
   forceLogout: Boolean,
+  refreshSession: Boolean,
 });
 
 const resetSchema = new Schema({
@@ -228,6 +229,15 @@ async function sendRequest(url, method, body = null) {
     throw new Error('An error occurred while making the API request');
   }
 }
+}
+
+export async function updateUserTypeInMongo(id, type) {
+  await refreshSession(id, true)
+  await Profile.findOneAndUpdate({user_id: id}, {
+    $set: {
+      type
+    }
+  })
 }
 
 // Define the API functions
@@ -433,6 +443,14 @@ export function getManyUsersFast(user_ids) {
     reject(error);
   });
 });
+}
+
+export async function refreshSession(userId, refreshSession) {
+  await Profile.findOneAndUpdate({user_id: userId}, {
+    $set: {
+      refreshSession
+    }
+  })
 }
 
 export async function forceLogoutUserStatus(userId, status) {
