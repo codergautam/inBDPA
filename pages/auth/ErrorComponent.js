@@ -9,11 +9,11 @@ const ErrorComponent = ({ error, side }) => {
         const timer = setTimeout(() => {
           setVisible(false);
         }, 8000); // Change the duration as needed (in milliseconds)
-    
+
         return () => clearTimeout(timer);
       }
     }, [error]);
-  
+
     if (!visible) {
       return null;
     }
@@ -33,7 +33,7 @@ const ErrorComponent = ({ error, side }) => {
             </div>
             <div className="text-left">
               <p className="font-bold">Error:</p>
-              <p className="text-red-500 text-sm">{error}</p>
+              <div className="text-red-500 text-sm">{error}</div>
             </div>
           </div>
         </div>

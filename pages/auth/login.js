@@ -52,7 +52,7 @@ export default function Login() {
       const storedResetTime = localStorage.getItem("resetTime");
       if (storedResetTime && new Date() < new Date(storedResetTime)) {
         setTimeRemaining(formatTimeRemaining(new Date(storedResetTime)));
-      } else {
+      } else if(storedResetTime && new Date() >= new Date(storedResetTime)) {
         localStorage.removeItem("resetTime");
         setTimeRemaining("");
         setRemainingAttempts(3);
