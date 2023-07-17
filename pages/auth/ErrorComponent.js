@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const ErrorComponent = ({ error }) => {
+const ErrorComponent = ({ error, side }) => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -8,7 +8,7 @@ const ErrorComponent = ({ error }) => {
         setVisible(true);
         const timer = setTimeout(() => {
           setVisible(false);
-        }, 5000); // Change the duration as needed (in milliseconds)
+        }, 8000); // Change the duration as needed (in milliseconds)
 
         return () => clearTimeout(timer);
       }
@@ -17,11 +17,10 @@ const ErrorComponent = ({ error }) => {
     if (!visible) {
       return null;
     }
-
   return (
     <>
       {visible && (
-        <div className="bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-2 shadow-md absolute inset-x-0 mx-auto sm:w-fit bottom-0 sm:bottom-3">
+        <div className={side === 'top' ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-2 shadow-md absolute inset-x-0 mx-auto sm:w-fit top-0` : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-2 shadow-md absolute inset-x-0 mx-auto sm:w-fit bottom-0`}>
           <div className="flex w-fit items-center justify-center mx-auto">
             <div className="py-1">
               <svg

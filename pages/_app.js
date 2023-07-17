@@ -38,25 +38,25 @@ const App = ({ Component, pageProps }) => {
 
   useEffect(() => {
     forcedLogoutRef.current = setInterval(async ()=> {
-      console.log(`Date: ${Date.now()}`)
+      // console.log(`Date: ${Date.now()}`)
       let data = await fetch("/api/admin/userUpdates").then(res => res.json())
-      console.log("Data for Forced Logout: ", data)
+      // console.log("Data for Forced Logout: ", data)
       if(data.forceLogout) {
-        console.log("Must logout :(")
-        // let moreData = await fetch("/api/admin/userUpdates", {
-        //     method: "POST",
-        //     headers: {
-        //         "Content-Type": "application/json"
-        //     },
-        //     body: JSON.stringify({
-        //         status: false
-        //     })
-        // }).then(res => res.json());
-        console.log("More Data: ", moreData)
-        // if(moreData.success) {
-        //   alert("You were forced to log out by an admin")
-        //   router.push("/api/auth/logout")
-        // }
+        // console.log("Must logout :(")
+        let moreData = await fetch("/api/admin/userUpdates", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                status: false
+            })
+        }).then(res => res.json());
+        // console.log("More Data: ", moreData)
+        if(moreData.success) {
+          alert("You were forced to log out by an admin")
+          router.push("/api/auth/logout")
+        }
       }
     }, 5000)
     const start = () => {
