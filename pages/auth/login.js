@@ -266,7 +266,7 @@ export default function Login() {
     //   </p>
     // )}
     <section class="bg-gray-50 dark:bg-gray-900 h-screen">
-      <div className="fixed w-screen">
+      <div className="h-0 w-screen">
         <Navbar />
       </div>
       <ErrorComponent error={loginerror} side="top" />
@@ -347,8 +347,8 @@ export default function Login() {
                   required=""
                 />
               </div>
-              <div class="flex items-center justify-between">
-                <div class="flex items-start">
+              <div class="flex xs:flex-row items-center flex-col xs:justify-between">
+                <div class="flex items-start mb-1 xs:mb-0">
                   <div class="flex items-center h-5">
                     <input
                       id="remember"

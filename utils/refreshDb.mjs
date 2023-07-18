@@ -298,7 +298,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     for(let user of users) {
       if(!latestUsers.find(u => u.user_id === user.user_id)) {
         console.log("Removing user", user.user_id, user.username);
-        await user.remove();
+        await Profile.deleteOne({ user_id: user.user_id });
       }
     }
   }
