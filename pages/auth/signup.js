@@ -172,7 +172,7 @@ export default function Signup() {
         </main>
       </div> */}
       <section class="bg-gray-50 dark:bg-gray-900 h-screen">
-        <div className="fixed w-screen">
+        <div className="xs:h-0 w-screen xs:mb-24">
           <Navbar />
         </div>
         {error && <ErrorComponent error={error} side="bottom" />}
@@ -180,7 +180,7 @@ export default function Signup() {
           <title>Signup | inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+        <div class="flex flex-col items-center justify-center px-6 mx-auto lg:py-0">
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
