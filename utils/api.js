@@ -110,6 +110,15 @@ export async function getOpportunityMongo(opportunityId) {
     return false;
   }
 }
+export async function deleteOpportunityMongo(opportunity_id) {
+  try {
+    await Opportunity.findOneAndRemove({ opportunity_id: opportunity_id });
+    return true;
+  } catch (error) {
+    console.log('Error while trying to delete opportunity: ', error);
+    return false;
+  }
+}
 export async function getLatestOpportunitiesMongo(limit) {
   try {
     const opportunities = await Opportunity.find().sort({createdAt: -1}).limit(limit);
