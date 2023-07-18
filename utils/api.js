@@ -4,6 +4,7 @@ import { convertHexToBuffer, deriveKeyFromPassword } from './encryptPassword';
 import mongoose from 'mongoose';
 import generateRandomId from './generateRandomProfileId';
 import { config } from 'dotenv';
+import md5 from 'blueimp-md5';
 config();
 // Define the base URL of the API
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
