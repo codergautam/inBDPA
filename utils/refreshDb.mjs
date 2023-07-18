@@ -4,7 +4,7 @@
 import axios from 'axios';
 import {config } from 'dotenv';
 import mongoose from 'mongoose';
-import { createUser, updateUser, userExists } from './neo4j.mjs';
+import { createUser, deleteUser, updateUser, userExists } from './neo4j.mjs';
 config();
 
 
@@ -206,6 +206,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   let after = undefined;
   while(!stop) {
   let d = await getUsers(after, lastUpdated);
+  console.log("Fetched", d.users.length, "users");
   if(!d) {
     latestUsers = [];
     break;
@@ -232,7 +233,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
 
       let userConnections;
       try {
-       await getAllUserConnections(latestUser.user_id);
+       userConnections = await getAllUserConnections(latestUser.user_id);
       } catch (error) {
         userConnections = [];
         console.log("Error while trying to fetch connections for user", latestUser.user_id, latestUser.username);
@@ -253,10 +254,10 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
 
       try {
       if(!existsNeo4j) {
-        console.log("Creating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length)
+        console.log("Creating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections)
         await createUser(latestUser.user_id, userConnections);
       } else {
-        console.log("Updating user in neo4j", latestUser.user_id, latestUser.username)
+        console.log("Updating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections)
         await updateUser(latestUser.user_id, userConnections);
       }
     } catch (error) {
@@ -299,6 +300,12 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       if(!latestUsers.find(u => u.user_id === user.user_id)) {
         console.log("Removing user", user.user_id, user.username);
         await Profile.deleteOne({ user_id: user.user_id });
+        
+        try {
+        await deleteUser(user.user_id);
+      } catch (error) {
+        console.log("Error while trying to delete user in neo4j", user.user_id, user.username);
+      }
       }
     }
   }

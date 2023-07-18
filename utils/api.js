@@ -119,6 +119,7 @@ export async function getOpportunityMongo(opportunityId) {
 export async function deleteOpportunityMongo(opportunity_id) {
   try {
     await Opportunity.findOneAndRemove({ opportunity_id: opportunity_id });
+    console.log('Opportunity successfully deleted in mongo', opportunity_id);
     return true;
   } catch (error) {
     console.log('Error while trying to delete opportunity: ', error);
