@@ -29,8 +29,8 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable }) => {
   };
 
   return (
-    <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
-      <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">About</h2>
+    <div className="w-full p-4 group mt-4 rounded-md border-2 border-gray-700 shadow-xl">
+      <h2 className="text-xl font-semibold group-hover:text-white text-gray-700 mb-2 duration-300 ease-in-out transition">About</h2>
       {editing ? (
         <div>
           <textarea
@@ -41,13 +41,13 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable }) => {
           />
           <div className="flex justify-end">
             <button
-              className="px-4 py-2 mr-2 text-white bg-blue-500 rounded-md"
+              className="px-4 py-2 mr-2 text-white bg-blue-500/50 hover:bg-blue-500/75 rounded-md duration-300 ease-in-out transition"
               onClick={handleSaveClick}
             >
               Save
             </button>
             <button
-              className="px-4 py-2 text-white bg-gray-500 rounded-md"
+              className="px-4 py-2 text-white bg-gray-500/50 hover:bg-gray-500/75 rounded-md duration-300 ease-in-out transition"
               onClick={handleCancelClick}
             >
               Cancel
@@ -64,7 +64,7 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable }) => {
           {editable ? (
           <div className="flex justify-end">
             <button
-              className="px-4 py-2 text-white bg-blue-500 rounded-md"
+              className="px-4 py-2 mx-auto text-gray-700 hover:text-white pb-2 border-b border-gray-700 hover:border-white duration-300 ease-in-out transition"
               onClick={handleEditClick}
             >
               Edit

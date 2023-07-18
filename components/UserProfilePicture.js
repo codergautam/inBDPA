@@ -20,7 +20,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
 
   const handleSave = async () => {
     const formData = new FormData();
-
+    console.log("Huh")
     if (isGravatar) {
       const response = await fetch('/api/setPfp', {
         method: 'POST',
@@ -86,9 +86,9 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   };
 
   return (
-    <div>
-      <div className="flex justify-center items-center mb-4 cursor-pointer" onClick={() => setIsOpen(true)}>
-        <img className="h-32 w-32 rounded-full" src={imageSrc} alt="User Profile" />
+    <div className='w-full pb-16'>
+      <div className="flex relative justify-center items-center mb-4 cursor-pointer" onClick={() => setIsOpen(true)}>
+        <img className="absolute p-2 bg-gray-800 rounded-full h-44 w-44 shadow-2xl shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
       </div>
 
       {isOpen && (
@@ -139,7 +139,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
 
               {editable && (
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-md mt-4"
+                  className="bg-blue-500/50 hover:bg-blue-700/50 duration-300 ease-in-out transition text-white font-bold py-2 px-4 rounded-md mt-4"
                   onClick={handleSave}
                 >
                   Save Changes
