@@ -87,12 +87,18 @@ export async function getAllOpportunitiesMongo() {
     const opportunities = await Opportunity.find();
     return opportunities;
 }
-export async function updateOpportunityMongo(opportunityId, opportunity) {
+export async function updateOpportunityMongo(opportunityId, opportunity, specific=false) {
   // Create if not exists
   try {
+    if(!specific) {
     const updatedOpportunity = await Opportunity.findOneAndUpdate( { opportunity_id: opportunityId }, opportunity, { new: true, upsert: true } );
     console.log('Opportunity successfully updated: ', updatedOpportunity);
     return true;
+    } else {
+      const updatedOpportunity = await Opportunity.findOneAndUpdate( { opportunity_id: opportunityId }, opportunity, { new: true } );
+      console.log('Opportunity successfully updated: ', updatedOpportunity);
+      return true;
+    }
   } catch (error) {
     console.log('Error while trying to update opportunity: ', error);
     return false;
