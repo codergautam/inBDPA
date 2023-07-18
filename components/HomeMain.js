@@ -94,7 +94,7 @@ export default function Main({count}) {
         <div className="ml-6 text-center">
   <Link
     data-aos="fade-up"
-    className="inline-flex items-center py-3 text-black dark:text-white transition duration-500 ease-in-out transform bg-transparent bg-white dark:bg-gray-800 px-7 text-md md:mt-0 hover:text-black dark:hover:text-white hover:bg-white dark:hover:bg-gray-700 focus:shadow-outline"
+    className="inline-flex items-center py-3 text-black dark:text-white px-14 transition duration-500 ease-in-out transform bg-transparent bg-white dark:bg-gray-800 text-md md:mt-0 hover:text-black dark:hover:text-white hover:bg-white dark:hover:bg-gray-700 focus:shadow-outline"
     href="/auth/signup"
   >
     <div className="flex text-lg">
