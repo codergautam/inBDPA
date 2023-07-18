@@ -7,7 +7,7 @@ import Navbar from "@/components/navbar";
 import ErrorComponent from "./ErrorComponent";
 import { useState } from "react";
 // const Captcha = dynamic(() => import('../captchatry2'), { ssr: false })
-import Captcha from "@/components/Captcha";
+import Captcha from "@/components/Captcha"
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -19,22 +19,24 @@ export default function Signup() {
   const [captchaSolved, setSolved] = useState(false);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen sm:min-h-screen bg-white dark:bg-black text-black dark:text-white">
-      <Navbar />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
       {error && <ErrorComponent error={error} />}
       <Head>
         <title>Sign Up | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+      <div className="w-full">
+        <Navbar />
+      </div>
 
-      <main className="flex items-center justify-center w-screen h-full flex-1 px-0 sm:px-20 text-center">
-        <div className="w-full h-full sm:h-min ">
+      <main className="flex items-center justify-center w-full flex-1 px-20 text-center">
+        <div className="w-full max-w-md">
           <form
-            className="bg-white h-full mx-auto md:w-3/4 xl:w-2/3 2xl:w-1/2 sm:h-min dark:bg-black sm:dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-14 sm:pt-6 pb-8"
+            className="bg-white dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-6 pb-8 mb-4"
             onSubmit={(event) => {
               event.preventDefault();
               setBtnText("Signing up...");
-              if (!captchaSolved) {
+              if(!captchaSolved) {
                 setError("Please solve the captcha.");
                 setBtnText("Sign Up");
                 return;
@@ -73,67 +75,65 @@ export default function Signup() {
             <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">
               Create an Account
             </h1>
-            <div className="flex flex-col md:flex-row items-center justify-between w-full">
-              <div className="flex-grow w-3/4 lg:w-max md:mr-1">
-                <div className="mb-4 flex-col items-center">
-                  <label
-                    className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                    htmlFor="name"
-                  >
-                    Username
-                  </label>
-                  <input
-                    className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="name"
-                    type="text"
-                    placeholder="Name"
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                  />
-                </div>
-                <div className="mb-4">
-                  <label
-                    className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                    htmlFor="email"
-                  >
-                    Email
-                  </label>
-                  <input
-                    className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="email"
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                  />
-                </div>
-                <div className="mb-2">
-                  <label
-                    className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                    htmlFor="password"
-                  >
-                    Password
-                  </label>
-                  <input
-                    className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="password"
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                  />
-                </div>
-              </div>
-              <div className="mb-6 flex-grow md:ml-1">
-                <label
-                  className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                  htmlFor="captcha"
-                >
-                  Captcha
-                </label>
-                <Captcha setSolved={setSolved} />
-              </div>
+
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+                htmlFor="name"
+              >
+                Username
+              </label>
+              <input
+                className="appearance-none rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="name"
+                type="text"
+                placeholder="Name"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+              />
             </div>
+            <div className="mb-4">
+              <label
+                className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+                htmlFor="email"
+              >
+                Email
+              </label>
+              <input
+                className="appearance-none rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                id="email"
+                type="email"
+                placeholder="Email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+              />
+            </div>
+            <div className="mb-2">
+              <label
+                className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+                htmlFor="password"
+              >
+                Password
+              </label>
+              <input
+                className="appearance-none rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                id="password"
+                type="password"
+                placeholder="Password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+            </div>
+            <div className="mb-6">
+              <label
+                className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+                htmlFor="captcha"
+              >
+                Captcha
+              </label>
+              <Captcha setSolved={setSolved}/>
+            </div>
+
             <div className="mb-6">
               <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
                 <input
