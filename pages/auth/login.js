@@ -115,17 +115,168 @@ export default function Login() {
   };
 
   return (
-    
-    <section class="bg-gray-50 dark:bg-gray-900">
-      <Navbar />
+    // <div className="flex flex-col items-center justify-center h-screen sm:min-h-screen bg-white dark:bg-black text-black dark:text-white">
+    //   <Navbar />
+    // <ErrorComponent error={loginerror} side="top" />
+    // {error && <ErrorComponent error={error} side="bottom" />}
+    //   <Head>
+    //     <title>Login | inBDPA</title>
+    //     <link rel="icon" href="/favicon.ico" />
+    //   </Head>
+
+    //   <main className="flex items-center justify-center w-screen h-full flex-1 px-0 sm:px-20 text-center">
+    //     <div className="w-full h-full sm:h-min sm:max-w-md">
+    //       <form
+    //         className="bg-white h-full sm:h-min dark:bg-black sm:dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-14 sm:pt-6 pb-8 mb-4"
+    //         onSubmit={handleLogin}
+    //       >
+    //         <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">
+    //           <span>Welcome to </span>
+    //           <Link href="/">
+    //             <img
+    //               className="w-24 self-center dark:hidden inline"
+    //               src="https://cdn.discordapp.com/attachments/1121115967120998540/1129195814447759410/Screenshot_2023-07-13_at_6.34.43_PM-PhotoRoom.png-PhotoRoom.png"
+    //               alt="BDPA logo"
+    //             />
+    //           </Link>
+    //           <Link href="/">
+    //             <img
+    //               className="w-24 self-center hidden dark:inline"
+    //               src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
+    //               alt="BDPA logo"
+    //             />
+    //           </Link>
+    //         </h1>
+
+    //         {remainingAttempts === 0 && timeRemaining ? (
+    //           <>
+    //             <p className="text-gray-500 text-sm my-4">
+    //               {remainingAttempts}{" "}
+    //               {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
+    //             </p>
+    //             <ErrorComponent
+    //               error={
+    //                 <p className=" mb-1">
+    //                   You are temporarily blocked.
+    //                   <br /> Please try again after {timeRemaining}.<br />
+    //                 </p>
+    //               }
+    //             />
+    //           </>
+    //         ) : (
+    //           <p className="text-gray-500 text-sm my-4">
+    //             {remainingAttempts}{" "}
+    //             {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
+    //           </p>
+    //         )}
+
+    //         <div className="mb-4">
+    //           <label
+    //             className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+    //             htmlFor="username"
+    //           >
+    //             Username / Email
+    //           </label>
+    //           <input
+    //             className="appearance-none rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+    // id="username"
+    // type="text"
+    // placeholder="Username"
+    // value={username}
+    // onChange={(event) => setUsername(event.target.value)}
+    //           />
+    //         </div>
+    //         <div className="mb-6">
+    //           <label
+    //             className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
+    //             htmlFor="password"
+    //           >
+    //             Password
+    //           </label>
+    //           <input
+    //             className="appearance-none rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+    //             id="password"
+    //             type="password"
+    //             placeholder="Password"
+    //             value={password}
+    //             onChange={(event) => setPassword(event.target.value)}
+    //           />
+    //         </div>
+    //         <div className="mb-6">
+    //           <label className="block text-gray-700 dark:text-gray-200 text-sm mb-2">
+    //             <input
+    //               className="mr-2 leading-tight"
+    //               type="checkbox"
+    //               checked={rememberMe}
+    //               onChange={(event) => setRememberMe(event.target.checked)}
+    //             />
+    //             <span className="text-sm font-bold">Remember me</span>
+    //           </label>
+    //         </div>
+    //         <div className="flex items-center justify-center">
+    //           <button
+    //             className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 hover:bg-gray-400 text-white focus:text-blue-600 dark:bg-gray-800 border-black dark:border-white text-xl "
+    //             type="submit"
+    //             disabled={remainingAttempts === 0}
+    //           >
+    //             {btnText}
+    //           </button>
+    //         </div>
+    //         <p className="text-center text-gray-700 dark:text-gray-200 mt-5">
+    //           Don&rsquo;t have an account yet?{" "}
+    //           <Link
+    //             href="/auth/signup"
+    //             className="text-blue-600 dark:text-blue-400"
+    //           >
+    //             Sign up here
+    //           </Link>
+    //         </p>
+    //         <p className="text-center text-gray-700 dark:text-gray-200 mt-5 text-sm">
+    //           <Link
+    //             href="/auth/forgot"
+    //             className="text-blue-600 dark:text-blue-400"
+    //           >
+    //             Forgot Password?
+    //           </Link>
+    //         </p>
+    //       </form>
+    //     </div>
+    //   </main>
+    // </div>
+
+    // {remainingAttempts === 0 && timeRemaining ? (
+    //   <>
+    //     <p className="text-gray-500 text-sm my-4">
+    //       {remainingAttempts}{" "}
+    //       {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
+    //     </p>
+    //     <ErrorComponent
+    //       error={
+    //         <p className=" mb-1">
+    //           You are temporarily blocked.
+    //           <br /> Please try again after {timeRemaining}.<br />
+    //         </p>
+    //       }
+    //     />
+    //   </>
+    // ) : (
+    //   <p className="text-gray-500 text-sm my-4">
+    //     {remainingAttempts}{" "}
+    //     {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
+    //   </p>
+    // )}
+    <section class="bg-gray-50 dark:bg-gray-900 h-screen">
+      <div className="fixed w-screen">
+        <Navbar />
+      </div>
       <ErrorComponent error={loginerror} side="top" />
       {error && <ErrorComponent error={error} side="bottom" />}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <Link
+      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+        {/* <Link
           href="/"
           class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
@@ -134,7 +285,7 @@ export default function Login() {
               src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
               alt="BDPA logo"
             />
-        </Link>
+        </Link> */}
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -167,7 +318,7 @@ export default function Login() {
                   for="email"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Your email
+                  Your email or username
                 </label>
                 <input
                   id="username"
@@ -229,13 +380,15 @@ export default function Login() {
                 class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 disabled={remainingAttempts === 0}
               >
-                Sign in
+                <span className="flex justify-center items-center">
+                Sign in →
+                </span>
               </button>
               <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link
                   href="/auth/signup"
-                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  class="font-medium underline text-blue-600"
                 >
                   Sign up
                 </Link>

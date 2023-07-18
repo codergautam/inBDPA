@@ -40,6 +40,18 @@ const profileSchema = new Schema({
   refreshSession: Boolean,
 });
 
+const opportunitySchema = new mongoose.Schema({
+  id: ObjectId,
+  opportunity_id: String,
+  creator_id: String,
+  title: String,
+  views: Number,
+  createdAt: Number,
+  content: String,
+});
+
+const Opportunity = mongoose.models.Opportunity ?? mongoose.model('Opportunity', opportunitySchema);
+
 const resetSchema = new Schema({
   id: ObjectId,
   user_id: String,
@@ -66,6 +78,47 @@ async function createNewProfile({ user_id, username, link }) {
     return false;
   } catch (error) {
    return false;
+  }
+}
+
+
+export async function getAllOpportunitiesMongo() {
+    const opportunities = await Opportunity.find();
+    return opportunities;
+}
+export async function updateOpportunityMongo(opportunityId, opportunity) {
+  // Create if not exists
+  try {
+    const updatedOpportunity = await Opportunity.findOneAndUpdate( { opportunity_id: opportunityId }, opportunity, { new: true, upsert: true } );
+    console.log('Opportunity successfully updated: ', updatedOpportunity);
+    return true;
+  } catch (error) {
+    console.log('Error while trying to update opportunity: ', error);
+    return false;
+  }
+}
+export async function getOpportunityMongo(opportunityId) {
+  try {
+    const opportunity = await Opportunity.findOne({ opportunity_id: opportunityId });
+    if (opportunity) {
+      return opportunity;
+    }
+    return false;
+  } catch (error) {
+    console.log('Error while trying to get opportunity: ', error);
+    return false;
+  }
+}
+export async function getLatestOpportunitiesMongo(limit) {
+  try {
+    const opportunities = await Opportunity.find().sort({createdAt: -1}).limit(limit);
+    if (opportunities) {
+      return opportunities;
+    }
+    return false;
+  } catch (error) {
+    console.log('Error while trying to get latest opportunities: ', error);
+    return false;
   }
 }
 
