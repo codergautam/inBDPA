@@ -75,14 +75,14 @@ export default function Main({count}) {
             <span>Welcome to </span>
             <Link href="/">
               <img
-                className="w-28 sm:w-48 self-center dark:hidden inline"
+                className="w-28 sm:w-48 self-center dark:hidden inline mb-1"
                 src="https://cdn.discordapp.com/attachments/1121115967120998540/1129195814447759410/Screenshot_2023-07-13_at_6.34.43_PM-PhotoRoom.png-PhotoRoom.png"
                 alt="BDPA logo"
               />
             </Link>
             <Link href="/">
               <img
-                className="w-28 sm:w-48 self-center hidden dark:inline"
+                className="w-28 sm:w-48 self-center hidden dark:inline mb-1"
                 src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
                 alt="BDPA logo"
               />
