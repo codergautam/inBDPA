@@ -131,6 +131,9 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
 
       <div className="container px-5 py-24 mx-auto">
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">Opportunities:</h1>
+        {user.type == "staff" || user.type == "administrator" ?
+          <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out" onClick={() => setCreatingOpportunity(true)}>Create Opportunity</button>
+          : <></>}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           {opps.map((opportunity, i) => (
             <div key={opportunity.opportunity_id} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700">
