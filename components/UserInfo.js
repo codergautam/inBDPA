@@ -99,14 +99,14 @@ const MyComponent = ({ user, requestedUser, section }) => {
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <div className="flex items-center justify-center mx-auto p-4">
+    <div className="container mx-auto">
+      <div className={`flex items-center justify-center mx-auto pb-5`}>
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          className="text-gray-700 hover:text-white border-b border-gray-700 hover:border-white duration-300 ease-in-out transition"
           onClick={toggleMode}
           style={{ display: editable ? 'block' : 'none' }}
         >
-          {liveItems.length > 0 ? 'Edit' : 'Add this section'}
+          {liveItems.length > 0 ? 'Edit' : 'Add to this section'}
         </button>
       </div>
 
@@ -114,7 +114,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
         <div className="space-y-4">
           {section !== 'skills' ? (
             liveItems.map((item, index) => (
-              <div className="border border-gray-200 p-4" key={index}>
+              <div className="w-3/4 rounded bg-gray-700 p-4 mx-auto shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
                 <h2 className="text-lg font-bold mb-2">{item.title}</h2>
                 <p className="text-white mb-1">
                   {item.startedAt.toDateString()} - {item.endedAt.toDateString()}
@@ -140,7 +140,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
         >
           <div className="overflow-auto" style={{ maxHeight: '80vh' }}>
             <div className="space-y-4">
-              <h1 className="text-center text-2xl"> Edit: {section}</h1>
+              <h1 className="text-center text-2xl font-bold"> <span className='text-gray-700 font-normal'>Edit:</span> {section.charAt(0).toUpperCase() + section.slice(1, section.length)}</h1>
               {editorItems.map((item, index) => (
                 <div className="border dark:border-gray-800 bg-white dark:bg-gray-800 p-4 shadow-lg rounded-md" key={index}>
                   {section !== 'skills' ? (
@@ -191,29 +191,30 @@ const MyComponent = ({ user, requestedUser, section }) => {
                     />
                   )}
                   <button
-                    className="bg-red-500 hover:bg-red-700 dark:bg-red-800 dark:hover:bg-red-900 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                    className="bg-red-500/50 hover:bg-red-700/50 dark:bg-red-800/50 dark:hover:bg-red-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                     onClick={() => deleteItem(index)}
                   >
                     Delete
                   </button>
                 </div>
               ))}
+              <div className="space-x-2 ml-4">
               {editorItems.length <= 10 && (
                 <button
-                  className="bg-green-500 hover:bg-green-700 dark:bg-green-800 dark:hover:bg-green-900 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                  className="bg-green-500/50 hover:bg-green-700/50 dark:bg-green-800/50 dark:hover:bg-green-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                   onClick={createItem}
                 >
                   Add Item
                 </button>
               )}
               <button
-                className="bg-blue-500 hover:bg-blue-700 dark:bg-blue-800 dark:hover:bg-blue-900 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                className="bg-blue-500/50 hover:bg-blue-700/50 dark:bg-blue-800/50 dark:hover:bg-blue-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 onClick={saveChanges}
               >
                 Save
               </button>
               <button
-                className="bg-red-500 hover:bg-red-700 dark:bg-red-800 dark:hover:bg-red-900 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                className="bg-red-500/50 hover:bg-red-700/50 dark:bg-red-800/50 dark:hover:bg-red-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 onClick={() => {
                   setEditorItems(liveItems);
                   setMode('view');
@@ -221,6 +222,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
               >
                 Close
               </button>
+              </div>
             </div>
           </div>
         </Modal>
