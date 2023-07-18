@@ -68,14 +68,16 @@ export default function Captcha({ setSolved }) {
           <button
             type="button"
             onClick={validateCaptcha}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 my-2 focus:ring-blue-500"
+            className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 my-2 focus:ring-blue-500"
           >
             Submit
           </button>
         </div>
       )}
-      {validationStatus === 'invalid' && (
+      {validationStatus === 'invalid' ? (
         <p className="text-red-500">Invalid Captcha. Please try again.</p>
+      ) : (
+        <p className="text-red-500 invisible">Invalid Captcha. Please try again.</p>
       )}
       {solved && (
         <svg width="50px" height="50px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

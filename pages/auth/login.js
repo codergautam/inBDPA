@@ -265,16 +265,18 @@ export default function Login() {
     //     {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
     //   </p>
     // )}
-    <section class="bg-gray-50 dark:bg-gray-900">
-      <Navbar />
+    <section class="bg-gray-50 dark:bg-gray-900 h-screen">
+      <div className="fixed w-screen">
+        <Navbar />
+      </div>
       <ErrorComponent error={loginerror} side="top" />
       {error && <ErrorComponent error={error} side="bottom" />}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-        <Link
+      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+        {/* <Link
           href="/"
           class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
         >
@@ -283,7 +285,7 @@ export default function Login() {
               src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
               alt="BDPA logo"
             />
-        </Link>
+        </Link> */}
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -316,7 +318,7 @@ export default function Login() {
                   for="email"
                   class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
-                  Your email
+                  Your email or username
                 </label>
                 <input
                   id="username"
@@ -378,13 +380,15 @@ export default function Login() {
                 class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 disabled={remainingAttempts === 0}
               >
-                Sign in
+                <span className="flex justify-center items-center">
+                Sign in →
+                </span>
               </button>
               <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link
                   href="/auth/signup"
-                  class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                  class="font-medium underline text-blue-600"
                 >
                   Sign up
                 </Link>
