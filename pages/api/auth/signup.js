@@ -18,8 +18,8 @@ import { getIronOptions } from "@/utils/ironConfig";
     return res.send({ error: "Invalid email" });
   }
   // Validate password
-  if(password.length < 8) {
-    return res.send({ error: "Password must be at least 8 characters" });
+  if(password.length <= 10) {
+    return res.send({ error: "Password must be greater than 10 characters" });
   }
   // Validate username
   if(username.length < 4) {
