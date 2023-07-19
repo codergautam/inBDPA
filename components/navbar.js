@@ -6,6 +6,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask, faBars } from "@fortawesome/free-solid-svg-icons";
+import Image from "next/image";
 
 export default function Navbar({ user }) {
   const router = useRouter();
@@ -25,17 +26,21 @@ export default function Navbar({ user }) {
     <div className="flex flex-col sm:flex-row items-center justify-between w-full bg-slate-100 dark:bg-gray-900 p-3 md:p-4 lg:py-5 text-center">
       <div className="h-min">
         <Link href="/">
-          <img
+          <Image
             className="w-20 sm:w-36 self-center dark:hidden inline transition duration-300 transform hover:scale-110"
-            src="https://cdn.discordapp.com/attachments/1121115967120998540/1129195814447759410/Screenshot_2023-07-13_at_6.34.43_PM-PhotoRoom.png-PhotoRoom.png"
-            alt="BDPA logo"
+            src="/logos/light.png"
+            alt="inBDPA Logo"
+            width={100}
+            height={100}
           />
         </Link>
         <Link href="/">
-          <img
-            className="w-28 sm:w-36 pt-0 relative self-center hidden dark:inline transition duration-300 transform hover:scale-110"
-            src="https://cdn.discordapp.com/attachments/1121115967120998540/1129463854536085557/168935544518199980.png"
-            alt="BDPA logo"
+          <Image
+            className="w-20 sm:w-36 self-center dark:inline inline transition duration-300 transform hover:scale-110"
+            src="/logos/dark.png"
+            alt="inBDPA Logo"
+            width={100}
+            height={100}
           />
         </Link>
       </div>
