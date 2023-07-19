@@ -171,6 +171,9 @@ async function getAllOpportunities(lastUpdated) {
   while(!stop) {
     let d;
      d = await getOpportunities(after, lastUpdated);
+     if(!d.opportunities) {
+      return false;
+     }
     if(d.opportunities.length == 100) {
       after = d.opportunities[99].opportunity_id;
     } else {
@@ -300,7 +303,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       if(!latestUsers.find(u => u.user_id === user.user_id)) {
         console.log("Removing user", user.user_id, user.username);
         await Profile.deleteOne({ user_id: user.user_id });
-        
+
         try {
         await deleteUser(user.user_id);
       } catch (error) {
@@ -315,6 +318,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   // Process opportunities
   console.log("Fetching opportunities from HSCC API...");
   let latestOpportunities = await getAllOpportunities(lastUpdated);
+  if(latestOpportunities && latestOpportunities.length > 0) {
   console.log("Updating database...", latestOpportunities.length, "opportunities");
   startTime = Date.now();
   for(let latestOpportunity of latestOpportunities) {
@@ -334,4 +338,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     }
   }
   console.log("Done! Processed "+latestOpportunities.length+" opportunities in "+(Date.now()-startTime)+"ms ✨");
+  } else {
+    console.log("No opportunities found to update");
+  }
 }
