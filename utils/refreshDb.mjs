@@ -4,7 +4,7 @@
 import axios from 'axios';
 import {config } from 'dotenv';
 import mongoose from 'mongoose';
-import { createUser, updateUser, userExists } from './neo4j.mjs';
+import { createUser, deleteUser, updateUser, userExists } from './neo4j.mjs';
 config();
 
 
@@ -171,6 +171,9 @@ async function getAllOpportunities(lastUpdated) {
   while(!stop) {
     let d;
      d = await getOpportunities(after, lastUpdated);
+     if(!d.opportunities) {
+      return false;
+     }
     if(d.opportunities.length == 100) {
       after = d.opportunities[99].opportunity_id;
     } else {
@@ -206,6 +209,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   let after = undefined;
   while(!stop) {
   let d = await getUsers(after, lastUpdated);
+  console.log("Fetched", d.users.length, "users");
   if(!d) {
     latestUsers = [];
     break;
@@ -232,7 +236,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
 
       let userConnections;
       try {
-       await getAllUserConnections(latestUser.user_id);
+       userConnections = await getAllUserConnections(latestUser.user_id);
       } catch (error) {
         userConnections = [];
         console.log("Error while trying to fetch connections for user", latestUser.user_id, latestUser.username);
@@ -253,10 +257,10 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
 
       try {
       if(!existsNeo4j) {
-        console.log("Creating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length)
+        console.log("Creating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections)
         await createUser(latestUser.user_id, userConnections);
       } else {
-        console.log("Updating user in neo4j", latestUser.user_id, latestUser.username)
+        console.log("Updating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections)
         await updateUser(latestUser.user_id, userConnections);
       }
     } catch (error) {
@@ -299,6 +303,12 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       if(!latestUsers.find(u => u.user_id === user.user_id)) {
         console.log("Removing user", user.user_id, user.username);
         await Profile.deleteOne({ user_id: user.user_id });
+
+        try {
+        await deleteUser(user.user_id);
+      } catch (error) {
+        console.log("Error while trying to delete user in neo4j", user.user_id, user.username);
+      }
       }
     }
   }
@@ -308,6 +318,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   // Process opportunities
   console.log("Fetching opportunities from HSCC API...");
   let latestOpportunities = await getAllOpportunities(lastUpdated);
+  if(latestOpportunities && latestOpportunities.length > 0) {
   console.log("Updating database...", latestOpportunities.length, "opportunities");
   startTime = Date.now();
   for(let latestOpportunity of latestOpportunities) {
@@ -327,4 +338,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     }
   }
   console.log("Done! Processed "+latestOpportunities.length+" opportunities in "+(Date.now()-startTime)+"ms ✨");
+  } else {
+    console.log("No opportunities found to update");
+  }
 }

@@ -6,7 +6,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   const [isGravatar, setIsGravatar] = useState(!pfp || pfp === 'gravatar');
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(
-    (!pfp || pfp==='gravatar') ? `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon` : `/pfps/${pfp}`
+    (!pfp || pfp==='gravatar') ? `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${pfp}`
   );
   const [previewSrc, setPreviewSrc] = useState(imageSrc);
   const [uploadProgress, setUploadProgress] = useState(0);

@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import "@/public/globals.css"
 import '@fortawesome/fontawesome-svg-core/styles.css'
+import Navbar from "@/components/navbar";
 
 function parseUrl(url) {
   // Convert URL to a common format
@@ -196,6 +197,17 @@ const handleRouteChangeStart = async (url, first=false) => {
     //     <Component {...pageProps} />
     //   )}
     // </>
+    if(loading) {
+    return (
+      <div className="fixed inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800">
+        <Navbar user={pageProps.user} />
+
+        <div className="flex-1 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
+        </div>
+      </div>
+    )
+    }
   return (
     <Component {...pageProps} />
 

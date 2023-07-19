@@ -150,9 +150,6 @@ a {
 .fkrr1 {
   font-family: "Inter", sans-serif;
 }
-.gradient-bg {
-  background: linear-gradient(160deg, #0093E9 0%, #80D0C7 100%);
-}
 
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
@@ -164,7 +161,7 @@ a {
 /* Light mode */
 @media (prefers-color-scheme: light) {
   .gradient-bg {
-    background: linear-gradient(160deg, #8fccef 0%, #bafff8 100%);
+    background: linear-gradient(160deg, #cfe1f0 0%, #ade6e0 100%);
   }
 }
 

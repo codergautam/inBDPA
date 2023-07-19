@@ -1,10 +1,9 @@
-import Head from 'next/head'
+import Head from 'next/head';
 import Navbar from '@/components/navbar';
-
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { withIronSessionSsr } from 'iron-session/next';
 import { ironOptions } from '@/utils/ironConfig';
-import { getInfo, getOpportunities, getUser } from '@/utils/api';
+import { getUserFromMongo } from '@/utils/api';
 import Modal from 'react-modal';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
@@ -19,20 +18,74 @@ const MDEditor = dynamic(
   { ssr: false }
 );
 
-// THIS PAGE DOESNT HAVE PAGINATION YET!
-// TODO: ADD PAGINATION TO THIS PAGE
-
-export default function Page({ user, opportunities, remainingOpps, lastOppId }) {
-  const router = useRouter()
+export default function Page({ user }) {
+  const router = useRouter();
   const [selectedOpportunity, setSelectedOpportunity] = useState(null);
-  const [title, setTitle] = useState("")
+  const [title, setTitle] = useState("");
   const [creatingOpportunity, setCreatingOpportunity] = useState(false);
-  const [editingOpportunity, setEditingOpportunity] = useState(null)
-  const [remaining, setRemaining] = useState(remainingOpps)
-  const [lastOpp, setLastOpp] = useState(lastOppId)
+  const [editingOpportunity, setEditingOpportunity] = useState(false);
   const [value, setValue] = useState("");
-  const [opps, setOpps] = useState(opportunities)
-  console.log(`User Id: `, user)
+  const [opps, setOpps] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const lastOppRef = useRef(null);
+
+
+
+const loadOpportunities = async (first=false) => {
+
+  if(!lastOppRef.current &&!first) return;
+  setLoading(true);
+
+  console.trace("loading opportunities", lastOppRef.current)
+  let data = await fetch("/api/opportunities/getOpportunities", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      opportunity_id: lastOppRef.current
+    })
+  }).then(res => res.json());
+
+  if (data.success) {
+    let newOpps = data.opportunities;
+    setOpps(prevOpps => [...prevOpps, ...newOpps]);
+    lastOppRef.current = newOpps[newOpps.length - 1]?.opportunity_id;
+  } else {
+    alert("Failed to load opportunities...");
+  }
+  setLoading(false);
+};
+
+const debounce = (func, wait) => {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func.apply(this, args), wait);
+  };
+};
+
+const handleScroll = debounce(() => {
+  if (
+    window.innerHeight + document.documentElement.scrollTop >=
+    document.documentElement.offsetHeight - 1
+  ) {
+    loadOpportunities();
+  }
+}, 100);
+
+useEffect(() => {
+  loadOpportunities(true);
+  window.addEventListener('scroll', () => {
+    setLoading(true)
+    handleScroll();
+  });
+  return () => {
+    window.removeEventListener('scroll', handleScroll);
+  };
+}, []);
+
+
 
   const makeNewOpportunity = async () => {
     let data = await fetch("/api/opportunities/createOpportunity", {
@@ -45,17 +98,18 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
         contents: value
       })
     }).then(res => res.json())
-    if(data.success) {
-      alert("Created a new opportunity!")
-      router.reload()
-      return
+
+    if (data.success) {
+      alert("Created a new opportunity!");
+      router.reload();
     } else {
-      alert("Failed to create a new opportunity...")
-      setCreatingOpportunity(false)
-      setValue("")
-      setTitle("")
-      setSelectedOpportunity(null)
+      alert("Failed to create a new opportunity...");
     }
+
+    setCreatingOpportunity(false);
+    setValue("");
+    setTitle("");
+    setSelectedOpportunity(null);
   }
 
   const deleteOpportunity = async (opportunity_id) => {
@@ -68,11 +122,11 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
         opportunity_id
       })
     }).then(res => res.json());
-    if(data.success) {
-      router.reload()
-      return
+
+    if (data.success) {
+      router.reload();
     } else {
-      alert("Failed to delete opportunity...")
+      alert("Failed to delete opportunity...");
     }
   }
 
@@ -88,81 +142,85 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
         contents: value
       })
     }).then(res => res.json())
-    if(data.success) {
-      alert("Successfully edited opportunity!")
-      router.reload()
-      return
-    } else {
-      alert("Failed to edit this opportunity...")
-      setValue("")
-      setEditingOpportunity(null)
-      setTitle("")
-      // setSelectedOpportunity(null)
-    }
-    console.log("Editing: " + opportunity_id)
-  }
 
-  const loadMore = async () => {
-    let data = await fetch("/api/opportunities/getOpportunities", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        opportunity_id: lastOpp
-      })
-    }).then(res => res.json())
-    let newOpps = data.opportunities
-    console.log("Additional Opportunities: ", newOpps)
-    let list = [...opps, ...newOpps]
-    // list = list.sort((a,b) => -(a.createdAt - b.createdAt)) //Arrange so that the most recent are first
-    setOpps(list)
-    setLastOpp(newOpps[newOpps.length-1].opportunity_id)
-    setRemaining(remaining - newOpps.length)
+    if (data.success) {
+      alert("Successfully edited opportunity!");
+      router.reload();
+    } else {
+      alert("Failed to edit this opportunity...");
+    }
+
+    setValue("");
+    setEditingOpportunity(null);
+    setTitle("");
   }
 
   return (
-    <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
+    <div className="min-h-screen bg-white dark:bg-gray-800">
       <Head>
         <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Navbar user={user} />
 
-      <div className="container px-5 py-24 mx-auto">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">Opportunities:</h1>
-        {user.type == "staff" || user.type == "administrator" ?
-          <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out" onClick={() => setCreatingOpportunity(true)}>Create Opportunity</button>
-          : <></>}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-          {opps.map((opportunity, i) => (
-            <div key={opportunity.opportunity_id} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700">
-              <Opportunity i={i}  opportunity={opportunity} selected={selectedOpportunity} />
-              {user.id == opportunity.creator_id ?
-              <div className='flex space-x-2 mt-2'>
-                <span onClick={()=>deleteOpportunity(opportunity.opportunity_id)} className="cursor-pointer rounded flex bg-red-500 hover:bg-rose-500 p-1 transition duration-300 ease-in-out">
-                  Delete <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faTrash} />
-                </span>
-                <span onClick={()=>{
-                  setEditingOpportunity(opportunity)
-                  setTitle(opportunity.title)
-                  setValue(opportunity.contents)
-                }} className="cursor-pointer rounded flex bg-orange-400 hover:bg-amber-500 p-1 transition duration-300 ease-in-out">
-                  Edit <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faPenNib} />
-                </span>
-              </div>
-              : <></>}
-            </div>
-          ))}
-        </div>
-        {
-          remaining > 0 ?
-          <div onClick={loadMore} className="px-4 cursor-pointer py-2 hover:bg-gray-800 transition duration-300 ease-in-out bg-gray-900 text-white rounded w-min min-w-max mt-6 mr-auto">
-            Load More
-          </div> : <></>
-        }
+      <div>
+        <Navbar user={user} />
       </div>
-    </section>
+
+      <main className="container px-5 py-24 mx-auto">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">Opportunities</h2>
+
+        {user.type === "staff" || user.type === "administrator" ? (
+          <div className="flex justify-center">
+            <button
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out mb-8"
+              onClick={() => setCreatingOpportunity(true)}
+            >
+              Create Opportunity
+            </button>
+          </div>
+        ) : null}
+
+        <Modal
+          isOpen={creatingOpportunity}
+          contentLabel="Create Opportunity"
+        >
+          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setCreatingOpportunity(false)}>Close</button>
+          <div className='flex flex-col mt-8'>
+            <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
+            <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
+          </div>
+          <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"} />
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" onClick={makeNewOpportunity}>Create Opportunity</button>
+        </Modal>
+
+        <Modal
+          isOpen={editingOpportunity}
+          contentLabel="Create Opportunity"
+        >
+          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setEditingOpportunity(false)}>Close</button>
+          <div className='flex flex-col mt-8'>
+            <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
+            <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
+          </div>
+          <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"} />
+          <button className="bg-amber-500 hover:bg-orange-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-2" onClick={editOpportunity}>Complete Edits</button>
+        </Modal>
+
+        <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto items-center">
+          {opps.map((opportunity, i) => (
+              <Opportunity key={i} i={i} user={user} opportunity={opportunity} selected={selectedOpportunity} deleteOpportunity={deleteOpportunity} setEditingOpportunity={setEditingOpportunity} setTitle={setTitle} setValue={setValue} />
+
+
+          ))}
+          {loading ? (
+  <div className="flex justify-center items-center h-10">
+    <span className="animate-spin rounded-full h-16 w-16 border-b-2 border-gray-900 dark:border-white"></span>
+  </div>
+) : null}
+        </div>
+
+      </main>
+    </div>
   );
 }
 
@@ -171,30 +229,20 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   res,
   params
 }) {
-
-  if(!req.session.user) {
+  if (!req.session.user) {
     return {
       redirect: {
-        destination: '/auth/login',
+        destination: '/auth/login?error=You must be logged in to view this page.',
         permanent: false
       },
       props: {}
     }
   }
 
-  let opportunities = (await getOpportunities()).opportunities;
-  let info = (await getInfo()).info
-  let opportunityCount = info.opportunities;
-  opportunityCount -= 100; //Because we recieve 50 opportunities
-  let lastOppId = opportunities[opportunities.length - 1].opportunity_id
-  console.log(`Last Opportunity ID: ${lastOppId}`)
-  opportunities = opportunities.sort((a,b) => -(a.createdAt - b.createdAt)) //Arrange so that the most recent are first
-  console.log(info)
-  let type = (await getUser(req.session.user.id)).user.type;
+  let type = (await getUserFromMongo(req.session.user.id)).type;
   req.session.user.type = type;
-  // console.log("Opportunities (1-3): ", opportunities.slice(0,3))
+
   return {
-    props: { user: req.session.user ?? null, opportunities, remainingOpps: opportunityCount, lastOppId },
+    props: { user: req.session.user ?? null },
   };
-},
-ironOptions);
+}, ironOptions);

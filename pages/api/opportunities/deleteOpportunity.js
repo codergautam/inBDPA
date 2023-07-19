@@ -1,4 +1,4 @@
-import { deleteOpportunity } from "@/utils/api";
+import { deleteOpportunity, deleteOpportunityMongo } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 
 import { ironOptions } from "@/utils/ironConfig";
@@ -13,5 +13,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
     console.log("Error")
     return res.json({success: false, error: "Couldn't delete opportunity!"});
   }
+  await deleteOpportunityMongo(opportunity_id);
   res.json({success: true});
 }

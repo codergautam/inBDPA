@@ -125,8 +125,8 @@ const MyComponent = ({ user, requestedUser, section }) => {
             ))
           ) : (
             liveItems.map((item, index) => (
-              <div className="border border-gray-200 p-4 break-words" key={index}>
-                <h2 className="text-lg font-bold mb-2">{item}</h2>
+              <div className="w-min min-w-max rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
+                <h2 className="text-lg font-bold">{item}</h2>
               </div>
             ))
           )}
@@ -142,7 +142,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
             <div className="space-y-4">
               <h1 className="text-center text-2xl font-bold"> <span className='text-gray-700 font-normal'>Edit:</span> {section.charAt(0).toUpperCase() + section.slice(1, section.length)}</h1>
               {editorItems.map((item, index) => (
-                <div className="border dark:border-gray-800 bg-white dark:bg-gray-800 p-4 shadow-gray-200 shadow-lg rounded-md" key={index}>
+                <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
                   {section !== 'skills' ? (
                     <>
                       <input

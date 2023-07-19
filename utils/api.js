@@ -81,18 +81,42 @@ async function createNewProfile({ user_id, username, link }) {
    return false;
   }
 }
+export async function getAllOpportunitiesMongo(limit, opportunity_id_after) {
+  try {
+      let query = {};
+      if (opportunity_id_after) {
+          // Fetch the opportunity for opportunity_id_after
+          const afterOpportunity = await Opportunity.findOne({ opportunity_id: opportunity_id_after });
+          if (afterOpportunity) {
+              query.createdAt = { $lt: afterOpportunity.createdAt };
+          }
+      }
 
-
-export async function getAllOpportunitiesMongo() {
-    const opportunities = await Opportunity.find();
-    return opportunities;
+      // Get all opportunities from mongodb, new ones first.
+      // Return only limit results, and only return opportunities made after the opportunity_id_after opportunity
+      const opportunities = await Opportunity.find(query).sort({createdAt: -1}).limit(limit)
+      if (opportunities) {
+          return opportunities;
+      }
+      return false;
+  } catch (error) {
+      console.log('Error while trying to get opportunities: ', error);
+      return false;
+  }
 }
-export async function updateOpportunityMongo(opportunityId, opportunity) {
+
+export async function updateOpportunityMongo(opportunityId, opportunity, specific=false) {
   // Create if not exists
   try {
+    if(!specific) {
     const updatedOpportunity = await Opportunity.findOneAndUpdate( { opportunity_id: opportunityId }, opportunity, { new: true, upsert: true } );
     console.log('Opportunity successfully updated: ', updatedOpportunity);
     return true;
+    } else {
+      const updatedOpportunity = await Opportunity.findOneAndUpdate( { opportunity_id: opportunityId }, opportunity, { new: true } );
+      console.log('Opportunity successfully updated: ', updatedOpportunity);
+      return true;
+    }
   } catch (error) {
     console.log('Error while trying to update opportunity: ', error);
     return false;
@@ -107,6 +131,16 @@ export async function getOpportunityMongo(opportunityId) {
     return false;
   } catch (error) {
     console.log('Error while trying to get opportunity: ', error);
+    return false;
+  }
+}
+export async function deleteOpportunityMongo(opportunity_id) {
+  try {
+    await Opportunity.findOneAndRemove({ opportunity_id: opportunity_id });
+    console.log('Opportunity successfully deleted in mongo', opportunity_id);
+    return true;
+  } catch (error) {
+    console.log('Error while trying to delete opportunity: ', error);
     return false;
   }
 }
@@ -256,7 +290,55 @@ export async function changeProfileLink(user_id, newLink) {
 
 // Define the sendRequest function to make API requests
 let simulateError = false;
+const MAX_REQUESTS_RATE = 5;
+const TIME_WINDOW = 1000;
+
+let queue = [];
+let lastRequestTime = Date.now();
+let currentRequestRate = 0;
+
 async function sendRequest(url, method, body = null) {
+  return new Promise((resolve, reject) => {
+    // Push the request details into the queue
+    queue.push({
+      url,
+      method,
+      body,
+      resolve,
+      reject
+    });
+    processQueue();
+  });
+}
+
+async function processQueue() {
+  if(queue.length === 0) return;
+
+  const timeSinceLastRequest = Date.now() - lastRequestTime;
+
+  if(timeSinceLastRequest > TIME_WINDOW) {
+    currentRequestRate = 0;
+    lastRequestTime = Date.now();
+  }
+
+  if(currentRequestRate < MAX_REQUESTS_RATE) {
+    // Send a request
+    const req = queue.shift();
+    currentRequestRate++;
+    try {
+      const data = await _sendRequest(req.url, req.method, req.body);
+      req.resolve(data); // Resolve the Promise
+    } catch (error) {
+      req.reject(error); // Reject the Promise
+    }
+    processQueue(); // Try to process the next request in the queue
+  } else {
+    // If we have reached the request limit, wait and try again
+    setTimeout(processQueue, TIME_WINDOW - timeSinceLastRequest);
+  }
+}
+
+async function _sendRequest(url, method, body = null) {
   // Define the common headers for all requests
   let headers = {
     'Authorization': 'bearer '+process.env.API_KEY,
@@ -269,20 +351,19 @@ async function sendRequest(url, method, body = null) {
   if(simulateError && Math.random() < 0.5) {
     return { success: false, error: "Simulated error" }
   } else {
-  try {
-    // console.log(url, method, body);
-    const response = await fetch(url, {
-      method,
-      headers,
-      body: body ? JSON.stringify(body) : null
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw new Error('An error occurred while making the API request');
+    try {
+      const response = await fetch(url, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : null
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw new Error('An error occurred while making the API request');
+    }
   }
-}
 }
 
 export async function updateUserTypeInMongo(id, type) {

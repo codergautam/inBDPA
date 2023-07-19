@@ -1,0 +1,9 @@
+{
+  "apps": [
+      {
+          "name": "inbdpa",
+          "script": "npm",
+          "args" : "start"
+      }
+  ]
+}
