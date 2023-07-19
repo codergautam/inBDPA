@@ -27,7 +27,7 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
   const [selectedOpportunity, setSelectedOpportunity] = useState(null);
   const [title, setTitle] = useState("")
   const [creatingOpportunity, setCreatingOpportunity] = useState(false);
-  const [editingOpportunity, setEditingOpportunity] = useState(null)
+  const [editingOpportunity, setEditingOpportunity] = useState(false);
   const [remaining, setRemaining] = useState(remainingOpps)
   const [lastOpp, setLastOpp] = useState(lastOppId)
   const [value, setValue] = useState("");
