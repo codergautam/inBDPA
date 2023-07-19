@@ -6,12 +6,19 @@ const ConnectionList = ({ connections, clickable, user_id }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userList, setUserList] = useState([]);
   const [error, setError] = useState(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [loadMoreVisible, setLoadMoreVisible] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!isModalOpen) {
       setUserList([]);
+      setCurrentPage(1);
+      setLoadMoreVisible(true);
+      setLoading(false);
       return;
     }
+    setLoading(true);
     fetch('/api/getMutualConnections', {
       method: 'POST',
       body: JSON.stringify({
@@ -20,13 +27,24 @@ const ConnectionList = ({ connections, clickable, user_id }) => {
     })
       .then((res) => res.json())
       .then((data) => {
+        setLoading(false);
         if (data.success) {
-          setUserList(Object.values(data.connections));
+          const allUserList = Object.values(data.connections);
+          const startIndex = (currentPage - 1) * 5;
+          const endIndex = startIndex + 5;
+          const newUserList = allUserList.slice(startIndex, endIndex);
+          setUserList(prev=>[...prev, ...newUserList]);
+          if (endIndex >= allUserList.length) {
+            setLoadMoreVisible(false);
+          }
         } else {
           setError(data.error);
         }
+      }).catch(err=>{
+        setLoading(false)
+        setError(err.message)
       });
-  }, [isModalOpen]);
+  }, [isModalOpen, currentPage]);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -34,6 +52,10 @@ const ConnectionList = ({ connections, clickable, user_id }) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const loadMore = () => {
+    setCurrentPage(currentPage + 1);
   };
 
   return (
@@ -50,7 +72,9 @@ const ConnectionList = ({ connections, clickable, user_id }) => {
         ariaHideApp={false} // Added to prevent the warning about appElement not being defined
       >
         <h2 className="text-2xl font-bold mb-4">Mutual Connections</h2>
+        <p>Counted by both users 3rd connections</p>
         {error ? <p className="text-red-500">{error}</p> : null}
+
         {userList ? (
           userList.map((user, i) => (
             <div className="bg-gray-100 dark:bg-gray-700 rounded-lg shadow-lg p-4 mb-4" key={i}>
@@ -60,6 +84,20 @@ const ConnectionList = ({ connections, clickable, user_id }) => {
             </div>
           ))
         ) : null}
+        {loading? (
+          <div className="flex justify-center items-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
+          </div>
+        ) : null}
+
+        {loadMoreVisible && (
+          <button
+            className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg mt-4"
+            onClick={loadMore}
+          >
+            Load More
+          </button>
+        )}
 
         <button
           className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg mt-4"
