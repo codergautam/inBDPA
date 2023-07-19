@@ -1,7 +1,7 @@
 import { getRequestCookie } from "@/utils/getRequestCookie";
 import { withIronSessionSsr } from "iron-session/next";
 import Head from "next/head";
-import Navbar from "@/components/navbar"
+import Navbar from "@/components/navbar";
 import { getUserFromProfileId } from "@/utils/api";
 import Stats from "@/components/Stats";
 import UserCreation from "@/components/UserCreation";
@@ -9,18 +9,25 @@ import UserSearch from "@/components/UserSearch";
 import { ironOptions } from "@/utils/ironConfig";
 import { useRouter } from "next/router";
 
-export const getServerSideProps = withIronSessionSsr(async function ({req, res, params}) {
+export const getServerSideProps = withIronSessionSsr(async function ({
+  req,
+  res,
+  params,
+}) {
   // Get id param of dynamic route
   // ex: /profile/1
   const id = params.id;
   const requestedUser = (await getUserFromProfileId(id)).user;
-  if(req.session.user == null || req.session.user.type != "administrator") {
+  if (
+    req.session.user == null ||
+    req.session.user.type !== "administrator"
+  ) {
     return {
       redirect: {
         permanent: false,
         destination: "/",
       },
-      props:{},
+      props: {},
     };
   }
   return {
@@ -28,54 +35,35 @@ export const getServerSideProps = withIronSessionSsr(async function ({req, res, 
   };
 }, ironOptions);
 
-export default function Page({user}){
-  console.log("User:")
-  console.log(user)
+export default function Page({ user }) {
+  console.log("User:");
+  console.log(user);
 
-  // let data = await getInfoData();
-  // const [info, setInfo] = useState({});
-  // const [password, setPassword] = useState("");
-  // const [name, setName] = useState("");
-  // const [email, setEmail] = useState("");
-  // const [rememberMe, setRememberMe] = useState(false);
-  // if(data.success) setInfo(data.info)
-  // useEffect(()=>{
-  //   console.log("why")
-  // },[])
-  // console.log("Info:")
-  // console.log(data)
-  // if(data.success) {
-  //   console.log("Success!")
-  //   info = data.info;
-  // }
-
-  const handleSubmit = () => {
-
-  }
+  const handleSubmit = () => {};
 
   const increaseSessions = () => {
-    console.log("Increasing session count")
+    console.log("Increasing session count");
     info.sessions++;
-  }
+  };
+
   return (
-        <div className="flex flex-col">
-        <Head>
-          <title>inBDPA</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-          <div className='w-full'>
-            <Navbar user={user}/>
-          </div>
-          <div className="text-gray-700 text-4xl text-center mt-4">
-            Hello
-          </div>
-          <div className="text-white text-7xl text-center font-bold hover:-translate-y-2 transition duration-300 ease-in-out">
-            {user.username}
-          </div>
-          <Stats></Stats>
-          <UserSearch></UserSearch>
-          <UserCreation></UserCreation>
-          <div className="pb-52"></div>
+    <div className="flex flex-col min-h-screen bg-white dark:bg-gray-800">
+      <Head>
+        <title>inBDPA</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <Navbar user={user} />
+      <main className="flex flex-col items-center justify-center flex-grow pt-24">
+      <div className="flex flex-col items-center justify-center flex-grow">
+        <div className="text-black dark:text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl  pt-2 text-center font-bold hover:-translate-y-2 transition duration-300 ease-in-out ">
+          Admin Dashboard
         </div>
-        )
+        <Stats />
+        <UserSearch />
+        <UserCreation />
+      </div>
+      <div className="pb-52"></div>
+      </main>
+    </div>
+  );
 }

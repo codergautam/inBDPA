@@ -1,7 +1,7 @@
 import Head from "next/head";
 import Navbar from "@/components/navbar";
 import Main from "@/components/HomeMain";
-import { getUserCount } from "@/utils/api";
+import { getUserCount, getUserFromMongo } from "@/utils/api";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import LoggedInHome from "@/components/HomeLoggedIn";
@@ -21,6 +21,13 @@ export default function Home({count, user}) {
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   let userCount = await getUserCount();
+  if(req.session.user) {
+    let user = await getUserFromMongo(req.session.user.id);
+    if(user) {
+    req.session.user.link = user.link;
+    req.session.user.type = user.type;
+    }
+  }
 
   return {
     props: { user: req.session.user ?? null, count: userCount },

@@ -9,11 +9,17 @@ async function handler(req, res) {
     if(!username) {
         res.json({success: false, error: "Didn't provide a username or email"})
     }
+    // make sure admin
+    if(!req.session.user || req.session.user.type !== "administrator") {
+        res.json({success: false, error: "Not authorized"})
+    }
+
     let newProf = await findProfile(username)
     console.log("Profile:", newProf)
     if(newProf) {
         console.log("Sending req")
         let data = await getUser(username);
+        data.user.link = newProf.link;
         res.json({success: true, user: data.user})
     } else {
         res.json({success: false})

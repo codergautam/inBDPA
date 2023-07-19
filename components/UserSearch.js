@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask, faGhost, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 
 export default function UserSearch() {
@@ -90,7 +91,7 @@ export default function UserSearch() {
         } else {
             setOutputUserStatus("No user found...")
             setOutputUser(null)
-            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000);
+            // promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000);
             return
         }
         //Error stuff
@@ -168,47 +169,47 @@ export default function UserSearch() {
     }
 
     return (
-        <div className="mt-4 mb-4 flex flex-col w-1/4 mx-auto text-center">
-            <p className="text-2xl text-white font-bold">Search</p>
-            <label className="text-gray-700 text-lg mb-2">Username:</label>
-            <input value={query} onChange={(e)=>{
-                setQuery(e.target.value)
-                checkForUser(e.target.value)
-                }} className="bg-transparent border-b-2 border-white px-2 py-1 focus:ring-none outline-none" type="text" />
-            <p className="text-center text-lg font-white mt-2">
-                {outputUserStatus}
-            </p>
-            {outputUser ? <div className="text-center text-white">
-                <p className="text-xl font-bold">
-                    {outputUser.username}
-                </p>
-                <p className="text-base">
-                    {outputUser.email}
-                </p>
-                <p className="text-base">
-                    <span className="text-gray-700">Type:</span> {outputUser.type}
-                </p>
-                <p className="text-base">
-                    <span className="text-gray-700">Total Views:</span> {outputUser.views}
-                </p>
-                <div className="flex flex-col">
-                    {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-gray-900 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
-                        Promote to <span className="text-blue-500">{nextPosition}</span>
-                    </button> : <></>}
-                    {/* Administrators can not demote other admins!!!! */}
-                    {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-gray-900 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
-                        Demote to <span className="text-red-500">{previousPosition}</span>
-                    </button> : <></>}
-                    {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-gray-900 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
-                            Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
-                        </button>: <></>}
-                        
-                    {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-gray-900 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-4 py-2">
-                            Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
-                        </button>: <></>}
-                </div>
-            </div> : <></>}
+        <div className="mt-8 mb-8 flex flex-col w-1/2 mx-auto text-center bg-gray-100 dark:bg-gray-900 p-8 rounded-lg shadow-md">
+          <p className="text-4xl text-gray-700 dark:text-white font-bold">Modify a user</p>
+          <label className="text-gray-500 dark:text-gray-300 text-xl mb-4">Username:</label>
+          <input value={query} onChange={(e)=>{
+              setQuery(e.target.value)
+              checkForUser(e.target.value)
+              }} className="bg-transparent border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white" type="text" />
+          <p className="text-center text-xl font-bold dark:text-gray-300 mt-4">
+              {outputUserStatus}
+          </p>
+          {outputUser ? <div className="text-center text-gray-700 dark:text-white">
+              <Link className="text-2xl font-bold mt-4" href={outputUser.link}>
+                  {outputUser.username}
+              </Link>
+              <p className="text-xl mt-2">
+                  {outputUser.email}
+              </p>
+              <p className="text-xl mt-2">
+                  <span className="text-gray-500 dark:text-gray-400">Type:</span> {outputUser.type}
+              </p>
+              <p className="text-xl mt-2">
+                  <span className="text-gray-500 dark:text-gray-400">Total Views:</span> {outputUser.views}
+              </p>
+              <div className="flex flex-col mt-4">
+                  {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-gray-500 dark:bg-blue-700 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                      Promote to <span className="text-blue-500 dark:text-blue-300">{nextPosition}</span>
+                  </button> : <></>}
+                  {/* Administrators can not demote other admins!!!! */}
+                  {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-gray-500 dark:bg-blue-700 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                      Demote to <span className="text-red-500 dark:text-red-300">{previousPosition}</span>
+                  </button> : <></>}
+                  {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-700 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                          Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
+                      </button>: <></>}
+
+                  {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-700 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                          Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
+                      </button>: <></>}
+              </div>
+          </div> : <></>}
 
         </div>
-    )
-}
+      )
+    }

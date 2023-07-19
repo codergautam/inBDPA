@@ -163,6 +163,7 @@ export default function Page({
                     connections={connections}
                     clickable={!!user}
                     user_id={requestedUser.user_id}
+                    isYou={user?.id == requestedUser.user_id}
                     depth={depth}
                   />
                 </div>
@@ -176,7 +177,7 @@ export default function Page({
 
             {editable ? <LinkChanger link={link} /> : null}
 
-            
+
 
             {user ? (
               <>
