@@ -66,7 +66,6 @@ const debounce = (func, wait) => {
 };
 
 const handleScroll = debounce(() => {
-  if (loading) return;
   if (
     window.innerHeight + document.documentElement.scrollTop >=
     document.documentElement.offsetHeight - 1
@@ -77,7 +76,10 @@ const handleScroll = debounce(() => {
 
 useEffect(() => {
   loadOpportunities(true);
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener('scroll', () => {
+    setLoading(true)
+    handleScroll();
+  });
   return () => {
     window.removeEventListener('scroll', handleScroll);
   };
