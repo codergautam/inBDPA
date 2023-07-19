@@ -62,7 +62,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
 
     const [views, setViews] = useState(opportunity?.views)
     const [active, setActive] = useState(activeSessions)
-    const [editingOpportunity, setEditingOpportunity] = useState(null)
+    const [editingOpportunity, setEditingOpportunity] = useState(false)
     const [value, setValue] = useState("");
     const [title, setTitle] = useState("")
     const [parsedContent, setParsedContent] = useState("");

@@ -567,6 +567,7 @@ export function getManyUsersFast(user_ids) {
         link: profile.link,
         username: profile.username,
         pfp: profile.pfp,
+        user_id: profile.user_id,
         gravatarUrl: !profile.pfp || profile.pfp === 'gravatar' ? `https://www.gravatar.com/avatar/${md5(profile.email)}?d=mp` : null,
       }
     });
