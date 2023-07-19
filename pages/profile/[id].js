@@ -119,8 +119,8 @@ export default function Page({
       <main className="flex flex-col mt-20 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-2/3 mx-auto flex-1 px-20 text-center">
         {requestedUser ? (
           <>
-          <div className="flex gap-2 w-full">
-          <div className="md:w-1/3 p-4">
+          <div className="flex flex-col md:flex-row gap-2 w-full">
+          <div className="hidden md:flex flex-col md:w-1/3 p-4">
                   <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
                     Profile Statistics
                   </h2>
@@ -135,15 +135,30 @@ export default function Page({
                     editable={editable}
                   />
                 </div>
-                <div className="w-1/3">
+                <div className="md:w-1/3">
                   <UserProfilePicture
                     editable={editable}
                     email={requestedUser.email}
                     pfp={pfp}
                   />
                 </div>
-                <div className="w-1/3">
-                  <p className="text-xl mt-4 font-bold text-white">Connections:</p>
+          <div className="flex md:hidden flex-col p-4">
+                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                    Profile Statistics
+                  </h2>
+                  <UserStats
+                    views={requestedUser.views}
+                    activeSessions={activeSess}
+                    connectionStatus={
+                      depth > 0
+                        ? addSuffix(depth) + " connection"
+                        : "Not Connected"
+                    }
+                    editable={editable}
+                  />
+                </div>
+                <div className="md:w-1/3">
+                  <p className="text-xl mx-auto mt-4 font-bold text-black dark:text-white">Connections:</p>
                       <ConnectionList
                     connections={connections}
                     clickable={!!user}
