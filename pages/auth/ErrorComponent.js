@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const ErrorComponent = ({ error, side }) => {
+const ErrorComponent = ({ error, side, color }) => {
     const [visible, setVisible] = useState(false);
 
     useEffect(() => {
@@ -20,11 +20,11 @@ const ErrorComponent = ({ error, side }) => {
   return (
     <>
       {visible && (
-        <div className={side === 'top' ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-0` : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-0`}>
+        <div className={side === 'top' && color === 'green' ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-0` : side ==='bottom' && color === 'green' ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-0` : side ==='top' && color === 'red' ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-0` : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-0`}>
           <div className="flex w-fit items-center justify-center mx-auto">
             <div className="py-1">
               <svg
-                className="fill-current h-6 w-6 text-red-500 mr-4"
+                className={color === 'red' ? `fill-current h-6 w-6 text-red-500 mr-4` : `fill-current h-6 w-6 text-emerald-500 mr-4`}
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 20 20"
               >
@@ -32,8 +32,8 @@ const ErrorComponent = ({ error, side }) => {
               </svg>
             </div>
             <div className="text-left">
-              <p className="font-bold">Error:</p>
-              <div className="text-red-500 text-sm">{error}</div>
+              <p className="font-bold">{color === 'red' ? 'Error:' : 'Success'}</p>
+              <div className={color === 'red' ? `text-red-500 text-sm` : `text-emerald-500 text-sm`}>{error}</div>
             </div>
           </div>
         </div>
