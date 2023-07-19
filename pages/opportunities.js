@@ -122,22 +122,31 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
   }
 
   return (
-    <div className="flex flex-col  dark:bg-black">
+    <div className="min-h-screen dark:bg-black">
       <Head>
         <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="w-full">
+
+      <div>
         <Navbar user={user} />
       </div>
 
-      <main className="flex flex-col md:flex-row gap-2 px-4">
-        <div className="mx-auto w-1/2 mt-8 mb-8">
-          <h2 className="text-7xl font-bold mb-4">Opportunities:</h2>
-          {user.type == "staff" || user.type == "administrator" ?
-          <button className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out" onClick={() => setCreatingOpportunity(true)}>Create Opportunity</button>
-          : <></>}
-          <Modal
+      <main className="container px-5 py-24 mx-auto bg-white dark:bg-gray-800">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">Opportunities</h2>
+
+        {user.type == "staff" || user.type == "administrator" ? (
+          <div className="flex justify-center">
+            <button
+              className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out mb-8"
+              onClick={() => setCreatingOpportunity(true)}
+            >
+              Create Opportunity
+            </button>
+          </div>
+        ) : null}
+
+<Modal
             isOpen={creatingOpportunity}
             contentLabel="Create Opportunity"
           >
@@ -162,57 +171,49 @@ export default function Page({ user, opportunities, remainingOpps, lastOppId }) 
               <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"}/>
               <button className="bg-amber-500 hover:bg-orange-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-2" onClick={editOpportunity}>Complete Edits</button>
             </Modal>
-            <div className="mr-auto space-y-8 w-1/2 pt-4">
-            {opps.map((opportunity, i) => (
-              <div className="flex flex-col" key={opportunity.opportunity_id}>
-              <Opportunity i={i}  opportunity={opportunity} selected={selectedOpportunity} />
-              {user.id == opportunity.creator_id ? <div className='flex space-x-2 mt-2'>
-                  <span onClick={()=>deleteOpportunity(opportunity.opportunity_id)} className="cursor-pointer rounded flex bg-red-500 hover:bg-rose-500 p-1 transition duration-300 ease-in-out">
-                      Delete <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faTrash} />
-                  </span>
-                  <span onClick={()=>{
-                    setEditingOpportunity(opportunity)
-                    setTitle(opportunity.title)
-                    setValue(opportunity.contents)
-                  }} className="cursor-pointer rounded flex bg-orange-400 hover:bg-amber-500 p-1 transition duration-300 ease-in-out">
-                      Edit <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faPenNib} />
-                  </span>
-              </div>
-               : <></>}
-               </div>
-            ))}
+        <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto items-center" >
+          {opps.map((opportunity, i) => (
+            <div className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700" key={opportunity.opportunity_id}>
+              <Opportunity i={i} opportunity={opportunity} selected={selectedOpportunity} />
+              {user.id == opportunity.creator_id ? (
+                <div className='flex justify-around mt-2'>
+                  <button
+                    onClick={() => deleteOpportunity(opportunity.opportunity_id)}
+                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                  >
+                    Delete <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faTrash} />
+                  </button>
+                  <button
+                    onClick={() => {
+                      setEditingOpportunity(opportunity)
+                      setTitle(opportunity.title)
+                      setValue(opportunity.contents)
+                    }}
+                    className="bg-orange-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out"
+                  >
+                    Edit <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faPenNib} />
+                  </button>
+                </div>
+              ) : null}
             </div>
-            {
-              remaining > 0 ?
-              <div onClick={loadMore} className="px-4 cursor-pointer py-2 hover:bg-gray-800 transition duration-300 ease-in-out bg-gray-900 text-white rounded w-min min-w-max mt-6 mr-auto">
-                Load More
-              </div> : <></>
-            }
+          ))}
         </div>
 
-        {/* Mini Display has been subsituted for a dynamic page
-        <div className='w-2/3'>
-          {selectedOpportunity ? (
-            <div>
-              <h2 className="text-xl font-bold mb-4">
-                {selectedOpportunity.title}
-              </h2>
-              <div
-                className="mb-4"
-                dangerouslySetInnerHTML={{
-                  __html: selectedOpportunity.contents,
-                }}
-              ></div>
-              <div>
-              </div>
-            </div>
-          ) : (
-            <p className="text-lg text-start mt-4">Select an opportunity to view details.</p>
-          )}
-        </div> */}
+        {remaining > 0 ? (
+          <div className="flex justify-center mt-8">
+            <button
+              onClick={loadMore}
+              className="px-4 py-2 bg-gray-900 text-white rounded hover:bg-gray-800 transition duration-300 ease-in-out"
+            >
+              Load More
+            </button>
+          </div>
+        ) : null}
+
       </main>
-      </div>
+    </div>
   );
+
 }
 
 export const getServerSideProps = withIronSessionSsr(async function ({
