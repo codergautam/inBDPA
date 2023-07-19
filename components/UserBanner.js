@@ -64,11 +64,11 @@ const UserBanner = ({ editable, banner }) => {
   return (
     <div className="user-banner my-2">
         {banner ? (
-          <img src={'/banners/'+banner} alt="User Banner" className="w-2/3 rounded mx-auto mt-4 h-96 object-cover object-top" />
+          <img src={'/api/public/banners/'+banner} alt="User Banner" className="w-2/3 rounded mx-auto mt-4 h-96 object-cover object-top" />
 
       // <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
       //     <img src={'/banners/'+banner} alt="User Banner" className=" object-cover object-top" style={{ width: '100%', height: 'auto' }} />
-      // </div> 
+      // </div>
         ) : null}
 
       {editable ? (
