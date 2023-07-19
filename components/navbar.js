@@ -27,20 +27,20 @@ export default function Navbar({ user }) {
       <div className="h-min">
         <Link href="/">
           <Image
-            className="w-20 sm:w-36 self-center  inline dark:hidden transition duration-300 transform hover:scale-110"
+            className="w-20 sm:w-36 self-center dark:hidden inline transition duration-300 transform hover:scale-110"
             src="/logos/light.png"
-            alt="inBDPA Logo"
-            width={100}
-            height={100}
+            alt="BDPA logo"
+            width={80}
+            height={40}
           />
         </Link>
         <Link href="/">
           <Image
-            className="w-20 sm:w-36 self-center hidden dark:inline transition duration-300 transform hover:scale-110"
+            className="w-28 sm:w-36 pt-0 relative self-center hidden dark:inline transition duration-300 transform hover:scale-110"
             src="/logos/dark.png"
-            alt="inBDPA Logo"
-            width={100}
-            height={100}
+            alt="BDPA logo"
+            width={80}
+            height={40}
           />
         </Link>
       </div>
