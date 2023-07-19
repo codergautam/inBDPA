@@ -72,7 +72,7 @@ export default function Main({count}) {
     <section className="text-gray-600 body-font dark:text-gray-300 gradient-bg">
       <div className="max-w-5xl pt-20 pb-24 mx-auto flex flex-col items-center">
       <div className="text-4xl sm:text-6xl font-bold items-center justify-center" data-aos="fade-down">
-            <span>Welcome to </span>
+            <span className="text-black dark:text-white">Welcome to </span>
             <Link href="/">
               <img
                 className="w-28 sm:w-48 self-center dark:hidden inline mb-1"
