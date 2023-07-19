@@ -81,12 +81,30 @@ async function createNewProfile({ user_id, username, link }) {
    return false;
   }
 }
+export async function getAllOpportunitiesMongo(limit, opportunity_id_after) {
+  try {
+      let query = {};
+      if (opportunity_id_after) {
+          // Fetch the opportunity for opportunity_id_after
+          const afterOpportunity = await Opportunity.findOne({ opportunity_id: opportunity_id_after });
+          if (afterOpportunity) {
+              query.createdAt = { $lt: afterOpportunity.createdAt };
+          }
+      }
 
-
-export async function getAllOpportunitiesMongo() {
-    const opportunities = await Opportunity.find();
-    return opportunities;
+      // Get all opportunities from mongodb, new ones first.
+      // Return only limit results, and only return opportunities made after the opportunity_id_after opportunity
+      const opportunities = await Opportunity.find(query).sort({createdAt: -1}).limit(limit)
+      if (opportunities) {
+          return opportunities;
+      }
+      return false;
+  } catch (error) {
+      console.log('Error while trying to get opportunities: ', error);
+      return false;
+  }
 }
+
 export async function updateOpportunityMongo(opportunityId, opportunity, specific=false) {
   // Create if not exists
   try {
