@@ -31,7 +31,7 @@ export default function Navbar({ user }) {
             src="/logos/light.png"
             alt="BDPA logo"
             width={80}
-            height={40}
+            height={27}
           />
         </Link>
         <Link href="/">
@@ -40,7 +40,7 @@ export default function Navbar({ user }) {
             src="/logos/dark.png"
             alt="BDPA logo"
             width={80}
-            height={40}
+            height={27}
           />
         </Link>
       </div>
