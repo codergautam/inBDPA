@@ -116,17 +116,17 @@ const MyComponent = ({ user, requestedUser, section }) => {
             liveItems.map((item, index) => (
               <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
                 <h2 className="text-lg font-bold mb-2 break-words">{item.title}</h2>
-                <p className="text-gray-800 dark:text-white mb-1">
+                <p className="text-gray-800 dark:text-white mb-1 break-words">
                   {item.startedAt.toDateString()} - {item.endedAt.toDateString()}
                 </p>
-                <p className="text-gray-800 dark:text-white mb-1">{item.location}</p>
-                <p className="text-gray-800 dark:text-white">{item.description}</p>
+                <p className="text-gray-800 dark:text-white mb-1 break-words">{item.location}</p>
+                <p className="text-gray-800 dark:text-white break-words">{item.description}</p>
               </div>
             ))
           ) : (
             liveItems.map((item, index) => (
-              <div className="w-min min-w-max rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
-                <h2 className="text-lg font-bold">{item}</h2>
+              <div className="w-3/4 mx-auto" key={index}>
+                <h2 className="text-lg font-bold break-words rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">{item}</h2>
               </div>
             ))
           )}
