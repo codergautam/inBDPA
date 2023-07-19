@@ -18,8 +18,59 @@ export default function Signup() {
   const [error, setError] = useState("");
   const [btnText, setBtnText] = useState("Sign Up");
   const [captchaSolved, setSolved] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
-  const [showModal, setShowModal] = React.useState(false);
+  // Function to check if all fields are filled
+  const areAllFieldsFilled = () => {
+    return name !== "" && email !== "" && password !== "";
+  };
+
+  const handleSignup = (event) => {
+    event.preventDefault();
+    setBtnText("Signing up...");
+
+    if (!captchaSolved) {
+      setError("Please solve the captcha.");
+      setBtnText("Sign Up");
+      return;
+    }
+
+    if (!areAllFieldsFilled()) {
+      setError("Please fill out all fields.");
+      setBtnText("Sign Up");
+      return;
+    }
+
+    fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: name,
+        email,
+        password,
+        rememberMe,
+        changeUser: true,
+      }),
+      credentials: "include",
+    })
+      .then((response) => {
+        setBtnText("Sign Up");
+        response.json().then((data) => {
+          if (data.error) {
+            setError(data.error);
+            return;
+          }
+          // Redirect to home page
+          window.location.href = "/";
+        });
+      })
+      .catch((error) => {
+        setBtnText("Sign Up");
+        setError("An error occurred while signing up.");
+      });
+  };
   // Initialization for ES Users
 
   return (
@@ -175,7 +226,7 @@ export default function Signup() {
         <div className="xs:h-0 w-screen xs:mb-24">
           <Navbar />
         </div>
-        {error && <ErrorComponent error={error} side="bottom" />}
+
         <Head>
           <title>Signup | inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
@@ -260,7 +311,6 @@ export default function Signup() {
                     required=""
                     placeholder="name@company.com"
                     name="email"
-                    type="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     defaultValue=""
                   />
@@ -319,22 +369,37 @@ export default function Signup() {
                           setRememberMe(event.target.checked)
                         }
                         class="text-gray-500 dark:text-gray-300"
+                        for="remember"
                       >
                         Remember me
                       </label>
                     </div>
                   </div>
                 </div>
-                <button
-                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  type="button"
-                  disabled="False"
-                  onClick={() => setShowModal(true)}
-                >
-                  <span className="flex justify-center items-center">
-                    Continue →
-                  </span>
-                </button>
+
+                {areAllFieldsFilled() ? (
+                  <button
+                    className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    type="button"
+                    disabled={!areAllFieldsFilled()}
+                    onClick={() => setShowModal(true)}
+                  >
+                    <span className="flex justify-center items-center">
+                      Continue →
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    className="cursor-not-allowed w-full text-red-600 bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+                    type="button"
+                    disabled={!areAllFieldsFilled()}
+                    onClick={() => setShowModal(true)}
+                  >
+                    <span className="flex justify-center items-center">
+                      Complete all Fields
+                    </span>
+                  </button>
+                )}
 
                 <div className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
@@ -345,7 +410,7 @@ export default function Signup() {
                     Log in
                   </Link>
                 </div>
-                {showModal ? (
+                {showModal && (
                   <>
                     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                       <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -357,7 +422,16 @@ export default function Signup() {
                             className="mx-auto pb-6 p-10 rounded-2xl"
                             id="captchadiv"
                           >
-                            <Captcha setSolved={setSolved} />
+                            {captchaSolved ? (
+                              <>
+                                <Captcha setSolved={setSolved} solvedyesno={true} />
+                              </>
+                            ) : (
+                              <>
+                                <Captcha setSolved={setSolved} solvedyesno={false} />
+                                {/* {setSolved(true)} */}
+                              </>
+                            )}
                           </div>
 
                           <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 dark:border-slate-600 rounded-b">
@@ -371,16 +445,20 @@ export default function Signup() {
                             <button
                               className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                               type="submit"
+                              // onClick={() => setShowModal(false)}
                             >
                               Create Account
                             </button>
+
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                   </>
-                ) : null}
+                )}
+                {error && <ErrorComponent error={error} side="bottom" />}
+                
               </form>
             </div>
           </div>
