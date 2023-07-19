@@ -88,13 +88,13 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   return (
     <div className='w-full pb-16'>
       <div className="flex relative justify-center items-center mb-4 cursor-pointer" onClick={() => setIsOpen(true)}>
-        <img className="absolute p-2 bg-gray-800 rounded-full h-44 w-44 shadow-2xl shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
+        <img className="absolute p-2 bg-white dark:bg-gray-800 rounded-full h-44 w-44 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
       </div>
 
       {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="relative bg-white dark:bg-gray-800 p-4 rounded-md max-w-lg mx-auto">
-            <button className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-2 rounded-full" onClick={handleClose}>
+            <button className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-2 justify-center rounded-full" onClick={handleClose}>
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                 <path
                   fillRule="evenodd"
