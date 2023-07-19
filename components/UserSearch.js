@@ -180,7 +180,7 @@ export default function UserSearch() {
               {outputUserStatus}
           </p>
           {outputUser ? <div className="text-center text-gray-700 dark:text-white">
-              <Link className="text-2xl font-bold mt-4" href={outputUser.link}>
+              <Link className="text-2xl font-bold mt-4" href={"/profile/"+outputUser.link}>
                   {outputUser.username}
               </Link>
               <p className="text-xl mt-2">

@@ -27,7 +27,7 @@ export default function Navbar({ user }) {
       <div className="h-min">
         <Link href="/">
           <Image
-            className="w-20 sm:w-36 self-center dark:hidden inline transition duration-300 transform hover:scale-110"
+            className="w-20 sm:w-36 self-center  inline dark:hidden transition duration-300 transform hover:scale-110"
             src="/logos/light.png"
             alt="inBDPA Logo"
             width={100}
@@ -36,7 +36,7 @@ export default function Navbar({ user }) {
         </Link>
         <Link href="/">
           <Image
-            className="w-20 sm:w-36 self-center dark:inline inline transition duration-300 transform hover:scale-110"
+            className="w-20 sm:w-36 self-center hidden dark:inline transition duration-300 transform hover:scale-110"
             src="/logos/dark.png"
             alt="inBDPA Logo"
             width={100}
