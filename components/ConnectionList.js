@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
-const ConnectionList = ({ connections, clickable, user_id }) => {
+const ConnectionList = ({ connections, clickable, user_id, isYou }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userList, setUserList] = useState([]);
   const [error, setError] = useState(null);
@@ -71,8 +71,10 @@ const ConnectionList = ({ connections, clickable, user_id }) => {
         onRequestClose={closeModal}
         ariaHideApp={false} // Added to prevent the warning about appElement not being defined
       >
-        <h2 className="text-2xl font-bold mb-4">Mutual Connections</h2>
-        <p>Counted by both users 3rd connections</p>
+        <h2 className="text-2xl font-bold mb-4">{isYou ? "" : "Mutual"} Connections</h2>
+        <p className="text-gray-500 dark:text-gray-300 mb-4">
+          {connections[1].length}{isYou?"":" mutual"} connections (up to 3rd degree)
+        </p>
         {error ? <p className="text-red-500">{error}</p> : null}
 
         {userList ? (
