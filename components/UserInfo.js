@@ -102,7 +102,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
     <div className="container mx-auto">
       <div className={`flex items-center justify-center mx-auto pb-5`}>
         <button
-          className="text-gray-700 hover:text-white border-b border-gray-700 hover:border-white duration-300 ease-in-out transition"
+          className="text-gray-700 hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
           onClick={toggleMode}
           style={{ display: editable ? 'block' : 'none' }}
         >
@@ -114,19 +114,19 @@ const MyComponent = ({ user, requestedUser, section }) => {
         <div className="space-y-4">
           {section !== 'skills' ? (
             liveItems.map((item, index) => (
-              <div className="w-3/4 rounded bg-gray-700 p-4 mx-auto shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
-                <h2 className="text-lg font-bold mb-2">{item.title}</h2>
-                <p className="text-white mb-1">
+              <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
+                <h2 className="text-lg font-bold mb-2 break-words">{item.title}</h2>
+                <p className="text-gray-800 dark:text-white mb-1 break-words">
                   {item.startedAt.toDateString()} - {item.endedAt.toDateString()}
                 </p>
-                <p className="text-white mb-1">{item.location}</p>
-                <p className="text-white">{item.description}</p>
+                <p className="text-gray-800 dark:text-white mb-1 break-words">{item.location}</p>
+                <p className="text-gray-800 dark:text-white break-words">{item.description}</p>
               </div>
             ))
           ) : (
             liveItems.map((item, index) => (
-              <div className="border border-gray-200 p-4 break-words" key={index}>
-                <h2 className="text-lg font-bold mb-2">{item}</h2>
+              <div className="w-3/4 mx-auto" key={index}>
+                <h2 className="text-lg font-bold break-words rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">{item}</h2>
               </div>
             ))
           )}
@@ -142,7 +142,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
             <div className="space-y-4">
               <h1 className="text-center text-2xl font-bold"> <span className='text-gray-700 font-normal'>Edit:</span> {section.charAt(0).toUpperCase() + section.slice(1, section.length)}</h1>
               {editorItems.map((item, index) => (
-                <div className="border dark:border-gray-800 bg-white dark:bg-gray-800 p-4 shadow-lg rounded-md" key={index}>
+                <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
                   {section !== 'skills' ? (
                     <>
                       <input
@@ -191,7 +191,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
                     />
                   )}
                   <button
-                    className="bg-red-500/50 hover:bg-red-700/50 dark:bg-red-800/50 dark:hover:bg-red-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                    className="bg-red-500 hover:bg-red-600 dark:bg-red-800/50 dark:hover:bg-red-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                     onClick={() => deleteItem(index)}
                   >
                     Delete
@@ -201,20 +201,20 @@ const MyComponent = ({ user, requestedUser, section }) => {
               <div className="space-x-2 ml-4">
               {editorItems.length <= 10 && (
                 <button
-                  className="bg-green-500/50 hover:bg-green-700/50 dark:bg-green-800/50 dark:hover:bg-green-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                  className="bg-green-500 hover:bg-green-600 dark:bg-green-800/50 dark:hover:bg-green-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                   onClick={createItem}
                 >
                   Add Item
                 </button>
               )}
               <button
-                className="bg-blue-500/50 hover:bg-blue-700/50 dark:bg-blue-800/50 dark:hover:bg-blue-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                className="bg-blue-500 hover:bg-blue-600 dark:bg-blue-800/50 dark:hover:bg-blue-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 onClick={saveChanges}
               >
                 Save
               </button>
               <button
-                className="bg-red-500/50 hover:bg-red-700/50 dark:bg-red-800/50 dark:hover:bg-red-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
+                className="bg-red-500 hover:bg-red-600 dark:bg-red-800/50 dark:hover:bg-red-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 onClick={() => {
                   setEditorItems(liveItems);
                   setMode('view');

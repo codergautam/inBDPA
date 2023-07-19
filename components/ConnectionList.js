@@ -37,8 +37,8 @@ const ConnectionList = ({ connections, clickable, user_id }) => {
   };
 
   return (
-    <div className="space-y-4 mt-2">
-      <h1 onClick={clickable ? openModal : null} className={`${clickable ? 'cursor-pointer' : ''} ${connections[1].length == 0 ? "text-gray-700 hover:text-gray-500" : "text-white hover:text-blue-500"} duration-300 ease-in-out transition`}>
+    <div className="space-y-4 mt-2 text-center mx-auto">
+      <h1 onClick={clickable ? openModal : null} className={`${clickable ? 'cursor-pointer' : ''} ${connections[1].length == 0 ? "text-gray-700 hover:text-gray-500" : "text-black dark:text-white hover:text-blue-500"} duration-300 ease-in-out transition`}>
         {connections[1].length} connections
       </h1>
 
