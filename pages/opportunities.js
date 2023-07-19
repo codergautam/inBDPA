@@ -208,32 +208,9 @@ useEffect(() => {
 
         <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto items-center">
           {opps.map((opportunity, i) => (
-            <div className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 p-6" key={opportunity.opportunity_id}>
-              <Opportunity i={i} opportunity={opportunity} selected={selectedOpportunity} />
+              <Opportunity key={i} i={i} user={user} opportunity={opportunity} selected={selectedOpportunity} deleteOpportunity={deleteOpportunity} setEditingOpportunity={setEditingOpportunity} setTitle={setTitle} setValue={setValue} />
 
-              {user.id === opportunity.creator_id ? (
-                <div className='flex justify-between mt-4'>
-                  <button
-                    onClick={() => deleteOpportunity(opportunity.opportunity_id)}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition-all ease-in-out"
-                  >
-                    Delete
-                    <FontAwesomeIcon className="text-white w-4 h-4 inline ml-2" icon={faTrash} />
-                  </button>
-                  <button
-                    onClick={() => {
-                      setEditingOpportunity(opportunity);
-                      setTitle(opportunity.title);
-                      setValue(opportunity.contents);
-                    }}
-                    className="bg-orange-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-full transition-all ease-in-out"
-                  >
-                    Edit
-                    <FontAwesomeIcon className="text-white w-4 h-4 inline ml-2" icon={faPenNib} />
-                  </button>
-                </div>
-              ) : null}
-            </div>
+
           ))}
           {loading ? (
   <div className="flex justify-center items-center h-10">
