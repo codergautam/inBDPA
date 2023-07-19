@@ -64,7 +64,7 @@ const UserBanner = ({ editable, banner }) => {
   return (
     <div className="user-banner my-2">
         {banner ? (
-          <img src={'/banners/'+banner} alt="User Banner" className="w-2/3 rounded mx-auto mt-4 h-96 object-cover object-top" />
+          <img src={'/banners/'+banner} alt="User Banner" className="w-2/3 p-2 bg-white dark:p-0 dark:bg-none rounded mx-auto mt-4 h-96 object-cover object-top" />
 
       // <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
       //     <img src={'/banners/'+banner} alt="User Banner" className=" object-cover object-top" style={{ width: '100%', height: 'auto' }} />
@@ -75,13 +75,13 @@ const UserBanner = ({ editable, banner }) => {
         <div className='mt-2 mx-auto text-center w-min min-w-max mb-4'>
           <label
   htmlFor="banner-upload"
-  className="text-white py-2 px-4 hover:rounded mx-auto cursor-pointer hover:bg-blue-500/50 duration-300 transition"
+  className="dark:text-white text-black py-2 px-4 hover:rounded mx-auto cursor-pointer hover:bg-gray-400 dark:hover:bg-blue-500/50 duration-300 transition"
 >
   {banner ? 'Change Banner' : 'Add Banner'}
 </label>
           <input type="file" id="banner-upload" accept="image/*" onChange={handleFileSelect} style={{ display: 'none' }} />
           {banner ? (
-            <button className=" text-white py-2 px-4 rounded hover:bg-red-500/50 duration-300 transition" onClick={handleBannerRemove} disabled={uploading}>
+            <button className=" dark:text-white text-black py-2 px-4 rounded hover:bg-gray-400 dark:hover:bg-red-500/50 duration-300 transition" onClick={handleBannerRemove} disabled={uploading}>
             {uploading ? 'Processing...' : 'Remove Banner'}
           </button>
           ) : null}

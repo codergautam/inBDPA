@@ -102,7 +102,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
     <div className="container mx-auto">
       <div className={`flex items-center justify-center mx-auto pb-5`}>
         <button
-          className="text-gray-700 hover:text-white border-b border-gray-700 hover:border-white duration-300 ease-in-out transition"
+          className="text-gray-700 hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
           onClick={toggleMode}
           style={{ display: editable ? 'block' : 'none' }}
         >
@@ -114,13 +114,13 @@ const MyComponent = ({ user, requestedUser, section }) => {
         <div className="space-y-4">
           {section !== 'skills' ? (
             liveItems.map((item, index) => (
-              <div className="w-3/4 rounded bg-gray-700 p-4 mx-auto shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
+              <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
                 <h2 className="text-lg font-bold mb-2">{item.title}</h2>
-                <p className="text-white mb-1">
+                <p className="text-gray-800 dark:text-white mb-1">
                   {item.startedAt.toDateString()} - {item.endedAt.toDateString()}
                 </p>
-                <p className="text-white mb-1">{item.location}</p>
-                <p className="text-white">{item.description}</p>
+                <p className="text-gray-800 dark:text-white mb-1">{item.location}</p>
+                <p className="text-gray-800 dark:text-white">{item.description}</p>
               </div>
             ))
           ) : (

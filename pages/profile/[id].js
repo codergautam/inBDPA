@@ -116,7 +116,7 @@ export default function Page({
         <UserBanner editable={editable} banner={banner} />
       ) : null}
 
-      <main className="flex flex-col mt-20 mb-12 pb-4 relative items-center justify-center bg-gray-800 border border-gray-700 rounded w-2/3 mx-auto flex-1 px-20 text-center">
+      <main className="flex flex-col mt-20 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-2/3 mx-auto flex-1 px-20 text-center">
         {requestedUser ? (
           <>
           <div className="flex gap-2 w-full">
@@ -220,7 +220,7 @@ export default function Page({
               <div className="flex flex-col md:flex-row mt-4 w-full">
 
                 <div className="w-full p-4 border-gray-700 border-b group">
-                  <h2 className="text-xl font-semibold text-gray-400 group-hover:text-white duration-300 ease-in-out transition dark:text-gray-700 mb-2">
+                  <h2 className="text-xl font-semibold text-gray-400 group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition dark:text-gray-700 mb-2">
                     Education
                   </h2>
                   <UserInfo
@@ -261,7 +261,7 @@ export default function Page({
                       className="w-full p-4 group mt-4 border-gray-700 border-b"
                       key={section}
                     >
-                  <h2 className="text-xl group-hover:text-white duration-300 ease-in-out transition font-semibold text-gray-400 dark:text-gray-700 mb-2">
+                  <h2 className="text-xl group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition font-semibold text-gray-400 dark:text-gray-700 mb-2">
                         {section.charAt(0).toUpperCase() + section.slice(1, section.length)}
                       </h2>
                       <UserInfo
