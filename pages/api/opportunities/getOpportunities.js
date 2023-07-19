@@ -1,4 +1,4 @@
-import { getAllOpportunitiesMongo, getOpportunities } from "@/utils/api";
+import { countSessionsForOpportunity, getAllOpportunitiesMongo, getOpportunities } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 
 import { ironOptions } from "@/utils/ironConfig";
@@ -19,7 +19,20 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
   const { opportunity_id } = req.body;
   try {
-  let opportunities = await getAllOpportunitiesMongo(10, opportunity_id ?? null);
+  let opportunities = [...await getAllOpportunitiesMongo(3, opportunity_id ?? null)];
+  opportunities = await Promise.all(opportunities.map(async (opportunity) => {
+    try {
+    const active = (await countSessionsForOpportunity(opportunity.opportunity_id)).active
+    return {...opportunity.toObject(), active}
+    } catch(e) {
+      console.log(e);
+      return opportunity.toObject();
+    }
+  }))
+
+
+
+  console.log("Opportunities: ", opportunities)
   res.json({success: true, opportunities});
   } catch(e) {
     console.log(e);

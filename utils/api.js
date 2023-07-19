@@ -290,7 +290,55 @@ export async function changeProfileLink(user_id, newLink) {
 
 // Define the sendRequest function to make API requests
 let simulateError = false;
+const MAX_REQUESTS_RATE = 5;
+const TIME_WINDOW = 1000;
+
+let queue = [];
+let lastRequestTime = Date.now();
+let currentRequestRate = 0;
+
 async function sendRequest(url, method, body = null) {
+  return new Promise((resolve, reject) => {
+    // Push the request details into the queue
+    queue.push({
+      url,
+      method,
+      body,
+      resolve,
+      reject
+    });
+    processQueue();
+  });
+}
+
+async function processQueue() {
+  if(queue.length === 0) return;
+
+  const timeSinceLastRequest = Date.now() - lastRequestTime;
+
+  if(timeSinceLastRequest > TIME_WINDOW) {
+    currentRequestRate = 0;
+    lastRequestTime = Date.now();
+  }
+
+  if(currentRequestRate < MAX_REQUESTS_RATE) {
+    // Send a request
+    const req = queue.shift();
+    currentRequestRate++;
+    try {
+      const data = await _sendRequest(req.url, req.method, req.body);
+      req.resolve(data); // Resolve the Promise
+    } catch (error) {
+      req.reject(error); // Reject the Promise
+    }
+    processQueue(); // Try to process the next request in the queue
+  } else {
+    // If we have reached the request limit, wait and try again
+    setTimeout(processQueue, TIME_WINDOW - timeSinceLastRequest);
+  }
+}
+
+async function _sendRequest(url, method, body = null) {
   // Define the common headers for all requests
   let headers = {
     'Authorization': 'bearer '+process.env.API_KEY,
@@ -303,20 +351,19 @@ async function sendRequest(url, method, body = null) {
   if(simulateError && Math.random() < 0.5) {
     return { success: false, error: "Simulated error" }
   } else {
-  try {
-    // console.log(url, method, body);
-    const response = await fetch(url, {
-      method,
-      headers,
-      body: body ? JSON.stringify(body) : null
-    });
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error(error);
-    throw new Error('An error occurred while making the API request');
+    try {
+      const response = await fetch(url, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : null
+      });
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error(error);
+      throw new Error('An error occurred while making the API request');
+    }
   }
-}
 }
 
 export async function updateUserTypeInMongo(id, type) {

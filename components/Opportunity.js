@@ -88,6 +88,7 @@ export default function Opportunity({opportunity, selected, i, canDelete}) {
                         {/* <p className="text-base"><span className={`text-gray-500 group-hover:text-blue-300 transition duration-200 ease-in-out`}>Active Viewers: </span>{active}</p> */}
                         <p className="text-base"><span className={`text-gray-500 transition duration-200 ease-in-out`}>Views: </span>{views}</p>
                         <p className="text-base"><span className={`text-gray-500 transition duration-200 ease-in-out`}> </span>{msToTime(Date.now() - opportunity.createdAt)} ago</p>
+                        <p className="text-base"><span className={`text-gray-500 transition duration-200 ease-in-out`}> </span>{opportunity.active} viewing right now</p>
 
                     </div>
             </div>
