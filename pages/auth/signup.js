@@ -226,7 +226,7 @@ export default function Signup() {
         <div className="xs:h-0 w-screen xs:mb-24">
           <Navbar />
         </div>
-        
+
         <Head>
           <title>Signup | inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
@@ -410,7 +410,7 @@ export default function Signup() {
                     Log in
                   </Link>
                 </div>
-                {showModal ? (
+                {showModal && (
                   <>
                     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                       <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -423,9 +423,15 @@ export default function Signup() {
                             id="captchadiv"
                           >
                             {captchaSolved ? (
-                              <Captcha setSolved={True} />
+                              <Captcha
+                                setSolved={setSolved}
+                                solvedyesno={true}
+                              />
                             ) : (
-                              <Captcha setSolved={setSolved('False')} />
+                              <Captcha
+                                setSolved={setSolved}
+                                solvedyesno={false}
+                              />
                             )}
                           </div>
 
@@ -444,16 +450,14 @@ export default function Signup() {
                             >
                               Create Account
                             </button>
-                            {error && <ErrorComponent error={error} side="bottom" />}
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                   </>
-                ) : (
-                  error && <ErrorComponent error={error} side="bottom" />
-                  )}
+                )}
+                {error && <ErrorComponent error={error} side="bottom" />}
               </form>
             </div>
           </div>
