@@ -1,4 +1,4 @@
-import { updateOpportunity } from "@/utils/api";
+import { updateOpportunity, updateOpportunityMongo } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 
 import { ironOptions } from "@/utils/ironConfig";
@@ -14,6 +14,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
   const creator_id = req.session.user.id;
   console.log("Body for new Opportunity:", { title, contents, creator_id })
   let data = await updateOpportunity(opportunity_id, {title, contents});
+  await updateOpportunityMongo(opportunity_id, {title, contents}, true);
   console.log("Data: ")
   console.log(data)
   res.json(data);

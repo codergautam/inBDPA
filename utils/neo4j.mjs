@@ -55,6 +55,26 @@ export async function fetchConnections(user_id, depth) {
   return [...connections];
 }
 
+export async function deleteUser(user_id) {
+  const session = driver.session();
+
+  try {
+    // First, delete all existing connections.
+    let query = 'MATCH (a:User {id: $user_id})-[r:CONNECTS_TO]->() DELETE r';
+    let params = { user_id };
+
+    await session.run(query, params);
+
+    // Then, delete the user itself.
+    query = 'MATCH (a:User {id: $user_id}) DELETE a';
+    await session.run(query, params);
+
+  } catch (error) {
+    console.error('Error deleting user and its connections:', error);
+  } finally {
+    await session.close();
+  }
+}
 
 
 export async function updateUser(user_id, newConnections) {

@@ -10,7 +10,7 @@ export default function Home({count, user}) {
   return (
     <div className="text-black bg-black flex flex-col min-h-screen">
       <Head>
-        <title>nine4</title>
+        <title>inBDPA - Home</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
       <Navbar user={user} />
@@ -21,7 +21,7 @@ export default function Home({count, user}) {
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   let userCount = await getUserCount();
-  
+
   return {
     props: { user: req.session.user ?? null, count: userCount },
   };

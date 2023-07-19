@@ -35,7 +35,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
     // }
   } else if(req.method == "GET") {
     if(req.session.user.type == "administrator") {
-      console.log("Is an admin")
         return res.json({success:true, forceLogout: false})
     } else {
         const userId = req.session.user.id

@@ -6,9 +6,8 @@ import { ironOptions } from "@/utils/ironConfig";
 import Navbar from "@/components/navbar";
 import ErrorComponent from "./ErrorComponent";
 import { useState } from "react";
-import React from "react";
 // const Captcha = dynamic(() => import('../captchatry2'), { ssr: false })
-import Captcha from "@/components/Captcha";
+import Captcha from "@/components/Captcha"
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -41,47 +40,19 @@ export default function Signup() {
       return;
     }
 
-    fetch("/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: name,
-        email,
-        password,
-        rememberMe,
-        changeUser: true,
-      }),
-      credentials: "include",
-    })
-      .then((response) => {
-        setBtnText("Sign Up");
-        response.json().then((data) => {
-          if (data.error) {
-            setError(data.error);
-            return;
-          }
-          // Redirect to home page
-          window.location.href = "/";
-        });
-      })
-      .catch((error) => {
-        setBtnText("Sign Up");
-        setError("An error occurred while signing up.");
-      });
-  };
+  const [showModal, setShowModal] = React.useState(false);
   // Initialization for ES Users
 
   return (
-    <>
-      {/* <div className="flex flex-col items-center justify-center h-screen sm:min-h-screen bg-white dark:bg-black text-black dark:text-white">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white py-2">
+      {error && <ErrorComponent error={error} />}
+      <Head>
+        <title>Sign Up | inBDPA</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <div className="w-full">
         <Navbar />
-        {error && <ErrorComponent error={error} />}
-        <Head>
-          <title>Sign Up | inBDPA</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+      </div>
 
         <main className="flex items-center justify-center w-screen h-full flex-1 px-0 sm:px-20 text-center">
           <div className="w-full h-full sm:h-min ">
@@ -226,7 +197,7 @@ export default function Signup() {
         <div className="xs:h-0 w-screen xs:mb-24">
           <Navbar />
         </div>
-
+        {error && <ErrorComponent error={error} side="bottom" />}
         <Head>
           <title>Signup | inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
@@ -311,6 +282,7 @@ export default function Signup() {
                     required=""
                     placeholder="name@company.com"
                     name="email"
+                    type="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     defaultValue=""
                   />
@@ -369,37 +341,22 @@ export default function Signup() {
                           setRememberMe(event.target.checked)
                         }
                         class="text-gray-500 dark:text-gray-300"
-                        for="remember"
                       >
                         Remember me
                       </label>
                     </div>
                   </div>
                 </div>
-
-                {areAllFieldsFilled() ? (
-                  <button
-                    className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                    type="button"
-                    disabled={!areAllFieldsFilled()}
-                    onClick={() => setShowModal(true)}
-                  >
-                    <span className="flex justify-center items-center">
-                      Continue →
-                    </span>
-                  </button>
-                ) : (
-                  <button
-                    className="cursor-not-allowed w-full text-red-600 bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-                    type="button"
-                    disabled={!areAllFieldsFilled()}
-                    onClick={() => setShowModal(true)}
-                  >
-                    <span className="flex justify-center items-center">
-                      Complete all Fields
-                    </span>
-                  </button>
-                )}
+                <button
+                  className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                  type="button"
+                  disabled="False"
+                  onClick={() => setShowModal(true)}
+                >
+                  <span className="flex justify-center items-center">
+                    Continue →
+                  </span>
+                </button>
 
                 <div className="text-sm font-light text-gray-500 dark:text-gray-400">
                   Already have an account?{" "}
@@ -410,7 +367,7 @@ export default function Signup() {
                     Log in
                   </Link>
                 </div>
-                {showModal && (
+                {showModal ? (
                   <>
                     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                       <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -422,16 +379,7 @@ export default function Signup() {
                             className="mx-auto pb-6 p-10 rounded-2xl"
                             id="captchadiv"
                           >
-                            {captchaSolved ? (
-                              <>
-                                <Captcha setSolved={setSolved} solvedyesno={true} />
-                              </>
-                            ) : (
-                              <>
-                                <Captcha setSolved={setSolved} solvedyesno={false} />
-                                {/* {setSolved(true)} */}
-                              </>
-                            )}
+                            <Captcha setSolved={setSolved} />
                           </div>
 
                           <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 dark:border-slate-600 rounded-b">
@@ -445,20 +393,16 @@ export default function Signup() {
                             <button
                               className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                               type="submit"
-                              // onClick={() => setShowModal(false)}
                             >
                               Create Account
                             </button>
-
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                   </>
-                )}
-                {error && <ErrorComponent error={error} side="bottom" />}
-                
+                ) : null}
               </form>
             </div>
           </div>
