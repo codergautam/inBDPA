@@ -59,7 +59,7 @@ export default function Navbar({ user }) {
           <>
             <Link
               href={`/admin/${user.link}`}
-              className="border-1 border-red-400 px-2 py-1 text-xs sm:text-lg font-bold dark:text-blue-500 hover:text-white transition duration-400 ease-in-out dark:hover:text-white"
+              className="border-1 border-red-400 px-2 py-1 text-xs sm:text-lg font-bold text-green-500 hover:text-white transition duration-400 ease-in-out dark:hover:text-white"
             >
               Admin
             </Link>

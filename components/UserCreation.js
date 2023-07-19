@@ -72,36 +72,40 @@ export default function UserCreation(){
         }
     }
 
-    return (<>
-        {showStatus ?
-        <p className={`mt-4 text-base text-center w-1/3 mx-auto ${error ? "text-red-500" : "text-green-500"}`}>
-            {status}
-        </p> :
-        <></>}
-            <p onClick={()=>setShowingForm(!showingForm)} className={`mt-4 mx-auto ${showingForm ? "text-red-500" : ""} cursor-pointer text-base font-bold mb-2`}>
-                Click this to {!showingForm ? "make a user" : "close the form"}
+    return (
+        <div className="mt-8 mb-8 flex flex-col w-1/2 mx-auto text-center bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md">
+            {showStatus ?
+                <p className={`text-2xl font-bold mb-4 ${error ? "text-red-500" : "text-green-500"}`}>
+                    {status}
+                </p> : <></>
+            }
+            <p onClick={() => setShowingForm(!showingForm)} className={`text-xl cursor-pointer font-bold ${showingForm ? "text-red-500" : ""}`}>
+               {!showingForm ? "Create a new user" : "Close this form"}
             </p>
-            {showingForm ? <div className="px-6 py-4 bg-gray-900 text-center w-1/4 mx-auto rounded">
-            <p className="text-white text-3xl font-bold mb-4">
-                Create a New User
-            </p>
-            <div>
-            <label className="text-white text-lg mb-2">Username:</label>
-            <input onChange={(e) => setUsername(e.target.value)} className="w-full mx-2 rounded bg-gray-700 px-4 py-2 mb-4" placeholder="Username..." type="text" />
-            <label className="text-white text-lg mb-2">Email:</label>
-            <input onChange={(e) => setEmail(e.target.value)} className="w-full mx-2 rounded bg-gray-700 px-4 py-2 mb-4" placeholder="Email..." type="text" />
-            <label className="text-white text-lg mb-2">Password:</label>
-            <input onChange={(e) => setPassword(e.target.value)} className="w-full mx-2 rounded bg-gray-700 px-4 py-2 mb-4" placeholder="Password..." type="password" />
-            <label className="text-white text-lg mb-2">Type of User:</label> <br />
-            <select onChange={(e) => setType(e.target.value)} className="text-white bg-gray-700 rounded px-4 py-2 mt-2 w-1/2 mx-auto" value={type} name="type" id="">
-                {types.map((type, i) => (
-                    <option value={type == "admin" ? "administrator" : type} key={i}>{type}</option>
-                ))}
-            </select> <br />
-            <button onClick={handleSubmit} className="rounded bg-gray-700 px-4 py-2 text-white mt-4">
-                Submit
-            </button></div></div>
- : <></>}
-    </>
+            {showingForm ?
+                <div className="flex flex-col items-center">
+                    <p className="text-4xl text-gray-700 dark:text-white font-bold mb-4">
+                        Create a New User
+                    </p>
+                    <div className="w-3/4">
+                        <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Username:</label>
+                        <input onChange={(e) => setUsername(e.target.value)} className="bg-transparent border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full" type="text" />
+                        <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Email:</label>
+                        <input onChange={(e) => setEmail(e.target.value)} className="bg-transparent border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"  type="text" />
+                        <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Password:</label>
+                        <input onChange={(e) => setPassword(e.target.value)} className="bg-transparent border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"  type="password" />
+                        <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Type of User:</label>
+                        <select onChange={(e) => setType(e.target.value)} className="bg-transparent border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full" value={type} name="type">
+                            {types.map((type, i) => (
+                                <option value={type === "admin" ? "administrator" : type} key={i}>{type}</option>
+                            ))}
+                        </select>
+                        <button onClick={handleSubmit} className="bg-gray-500 dark:bg-blue-700 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-full mt-2 rounded text-white px-6 py-3 text-xl">
+                            Submit
+                        </button>
+                    </div>
+                </div> : <></>
+            }
+        </div>
     )
 }
