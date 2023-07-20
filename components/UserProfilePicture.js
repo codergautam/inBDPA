@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import md5 from 'blueimp-md5';
+import Cropper from 'react-easy-crop'
 
 const UserProfilePicture = ({ editable, email, pfp }) => {
+  const [crop, setCrop] = useState({ x: 0, y: 0 })
+  const [cropArea, setCropArea] = useState({x: 0, y: 0, width: 0, height: 0})
+  const [zoom, setZoom] = useState(1)
   const [isOpen, setIsOpen] = useState(false);
   const [isGravatar, setIsGravatar] = useState(!pfp || pfp === 'gravatar');
   const [selectedFile, setSelectedFile] = useState(null);
@@ -10,6 +14,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   );
   const [previewSrc, setPreviewSrc] = useState(imageSrc);
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [fileSet, setFileSet] = useState(false);
 
   const handleClose = () => {
     setIsGravatar(!pfp || pfp === 'gravatar');
@@ -34,16 +39,24 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
       }
     } else if (selectedFile) {
       formData.append('file', selectedFile);
+      formData.append('crop', JSON.stringify(cropArea));
+      formData.append('zoom', zoom);
       const response = await fetch('/api/setPfp', {
         method: 'POST',
         body: formData,
       });
 
       if (response.ok) {
-        const uploadedUrl = URL.createObjectURL(selectedFile);
-        setImageSrc(uploadedUrl);
-        setPreviewSrc(uploadedUrl);
+        const { id } = await response.json();
+        setImageSrc(`/api/public/pfps/${id}`);
+        setPreviewSrc(`/api/public/pfps/${id}`);
         setIsOpen(false);
+        setFileSet(false);
+        setPreviewSrc(null);
+        setZoom(1);
+        setCropArea({x: 0, y: 0, width: 0, height: 0})
+      } else {
+        alert('Error uploading image');
       }
     }
   };
@@ -58,8 +71,13 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
         setSelectedFile(file);
         setPreviewSrc(reader.result);
       };
+    setFileSet(true);
+
 
       reader.readAsDataURL(file);
+    } else {
+      setSelectedFile(null);
+      setPreviewSrc(null);
     }
   };
 
@@ -132,8 +150,13 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
               <div className="flex-grow">
                 {uploadProgress > 0 && renderProgressBar()}
 
-                    {previewSrc ? (
-                <img className="w-full h-full object-contain mx-auto rounded-md" src={previewSrc} alt="User Profile" />
+                    {previewSrc && fileSet ? (
+
+                      <div className="w-96 h-48 max-h-48 relative">
+<Cropper cropSize={{width: 200, height: 200}} image={previewSrc} crop={crop} zoom={zoom} aspect={1} onCropChange={setCrop} onCropAreaChange={setCropArea} onZoomChange={setZoom} />
+                      </div>
+                // <img className="w-full h-full object-contain mx-auto rounded-md" src={previewSrc} alt="User Profile" />
+
                     ) : null}
               </div>
 
