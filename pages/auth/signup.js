@@ -21,7 +21,6 @@ export default function Signup() {
   const [showModal, setShowModal] = useState(false);
   const [submityesno, setSubmitYesNo] = useState(false);
 
-
   // Function to check if all fields are filled
   const areAllFieldsFilled = () => {
     return name !== "" && email !== "" && password !== "";
@@ -33,55 +32,62 @@ export default function Signup() {
     } else if (areallfieldsfilled && captchaSolved && !submityesno) {
       setBtnText("Sign Up →");
     } else if (areallfieldsfilled && !captchaSolved) {
-      setBtnText("Captcha →");
+      setBtnText("Continue →");
     } else if (!areallfieldsfilled && captchaSolved) {
       setBtnText("Fill all Fields");
     }
-  },[name, email, password, areallfieldsfilled, captchaSolved, btnText, error, submityesno])
+  }, [
+    name,
+    email,
+    password,
+    areallfieldsfilled,
+    captchaSolved,
+    error,
+    submityesno,
+  ]);
 
-
-  const handleSignup = (event) => {
-    if (!areAllFieldsFilled() && !captchaSolved) {
-      setError("Please solve the captcha.");
-    } else if (areAllFieldsFilled() && captchaSolved) {
-      setError("Please fill out all fields.");
-    } else if (areAllFieldsFilled() && !captchaSolved) {
-      setError("Please fill out all fields.");
-    } else {
-      setError("Please fill out all fields.");
-    }
-    event.preventDefault();
-    setBtnText("Signing up...");
-    fetch("/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: name,
-        email,
-        password,
-        rememberMe,
-        changeUser: true,
-      }),
-      credentials: "include",
-    })
-      .then((response) => {
-        setBtnText("Sign Up");
-        response.json().then((data) => {
-          if (data.error) {
-            setError(data.error);
-            return;
-          }
-          // Redirect to home page
-          window.location.href = "/";
-        });
-      })
-      .catch((error) => {
-        setBtnText("Sign Up");
-        setError("An error occurred while signing up.");
-      });
-  };
+  // const handleSignup = (event) => {
+  //   if (!areAllFieldsFilled() && !captchaSolved) {
+  //     setError("Please solve the captcha.");
+  //   } else if (areAllFieldsFilled() && captchaSolved) {
+  //     setError("Please fill out all fields.");
+  //   } else if (areAllFieldsFilled() && !captchaSolved) {
+  //     setError("Please fill out all fields.");
+  //   } else {
+  //     setError("Please fill out all fields.");
+  //   }
+  //   event.preventDefault();
+  //   setBtnText("Signing up...");
+  //   fetch("/api/auth/signup", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify({
+  //       username: name,
+  //       email,
+  //       password,
+  //       rememberMe,
+  //       changeUser: true,
+  //     }),
+  //     credentials: "include",
+  //   })
+  //     .then((response) => {
+  //       setBtnText("Sign Up");
+  //       response.json().then((data) => {
+  //         if (data.error) {
+  //           setError(data.error);
+  //           return;
+  //         }
+  //         // Redirect to home page
+  //         window.location.href = "/";
+  //       });
+  //     })
+  //     .catch((error) => {
+  //       setBtnText("Sign Up");
+  //       setError("An error occurred while signing up.");
+  //     });
+  // };
   // Initialization for ES Users
 
   return (
@@ -253,21 +259,21 @@ export default function Signup() {
                 onSubmit={(event) => {
                   if (!areAllFieldsFilled() && !captchaSolved) {
                     setError("Please solve the captcha.");
-                    setSubmitYesNo(false)
+                    setSubmitYesNo(false);
                   } else if (areAllFieldsFilled() && captchaSolved) {
                     <ErrorComponent
-                    error="User created"
-                    side="bottom"
-                    color="green"
-                    blocked={false}
-                  />
-                  setSubmitYesNo(true)
+                      error="User created"
+                      side="bottom"
+                      color="green"
+                      blocked={false}
+                    />;
+                    setSubmitYesNo(true);
                   } else if (areAllFieldsFilled() && !captchaSolved) {
                     setError("Please fill out all fields.");
-                    setSubmitYesNo(false)
+                    setSubmitYesNo(false);
                   } else {
                     setError("Please fill out all fields.");
-                    setSubmitYesNo(false)
+                    setSubmitYesNo(false);
                   }
                   event.preventDefault();
                   setBtnText("Signing up...");
@@ -286,9 +292,9 @@ export default function Signup() {
                     credentials: "include",
                   })
                     .then((response) => {
-                      setBtnText("Sign Up");
                       response.json().then((data) => {
                         if (data.error) {
+                          setSubmitYesNo(false);
                           setError(data.error);
                           return;
                         }
@@ -297,7 +303,7 @@ export default function Signup() {
                       });
                     })
                     .catch((error) => {
-                      setSubmitYesNo(true)
+                      setSubmitYesNo(false);
                       setBtnText("Sign Up");
                       setError("An error occurred while signing up.");
                     });
@@ -314,10 +320,10 @@ export default function Signup() {
                     id="name"
                     value={name}
                     // onChange={(event) => {
-                      
+
                     //   realbtnText()
                     // }}
-                    onChange={(event)=>setName(event.target.value)}
+                    onChange={(event) => setName(event.target.value)}
                     required=""
                     placeholder="John"
                     name="name"
@@ -336,7 +342,7 @@ export default function Signup() {
                   <input
                     id="email"
                     value={email}
-                    onChange={(event)=>setEmail(event.target.value)}
+                    onChange={(event) => setEmail(event.target.value)}
                     required=""
                     placeholder="name@company.com"
                     name="email"
@@ -354,7 +360,7 @@ export default function Signup() {
                   <input
                     id="password"
                     value={password}
-                    onChange={(event)=>setPassword(event.target.value)}
+                    onChange={(event) => setPassword(event.target.value)}
                     required=""
                     name="password"
                     type="password"
@@ -457,7 +463,7 @@ export default function Signup() {
                   Already have an account?{" "}
                   <Link
                     href="/auth/login"
-                    class="font-medium underline text-blue-600"
+                    class="font-medium underline text-primary-600 dark:text-primary-500"
                   >
                     Log in
                   </Link>

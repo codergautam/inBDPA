@@ -18,13 +18,12 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
-  const [btnText, setBtnText] = useState("Log In →");
+  const [btnText, setBtnText] = useState("Fill all Fields");
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [remainingAttempts, setRemainingAttempts] = useState(3 - loginAttempts);
   const [timeRemaining, setTimeRemaining] = useState("");
-  const areAllFieldsFilled = () => {
-    return username !== "" && password !== "";
-  };
+  const [submityesno, setSubmitYesNo] = useState(false);
+
   useEffect(() => {
     const storedLoginAttempts =
       parseInt(localStorage.getItem("loginAttempts")) || 0;
@@ -54,7 +53,7 @@ export default function Login() {
       const storedResetTime = localStorage.getItem("resetTime");
       if (storedResetTime && new Date() < new Date(storedResetTime)) {
         setTimeRemaining(formatTimeRemaining(new Date(storedResetTime)));
-      } else if(storedResetTime && new Date() >= new Date(storedResetTime)) {
+      } else if (storedResetTime && new Date() >= new Date(storedResetTime)) {
         localStorage.removeItem("resetTime");
         setTimeRemaining("");
         setRemainingAttempts(3);
@@ -66,18 +65,38 @@ export default function Login() {
     return () => clearInterval(interval);
   }, [remainingAttempts]);
 
-  const handleLogin = async (event) => {
-    event.preventDefault();
-    setError("");
-    setBtnText("Signing in...");
-
-    if (!areAllFieldsFilled()) {
-      setError("Please fill out all fields.");
-      setBtnText("Sign Up");
+  const areAllFieldsFilled = () => {
+    return username !== "" && password !== "";
+  };
+  const areallfieldsfilled = areAllFieldsFilled();
+  useEffect(() => {
+    if (!areallfieldsfilled) {
+      setBtnText("Fill all Fields");
+    } else if (areallfieldsfilled && !submityesno) {
+      setBtnText("Sign Up →");
+    } else {
       return;
     }
-    
+  }, [username, password, areallfieldsfilled, error, submityesno]);
+
+  const handleLogin = async (event) => {
+    if (!areAllFieldsFilled()) {
+      setError("Please fill out all fields.");
+      setSubmitYesNo(false);
+    } else if (areAllFieldsFilled()) {
+      <ErrorComponent
+        error="Signing in..."
+        side="bottom"
+        color="green"
+        blocked={false}
+      />;
+      setSubmitYesNo(true);
+    }
+    event.preventDefault();
+    setBtnText("Signing in...");
+
     try {
+      setBtnText("Signing in...");
       const response = await fetch("/api/auth/login", {
         method: "POST",
         headers: {
@@ -91,21 +110,24 @@ export default function Login() {
         credentials: "include",
       });
 
-      setBtnText("Log in");
       const data = await response.json();
 
       if (data.error) {
+        setBtnText("Log in");
+        setSubmitYesNo(false);
         setLoginAttempts(loginAttempts + 1);
         setRemainingAttempts(3 - loginAttempts - 1);
         localStorage.setItem("loginAttempts", loginAttempts + 1);
         setError(data.error);
       } else {
+        setBtnText("Signing in...");
         // Redirect to home page
         localStorage.removeItem("loginAttempts");
 
         window.location.href = "/";
       }
     } catch (error) {
+      setSubmitYesNo(false);
       setBtnText("Log in");
       setError("An error occurred while logging in.");
     }
@@ -277,8 +299,20 @@ export default function Login() {
       <div className="h-0 w-screen">
         <Navbar />
       </div>
-      <ErrorComponent error={loginerror} side="top" color="red" blocked={false}/>
-      {error && <ErrorComponent error={error} side="bottom" color="red" blocked={false}/>}
+      <ErrorComponent
+        error={loginerror}
+        side="top"
+        color="red"
+        blocked={false}
+      />
+      {error && (
+        <ErrorComponent
+          error={error}
+          side="top"
+          color="red"
+          blocked={false}
+        />
+      )}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
@@ -387,26 +421,26 @@ export default function Login() {
                 </Link>
               </div>
               {areAllFieldsFilled() ? (
-                  <button
-                    className="w-full text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
-                    type="submit"
-                    disabled={remainingAttempts === 0 || !areAllFieldsFilled()}
-                  >
-                    <span className="flex justify-center items-center">
-                    Sign in →
-                    </span>
-                  </button>
-                ) : (
-                  <button
-                    className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-                    type="button"
-                    disabled={remainingAttempts === 0 || !areAllFieldsFilled()}
-                  >
-                    <span className="flex justify-center items-center">
-                      Fill all Fields
-                    </span>
-                  </button>
-                )}
+                <button
+                  className="w-full text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                  type="submit"
+                  disabled={remainingAttempts === 0 || !areAllFieldsFilled()}
+                >
+                  <span className="flex justify-center items-center">
+                    {btnText}
+                  </span>
+                </button>
+              ) : (
+                <button
+                  className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                  type="button"
+                  disabled={remainingAttempts === 0 || !areAllFieldsFilled()}
+                >
+                  <span className="flex justify-center items-center">
+                    {btnText}
+                  </span>
+                </button>
+              )}
               {/* <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
@@ -420,7 +454,7 @@ export default function Login() {
                 Don’t have an account yet?{" "}
                 <Link
                   href="/auth/signup"
-                  className="font-medium underline text-blue-600"
+                  className="font-medium underline text-primary-600 dark:text-primary-500"
                 >
                   Sign up
                 </Link>
