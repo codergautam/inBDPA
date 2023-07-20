@@ -5,10 +5,11 @@ const ErrorComponent = ({ error, side, color, blocked }) => {
 
   useEffect(() => {
     if (error) {
+      setVisible(false)
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
-      }, 8000); // Change the duration as needed (in milliseconds)
+      }, 200000); // Change the duration as needed (in milliseconds)
 
       return () => clearTimeout(timer);
     }
@@ -64,8 +65,8 @@ const ErrorComponent = ({ error, side, color, blocked }) => {
                 <svg
                   className={
                     color === "red"
-                      ? `fill-current text-red-500 ml-3 w-6 h-6`
-                      : `fill-current text-emerald-500 ml-3 w-6 h-6`
+                      ? `fill-current text-red-500 hover:text-red-400 ml-3 w-6 h-6`
+                      : `fill-current text-emerald-500 hover:text-emerald-400 ml-3 w-6 h-6`
                   }
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
