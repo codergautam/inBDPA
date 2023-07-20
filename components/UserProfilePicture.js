@@ -13,8 +13,8 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
     (!pfp || pfp==='gravatar') ? `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${pfp}`
   );
   const [previewSrc, setPreviewSrc] = useState(imageSrc);
-  const [uploadProgress, setUploadProgress] = useState(0);
   const [fileSet, setFileSet] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const handleClose = () => {
     setIsGravatar(!pfp || pfp === 'gravatar');
@@ -24,12 +24,16 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   };
 
   const handleSave = async () => {
+    if(saving) return;
     const formData = new FormData();
     console.log("Huh")
     if (isGravatar) {
+    setSaving(true);
+
       const response = await fetch('/api/setPfp', {
         method: 'POST',
       });
+      setSaving(false);
 
       if (response.ok) {
         const gravatarUrl = `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon`;
@@ -38,6 +42,8 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
         setIsOpen(false);
       }
     } else if (selectedFile) {
+    setSaving(true);
+
       formData.append('file', selectedFile);
       formData.append('crop', JSON.stringify(cropArea));
       formData.append('zoom', zoom);
@@ -45,6 +51,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
         method: 'POST',
         body: formData,
       });
+      setSaving(false);
 
       if (response.ok) {
         const { id } = await response.json();
@@ -92,16 +99,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
     }
   };
 
-  const renderProgressBar = () => {
-    return (
-      <div className="relative w-full h-2 bg-gray-200 rounded-md">
-        <div
-          className="absolute top-0 left-0 h-full bg-green-500 rounded-md"
-          style={{ width: `${uploadProgress}%` }}
-        ></div>
-      </div>
-    );
-  };
 
   return (
     <div className='w-full pb-16'>
@@ -112,14 +109,15 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
       {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="relative bg-white dark:bg-gray-800 p-4 rounded-md max-w-lg mx-auto">
-            <button className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-2 justify-center rounded-full" onClick={handleClose}>
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+            <button className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-2 justify-center rounded-full" onClick={handleClose} style={{zIndex: 10}}>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" style={{zIndex: 50}}>
                 <path
                   fillRule="evenodd"
                   d="M13.414 10l4.293-4.293a1 1 0 0 0-1.414-1.414L12 8.586 7.707 4.293a1 1 0 0 0-1.414 1.414L10.586 10l-4.293 4.293a1 1 0 1 0 1.414 1.414L12 11.414l4.293 4.293a1 1 0 1 0 1.414-1.414L13.414 10z"
                   clipRule="evenodd"
                 />
               </svg>
+
             </button>
 
             <div className="flex flex-col h-full">
@@ -148,7 +146,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
               )}
 
               <div className="flex-grow">
-                {uploadProgress > 0 && renderProgressBar()}
 
                     {previewSrc && fileSet ? (
 
@@ -158,6 +155,14 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
                 // <img className="w-full h-full object-contain mx-auto rounded-md" src={previewSrc} alt="User Profile" />
 
                     ) : null}
+                    {!editable && (
+                      <div className="flex justify-center items-center" style={{zIndex: 5}}>
+
+                        {/* preview image */}
+                        <img className="w-48 h-48 max-h-48 relative" src={previewSrc} alt="User Profile"  />
+                      </div>
+
+                    )}
               </div>
 
               {editable && (
@@ -165,7 +170,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
                   className="bg-blue-500/50 hover:bg-blue-700/50 duration-300 ease-in-out transition text-white font-bold py-2 px-4 rounded-md mt-4"
                   onClick={handleSave}
                 >
-                  Save Changes
+                  {saving ? "Saving Changes.." : "Save Changes"}
                 </button>
               )}
             </div>
