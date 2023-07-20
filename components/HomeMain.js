@@ -72,7 +72,7 @@ export default function Main({count}) {
     <section className="text-gray-600 body-font dark:text-gray-300 gradient-bg">
       <div className="max-w-5xl pt-20 pb-24 mx-auto flex flex-col items-center">
       <div className="text-4xl sm:text-6xl font-bold items-center justify-center" data-aos="fade-down">
-            <span>Welcome to </span>
+            <span className="text-black dark:text-white">Welcome to </span>
             <Link href="/">
               <img
                 className="w-28 sm:w-48 self-center dark:hidden inline mb-1"
@@ -91,24 +91,13 @@ export default function Main({count}) {
         <h2 data-aos="fade-up" className="text-2xl font-4 lh-6 ld-04 pb-11 text-gray-700 dark:text-gray-200 text-center">
           The professional network for the digital age.
         </h2>
-        <div className="ml-6 text-center">
+        <div className="flex justify-center">
   <Link
     data-aos="fade-up"
-    className="inline-flex items-center py-3 text-black dark:text-white px-12 transition duration-500 ease-in-out transform bg-transparent bg-white dark:bg-gray-600 text-md md:mt-0 hover:text-black dark:hover:text-white hover:bg-white dark:hover:bg-gray-700 focus:shadow-outline"
+    className="inline-flex items-center py-3 tracking-tighter text-white transition duration-500 ease-in-out transform bg-transparent bg-gradient-to-r from-blue-500 to-blue-800 px-14 text-md md:mt-0 focus:shadow-outline hover:bg-blue-700 hover:from-blue-600 hover:to-blue-900"
     href="/auth/signup"
   >
-    <div className="flex text-lg">
-      <span className="justify-center">Sign up &rarr;</span>
-    </div>
-  </Link>
-  <Link
-    data-aos="fade-up"
-    className="inline-flex items-center py-3 tracking-tighter text-white transition duration-500 ease-in-out transform bg-transparent ml-11 bg-gradient-to-r from-blue-500 to-blue-800 px-14 text-md md:mt-0 focus:shadow-outline hover:bg-blue-700 hover:from-blue-600 hover:to-blue-900"
-    href="/auth/login"
-  >
-    <div className="flex text-lg">
-      <span className="justify-center">Log in &rarr;</span>
-    </div>
+    <span className="text-lg">Get Started &rarr;</span>
   </Link>
 </div>
 

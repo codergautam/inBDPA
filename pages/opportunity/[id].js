@@ -39,30 +39,13 @@ async function updateInfo(opportunity_id) {
     }
 }
 
-const deleteOpportunity = async (opportunity_id) => {
-    let data = await fetch("/api/opportunities/deleteOpportunity", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        opportunity_id
-      })
-    }).then(res => res.json());
-    if(data.success) {
-      router.reload()
-      return
-    } else {
-      alert("Failed to delete opportunity...")
-    }
-  }
 
 export default function Opportunity({user, opportunity, activeSessions}) {
     const router = useRouter()
 
     const [views, setViews] = useState(opportunity?.views)
     const [active, setActive] = useState(activeSessions)
-    const [editingOpportunity, setEditingOpportunity] = useState(false)
+    const [editingOpportunity, setEditingOpportunity] = useState(null)
     const [value, setValue] = useState("");
     const [title, setTitle] = useState("")
     const [parsedContent, setParsedContent] = useState("");
@@ -82,9 +65,9 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     }, [])
 
     useEffect(() => {
-      const parsed = marked(opportunity.contents);
+      const parsed = marked(opportunity?.contents ?? "",  {gfm: true, breaks: true});
       setParsedContent(parsed);
-    }, [opportunity.contents]);
+    }, [opportunity?.contents]);
 
 
     const deleteOpportunity = async (opportunity_id) => {
@@ -132,60 +115,88 @@ export default function Opportunity({user, opportunity, activeSessions}) {
       console.log("Editing: " + opportunity_id)
     }
 
-    return (
-        <>
-            <div>
-                <Head></Head>
-                <Navbar user={user}></Navbar>
-            </div>
-            {!opportunity ? (
-                <div className="w-full h-full items-center justify-center">
-                    <p className="text-5xl text-white">Opportunity not found</p>
-                    <Link href="/opportunities" className="text-2xl text-white">Go back</Link>
 
-                </div>
-            ) : (
-            <main className="w-5/6 mx-auto mt-6">
-          <Modal
-            isOpen={editingOpportunity}
-            contentLabel="Create Opportunity"
+    return (
+      <section className="text-black bg-white dark:bg-gray-800 flex flex-col min-h-screen">
+  <div className="bg-gray-100 dark:bg-gray-800">
+    <Head></Head>
+    <Navbar user={user}></Navbar>
+    </div>
+
+        {!opportunity ? (
+          <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-800">
+          <p className="text-4xl text-gray-800 dark:text-white font-bold mb-8">Opportunity not found</p>
+          <Link
+            href="/opportunities"
+            className="text-lg text-gray-800 dark:text-white font-semibold py-2 px-6 bg-blue-500 hover:bg-blue-600 rounded transition duration-200 ease-in-out"
           >
-            <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setEditingOpportunity(false)}>Close</button>
+            Go back
+          </Link>
+        </div>
+
+        ) : (
+          <main className="w-5/6 mx-auto mt-6 bg-white dark:bg-gray-800 rounded-lg p-8">
+<div className="sm:flex sm:justify-center lg:inline-block pb-0 sm:pb-5 ">
+  <Link
+    href="/opportunities"
+    className="inline-block align-middle py-2 px-4 bg-transparent text-gray-800 font-bold rounded outline-none border border-gray-800 hover:bg-gray-200  transition duration-200 ease-in-out mt-4 dark:text-gray-200 dark:border-gray-200 dark:hover:bg-gray-600"
+  >
+    Back to All Opportunities
+  </Link>
+</div>
+            <Modal
+              isOpen={editingOpportunity}
+              contentLabel="Create Opportunity"
+            >
+              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setEditingOpportunity(false)}>Close</button>
               <div className='flex flex-col mt-8'>
                 <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
                 <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
               </div>
-              <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"}/>
+              <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"} />
               <button className="bg-amber-500 hover:bg-orange-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-2" onClick={editOpportunity}>Complete Edits</button>
             </Modal>
-                <p className="text-5xl text-center font-bold text-white">
-                    {opportunity.title}
-                </p>
-                <p className="flex text-white text-lg w-min min-w-max mx-auto mt-2 space-x-2">
-                  <span><span className="text-gray-600">Views: </span> {views}</span>
-                  <span><span className="text-gray-600">Active Viewers: </span> {active}</span>
-                </p>
-                {opportunity.creator_id == user.id ? <>
-                <div className='flex space-x-2 mt-2 mx-auto w-min min-w-max'>
-                  <span onClick={()=>deleteOpportunity(opportunity.opportunity_id)} className="cursor-pointer rounded flex bg-red-500 hover:bg-rose-500 p-1 transition duration-300 ease-in-out">
-                      Delete <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faTrash} />
-                  </span>
-                  <span onClick={()=>{
-                    setEditingOpportunity(opportunity)
-                    setTitle(opportunity.title)
-                    setValue(opportunity.contents)
-                  }} className="cursor-pointer rounded flex bg-orange-400 hover:bg-amber-500 p-1 transition duration-300 ease-in-out">
-                      Edit <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faPenNib} />
-                  </span>
-                </div>
-                </> : <></>}
-                <p className="text-gray-600 font-bold text-xl text-center mt-4">Contents:</p>
-                <div dangerouslySetInnerHTML={{__html: marked(opportunity.contents)}} className="text-lg text-center text-white w-3/5 mx-auto">
-                </div>
-            </main>
-            )}
-        </>
-    )
+            <div className="bg-gray-100 dark:bg-gray-700 p-12 rounded-md">
+            <p className="text-5xl text-center font-bold text-gray-800 dark:text-white">
+              {opportunity.title}
+            </p>
+            <p className="flex text-gray-600 dark:text-gray-100 text-lg w-min min-w-max mx-auto mt-2 space-x-2">
+  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 rounded">
+   Views: {views}
+  </span>
+  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 rounded">
+    Active Viewers:  {isNaN(active) ? active : Math.max(active, 1)}
+
+  </span>
+</p>
+
+            {opportunity.creator_id == user.id ? (
+              <div className='flex space-x-2 mt-2 mx-auto w-min min-w-max'>
+                <span onClick={() => deleteOpportunity(opportunity.opportunity_id)} className="cursor-pointer rounded flex bg-red-500 hover:bg-rose-500 p-1 transition duration-300 ease-in-out">
+                  Delete <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faTrash} />
+                </span>
+                <span onClick={() => {
+                  setEditingOpportunity(opportunity)
+                  setTitle(opportunity.title)
+                  setValue(opportunity.contents)
+                }} className="cursor-pointer rounded flex bg-orange-400 hover:bg-amber-500 p-1 transition duration-300 ease-in-out">
+                  Edit <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faPenNib} />
+                </span>
+              </div>
+            ) : null}
+            <br/>
+            <hr/>
+            <div className="text-lg text-gray-800 dark:text-white w-11/12 mx-auto mt-2">
+              <div className="markdown-content" dangerouslySetInnerHTML={{ __html: marked(opportunity.contents, {gfm: true, breaks: true}) }}></div>
+            </div>
+            </div>
+          </main>
+        )}
+        </section>
+
+    );
+
+
 }
 
 export const getServerSideProps = withIronSessionSsr(async ({

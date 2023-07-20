@@ -23,7 +23,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
   let userCount = await getUserCount();
   if(req.session.user) {
     let user = await getUserFromMongo(req.session.user.id);
-    if(user) {
+    if(user && user.link && user.type) {
     req.session.user.link = user.link;
     req.session.user.type = user.type;
     }

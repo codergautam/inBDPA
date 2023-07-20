@@ -377,7 +377,30 @@ export default function Signup() {
                   </div>
                 </div>
 
-                {areAllFieldsFilled() ? (
+                {areAllFieldsFilled() && captchaSolved && (
+                  <button
+                    className="w-full text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                    type="submit"
+                    disabled={!areAllFieldsFilled()}
+                  >
+                    <span className="flex justify-center items-center">
+                      Submit →
+                    </span>
+                  </button>
+                )}
+                {!areAllFieldsFilled() && !captchaSolved && (
+                  <button
+                    className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                    type="button"
+                    disabled={!areAllFieldsFilled()}
+                    onClick={() => setShowModal(true)}
+                  >
+                    <span className="flex justify-center items-center">
+                      Fill all Fields
+                    </span>
+                  </button>
+                )}
+                {areAllFieldsFilled() && !captchaSolved && (
                   <button
                     className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                     type="button"
@@ -388,15 +411,15 @@ export default function Signup() {
                       Continue →
                     </span>
                   </button>
-                ) : (
+                )}
+                {!areAllFieldsFilled() && captchaSolved && (
                   <button
-                    className="cursor-not-allowed w-full text-red-600 bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-                    type="button"
+                    className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                    type="submit"
                     disabled={!areAllFieldsFilled()}
-                    onClick={() => setShowModal(true)}
                   >
                     <span className="flex justify-center items-center">
-                      Complete all Fields
+                      Fill all Fields
                     </span>
                   </button>
                 )}
@@ -410,7 +433,7 @@ export default function Signup() {
                     Log in
                   </Link>
                 </div>
-                {showModal && (
+                {showModal && !captchaSolved && (
                   <>
                     <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
                       <div className="relative w-auto my-6 mx-auto max-w-3xl">
@@ -443,13 +466,13 @@ export default function Signup() {
                             >
                               ← Back
                             </button>
-                            <button
+                            {/* <button
                               className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                               type="submit"
                               // onClick={() => setShowModal(false)}
                             >
                               Create Account
-                            </button>
+                            </button> */}
                           </div>
                         </div>
                       </div>
@@ -457,7 +480,8 @@ export default function Signup() {
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                   </>
                 )}
-                {error && <ErrorComponent error={error} side="bottom" />}
+                {captchaSolved && <ErrorComponent error="Captcha completed" side="bottom" color="green" blocked={false}/>}
+                {error && <ErrorComponent error={error} side="bottom" color="red" blocked={false}/>}
               </form>
             </div>
           </div>

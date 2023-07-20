@@ -9,6 +9,7 @@ const ConnectionList = ({ connections, clickable, user_id, isYou }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loadMoreVisible, setLoadMoreVisible] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [totalConnections, setTotalConnections] = useState("...");
 
   useEffect(() => {
     if (!isModalOpen) {
@@ -34,6 +35,7 @@ const ConnectionList = ({ connections, clickable, user_id, isYou }) => {
           const endIndex = startIndex + 5;
           const newUserList = allUserList.slice(startIndex, endIndex);
           setUserList(prev=>[...prev, ...newUserList]);
+          setTotalConnections(allUserList.length);
           if (endIndex >= allUserList.length) {
             setLoadMoreVisible(false);
           }
@@ -73,7 +75,7 @@ const ConnectionList = ({ connections, clickable, user_id, isYou }) => {
       >
         <h2 className="text-2xl font-bold mb-4">{isYou ? "" : "Mutual"} Connections</h2>
         <p className="text-gray-500 dark:text-gray-300 mb-4">
-          {connections[1].length}{isYou?"":" mutual"} connections (up to 3rd degree)
+          {totalConnections}{isYou?"":" mutual"} connections (up to 3rd degree)
         </p>
         {error ? <p className="text-red-500">{error}</p> : null}
 
