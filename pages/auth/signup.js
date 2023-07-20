@@ -20,6 +20,7 @@ export default function Signup() {
   const [captchaSolved, setSolved] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [submityesno, setSubmitYesNo] = useState(false);
+  const [passwordstrength, setPassStrength] = useState("red");
 
   // Function to check if all fields are filled
   const areAllFieldsFilled = () => {
@@ -27,6 +28,13 @@ export default function Signup() {
   };
   const areallfieldsfilled = areAllFieldsFilled();
   useEffect(() => {
+    {
+      password.length < 10
+        ? setPassStrength("Weak")
+        : password.length < 17
+        ? setPassStrength("Moderate")
+        : setPassStrength("Strong");
+    }
     if (!areallfieldsfilled && !captchaSolved) {
       setBtnText("Fill all Fields");
     } else if (areallfieldsfilled && captchaSolved && !submityesno) {
@@ -166,17 +174,58 @@ export default function Signup() {
                   >
                     Your password
                   </label>
-                  <input
-                    id="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    required=""
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    defaultValue=""
-                  />
+                  {passwordstrength === "Weak" ? (
+                    <>
+                      <input
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required=""
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className={`bg-gray-50 border border-red-300 text-red-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-red-500 dark:focus:ring-red-500 dark:focus:border-red-500`}
+                        defaultValue=""
+                      />
+                      <p className="text-sm text-red-500 text-right pt-1 pr-2">
+                        Weak Password
+                      </p>
+                    </>
+                  ) : passwordstrength === "Moderate" ? (
+                    <>
+                      <input
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required=""
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className={`bg-gray-50 border border-yellow-300 text-yellow-900 sm:text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-yellow-600 placeholder-gray-400 dark:text-yellow-500 dark:focus:ring-yellow-500 dark:focus:border-yellow-500`}
+                        defaultValue=""
+                      />
+                      <p className="text-sm text-yellow-500 text-right pt-1 pr-2">
+                        Moderate Password
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required=""
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className={`bg-gray-50 border border-green-300 text-green-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-green-500 dark:focus:ring-green-500 dark:focus:border-green-500`}
+                        defaultValue=""
+                      />
+                      <p className="text-sm text-green-500 text-right pt-1 pr-2">
+                        Strong Password
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 {/* <div className="mb-6">
