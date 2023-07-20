@@ -65,7 +65,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     }, [])
 
     useEffect(() => {
-      const parsed = marked(opportunity?.contents ?? "");
+      const parsed = marked(opportunity?.contents ?? "",  {gfm: true, breaks: true});
       setParsedContent(parsed);
     }, [opportunity?.contents]);
 
@@ -187,7 +187,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
             <br/>
             <hr/>
             <div className="text-lg text-gray-800 dark:text-white w-11/12 mx-auto mt-2">
-              <div dangerouslySetInnerHTML={{ __html: marked(opportunity.contents) }}></div>
+              <div className="markdown-content" dangerouslySetInnerHTML={{ __html: marked(opportunity.contents, {gfm: true, breaks: true}) }}></div>
             </div>
             </div>
           </main>

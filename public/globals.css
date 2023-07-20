@@ -173,3 +173,8 @@ a {
 .react-scroll-link:hover {
   transform: translateY(-5px);
 }
+
+.markdown-content *:not(li) {
+  margin-bottom: 20px;
+}
+
