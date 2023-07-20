@@ -451,7 +451,7 @@ export default function Login() {
                 </span>
               </button> */}
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
-                Don’t have an account yet?{" "}
+                Don’t have an account?{" "}
                 <Link
                   href="/auth/signup"
                   className="font-medium underline text-primary-600 dark:text-primary-500"
