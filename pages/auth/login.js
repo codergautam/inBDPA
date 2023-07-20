@@ -269,8 +269,8 @@ export default function Login() {
       <div className="h-0 w-screen">
         <Navbar />
       </div>
-      <ErrorComponent error={loginerror} side="top" color="red"/>
-      {error && <ErrorComponent error={error} side="bottom" color="red"/>}
+      <ErrorComponent error={loginerror} side="top" color="red" blocked={false}/>
+      {error && <ErrorComponent error={error} side="bottom" color="red" blocked={false}/>}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
@@ -304,6 +304,9 @@ export default function Login() {
                       <br /> Please try again after {timeRemaining}.<br />
                     </p>
                   }
+                  side="bottom"
+                  color="red"
+                  blocked={true}
                 />
               </>
             ) : (
