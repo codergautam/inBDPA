@@ -269,8 +269,8 @@ export default function Login() {
       <div className="h-0 w-screen">
         <Navbar />
       </div>
-      <ErrorComponent error={loginerror} side="top" />
-      {error && <ErrorComponent error={error} side="bottom" />}
+      <ErrorComponent error={loginerror} side="top" color="red"/>
+      {error && <ErrorComponent error={error} side="bottom" color="red"/>}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
