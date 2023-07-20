@@ -5,7 +5,7 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import Navbar from "@/components/navbar";
 import ErrorComponent from "./ErrorComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 // const Captcha = dynamic(() => import('../captchatry2'), { ssr: false })
 import Captcha from "@/components/Captcha";
@@ -16,31 +16,42 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
-  const [btnText, setBtnText] = useState("Sign Up");
+  const [btnText, setBtnText] = useState("Fill all Fields");
   const [captchaSolved, setSolved] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [submityesno, setSubmitYesNo] = useState(false);
+
 
   // Function to check if all fields are filled
   const areAllFieldsFilled = () => {
     return name !== "" && email !== "" && password !== "";
   };
+  const areallfieldsfilled = areAllFieldsFilled();
+  useEffect(() => {
+    if (!areallfieldsfilled && !captchaSolved) {
+      setBtnText("Fill all Fields");
+    } else if (areallfieldsfilled && captchaSolved && !submityesno) {
+      setBtnText("Sign Up →");
+    } else if (areallfieldsfilled && !captchaSolved) {
+      setBtnText("Captcha →");
+    } else if (!areallfieldsfilled && captchaSolved) {
+      setBtnText("Fill all Fields");
+    }
+  },[name, email, password, areallfieldsfilled, captchaSolved, btnText, error, submityesno])
+
 
   const handleSignup = (event) => {
+    if (!areAllFieldsFilled() && !captchaSolved) {
+      setError("Please solve the captcha.");
+    } else if (areAllFieldsFilled() && captchaSolved) {
+      setError("Please fill out all fields.");
+    } else if (areAllFieldsFilled() && !captchaSolved) {
+      setError("Please fill out all fields.");
+    } else {
+      setError("Please fill out all fields.");
+    }
     event.preventDefault();
     setBtnText("Signing up...");
-
-    if (!captchaSolved) {
-      setError("Please solve the captcha.");
-      setBtnText("Sign Up");
-      return;
-    }
-
-    if (!areAllFieldsFilled()) {
-      setError("Please fill out all fields.");
-      setBtnText("Sign Up");
-      return;
-    }
-
     fetch("/api/auth/signup", {
       method: "POST",
       headers: {
@@ -240,13 +251,26 @@ export default function Signup() {
               <form
                 className="space-y-4 md:space-y-6"
                 onSubmit={(event) => {
+                  if (!areAllFieldsFilled() && !captchaSolved) {
+                    setError("Please solve the captcha.");
+                    setSubmitYesNo(false)
+                  } else if (areAllFieldsFilled() && captchaSolved) {
+                    <ErrorComponent
+                    error="User created"
+                    side="bottom"
+                    color="green"
+                    blocked={false}
+                  />
+                  setSubmitYesNo(true)
+                  } else if (areAllFieldsFilled() && !captchaSolved) {
+                    setError("Please fill out all fields.");
+                    setSubmitYesNo(false)
+                  } else {
+                    setError("Please fill out all fields.");
+                    setSubmitYesNo(false)
+                  }
                   event.preventDefault();
                   setBtnText("Signing up...");
-                  if (!captchaSolved) {
-                    setError("Please solve the captcha.");
-                    setBtnText("Sign Up");
-                    return;
-                  }
                   fetch("/api/auth/signup", {
                     method: "POST",
                     headers: {
@@ -273,6 +297,7 @@ export default function Signup() {
                       });
                     })
                     .catch((error) => {
+                      setSubmitYesNo(true)
                       setBtnText("Sign Up");
                       setError("An error occurred while signing up.");
                     });
@@ -288,7 +313,11 @@ export default function Signup() {
                   <input
                     id="name"
                     value={name}
-                    onChange={(event) => setName(event.target.value)}
+                    // onChange={(event) => {
+                      
+                    //   realbtnText()
+                    // }}
+                    onChange={(event)=>setName(event.target.value)}
                     required=""
                     placeholder="John"
                     name="name"
@@ -307,7 +336,7 @@ export default function Signup() {
                   <input
                     id="email"
                     value={email}
-                    onChange={(event) => setEmail(event.target.value)}
+                    onChange={(event)=>setEmail(event.target.value)}
                     required=""
                     placeholder="name@company.com"
                     name="email"
@@ -325,7 +354,7 @@ export default function Signup() {
                   <input
                     id="password"
                     value={password}
-                    onChange={(event) => setPassword(event.target.value)}
+                    onChange={(event)=>setPassword(event.target.value)}
                     required=""
                     name="password"
                     type="password"
@@ -384,7 +413,7 @@ export default function Signup() {
                     disabled={!areAllFieldsFilled()}
                   >
                     <span className="flex justify-center items-center">
-                      Submit →
+                      {btnText}
                     </span>
                   </button>
                 )}
@@ -396,7 +425,7 @@ export default function Signup() {
                     onClick={() => setShowModal(true)}
                   >
                     <span className="flex justify-center items-center">
-                      Fill all Fields
+                      {btnText}
                     </span>
                   </button>
                 )}
@@ -408,7 +437,7 @@ export default function Signup() {
                     onClick={() => setShowModal(true)}
                   >
                     <span className="flex justify-center items-center">
-                      Continue →
+                      {btnText}
                     </span>
                   </button>
                 )}
@@ -419,7 +448,7 @@ export default function Signup() {
                     disabled={!areAllFieldsFilled()}
                   >
                     <span className="flex justify-center items-center">
-                      Fill all Fields
+                      {btnText}
                     </span>
                   </button>
                 )}
@@ -480,8 +509,22 @@ export default function Signup() {
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                   </>
                 )}
-                {captchaSolved && <ErrorComponent error="Captcha completed" side="bottom" color="green" blocked={false}/>}
-                {error && <ErrorComponent error={error} side="bottom" color="red" blocked={false}/>}
+                {captchaSolved && (
+                  <ErrorComponent
+                    error="Captcha completed"
+                    side="bottom"
+                    color="green"
+                    blocked={false}
+                  />
+                )}
+                {error && (
+                  <ErrorComponent
+                    error={error}
+                    side="bottom"
+                    color="red"
+                    blocked={false}
+                  />
+                )}
               </form>
             </div>
           </div>

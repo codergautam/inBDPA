@@ -30,11 +30,11 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable }) => {
 
   return (
     <div className="w-full p-4 group mt-4 rounded-md border-2 border-gray-700 shadow-xl">
-      <h2 className="text-xl font-semibold group-hover:text-black dark:group-hover:text-white text-gray-700 mb-2 duration-300 ease-in-out transition">About</h2>
+      <h2 className="text-base md:text-xl font-semibold group-hover:text-black dark:group-hover:text-white text-gray-700 mb-2 duration-300 ease-in-out transition">About</h2>
       {editing ? (
         <div>
           <textarea
-            className="w-full break-words h-20 p-2 mb-2 rounded-md resize-none dark:bg-black dark:text-white"
+            className="w-full text-xs md:text-base break-words h-20 p-2 mb-2 rounded-md resize-none dark:bg-black dark:text-white"
             value={newAbout}
             maxLength={1000}
             onChange={handleChange}
@@ -57,7 +57,7 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable }) => {
       ) : (
         <div>
           {about ? (
-            <p className="text-gray-900 dark:text-white mb-4">{about}</p>
+            <p className="text-gray-900 text-xs md:text-base dark:text-white mb-4">{about}</p>
           ) : (
             <p className="text-gray-500 dark:text-gray-400 mb-4">Add an about section</p>
           )}

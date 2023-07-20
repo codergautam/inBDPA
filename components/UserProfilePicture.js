@@ -106,8 +106,8 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
 
   return (
     <div className='w-full pb-16'>
-      <div className="flex relative justify-center items-center mb-4 cursor-pointer" onClick={() => setIsOpen(true)}>
-        <img className="absolute p-2 bg-white dark:bg-gray-800 rounded-full h-44 w-44 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
+      <div className="flex justify-center items-center mb-4 cursor-pointer" onClick={() => setIsOpen(true)}>
+        <img className="absolute p-2 bg-white dark:bg-gray-800 rounded-full h-auto w-auto sm:h-28 sm:w-28 md:h-32 md:w-32 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
       </div>
 
       {isOpen && (

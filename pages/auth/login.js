@@ -18,11 +18,13 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
-  const [btnText, setBtnText] = useState("Log In");
+  const [btnText, setBtnText] = useState("Log In →");
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [remainingAttempts, setRemainingAttempts] = useState(3 - loginAttempts);
   const [timeRemaining, setTimeRemaining] = useState("");
-
+  const areAllFieldsFilled = () => {
+    return username !== "" && password !== "";
+  };
   useEffect(() => {
     const storedLoginAttempts =
       parseInt(localStorage.getItem("loginAttempts")) || 0;
@@ -69,6 +71,12 @@ export default function Login() {
     setError("");
     setBtnText("Signing in...");
 
+    if (!areAllFieldsFilled()) {
+      setError("Please fill out all fields.");
+      setBtnText("Sign Up");
+      return;
+    }
+    
     try {
       const response = await fetch("/api/auth/login", {
         method: "POST",
@@ -318,7 +326,7 @@ export default function Login() {
             <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
               <div>
                 <label
-                  for="email"
+                  for="username"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your email or username
@@ -378,7 +386,28 @@ export default function Login() {
                   Forgot password?
                 </Link>
               </div>
-              <button
+              {areAllFieldsFilled() ? (
+                  <button
+                    className="w-full text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                    type="submit"
+                    disabled={remainingAttempts === 0 || !areAllFieldsFilled()}
+                  >
+                    <span className="flex justify-center items-center">
+                    Sign in →
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                    type="button"
+                    disabled={remainingAttempts === 0 || !areAllFieldsFilled()}
+                  >
+                    <span className="flex justify-center items-center">
+                      Fill all Fields
+                    </span>
+                  </button>
+                )}
+              {/* <button
                 type="submit"
                 className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 disabled={remainingAttempts === 0}
@@ -386,7 +415,7 @@ export default function Login() {
                 <span className="flex justify-center items-center">
                 Sign in →
                 </span>
-              </button>
+              </button> */}
               <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                 Don’t have an account yet?{" "}
                 <Link

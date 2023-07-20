@@ -44,7 +44,7 @@ const LinkChanger = ({ link }) => {
   return (
     <div>
       {!isEditing && (
-        <button className="text-gray-700 hover:text-black dark:hover:text-white font-bold py-2 px-4 border-gray-700 hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white border-b-2 pb-2 delay-75 duration-500 transition ease-in-out" onClick={handleEdit}>
+        <button className="text-gray-700 text-xs sm:text-xl hover:text-black dark:hover:text-white font-bold py-2 px-4 border-gray-700 hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white border-b-2 pb-2 delay-75 duration-500 transition ease-in-out" onClick={handleEdit}>
           Change Custom URL
         </button>
       )}

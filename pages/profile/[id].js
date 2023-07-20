@@ -116,12 +116,12 @@ export default function Page({
         <UserBanner editable={editable} banner={banner} />
       ) : null}
 
-      <main className="flex flex-col mt-20 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-2/3 mx-auto flex-1 px-20 text-center">
+      <main className="flex flex-col mt-20 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
         {requestedUser ? (
           <>
-          <div className="flex flex-col md:flex-row gap-2 w-full">
+          <div className="flex flex-col md:flex-row md:gap-6 w-full">
           <div className="hidden md:flex flex-col md:w-1/3 p-4">
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                     Profile Statistics
                   </h2>
                   <UserStats
@@ -134,7 +134,7 @@ export default function Page({
                     }
                     editable={editable}
                   />
-                </div>
+          </div>
                 <div className="md:w-1/3">
                   <UserProfilePicture
                     editable={editable}
@@ -142,8 +142,8 @@ export default function Page({
                     pfp={pfp}
                   />
                 </div>
-          <div className="flex md:hidden flex-col p-4">
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          <div className="flex md:hidden flex-col w-full mx-auto">
+                  <h2 className="text-xs sm:text-lg md:text-xl text-center font-bold text-gray-900 dark:text-white mb-2 w-full">
                     Profile Statistics
                   </h2>
                   <UserStats
@@ -157,8 +157,8 @@ export default function Page({
                     editable={editable}
                   />
                 </div>
-                <div className="md:w-1/3">
-                  <p className="text-xl mx-auto mt-4 font-bold text-black dark:text-white">Connections:</p>
+                <div className="w-full md:w-1/3">
+                  <p className=" mt-4 font-bold text-black dark:text-white text-xs sm:text-lg md:text-xl">Connects:</p>
                       <ConnectionList
                     connections={connections}
                     clickable={!!user}
@@ -168,10 +168,10 @@ export default function Page({
                   />
                 </div>
           </div>
-            <h1 className="text-7xl font-semibold text-gray-900 dark:text-white pt-5">
+            <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl dark:text-white pt-5">
               {requestedUser.username}
             </h1>
-            <h1 className="text-xl text-gray-700 dark:text-gray-400">
+            <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
               {requestedUser.type}
             </h1>
 
@@ -236,7 +236,7 @@ export default function Page({
               <div className="flex flex-col md:flex-row mt-4 w-full">
 
                 <div className="w-full p-4 border-gray-700 border-b group">
-                  <h2 className="text-xl font-semibold text-gray-400 group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition dark:text-gray-700 mb-2">
+                  <h2 className="text-base md:text-xl font-semibold text-gray-400 dark:text-gray-700 group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition mb-2">
                     Education
                   </h2>
                   <UserInfo
@@ -277,7 +277,7 @@ export default function Page({
                       className="w-full p-4 group mt-4 border-gray-700 border-b"
                       key={section}
                     >
-                  <h2 className="text-xl group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition font-semibold text-gray-400 dark:text-gray-700 mb-2">
+                  <h2 className="text-base md:text-xl group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition font-semibold text-gray-400 dark:text-gray-700 mb-2">
                         {section.charAt(0).toUpperCase() + section.slice(1, section.length)}
                       </h2>
                       <UserInfo
