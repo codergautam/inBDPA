@@ -12,10 +12,11 @@ import Opportunity from '@/components/Opportunity';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenNib, faTrash } from '@fortawesome/free-solid-svg-icons';
+import OpportunityForm from '@/components/OpportunityForm';
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor"),
-  { ssr: false }
+  { ssr: false, loading: () => <div className="flex items-center justify-center py-12"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div></div> }
 );
 
 export default function Page({ user }) {
@@ -28,6 +29,7 @@ export default function Page({ user }) {
   const [opps, setOpps] = useState([]);
   const [loading, setLoading] = useState(false);
   const lastOppRef = useRef(null);
+  const [mdEditorMode, setMdEditorMode] = useState('live');
 
 
 
@@ -35,6 +37,7 @@ const loadOpportunities = async (first=false) => {
 
   if(!lastOppRef.current &&!first) return;
   setLoading(true);
+
 
   console.trace("loading opportunities", lastOppRef.current)
   let data = await fetch("/api/opportunities/getOpportunities", {
@@ -56,7 +59,6 @@ const loadOpportunities = async (first=false) => {
   }
   setLoading(false);
 };
-
 const debounce = (func, wait) => {
   let timeout;
   return (...args) => {
@@ -162,6 +164,7 @@ useEffect(() => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
+
       <div>
         <Navbar user={user} />
       </div>
@@ -180,33 +183,23 @@ useEffect(() => {
           </div>
         ) : null}
 
-        <Modal
-          isOpen={creatingOpportunity}
-          contentLabel="Create Opportunity"
+<Modal
+  isOpen={creatingOpportunity}
+  contentLabel="Create Opportunity"
+  ariaHideApp={false}
+>
+ <OpportunityForm user={user} editingOpportunity={false} handleFormSubmit={makeNewOpportunity} handleClose={()=>setCreatingOpportunity(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} />
+</Modal>
 
-        >
-          <div className='bg-white dark:bg-gray-800 w-full h-full' style={{marginBottom: "-20px", marginTop:"-20px", marginLeft:"-24px", marginRight:"-24px", width:"calc(100% + 48px)", height:"calc(100% + 48px)"}}>
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setCreatingOpportunity(false)}>Close</button>
-          <div className='flex flex-col mt-8'>
-            <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
-            <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
-          </div>
-          <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"} />
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" onClick={makeNewOpportunity}>Create Opportunity</button>
-          </div>
-        </Modal>
+
 
         <Modal
           isOpen={editingOpportunity}
           contentLabel="Create Opportunity"
+          ariaHideApp={false}
         >
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setEditingOpportunity(false)}>Close</button>
-          <div className='flex flex-col mt-8'>
-            <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
-            <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
-          </div>
-          <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"} />
-          <button className="bg-amber-500 hover:bg-orange-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-2" onClick={editOpportunity}>Complete Edits</button>
+
+          <OpportunityForm user={user} editingOpportunity={editingOpportunity} handleFormSubmit={editOpportunity} handleClose={()=>setEditingOpportunity(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} />
         </Modal>
 
         <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto items-center">

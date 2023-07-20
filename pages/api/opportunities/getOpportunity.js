@@ -15,6 +15,5 @@ export default withIronSessionApiRoute(handler, ironOptions);
   }
   const active = (await countSessionsForOpportunity(opportunity_id)).active
   opportunity.active = active
-  console.log("Opportunity Sending: ", opportunity)
   res.json({opportunity});
 }

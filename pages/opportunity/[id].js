@@ -11,13 +11,9 @@ import { useRouter } from "next/router"
 import Modal from 'react-modal';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
-import dynamic from "next/dynamic";
 import Link from "next/link"
 
-const MDEditor = dynamic(
-    () => import("@uiw/react-md-editor"),
-    { ssr: false }
-);
+import OpportunityForm from "@/components/OpportunityForm"
 
 
 async function updateInfo(opportunity_id) {
@@ -81,7 +77,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
         })
       }).then(res => res.json());
       if(data.success) {
-        alert("Deleting Opportunity")
+        alert("Deleted Opportunity!")
         router.push("/opportunities")
         return
       } else {
@@ -148,13 +144,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
               isOpen={editingOpportunity}
               contentLabel="Create Opportunity"
             >
-              <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setEditingOpportunity(false)}>Close</button>
-              <div className='flex flex-col mt-8'>
-                <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
-                <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
-              </div>
-              <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"} />
-              <button className="bg-amber-500 hover:bg-orange-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-2" onClick={editOpportunity}>Complete Edits</button>
+              <OpportunityForm title={title} setTitle={setTitle} value={value} setValue={setValue} handleFormSubmit={editOpportunity} handleClose={() => setEditingOpportunity(null)} editingOpportunity={true} />
             </Modal>
             <div className="bg-gray-100 dark:bg-gray-700 p-12 rounded-md">
             <p className="text-5xl text-center font-bold text-gray-800 dark:text-white">
@@ -221,10 +211,7 @@ export const getServerSideProps = withIronSessionSsr(async ({
         console.log(`Error incrementing views on Opportity ${params.id}: ${error} `)
     }
     let active = (await countSessionsForOpportunity(params.id)).active
-    console.log(`Active Sessions: ${active}`)
     let opportunity = (await getOpportunity(params.id)).opportunity;
-    console.log("Opportunity: ", opportunity)
-    console.log(`Opportunities ID: ${params.id}`)
     // const window = new JSDOM('').window
     // const DOMPurify = createDOMPurify(window)
     // opportunity.contents = marked(opportunity.contents)
