@@ -480,8 +480,8 @@ export default function Signup() {
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                   </>
                 )}
-                {captchaSolved && <ErrorComponent error="Captcha completed" side="bottom" color="green"/>}
-                {error && <ErrorComponent error={error} side="bottom" color="red"/>}
+                {captchaSolved && <ErrorComponent error="Captcha completed" side="bottom" color="green" blocked={false}/>}
+                {error && <ErrorComponent error={error} side="bottom" color="red" blocked={false}/>}
               </form>
             </div>
           </div>
