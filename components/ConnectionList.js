@@ -63,7 +63,7 @@ const ConnectionList = ({ connections, clickable, user_id, isYou }) => {
   return (
     <div className="space-y-4 mt-2 text-center mx-auto">
       <h1 onClick={clickable ? openModal : null} className={`${clickable ? 'cursor-pointer' : ''} ${connections[1].length == 0 ? "text-gray-700 text-xs semism:text-sm md:text-lg hover:text-gray-500" : "text-black dark:text-white hover:text-blue-500"} duration-300 ease-in-out transition`}>
-       <span className="font-bold">{connections[1].length}</span> connects
+       <span className="font-bold">{connections[1].length}</span> connections
       </h1>
 
       <Modal

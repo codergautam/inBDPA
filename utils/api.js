@@ -122,6 +122,20 @@ export async function updateOpportunityMongo(opportunityId, opportunity, specifi
     return false;
   }
 }
+export async function updateUserMongo(userId, updates) {
+  try {
+    const updatedProfile = await Profile.findOneAndUpdate(
+        { user_id: userId }, // find a document with this filter
+        updates, // document to insert when nothing was found
+        { new: true, upsert: true } // options
+    );
+    console.log('Profile successfully updated: ', updatedProfile);
+    return true;
+  } catch (error) {
+    console.log('Error while trying to update profile: ', error);
+    return false;
+  }
+}
 export async function getOpportunityMongo(opportunityId) {
   try {
     const opportunity = await Opportunity.findOne({ opportunity_id: opportunityId });

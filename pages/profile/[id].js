@@ -122,7 +122,7 @@ export default function Page({
           <div className="flex flex-col md:flex-row md:gap-6 w-full">
           <div className="hidden md:flex flex-col md:w-1/3 p-4">
                   <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                    Profile Statistics
+                    Statistics
                   </h2>
                   <UserStats
                     views={requestedUser.views}
@@ -158,7 +158,7 @@ export default function Page({
                   />
                 </div>
                 <div className="w-full md:w-1/3">
-                  <p className=" mt-4 font-bold text-black dark:text-white text-xs sm:text-lg md:text-xl">Connects:</p>
+                  <p className=" mt-4 font-bold text-black dark:text-white text-xs sm:text-lg md:text-xl">Network</p>
                       <ConnectionList
                     connections={connections}
                     clickable={!!user}
@@ -389,6 +389,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       key: null,
     };
 
+    console.log("safeRequestedUser: ", safeRequestedUser.sections.education);
   return {
     props: {
       user: req.session?.user ?? null,
