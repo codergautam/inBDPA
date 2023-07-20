@@ -21,6 +21,10 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
     setSelectedFile(null);
     setPreviewSrc(imageSrc);
     setIsOpen(false);
+    setFileSet(false);
+    setPreviewSrc(null);
+    setZoom(1);
+    setCropArea({x: 0, y: 0, width: 0, height: 0})
   };
 
   const handleSave = async () => {
