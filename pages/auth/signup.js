@@ -30,7 +30,7 @@ export default function Signup() {
     if (!areallfieldsfilled && !captchaSolved) {
       setBtnText("Fill all Fields");
     } else if (areallfieldsfilled && captchaSolved && !submityesno) {
-      setBtnText("Sign Up →");
+      setBtnText("Sign up →");
     } else if (areallfieldsfilled && !captchaSolved) {
       setBtnText("Continue →");
     } else if (!areallfieldsfilled && captchaSolved) {
@@ -46,199 +46,8 @@ export default function Signup() {
     submityesno,
   ]);
 
-  // const handleSignup = (event) => {
-  //   if (!areAllFieldsFilled() && !captchaSolved) {
-  //     setError("Please solve the captcha.");
-  //   } else if (areAllFieldsFilled() && captchaSolved) {
-  //     setError("Please fill out all fields.");
-  //   } else if (areAllFieldsFilled() && !captchaSolved) {
-  //     setError("Please fill out all fields.");
-  //   } else {
-  //     setError("Please fill out all fields.");
-  //   }
-  //   event.preventDefault();
-  //   setBtnText("Signing up...");
-  //   fetch("/api/auth/signup", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify({
-  //       username: name,
-  //       email,
-  //       password,
-  //       rememberMe,
-  //       changeUser: true,
-  //     }),
-  //     credentials: "include",
-  //   })
-  //     .then((response) => {
-  //       setBtnText("Sign Up");
-  //       response.json().then((data) => {
-  //         if (data.error) {
-  //           setError(data.error);
-  //           return;
-  //         }
-  //         // Redirect to home page
-  //         window.location.href = "/";
-  //       });
-  //     })
-  //     .catch((error) => {
-  //       setBtnText("Sign Up");
-  //       setError("An error occurred while signing up.");
-  //     });
-  // };
-  // Initialization for ES Users
-
   return (
     <>
-      {/* <div className="flex flex-col items-center justify-center h-screen sm:min-h-screen bg-white dark:bg-black text-black dark:text-white">
-        <Navbar />
-        {error && <ErrorComponent error={error} />}
-        <Head>
-          <title>Sign Up | inBDPA</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-
-        <main className="flex items-center justify-center w-screen h-full flex-1 px-0 sm:px-20 text-center">
-          <div className="w-full h-full sm:h-min ">
-            <form
-              className="bg-white h-full mx-auto md:w-3/4 xl:w-2/3 2xl:w-1/2 sm:h-min dark:bg-black sm:dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-14 sm:pt-6 pb-8"
-              onSubmit={(event) => {
-                event.preventDefault();
-                setBtnText("Signing up...");
-                if (!captchaSolved) {
-                  setError("Please solve the captcha.");
-                  setBtnText("Sign Up");
-                  return;
-                }
-                fetch("/api/auth/signup", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    username: name,
-                    email,
-                    password,
-                    rememberMe,
-                    changeUser: true,
-                  }),
-                  credentials: "include",
-                })
-                  .then((response) => {
-                    setBtnText("Sign Up");
-                    response.json().then((data) => {
-                      if (data.error) {
-                        setError(data.error);
-                        return;
-                      }
-                      // Redirect to home page
-                      window.location.href = "/";
-                    });
-                  })
-                  .catch((error) => {
-                    setBtnText("Sign Up");
-                    setError("An error occurred while signing up.");
-                  });
-              }}
-            >
-              <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">
-                Create an Account
-              </h1>
-              <div className="flex-row items-center justify-between w-full">
-                <div className="mx-auto w-3/4 lg:w-max md:mr-1">
-                  <div className="mb-4 flex-col items-center">
-                    <label
-                      className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                      htmlFor="name"
-                    >
-                      Username
-                    </label>
-                    <input
-                      className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="name"
-                      type="text"
-                      placeholder="Name"
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                      htmlFor="email"
-                    >
-                      Email
-                    </label>
-                    <input
-                      className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="email"
-                      type="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <label
-                      className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                      htmlFor="password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="password"
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(event) => setPassword(event.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="mb-6 flex-grow md:ml-1">
-                  <label
-                    className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                    htmlFor="captcha"
-                  >
-                    Captcha
-                  </label>
-                  <Captcha setSolved={setSolved} />
-                </div>
-              </div>
-              <div className="mb-6">
-                <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
-                  <input
-                    className="mr-2 leading-tight"
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(event) => setRememberMe(event.target.checked)}
-                  />
-                  <span className="text-sm">Remember me</span>
-                </label>
-              </div>
-              <div className="flex items-center justify-center">
-                <button
-                  className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 dark:bg-gray-800 hover:bg-gray-400 text-white border-black dark:border-white text-xl "
-                  type="submit"
-                >
-                  {btnText}
-                </button>
-              </div>
-              <p className="text-center text-gray-700 dark:text-gray-200 mt-5">
-                Already have an account?{" "}
-                <Link
-                  href="/auth/login"
-                  className="text-blue-600 dark:text-blue-400"
-                >
-                  Log in here
-                </Link>
-              </p>
-            </form>
-          </div>
-        </main>
-      </div> */}
       <section class="bg-gray-50 dark:bg-gray-900 h-screen">
         <div className="h-0 w-screen">
           <Navbar />
@@ -304,7 +113,7 @@ export default function Signup() {
                     })
                     .catch((error) => {
                       setSubmitYesNo(false);
-                      setBtnText("Sign Up");
+                      setBtnText("Sign up");
                       setError("An error occurred while signing up.");
                     });
                 }}
