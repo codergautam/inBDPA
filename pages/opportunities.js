@@ -12,6 +12,7 @@ import Opportunity from '@/components/Opportunity';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenNib, faTrash } from '@fortawesome/free-solid-svg-icons';
+import OpportunityForm from '@/components/OpportunityForm';
 
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor"),
@@ -75,25 +76,14 @@ const handleScroll = debounce(() => {
   }
 }, 100);
 
-function handleResize() {
-  if (window.innerWidth > 768) {
-    setMdEditorMode('live');
-  } else {
-    setMdEditorMode('edit');
-  }
-}
-
 useEffect(() => {
   loadOpportunities(true);
   window.addEventListener('scroll', () => {
     setLoading(true)
     handleScroll();
   });
-  window.addEventListener('resize', handleResize);
   return () => {
     window.removeEventListener('scroll', handleScroll);
-    // And this line
-    window.removeEventListener('resize', handleResize);
   };
 }, []);
 
@@ -196,94 +186,9 @@ useEffect(() => {
 <Modal
   isOpen={creatingOpportunity}
   contentLabel="Create Opportunity"
+  ariaHideApp={false}
 >
-  <div
-    className="
-      flex flex-col items-center justify-center
-      bg-white dark:bg-gray-800 w-full h-full p-6 pt-10
-      relative
-    "
-    style={{
-      marginBottom: "-20px",
-      marginTop:"-20px",
-      marginLeft:"-24px",
-      marginRight:"-24px",
-      width:"calc(100% + 48px)",
-      height:"calc(100% + 48px)"
-    }}
-  >
-    <button
-      onClick={() => setCreatingOpportunity(false)}
-      className="
-        absolute top-2 right-2
-        bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded
-      "
-    >
-      Close
-    </button>
-
-    <div className='mt-8 w-full max-w-xl'>
-      <label
-        htmlFor=""
-        className="block text-3xl font-bold text-black dark:text-white mb-2"
-      >
-        Title:
-      </label>
-
-      <input
-        onChange={e => setTitle(e.target.value)}
-        value={title}
-        type="text"
-        className='
-          mb-4 outline-none text-black border-b-2 w-full
-          px-3 py-2
-          focus:border-blue-500
-        '
-      />
-    </div>
-
-   <div className="md:hidden flex items-center bg-white dark:bg-gray-800 py-2 px-4 rounded mb-4">
-  <label className="flex items-center mr-4">
-    <input
-      type="radio"
-      value="edit"
-      checked={mdEditorMode === 'edit'}
-      onChange={() => setMdEditorMode('edit')}
-      className="form-radio text-blue-500 dark:text-blue-300 h-4 w-4 text-xs mr-2"
-    />
-    <span className="text-black dark:text-white">Edit</span>
-  </label>
-  <label className="flex items-center">
-    <input
-      type="radio"
-      value="preview"
-      checked={mdEditorMode === 'preview'}
-      onChange={() => setMdEditorMode('preview')}
-      className="form-radio text-blue-500 dark:text-blue-300 h-4 w-4 text-xs mr-2"
-    />
-    <span className="text-black dark:text-white">Preview</span>
-  </label>
-</div>
-
-
-    <MDEditor
-      className='mt-4 w-full'
-      value={value}
-      onChange={setValue}
-      height={"90%"}
-      preview={mdEditorMode}
-    />
-
-    <button
-      onClick={makeNewOpportunity}
-      className="
-        bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2
-        self-end
-      "
-    >
-      Create Opportunity
-    </button>
-  </div>
+ <OpportunityForm user={user} editingOpportunity={false} handleFormSubmit={makeNewOpportunity} handleClose={()=>setCreatingOpportunity(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} />
 </Modal>
 
 
@@ -291,14 +196,10 @@ useEffect(() => {
         <Modal
           isOpen={editingOpportunity}
           contentLabel="Create Opportunity"
+          ariaHideApp={false}
         >
-          <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setEditingOpportunity(false)}>Close</button>
-          <div className='flex flex-col mt-8'>
-            <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
-            <input onChange={e => setTitle(e.target.value)} value={title} type="text" className='mb-4 outline-none text-black border-b-2 w-1/2' />
-          </div>
-          <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"} />
-          <button className="bg-amber-500 hover:bg-orange-500 transition duration-300 ease-in-out text-white font-bold py-2 px-4 rounded mt-2" onClick={editOpportunity}>Complete Edits</button>
+
+          <OpportunityForm user={user} editingOpportunity={editingOpportunity} handleFormSubmit={editOpportunity} handleClose={()=>setEditingOpportunity(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} />
         </Modal>
 
         <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto items-center">
