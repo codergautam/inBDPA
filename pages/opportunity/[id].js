@@ -86,6 +86,10 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     }
 
     const editOpportunity = async () => {
+      if(!title || !value) {
+        alert("Please fill out all fields!")
+        return
+      }
       let data = await fetch("/api/opportunities/editOpportunity", {
         method: "POST",
         headers: {
