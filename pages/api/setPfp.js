@@ -107,6 +107,9 @@ function handler(req, res) {
           console.error(err);
           res.status(500).json({ error: 'Failed to process the image.' });
         } else {
+          // Remove the original file
+          fs.unlinkSync(filePath);
+          
           setUserPfp(req.session.user.id, `resized_${file.filename}`)
             .then(() => {
               res.status(200).json({ id: `resized_${file.filename}` });
