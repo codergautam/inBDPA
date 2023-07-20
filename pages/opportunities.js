@@ -183,7 +183,9 @@ useEffect(() => {
         <Modal
           isOpen={creatingOpportunity}
           contentLabel="Create Opportunity"
+
         >
+          <div className='bg-white dark:bg-gray-800 w-full h-full' style={{marginBottom: "-20px", marginTop:"-20px", marginLeft:"-24px", marginRight:"-24px", width:"calc(100% + 48px)", height:"calc(100% + 48px)"}}>
           <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded" onClick={() => setCreatingOpportunity(false)}>Close</button>
           <div className='flex flex-col mt-8'>
             <label htmlFor="" className="text-3xl font-bold text-black">Title:</label>
@@ -191,6 +193,7 @@ useEffect(() => {
           </div>
           <MDEditor className='mt-4' value={value} onChange={setValue} height={"90%"} />
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2" onClick={makeNewOpportunity}>Create Opportunity</button>
+          </div>
         </Modal>
 
         <Modal

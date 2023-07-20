@@ -66,14 +66,21 @@ const MyComponent = ({ user, requestedUser, section }) => {
   };
 
   const saveChanges = () => {
+    setIsPresent(false)
     // Save changes to a database or perform any necessary actions
     // started and endedAt needs to be a Date.now utc timestamp
     let items2 = editorItems.map((item) => {
       if (typeof item === 'string') return item;
+
+      console.log(item.endedAt)
+      console.log("End Time: ", (new Date(Date.UTC(0,0,0))).getTime())
       return {
         title: item.title,
         startedAt: item.startedAt.getTime(),
-        endedAt: item.endedAt.getTime(),
+        endedAt: item.endedAt.getTime(), /*This sets it to the minimum value bc
+        `sections.volunteering[0].endedAt` must be an integer between 1689462528557 and 9007199254740991 (inclusive) or null'
+        Let's just hope someones event didn't end on Wed Dec 31 1969
+        */
         location: item.location,
         description: item.description,
       };
@@ -82,7 +89,8 @@ const MyComponent = ({ user, requestedUser, section }) => {
       if (typeof item === 'string' && item.trim().length == 0) return false;
       return true;
     });
-
+    console.log("Section: ", section)
+    console.log("Item2: ", items2)
     fetch('/api/updateUserSection', {
       method: 'POST',
       headers: {
@@ -98,11 +106,13 @@ const MyComponent = ({ user, requestedUser, section }) => {
     setMode('view');
   };
 
+  const [isPresent, setIsPresent] = useState(false)
+
   return (
     <div className="container mx-auto">
       <div className={`flex items-center justify-center mx-auto pb-5`}>
         <button
-          className="text-gray-700 hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
+          className="text-gray-600 dark:text-gray-700 hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
           onClick={toggleMode}
           style={{ display: editable ? 'block' : 'none' }}
         >
@@ -115,18 +125,18 @@ const MyComponent = ({ user, requestedUser, section }) => {
           {section !== 'skills' ? (
             liveItems.map((item, index) => (
               <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
-                <h2 className="text-lg font-bold mb-2 break-words">{item.title}</h2>
-                <p className="text-gray-800 dark:text-white mb-1 break-words">
-                  {item.startedAt.toDateString()} - {item.endedAt.toDateString()}
+                <h2 className="text-sm md:text-lg font-bold mb-2 break-words">{item.title}</h2>
+                <p className="text-gray-800 text-xs md:text-base dark:text-white mb-1 break-words">
+                  {item.startedAt.toDateString()} - {item == null || typeof item === 'undefined' ? "Present Day" : (item.endedAt.toLocaleDateString() != '12/30/1969' ? item.endedAt.toDateString() : "Present Day")}
                 </p>
-                <p className="text-gray-800 dark:text-white mb-1 break-words">{item.location}</p>
-                <p className="text-gray-800 dark:text-white break-words">{item.description}</p>
+                <p className="text-gray-800 text-sm md:text-lg dark:text-white mb-1 break-words">{item.location}</p>
+                <p className="text-gray-800 text-xs md:text-base dark:text-white break-words">{item.description}</p>
               </div>
             ))
           ) : (
             liveItems.map((item, index) => (
               <div className="w-3/4 mx-auto" key={index}>
-                <h2 className="text-lg font-bold break-words rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">{item}</h2>
+                <h2 className="text-sm md:text-lg  font-bold break-words rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">{item}</h2>
               </div>
             ))
           )}
@@ -153,28 +163,43 @@ const MyComponent = ({ user, requestedUser, section }) => {
                         onChange={(e) => updateItem(index, 'title', e.target.value)}
                       />
                       <div className="flex space-x-2 mb-2">
-                        <DatePicker
-                          className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
-                          selected={item.startedAt}
-                          placeholderText="Start Date"
-                          onChange={(date) => updateItem(index, 'startedAt', date)}
-                        />
-                        <DatePicker
-                          className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
-                          selected={item.endedAt}
-                          placeholderText="End Date"
-                          onChange={(date) => updateItem(index, 'endedAt', date)}
-                        />
+                        <div className='w-1/2'>
+                          From: 
+                          <DatePicker
+                            className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
+                            selected={item.startedAt}
+                            placeholderText="Start Date"
+                            onChange={(date) => updateItem(index, 'startedAt', date)}
+                          />
+                        </div>
+                        <div className='w-1/2'>
+                          To: 
+                          <div className="flex flex-col justify-start">
+                            {item.endedAt.toLocaleDateString() == '12/30/1969' ? <p className="text-xs mt-2 text-gray-400 mb-2">What's saved is that this is ongoing</p> : <></> }
+                            <input onClick={e => {
+                              updateItem(index, 'endedAt',  new Date('1969-12-31')                            )
+                            }} type="checkbox" className={`peer mr-auto`} />
+                            <span>Present Day</span>
+                            <div className={`peer-checked:hidden`}>
+                              <DatePicker
+                                className={`border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white`}
+                                selected={item.endedAt}
+                                placeholderText="End Date"
+                                onChange={(date) => updateItem(index, 'endedAt', date)}
+                              />
+                            </div>
+                          </div>
+                        </div>
                       </div>
                       <input
-                        className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
+                        className="border border-gray-300  bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                         placeholder="Location"
                         maxLength={MAX_LOCATION_LENGTH}
                         value={item.location}
                         onChange={(e) => updateItem(index, 'location', e.target.value)}
                       />
                       <textarea
-                        className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
+                        className="border border-gray-300  bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                         placeholder="Description"
                         maxLength={MAX_DESCRIPTION_LENGTH}
                         value={item.description}
