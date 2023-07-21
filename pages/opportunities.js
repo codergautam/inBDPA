@@ -90,6 +90,12 @@ useEffect(() => {
 
 
   const makeNewOpportunity = async () => {
+    if(!title || !value) {
+      alert("Please fill out all fields!");
+      return;
+    }
+    console.log(title, value);
+
     let data = await fetch("/api/opportunities/createOpportunity", {
       method: "POST",
       headers: {
@@ -102,16 +108,17 @@ useEffect(() => {
     }).then(res => res.json())
 
     if (data.success) {
-      alert("Created a new opportunity!");
+      alert("Created new opportunity!");
+      setCreatingOpportunity(false);
+      setValue("");
+      setTitle("");
+      setSelectedOpportunity(null);
       router.reload();
     } else {
-      alert("Failed to create a new opportunity...");
+      alert("Failed to create new opportunity...");
     }
 
-    setCreatingOpportunity(false);
-    setValue("");
-    setTitle("");
-    setSelectedOpportunity(null);
+
   }
 
   const deleteOpportunity = async (opportunity_id) => {
@@ -133,6 +140,10 @@ useEffect(() => {
   }
 
   const editOpportunity = async () => {
+    if(!title || !value) {
+      alert("Please fill out all fields!")
+      return
+    }
     let data = await fetch("/api/opportunities/editOpportunity", {
       method: "POST",
       headers: {
