@@ -96,19 +96,20 @@ export async function searchUsers(query) {
     .sort({ views: -1 }) // Sort by views descending
     .limit(10);
 
-    const users = await Promise.all(profiles.map(async (user) => {
+    let users = await Promise.all(profiles.map(async (user) => {
 
       if (user) {
         user = user.toObject();
         if(user.pfp === "gravatar") {
-          user.gravatarUrl = "https://www.gravatar.com/avatar/"+md5(user.email)+"?d=mp"
+          user.gravatarUrl = "https://www.gravatar.com/avatar/"+md5(user.email)+"?d=identicon"
         }
         delete user.email;
         // Figure out where the match was found and its position
         const matchField = user.username.match(regexQuery) ? 'username' : user.link.match(regexQuery) ? 'link' : 'about';
+        const matchText = matchField === 'about' ? user.sections.about : user[matchField];
         let matchPosition;
         try {
-          matchPosition = user[matchField].toLowerCase().indexOf(query.toLowerCase());
+          matchPosition = matchText.toLowerCase().indexOf(query.toLowerCase());
         } catch (error) {
           matchPosition = null;
         }
@@ -122,19 +123,72 @@ export async function searchUsers(query) {
         };
       }
     }));
-
+    users = users.filter((user) => user !== undefined)
     // Prioritize exact matches
     users.sort((a, b) => {
-      if (a.match.field.toLowerCase() === query.toLowerCase() && b.match.field.toLowerCase() !== query.toLowerCase()) {
+
+      let aField = a.match.field === 'about' ? a.sections.about : a[a.match.field];
+      let bField = b.match.field === 'about' ? b.sections.about : b[b.match.field];
+      if (aField.toLowerCase() === query.toLowerCase() && bField.toLowerCase() !== query.toLowerCase()) {
         return -1; // a is exact match, b is not
       }
-      if (a.match.field.toLowerCase() !== query.toLowerCase() && b.match.field.toLowerCase() === query.toLowerCase()) {
+      if (aField.toLowerCase() !== query.toLowerCase() && bField.toLowerCase() === query.toLowerCase()) {
         return 1; // b is exact match, a is not
       }
       return 0; // neither or both are exact matches
     });
 
-    return users;
+    // Opportunities search
+
+    let opportunities = await Opportunity.find({
+      $or: [
+        { content: regexQuery },
+        { title: regexQuery },
+      ]
+    })
+    .sort({ views: -1 }) // Sort by views descending
+    .limit(10);
+
+     opportunities = await Promise.all(opportunities.map(async (opportunity) => {
+
+      if (opportunity) {
+        opportunity = opportunity.toObject();
+
+        delete opportunity.creator_id;
+        // Figure out where the match was found and its position
+
+        const matchField = opportunity.title.match(regexQuery) ? 'title' : 'content';
+        let matchPosition;
+        try {
+          matchPosition = opportunity[matchField].toLowerCase().indexOf(query.toLowerCase());
+        } catch (error) {
+          matchPosition = null;
+        }
+
+        return {
+          ...opportunity,
+          match: {
+            field: matchField,
+            position: matchPosition
+          }
+        };
+      }
+    }));
+
+    // Prioritize exact matches
+    opportunities.sort((a, b) => {
+
+      if (a[a.match.field].toLowerCase() === query.toLowerCase() && b[b.match.field].toLowerCase() !== query.toLowerCase()) {
+        return -1; // a is exact match, b is not
+      }
+
+      if (a[a.match.field].toLowerCase() !== query.toLowerCase() && b[b.match.field].toLowerCase() === query.toLowerCase()) {
+        return 1; // b is exact match, a is not
+      }
+      return 0; // neither or both are exact matches
+    });
+
+    return { success: true, users, opportunities };
   } catch (error) {
     console.log('Error while trying to search users: ', error);
     return { success: false, error: "Unexpected Error" };
@@ -643,7 +697,7 @@ export function getManyUsersFast(user_ids) {
         username: profile.username,
         pfp: profile.pfp,
         user_id: profile.user_id,
-        gravatarUrl: !profile.pfp || profile.pfp === 'gravatar' ? `https://www.gravatar.com/avatar/${md5(profile.email)}?d=mp` : null,
+        gravatarUrl: !profile.pfp || profile.pfp === 'gravatar' ? `https://www.gravatar.com/avatar/${md5(profile.email)}?d=identicon` : null,
       }
     });
 
@@ -655,6 +709,47 @@ export function getManyUsersFast(user_ids) {
   });
 });
 }
+
+export async function increaseViewCountMongo(userId, newViewCount) {
+
+  try {
+    if(!newViewCount) {
+      // Increment view count
+      const updatedProfile = await Profile.findOneAndUpdate(
+          { user_id: userId }, // find a document with this filter
+          { $inc: { views: 1 } }, // document to insert when nothing was found
+          { new: true, upsert: true } // options
+      );
+      return true;
+    } else {
+      const updatedProfile = await Profile.findOneAndUpdate(
+          { user_id: userId }, // find a document with this filter
+          { views: newViewCount }, // document to insert when nothing was found
+          { new: true, upsert: true } // options
+      );
+      return true;
+    }
+  } catch (error) {
+      console.log('Error while trying to update profile views: ', error);
+      return false;
+  }
+};
+
+export async function increaseOpportunityViewCountMongo(opportunityId) {
+  try {
+    // Increment view count
+    const updatedOpportunity = await Opportunity.findOneAndUpdate(
+      {opportunity_id: opportunityId},
+      { $inc: { views: 1 } },
+      { new: true, upsert: true }
+    );
+    console.log('Opportunity views successfully updated: ', updatedOpportunity);
+    return true;
+  } catch (error) {
+    console.log('Error while trying to update opportunity views: ', error);
+    return false;
+  }
+};
 
 export async function refreshSession(userId, refreshSession) {
   await Profile.findOneAndUpdate({user_id: userId}, {

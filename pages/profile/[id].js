@@ -8,6 +8,7 @@ import UserInfo from "@/components/UserInfo";
 import {
   getUserFromProfileId,
   getUserPfpAndBanner,
+  increaseViewCountMongo,
   incrementUserViews,
 } from "@/utils/api";
 import { useEffect, useState } from "react";
@@ -368,6 +369,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     // Increment view count
     try {
       await incrementUserViews(requestedUser?.user_id);
+      await increaseViewCountMongo(requestedUser?.user_id);
     } catch (e) {
       console.log(e);
     }
@@ -389,7 +391,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       key: null,
     };
 
-    console.log("safeRequestedUser: ", safeRequestedUser.sections.education);
   return {
     props: {
       user: req.session?.user ?? null,

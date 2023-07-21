@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faTrash, faPenNib } from "@fortawesome/free-solid-svg-icons"
 import { withIronSessionSsr } from "iron-session/next"
 import { ironOptions } from "@/utils/ironConfig"
-import { countSessionsForOpportunity, getOpportunity, incrementOpportunityViews } from "@/utils/api"
+import { countSessionsForOpportunity, getOpportunity, increaseOpportunityViewCountMongo, incrementOpportunityViews } from "@/utils/api"
 import { useEffect, useRef, useState } from "react"
 import { marked } from "marked"
 import { useRouter } from "next/router"
@@ -211,6 +211,7 @@ export const getServerSideProps = withIronSessionSsr(async ({
 
     try {
         await incrementOpportunityViews(params.id)
+        await increaseOpportunityViewCountMongo(params.id)
     } catch (error) {
         console.log(`Error incrementing views on Opportity ${params.id}: ${error} `)
     }

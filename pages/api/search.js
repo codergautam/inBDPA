@@ -18,7 +18,7 @@ async function handler(req, res) {
         res.json({success: false, error: "No query provided"})
         return;
     }
-    if(query.length > 32) {
+    if(query.length > 64) {
         res.json({success: false, error: "Query too long"})
         return;
     }
