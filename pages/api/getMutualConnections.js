@@ -1,6 +1,6 @@
 import { withIronSessionApiRoute } from "iron-session/next"
 import { ironOptions } from "@/utils/ironConfig"
-import { fetchConnections } from "@/utils/neo4j.mjs";
+import { fetchConnections, findConnectionDepth } from "@/utils/neo4j.mjs";
 import { getManyUsersFast } from "@/utils/api";
 export default withIronSessionApiRoute(handler, ironOptions)
 
@@ -50,5 +50,14 @@ async function handler(req, res) {
     return res.json({error: "No mutual connections found"});
   }
   mutualConnections = await getManyUsersFast(mutualConnections);
+
+  mutualConnections = await Promise.all(Object.values(mutualConnections).map(async (connection) => {
+    let yourDepth = await findConnectionDepth(user.id, connection.user_id);
+    let theirDepth;
+    if(user_id !== user.id) {
+      theirDepth = await findConnectionDepth(user_id, connection.user_id);
+    }
+    return {...connection, yourDepth, theirDepth};
+  }));
     res.json({success: true, connections: mutualConnections});
 }
