@@ -64,7 +64,7 @@ export default function Navbar({ user }) {
           <>
             <Link
               href={`/admin/${user.link}`}
-              className="border-1 border-red-400 px-2 py-1 text-xs sm:text-lg font-bold text-green-500 hover:text-white transition duration-400 ease-in-out dark:hover:text-white"
+              className="border-1 px-2 py-1 text-xs sm:text-lg font-bold text-emerald-500 dark:hover:text-white transition duration-400 ease-in-out hover:text-white"
             >
               Admin
             </Link>
@@ -74,19 +74,19 @@ export default function Navbar({ user }) {
           <>
             <Link
               href="/"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
+              className="px-2 py-1 text-xs sm:text-lg font-medium dark:hover:text-blue-500 hover:text-blue-600 transition duration-400 ease-in-out text-black dark:text-white"
             >
               Home
             </Link>
             <Link
               href="../opportunities"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
+              className="px-2 py-1 text-xs sm:text-lg font-medium dark:hover:text-blue-500 hover:text-blue-600 transition duration-400 ease-in-out text-black dark:text-white"
             >
               Opportunities
             </Link>
             <Link
               href="../api/auth/logout"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
+              className="px-2 py-1 text-xs sm:text-lg font-medium dark:hover:text-blue-500 hover:text-blue-600 transition duration-400 ease-in-out text-black dark:text-white"
             >
               Logout
             </Link>
@@ -107,14 +107,14 @@ export default function Navbar({ user }) {
             </Link>
             <Link
               href="../auth/login"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
+              className="px-2 py-1 text-xs sm:text-lg font-medium dark:hover:text-blue-500 hover:text-blue-600 transition duration-400 ease-in-out text-black dark:text-white"
             >
               Login
             </Link>
 
             <Link
               href="../auth/signup"
-              className="px-2 py-1 text-xs sm:text-lg font-medium hover:text-blue-500 transition duration-400 ease-in-out dark:text-white"
+              className="px-2 py-1 text-xs sm:text-lg font-medium dark:hover:text-blue-500 hover:text-blue-600 transition duration-400 ease-in-out text-black dark:text-white"
             >
               Sign up
             </Link>
