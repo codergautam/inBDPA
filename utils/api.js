@@ -81,6 +81,67 @@ async function createNewProfile({ user_id, username, link }) {
    return false;
   }
 }
+
+
+export async function searchUsers(query) {
+  try {
+    const regexQuery = new RegExp(query, 'i');  // 'i' makes it case insensitive
+    const profiles = await Profile.find({
+      $or: [
+        { username: regexQuery },
+        { 'sections.about': regexQuery },
+        { link: regexQuery}
+      ]
+    })
+    .sort({ views: -1 }) // Sort by views descending
+    .limit(10);
+
+    const users = await Promise.all(profiles.map(async (user) => {
+
+      if (user) {
+        user = user.toObject();
+        if(user.pfp === "gravatar") {
+          user.gravatarUrl = "https://www.gravatar.com/avatar/"+md5(user.email)+"?d=mp"
+        }
+        delete user.email;
+        // Figure out where the match was found and its position
+        const matchField = user.username.match(regexQuery) ? 'username' : user.link.match(regexQuery) ? 'link' : 'about';
+        let matchPosition;
+        try {
+          matchPosition = user[matchField].toLowerCase().indexOf(query.toLowerCase());
+        } catch (error) {
+          matchPosition = null;
+        }
+
+        return {
+          ...user,
+          match: {
+            field: matchField,
+            position: matchPosition
+          }
+        };
+      }
+    }));
+
+    // Prioritize exact matches
+    users.sort((a, b) => {
+      if (a.match.field.toLowerCase() === query.toLowerCase() && b.match.field.toLowerCase() !== query.toLowerCase()) {
+        return -1; // a is exact match, b is not
+      }
+      if (a.match.field.toLowerCase() !== query.toLowerCase() && b.match.field.toLowerCase() === query.toLowerCase()) {
+        return 1; // b is exact match, a is not
+      }
+      return 0; // neither or both are exact matches
+    });
+
+    return users;
+  } catch (error) {
+    console.log('Error while trying to search users: ', error);
+    return { success: false, error: "Unexpected Error" };
+  }
+}
+
+
 export async function getAllOpportunitiesMongo(limit, opportunity_id_after) {
   try {
       let query = {};
