@@ -89,6 +89,7 @@ export default function Login() {
         side="bottom"
         color="green"
         blocked={false}
+        setError={setError}
       />;
       setSubmitYesNo(true);
     }
@@ -154,6 +155,7 @@ export default function Login() {
         side="top"
         color="red"
         blocked={false}
+        setError={setError}
       />
       {error && (
         <ErrorComponent
@@ -161,6 +163,7 @@ export default function Login() {
           side="top"
           color="red"
           blocked={false}
+          setError={setError}
         />
       )}
       <Head>
@@ -199,6 +202,7 @@ export default function Login() {
                   side="bottom"
                   color="red"
                   blocked={true}
+                  setError={setError}
                 />
               </>
             ) : (

@@ -1,23 +1,39 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-const ErrorComponent = ({ error, side, color, blocked }) => {
+const ErrorComponent = ({ error, side, color, blocked, setError}) => {
   const [visible, setVisible] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
+    setVisible(false);
+
+    // Clear the previous timer whenever the error prop changes
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
     if (error) {
-      setVisible(false)
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
-      }, 200000); // Change the duration as needed (in milliseconds)
-
-      return () => clearTimeout(timer);
+      }, 2000); // Changed the duration to 2000 milliseconds (2 seconds)
+      setTimerId(timer);
     }
-  }, [error]);
 
-  if (!visible) {
-    return null;
-  }
+    // Clear the timeout when the component unmounts
+    return () => {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };
+  }, [error, timerId]);
+
+  const handleCancelButtonClick = () => {
+    setVisible(false);
+    setError(null);
+  };
+
+
   return (
     <>
       {visible && (
@@ -71,7 +87,7 @@ const ErrorComponent = ({ error, side, color, blocked }) => {
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                   onClick={() => {
-                    setVisible(false);
+                    handleCancelButtonClick();
                   }}
                 >
                   <path
