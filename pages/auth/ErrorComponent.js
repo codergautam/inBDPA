@@ -24,12 +24,12 @@ const ErrorComponent = ({ error, side, color, blocked }) => {
         <div
           className={
             side === "top" && color === "green"
-              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-0`
+              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-1`
               : side === "bottom" && color === "green"
-              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-0`
+              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-1`
               : side === "top" && color === "red"
-              ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-0`
-              : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-0`
+              ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-1`
+              : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-1`
           }
         >
           <div className="flex w-fit justify-center mx-auto">

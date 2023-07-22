@@ -20,7 +20,7 @@ export default function Signup() {
   const [captchaSolved, setSolved] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [submityesno, setSubmitYesNo] = useState(false);
-  const [passwordstrength, setPassStrength] = useState("red");
+  const [passwordstrength, setPassStrength] = useState("");
 
   // Function to check if all fields are filled
   const areAllFieldsFilled = () => {
@@ -29,7 +29,9 @@ export default function Signup() {
   const areallfieldsfilled = areAllFieldsFilled();
   useEffect(() => {
     {
-      password.length < 10
+      password.length === 0
+        ? setPassStrength("Empty")
+        : password.length < 10
         ? setPassStrength("Weak")
         : password.length < 17
         ? setPassStrength("Moderate")
@@ -142,10 +144,10 @@ export default function Signup() {
                     // }}
                     onChange={(event) => setName(event.target.value)}
                     required=""
-                    placeholder="John"
+                    placeholder="john"
                     name="name"
                     type="text"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                     defaultValue=""
                   />
                 </div>
@@ -208,7 +210,7 @@ export default function Signup() {
                         Moderate Password
                       </p>
                     </>
-                  ) : (
+                  ) : passwordstrength === "Strong" ? (
                     <>
                       <input
                         id="password"
@@ -223,6 +225,23 @@ export default function Signup() {
                       />
                       <p className="text-sm text-green-500 text-right pt-1 pr-2">
                         Strong Password
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required=""
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        defaultValue=""
+                      />
+                      <p className="text-sm text-white dark:text-gray-800 text-right pt-1 pr-2">
+                         password strength
                       </p>
                     </>
                   )}
