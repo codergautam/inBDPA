@@ -2,7 +2,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 
-const ConnectionList = ({ connections, clickable, user_id, isYou }) => {
+const ConnectionList = ({ connections, clickable, user_id, isYou, theirName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [userList, setUserList] = useState([]);
   const [error, setError] = useState(null);
@@ -85,6 +85,17 @@ const ConnectionList = ({ connections, clickable, user_id, isYou }) => {
               <span onClick={() => (window.location.href = `/profile/${user.link}`)} className="flex flex-row items-center cursor-pointer">
                 <p className="text-blue-500 hover:text-blue-700">{user.username}</p>
               </span>
+              {/* show connection depth, stored in user.yourDepth and user.theirDepth */}
+              {user.yourDepth ? (
+                <p className="text-gray-500 dark:text-gray-300 text-xs">
+                  Your {user.yourDepth == 1 ? "1st" : user.yourDepth == 2 ? "2nd" : "3rd"} degree connection
+                </p>
+              ) : null}
+              {user.theirDepth ? (
+                <p className="text-gray-500 dark:text-gray-300 text-xs">
+                  {theirName}&apos;s {user.theirDepth == 1 ? "1st" : user.theirDepth == 2 ? "2nd" : "3rd"} degree connection
+                </p>
+              ) : null}
             </div>
           ))
         ) : null}
@@ -108,7 +119,7 @@ const ConnectionList = ({ connections, clickable, user_id, isYou }) => {
               className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg mt-4"
               onClick={closeModal}
             >
-              Close Modal
+              Close
             </button>
           </div>
       </Modal>

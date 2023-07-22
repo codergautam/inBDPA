@@ -166,6 +166,7 @@ export default function Page({
                     user_id={requestedUser.user_id}
                     isYou={user?.id == requestedUser.user_id}
                     depth={depth}
+                    theirName={requestedUser.username}
                   />
                 </div>
           </div>
