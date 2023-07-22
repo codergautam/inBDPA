@@ -151,7 +151,8 @@ export default function Opportunity({user, opportunity, activeSessions}) {
               <OpportunityForm title={title} setTitle={setTitle} value={value} setValue={setValue} handleFormSubmit={editOpportunity} handleClose={() => setEditingOpportunity(null)} editingOpportunity={true} />
             </Modal>
             <div className="bg-gray-100 dark:bg-gray-700 p-12 rounded-md">
-            <p className="text-5xl text-center font-bold text-gray-800 dark:text-white">
+            <p className="text-l sm:text-xl md:text-2xl lg:text-3xl text-center font-bold text-gray-800 dark:text-white">
+
               {opportunity.title}
             </p>
             <p className="flex text-gray-600 dark:text-gray-100 text-lg w-min min-w-max mx-auto mt-2 space-x-2">
