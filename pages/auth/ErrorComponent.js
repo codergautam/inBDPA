@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const ErrorComponent = ({ error, side, color, blocked, setError}) => {
+const ErrorComponent = ({ error, side, color, blocked, setError, loginerror, setLoginError}) => {
   const [visible, setVisible] = useState(false);
   const [timerId, setTimerId] = useState(null);
 
@@ -29,6 +29,9 @@ const ErrorComponent = ({ error, side, color, blocked, setError}) => {
   }, [error, timerId]);
 
   const handleCancelButtonClick = () => {
+    if (loginerror){
+      setLoginError()
+    }
     setVisible(false);
     setError(null);
   };

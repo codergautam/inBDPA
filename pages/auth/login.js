@@ -12,12 +12,13 @@ import { useSearchParams } from "next/navigation";
 
 export default function Login() {
   const searchParams = useSearchParams();
-  const loginerror = searchParams.get("error");
+  const [loginerror, setLoginError] = useState(searchParams.get("error"));
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [btnText, setBtnText] = useState("Fill all Fields");
   const [loginAttempts, setLoginAttempts] = useState(0);
   const [remainingAttempts, setRemainingAttempts] = useState(3 - loginAttempts);
@@ -84,12 +85,13 @@ export default function Login() {
       setError("Please fill out all fields.");
       setSubmitYesNo(false);
     } else if (areAllFieldsFilled()) {
+      setSuccess("Logging in...");
       <ErrorComponent
-        error="Logging in..."
+        error={success}
         side="bottom"
         color="green"
         blocked={false}
-        setError={setError}
+        setError={setSuccess}
       />;
       setSubmitYesNo(true);
     }
@@ -156,6 +158,8 @@ export default function Login() {
         color="red"
         blocked={false}
         setError={setError}
+        loginerror={loginerror}
+        setLoginError={setLoginError}
       />
       {error && (
         <ErrorComponent
@@ -262,6 +266,7 @@ export default function Login() {
                       checked={rememberMe}
                       onChange={(event) => setRememberMe(event.target.checked)}
                       className="text-gray-500 dark:text-gray-300"
+                      for="remember"
                     >
                       Remember me
                     </label>

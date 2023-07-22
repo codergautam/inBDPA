@@ -88,7 +88,7 @@ export default function Captcha({ setSolved, solvedyesno }) {
             }`}
           />
           <button
-            type="button"
+            type="submit"
             onClick={validateCaptcha}
             className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 my-2 focus:ring-blue-500"
           >

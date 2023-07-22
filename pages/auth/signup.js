@@ -16,6 +16,7 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
   const [btnText, setBtnText] = useState("Fill all Fields");
   const [captchaSolved, setSolved] = useState(false);
   const [showModal, setShowModal] = useState(false);
@@ -80,11 +81,13 @@ export default function Signup() {
                     setError("Please solve the captcha.");
                     setSubmitYesNo(false);
                   } else if (areAllFieldsFilled() && captchaSolved) {
+                    setSuccess("User created");
                     <ErrorComponent
-                      error="User created"
+                      error={success}
                       side="bottom"
                       color="green"
                       blocked={false}
+                      setError={setSuccess}
                     />;
                     setSubmitYesNo(true);
                   } else if (areAllFieldsFilled() && !captchaSolved) {
@@ -393,12 +396,16 @@ export default function Signup() {
                   </>
                 )}
                 {captchaSolved && (
+                  <>
+                  {setSuccess("Captcha completed")}
                   <ErrorComponent
-                    error="Captcha completed"
+                    error={success}
                     side="bottom"
                     color="green"
                     blocked={false}
+                    setError={setSuccess}
                   />
+                  </>
                 )}
                 {error && (
                   <ErrorComponent
@@ -406,6 +413,7 @@ export default function Signup() {
                     side="bottom"
                     color="red"
                     blocked={false}
+                    setError={setError}
                   />
                 )}
               </form>
