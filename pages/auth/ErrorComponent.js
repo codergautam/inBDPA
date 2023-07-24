@@ -1,6 +1,14 @@
 import React, { useState, useEffect } from "react";
 
-const ErrorComponent = ({ error, side, color, blocked, setError, loginerror, setLoginError}) => {
+const ErrorComponent = ({
+  error,
+  side,
+  color,
+  blocked,
+  setError,
+  loginerror,
+  setLoginError,
+}) => {
   const [visible, setVisible] = useState(false);
   const [timerId, setTimerId] = useState(null);
 
@@ -12,7 +20,7 @@ const ErrorComponent = ({ error, side, color, blocked, setError, loginerror, set
       clearTimeout(timerId);
     }
 
-    if (error) {
+    if (error !== null) {
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
@@ -29,13 +37,12 @@ const ErrorComponent = ({ error, side, color, blocked, setError, loginerror, set
   }, [error, timerId]);
 
   const handleCancelButtonClick = () => {
-    if (loginerror){
-      setLoginError()
+    if (loginerror) {
+      setLoginError("");
     }
     setVisible(false);
     setError(null);
   };
-
 
   return (
     <>
