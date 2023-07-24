@@ -30,7 +30,7 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable }) => {
 
   return (
     <div className="w-full p-4 group mt-4 rounded-md border-2 border-gray-700 shadow-xl">
-      <h2 className="text-base md:text-xl font-semibold group-hover:text-black dark:group-hover:text-white text-gray-700 mb-2 duration-300 ease-in-out transition">About</h2>
+      <h2 className="text-base md:text-xl font-semibold text-black dark:text-white mb-2 duration-300 ease-in-out transition">About</h2>
       {editing ? (
         <div>
           <textarea
