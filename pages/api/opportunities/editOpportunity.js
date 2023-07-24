@@ -14,7 +14,9 @@ export default withIronSessionApiRoute(handler, ironOptions);
   const creator_id = req.session.user.id;
   console.log("Body for new Opportunity:", { title, contents, creator_id })
   let data = await updateOpportunity(opportunity_id, {title, contents});
-  await updateOpportunityMongo(opportunity_id, {title, contents}, true);
+  if(data.success) {
+  await updateOpportunityMongo(opportunity_id, {title, content: contents}, true);
+  }
   console.log("Data: ")
   console.log(data)
   res.json(data);

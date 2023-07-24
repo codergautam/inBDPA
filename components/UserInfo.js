@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import Modal from 'react-modal';
+import _ from 'lodash';
 
 const MAX_TITLE_LENGTH = 100;
 const MAX_LOCATION_LENGTH = 30;
@@ -13,7 +14,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
     return {
       title: s.title,
       startedAt: new Date(s.startedAt),
-      endedAt: new Date(s.endedAt),
+      endedAt: s.endedAt ? new Date(s.endedAt) : null,
       location: s.location,
       description: s.description,
     };
@@ -23,7 +24,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
     return {
       title: s.title,
       startedAt: new Date(s.startedAt),
-      endedAt: new Date(s.endedAt),
+      endedAt: s.endedAt ? new Date(s.endedAt) : null,
       location: s.location,
       description: s.description,
     };
@@ -68,19 +69,13 @@ const MyComponent = ({ user, requestedUser, section }) => {
   const saveChanges = () => {
     setIsPresent(false)
     // Save changes to a database or perform any necessary actions
-    // started and endedAt needs to be a Date.now utc timestamp
     let items2 = editorItems.map((item) => {
       if (typeof item === 'string') return item;
 
-      console.log(item.endedAt)
-      console.log("End Time: ", (new Date(Date.UTC(0,0,0))).getTime())
       return {
         title: item.title,
         startedAt: item.startedAt.getTime(),
-        endedAt: item.endedAt.getTime(), /*This sets it to the minimum value bc
-        `sections.volunteering[0].endedAt` must be an integer between 1689462528557 and 9007199254740991 (inclusive) or null'
-        Let's just hope someones event didn't end on Wed Dec 31 1969
-        */
+        endedAt: item.endedAt?.getTime() ?? null, // If this is null, then it is ongoing
         location: item.location,
         description: item.description,
       };
@@ -89,8 +84,31 @@ const MyComponent = ({ user, requestedUser, section }) => {
       if (typeof item === 'string' && item.trim().length == 0) return false;
       return true;
     });
-    console.log("Section: ", section)
-    console.log("Item2: ", items2)
+
+    // Client side validation
+    if (section !== 'skills') {
+      for (const item of items2) {
+        if (item.title.trim().length === 0) {
+          alert('Please enter a title for each item.');
+          return;
+        }
+        if (item.location.trim().length === 0) {
+          alert('Please enter a location for each item.');
+          return;
+        }
+        if (item.description.trim().length === 0) {
+          alert('Please enter a description for each item.');
+          return;
+        }
+        if (!item.startedAt || (item.startedAt > (item.endedAt ?? Date.now()))) {
+          alert('Please enter a valid date range for each item.');
+          return;
+        }
+      }
+    }
+
+
+
     fetch('/api/updateUserSection', {
       method: 'POST',
       headers: {
@@ -102,12 +120,11 @@ const MyComponent = ({ user, requestedUser, section }) => {
       }),
     });
 
-    setLiveItems(editorItems);
+    setLiveItems(_.cloneDeep(editorItems));
     setMode('view');
   };
 
   const [isPresent, setIsPresent] = useState(false)
-
   return (
     <div className="container mx-auto">
       <div className={`flex items-center justify-center mx-auto pb-5`}>
@@ -127,7 +144,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
               <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
                 <h2 className="text-sm md:text-lg font-bold mb-2 break-words">{item.title}</h2>
                 <p className="text-gray-800 text-xs md:text-base dark:text-white mb-1 break-words">
-                  {item.startedAt.toDateString()} - {item == null || typeof item === 'undefined' ? "Present Day" : (item.endedAt.toLocaleDateString() != '12/30/1969' ? item.endedAt.toDateString() : "Present Day")}
+                  {item.startedAt.toDateString()} - {(item.endedAt ? item.endedAt.toDateString() : "Present Day")}
                 </p>
                 <p className="text-gray-800 text-sm md:text-lg dark:text-white mb-1 break-words">{item.location}</p>
                 <p className="text-gray-800 text-xs md:text-base dark:text-white break-words">{item.description}</p>
@@ -147,6 +164,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
           contentLabel="Example Modal"
           overlayClassName={`fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black bg-opacity-50 `}
           className={`border border-gray-200 p-4 ${mode === 'view' ? 'hidden' : ''} bg-white dark:bg-gray-800 max-w-2xl max-h-full mx-auto mt-12`}
+          ariaHideApp={false} // Added to prevent the warning about appElement not being defined
         >
           <div className="overflow-auto" style={{ maxHeight: '80vh' }}>
             <div className="space-y-4">
@@ -164,7 +182,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
                       />
                       <div className="flex space-x-2 mb-2">
                         <div className='w-1/2'>
-                          From: 
+                          From:
                           <DatePicker
                             className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
                             selected={item.startedAt}
@@ -173,14 +191,25 @@ const MyComponent = ({ user, requestedUser, section }) => {
                           />
                         </div>
                         <div className='w-1/2'>
-                          To: 
+                          To:
                           <div className="flex flex-col justify-start">
-                            {item.endedAt.toLocaleDateString() == '12/30/1969' ? <p className="text-xs mt-2 text-gray-400 mb-2">What's saved is that this is ongoing</p> : <></> }
-                            <input onClick={e => {
-                              updateItem(index, 'endedAt',  new Date('1969-12-31')                            )
-                            }} type="checkbox" className={`peer mr-auto`} />
-                            <span>Present Day</span>
-                            <div className={`peer-checked:hidden`}>
+                          <div style={{ display: 'flex', alignItems: 'center' }}>
+  <span style={{ marginRight: '8px' }}>Ongoing</span>
+  <input
+    onChange={e => {
+      if (item.endedAt === null) {
+        updateItem(index, 'endedAt', new Date());
+      } else {
+        updateItem(index, 'endedAt', null);
+      }
+    }}
+    type="checkbox"
+    className="peer mr-auto"
+    checked={item.endedAt === null}
+  />
+</div>
+
+                            <div className={item.endedAt === null ? 'hidden' : ''}>
                               <DatePicker
                                 className={`border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white`}
                                 selected={item.endedAt}
@@ -241,7 +270,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
               <button
                 className="bg-red-500 hover:bg-red-600 dark:bg-red-800/50 dark:hover:bg-red-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                 onClick={() => {
-                  setEditorItems(liveItems);
+                  setEditorItems(_.cloneDeep(liveItems));
                   setMode('view');
                 }}
               >

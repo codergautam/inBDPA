@@ -30,7 +30,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   const handleSave = async () => {
     if(saving) return;
     const formData = new FormData();
-    console.log("Huh")
     if (isGravatar) {
     setSaving(true);
 

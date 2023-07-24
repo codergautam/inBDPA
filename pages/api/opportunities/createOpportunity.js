@@ -16,9 +16,11 @@ export default withIronSessionApiRoute(handler, ironOptions);
   let data = await createOpportunity({title, contents, creator_id});
   if(data.success) {
     delete data.opportunity.updatedAt;
+
+    data.opportunity.content = data.opportunity.contents;
+    delete data.opportunity.contents;
+    console.log(data.opportunity);
     await updateOpportunityMongo(data.opportunity.opportunity_id, data.opportunity);
   }
-  console.log("Data: ")
-  console.log(data)
   res.json(data);
 }

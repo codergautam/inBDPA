@@ -35,6 +35,12 @@ async function getOpportunities(after = null, updatedAfter = null) {
   }
   return sendRequest(url, 'GET');
 }
+
+async function getOpportunity(opportunityId) {
+  const url = `${BASE_URL}/opportunities/${opportunityId}`;
+  return sendRequest(url, 'GET');
+}
+
  async function updateOpportunityMongo(opportunityId, opportunity) {
 // Create if not exists
 try {
@@ -178,6 +184,15 @@ async function getAllOpportunities(lastUpdated) {
       after = d.opportunities[99].opportunity_id;
     } else {
       stop = true;
+    }
+
+    for(let i = 0; i < d.opportunities.length; i++) {
+      let opportunity = d.opportunities[i];
+      let fullData = await getOpportunity(opportunity.opportunity_id);
+      if(fullData && fullData.success && fullData.opportunity) {
+        d.opportunities[i].content = fullData.opportunity.contents;
+      }
+      await wait(1000);
     }
 
     opportunities.push(...d.opportunities);

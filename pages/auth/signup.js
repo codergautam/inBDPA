@@ -5,7 +5,7 @@ import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import Navbar from "@/components/navbar";
 import ErrorComponent from "./ErrorComponent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React from "react";
 // const Captcha = dynamic(() => import('../captchatry2'), { ssr: false })
 import Captcha from "@/components/Captcha";
@@ -16,214 +16,51 @@ export default function Signup() {
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
-  const [btnText, setBtnText] = useState("Sign Up");
+  const [success, setSuccess] = useState("");
+  const [btnText, setBtnText] = useState("Fill all Fields");
   const [captchaSolved, setSolved] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [submityesno, setSubmitYesNo] = useState(false);
+  const [passwordstrength, setPassStrength] = useState("");
 
   // Function to check if all fields are filled
   const areAllFieldsFilled = () => {
     return name !== "" && email !== "" && password !== "";
   };
-
-  const handleSignup = (event) => {
-    event.preventDefault();
-    setBtnText("Signing up...");
-
-    if (!captchaSolved) {
-      setError("Please solve the captcha.");
-      setBtnText("Sign Up");
-      return;
+  const areallfieldsfilled = areAllFieldsFilled();
+  useEffect(() => {
+    {
+      password.length === 0
+        ? setPassStrength("Empty")
+        : password.length < 10
+        ? setPassStrength("Weak")
+        : password.length < 17
+        ? setPassStrength("Moderate")
+        : setPassStrength("Strong");
     }
-
-    if (!areAllFieldsFilled()) {
-      setError("Please fill out all fields.");
-      setBtnText("Sign Up");
-      return;
+    if (!areallfieldsfilled && !captchaSolved) {
+      setBtnText("Fill all Fields");
+    } else if (areallfieldsfilled && captchaSolved && !submityesno) {
+      setBtnText("Sign up →");
+    } else if (areallfieldsfilled && !captchaSolved) {
+      setBtnText("Continue →");
+    } else if (!areallfieldsfilled && captchaSolved) {
+      setBtnText("Fill all Fields");
     }
-
-    fetch("/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: name,
-        email,
-        password,
-        rememberMe,
-        changeUser: true,
-      }),
-      credentials: "include",
-    })
-      .then((response) => {
-        setBtnText("Sign Up");
-        response.json().then((data) => {
-          if (data.error) {
-            setError(data.error);
-            return;
-          }
-          // Redirect to home page
-          window.location.href = "/";
-        });
-      })
-      .catch((error) => {
-        setBtnText("Sign Up");
-        setError("An error occurred while signing up.");
-      });
-  };
-  // Initialization for ES Users
+  }, [
+    name,
+    email,
+    password,
+    areallfieldsfilled,
+    captchaSolved,
+    error,
+    submityesno,
+  ]);
 
   return (
     <>
-      {/* <div className="flex flex-col items-center justify-center h-screen sm:min-h-screen bg-white dark:bg-black text-black dark:text-white">
-        <Navbar />
-        {error && <ErrorComponent error={error} />}
-        <Head>
-          <title>Sign Up | inBDPA</title>
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-
-        <main className="flex items-center justify-center w-screen h-full flex-1 px-0 sm:px-20 text-center">
-          <div className="w-full h-full sm:h-min ">
-            <form
-              className="bg-white h-full mx-auto md:w-3/4 xl:w-2/3 2xl:w-1/2 sm:h-min dark:bg-black sm:dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-14 sm:pt-6 pb-8"
-              onSubmit={(event) => {
-                event.preventDefault();
-                setBtnText("Signing up...");
-                if (!captchaSolved) {
-                  setError("Please solve the captcha.");
-                  setBtnText("Sign Up");
-                  return;
-                }
-                fetch("/api/auth/signup", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    username: name,
-                    email,
-                    password,
-                    rememberMe,
-                    changeUser: true,
-                  }),
-                  credentials: "include",
-                })
-                  .then((response) => {
-                    setBtnText("Sign Up");
-                    response.json().then((data) => {
-                      if (data.error) {
-                        setError(data.error);
-                        return;
-                      }
-                      // Redirect to home page
-                      window.location.href = "/";
-                    });
-                  })
-                  .catch((error) => {
-                    setBtnText("Sign Up");
-                    setError("An error occurred while signing up.");
-                  });
-              }}
-            >
-              <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">
-                Create an Account
-              </h1>
-              <div className="flex-row items-center justify-between w-full">
-                <div className="mx-auto w-3/4 lg:w-max md:mr-1">
-                  <div className="mb-4 flex-col items-center">
-                    <label
-                      className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                      htmlFor="name"
-                    >
-                      Username
-                    </label>
-                    <input
-                      className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="name"
-                      type="text"
-                      placeholder="Name"
-                      value={name}
-                      onChange={(event) => setName(event.target.value)}
-                    />
-                  </div>
-                  <div className="mb-4">
-                    <label
-                      className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                      htmlFor="email"
-                    >
-                      Email
-                    </label>
-                    <input
-                      className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="email"
-                      type="email"
-                      placeholder="Email"
-                      value={email}
-                      onChange={(event) => setEmail(event.target.value)}
-                    />
-                  </div>
-                  <div className="mb-2">
-                    <label
-                      className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                      htmlFor="password"
-                    >
-                      Password
-                    </label>
-                    <input
-                      className="appearance-none rounded-lg w-fit focus:w-full py-2 px-3 mx-auto text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                      id="password"
-                      type="password"
-                      placeholder="Password"
-                      value={password}
-                      onChange={(event) => setPassword(event.target.value)}
-                    />
-                  </div>
-                </div>
-                <div className="mb-6 flex-grow md:ml-1">
-                  <label
-                    className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                    htmlFor="captcha"
-                  >
-                    Captcha
-                  </label>
-                  <Captcha setSolved={setSolved} />
-                </div>
-              </div>
-              <div className="mb-6">
-                <label className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2">
-                  <input
-                    className="mr-2 leading-tight"
-                    type="checkbox"
-                    checked={rememberMe}
-                    onChange={(event) => setRememberMe(event.target.checked)}
-                  />
-                  <span className="text-sm">Remember me</span>
-                </label>
-              </div>
-              <div className="flex items-center justify-center">
-                <button
-                  className="pr-6 pl-6 pt-2 pb-2 text-left border  rounded-xl bg-gray-300 dark:bg-gray-800 hover:bg-gray-400 text-white border-black dark:border-white text-xl "
-                  type="submit"
-                >
-                  {btnText}
-                </button>
-              </div>
-              <p className="text-center text-gray-700 dark:text-gray-200 mt-5">
-                Already have an account?{" "}
-                <Link
-                  href="/auth/login"
-                  className="text-blue-600 dark:text-blue-400"
-                >
-                  Log in here
-                </Link>
-              </p>
-            </form>
-          </div>
-        </main>
-      </div> */}
       <section class="bg-gray-50 dark:bg-gray-900 h-screen">
-        <div className="xs:h-0 w-screen xs:mb-24">
+        <div className="h-0 w-screen">
           <Navbar />
         </div>
 
@@ -231,7 +68,7 @@ export default function Signup() {
           <title>Signup | inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div class="flex flex-col items-center justify-center px-6 mx-auto lg:py-0">
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
@@ -240,13 +77,28 @@ export default function Signup() {
               <form
                 className="space-y-4 md:space-y-6"
                 onSubmit={(event) => {
+                  if (!areAllFieldsFilled() && !captchaSolved) {
+                    setError("Please solve the captcha.");
+                    setSubmitYesNo(false);
+                  } else if (areAllFieldsFilled() && captchaSolved) {
+                    setSuccess("User created");
+                    <ErrorComponent
+                      error={success}
+                      side="bottom"
+                      color="green"
+                      blocked={false}
+                      setError={setSuccess}
+                    />;
+                    setSubmitYesNo(true);
+                  } else if (areAllFieldsFilled() && !captchaSolved) {
+                    setError("Please fill out all fields.");
+                    setSubmitYesNo(false);
+                  } else {
+                    setError("Please fill out all fields.");
+                    setSubmitYesNo(false);
+                  }
                   event.preventDefault();
                   setBtnText("Signing up...");
-                  if (!captchaSolved) {
-                    setError("Please solve the captcha.");
-                    setBtnText("Sign Up");
-                    return;
-                  }
                   fetch("/api/auth/signup", {
                     method: "POST",
                     headers: {
@@ -262,9 +114,9 @@ export default function Signup() {
                     credentials: "include",
                   })
                     .then((response) => {
-                      setBtnText("Sign Up");
                       response.json().then((data) => {
                         if (data.error) {
+                          setSubmitYesNo(false);
                           setError(data.error);
                           return;
                         }
@@ -273,7 +125,8 @@ export default function Signup() {
                       });
                     })
                     .catch((error) => {
-                      setBtnText("Sign Up");
+                      setSubmitYesNo(false);
+                      setBtnText("Sign up");
                       setError("An error occurred while signing up.");
                     });
                 }}
@@ -288,12 +141,16 @@ export default function Signup() {
                   <input
                     id="name"
                     value={name}
+                    // onChange={(event) => {
+
+                    //   realbtnText()
+                    // }}
                     onChange={(event) => setName(event.target.value)}
                     required=""
-                    placeholder="John"
+                    placeholder="john"
                     name="name"
                     type="text"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500"
                     defaultValue=""
                   />
                 </div>
@@ -322,17 +179,75 @@ export default function Signup() {
                   >
                     Your password
                   </label>
-                  <input
-                    id="password"
-                    value={password}
-                    onChange={(event) => setPassword(event.target.value)}
-                    required=""
-                    name="password"
-                    type="password"
-                    placeholder="••••••••"
-                    className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    defaultValue=""
-                  />
+                  {passwordstrength === "Weak" ? (
+                    <>
+                      <input
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required=""
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className={`bg-gray-50 border border-red-300 text-red-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-red-500 dark:focus:ring-red-500 dark:focus:border-red-500`}
+                        defaultValue=""
+                      />
+                      <p className="text-sm text-red-500 text-right pt-1 pr-2">
+                        Weak Password
+                      </p>
+                    </>
+                  ) : passwordstrength === "Moderate" ? (
+                    <>
+                      <input
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required=""
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className={`bg-gray-50 border border-yellow-300 text-yellow-900 sm:text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-yellow-600 placeholder-gray-400 dark:text-yellow-500 dark:focus:ring-yellow-500 dark:focus:border-yellow-500`}
+                        defaultValue=""
+                      />
+                      <p className="text-sm text-yellow-500 text-right pt-1 pr-2">
+                        Moderate Password
+                      </p>
+                    </>
+                  ) : passwordstrength === "Strong" ? (
+                    <>
+                      <input
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required=""
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className={`bg-gray-50 border border-green-300 text-green-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-green-500 dark:focus:ring-green-500 dark:focus:border-green-500`}
+                        defaultValue=""
+                      />
+                      <p className="text-sm text-green-500 text-right pt-1 pr-2">
+                        Strong Password
+                      </p>
+                    </>
+                  ) : (
+                    <>
+                      <input
+                        id="password"
+                        value={password}
+                        onChange={(event) => setPassword(event.target.value)}
+                        required=""
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        defaultValue=""
+                      />
+                      <p className="text-sm text-white dark:text-gray-800 text-right pt-1 pr-2">
+                         password strength
+                      </p>
+                    </>
+                  )}
                 </div>
 
                 {/* <div className="mb-6">
@@ -384,7 +299,7 @@ export default function Signup() {
                     disabled={!areAllFieldsFilled()}
                   >
                     <span className="flex justify-center items-center">
-                      Submit →
+                      {btnText}
                     </span>
                   </button>
                 )}
@@ -396,7 +311,7 @@ export default function Signup() {
                     onClick={() => setShowModal(true)}
                   >
                     <span className="flex justify-center items-center">
-                      Fill all Fields
+                      {btnText}
                     </span>
                   </button>
                 )}
@@ -408,7 +323,7 @@ export default function Signup() {
                     onClick={() => setShowModal(true)}
                   >
                     <span className="flex justify-center items-center">
-                      Continue →
+                      {btnText}
                     </span>
                   </button>
                 )}
@@ -419,7 +334,7 @@ export default function Signup() {
                     disabled={!areAllFieldsFilled()}
                   >
                     <span className="flex justify-center items-center">
-                      Fill all Fields
+                      {btnText}
                     </span>
                   </button>
                 )}
@@ -428,7 +343,7 @@ export default function Signup() {
                   Already have an account?{" "}
                   <Link
                     href="/auth/login"
-                    class="font-medium underline text-blue-600"
+                    class="font-medium underline text-primary-600 dark:text-primary-500"
                   >
                     Log in
                   </Link>
@@ -480,8 +395,27 @@ export default function Signup() {
                     <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
                   </>
                 )}
-                {captchaSolved && <ErrorComponent error="Captcha completed" side="bottom" color="green" blocked={false}/>}
-                {error && <ErrorComponent error={error} side="bottom" color="red" blocked={false}/>}
+                {captchaSolved && (
+                  <>
+                  {setSuccess("Captcha completed")}
+                  <ErrorComponent
+                    error={success}
+                    side="bottom"
+                    color="green"
+                    blocked={false}
+                    setError={setSuccess}
+                  />
+                  </>
+                )}
+                {error && (
+                  <ErrorComponent
+                    error={error}
+                    side="bottom"
+                    color="red"
+                    blocked={false}
+                    setError={setError}
+                  />
+                )}
               </form>
             </div>
           </div>

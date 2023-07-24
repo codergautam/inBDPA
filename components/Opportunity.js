@@ -93,7 +93,8 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
                     onClick={() => {
                       setEditingOpportunity(opportunity);
                       setTitle(opportunity.title);
-                      setValue(opportunity.contents);
+                      console.log(opportunity);
+                      setValue(opportunity.content);
                     }}
                     className="bg-orange-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-full transition-all ease-in-out"
                   >

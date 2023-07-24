@@ -32,7 +32,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
 
 
-  console.log("Opportunities: ", opportunities)
   res.json({success: true, opportunities});
   } catch(e) {
     console.log(e);

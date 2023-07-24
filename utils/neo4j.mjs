@@ -54,6 +54,55 @@ export async function fetchConnections(user_id, depth) {
 
   return [...connections];
 }
+export async function getConnectionSuggestions(user_id) {
+  const session = driver.session();
+  let suggestedUsers = [];
+
+  try {
+    const result = await session.run(
+      `MATCH (a:User {id: $user_id})-[:CONNECTS_TO]->(b:User)<-[:CONNECTS_TO]-(c:User)
+       WHERE NOT (a)-[:CONNECTS_TO]->(c) AND a <> c
+       RETURN c.id as id, count(b) as mutualConnections
+       ORDER BY mutualConnections DESC
+       LIMIT 3`,
+      { user_id }
+    );
+
+    // Check if less than 3 users are returned.
+    if (result.records.length < 3) {
+      // Fetch some random users.
+      const popularResult = await session.run(
+        `MATCH (a:User)<-[:CONNECTS_TO]-(b:User)
+        WHERE NOT ((b)-[:CONNECTS_TO]->(:User {id: $user_id})) AND a.id <> $user_id
+        RETURN a.id as id, count(b) as connectionCount
+        ORDER BY connectionCount DESC
+        LIMIT ${3 - result.records.length}`,
+        { user_id }
+      );
+
+
+      // Merge the result sets.
+      result.records = [...result.records, ...popularResult.records];
+    }
+
+    // Gather the suggested users.
+    for (let i = 0; i < result.records.length; i++) {
+      suggestedUsers.push({
+        id: result.records[i].get('id'),
+        mutualConnections: result.records[i].has('mutualConnections') ? result.records[i].get('mutualConnections').toInt() : 0
+      });
+    }
+  } catch (error) {
+    console.log('Error fetching connection suggestions:', error, user_id);
+  } finally {
+    await session.close();
+  }
+
+  return suggestedUsers;
+}
+
+
+
 
 export async function deleteUser(user_id) {
   const session = driver.session();

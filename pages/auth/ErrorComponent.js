@@ -1,34 +1,54 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-const ErrorComponent = ({ error, side, color, blocked }) => {
+const ErrorComponent = ({ error, side, color, blocked, setError, loginerror, setLoginError}) => {
   const [visible, setVisible] = useState(false);
+  const [timerId, setTimerId] = useState(null);
 
   useEffect(() => {
+    setVisible(false);
+
+    // Clear the previous timer whenever the error prop changes
+    if (timerId) {
+      clearTimeout(timerId);
+    }
+
     if (error) {
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
-      }, 8000); // Change the duration as needed (in milliseconds)
-
-      return () => clearTimeout(timer);
+      }, 2000); // Changed the duration to 2000 milliseconds (2 seconds)
+      setTimerId(timer);
     }
-  }, [error]);
 
-  if (!visible) {
-    return null;
-  }
+    // Clear the timeout when the component unmounts
+    return () => {
+      if (timerId) {
+        clearTimeout(timerId);
+      }
+    };
+  }, [error, timerId]);
+
+  const handleCancelButtonClick = () => {
+    if (loginerror){
+      setLoginError()
+    }
+    setVisible(false);
+    setError(null);
+  };
+
+
   return (
     <>
       {visible && (
         <div
           className={
             side === "top" && color === "green"
-              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-0`
+              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-1`
               : side === "bottom" && color === "green"
-              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-0`
+              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-1`
               : side === "top" && color === "red"
-              ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-0`
-              : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-0`
+              ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-1`
+              : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-1`
           }
         >
           <div className="flex w-fit justify-center mx-auto">
@@ -64,13 +84,13 @@ const ErrorComponent = ({ error, side, color, blocked }) => {
                 <svg
                   className={
                     color === "red"
-                      ? `fill-current text-red-500 ml-3 w-6 h-6`
-                      : `fill-current text-emerald-500 ml-3 w-6 h-6`
+                      ? `fill-current text-red-500 hover:text-red-400 ml-3 w-6 h-6`
+                      : `fill-current text-emerald-500 hover:text-emerald-400 ml-3 w-6 h-6`
                   }
                   viewBox="0 0 20 20"
                   xmlns="http://www.w3.org/2000/svg"
                   onClick={() => {
-                    setVisible(false);
+                    handleCancelButtonClick();
                   }}
                 >
                   <path
