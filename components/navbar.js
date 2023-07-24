@@ -30,7 +30,7 @@ export default function Navbar({ user }) {
         <div className="w-fit">
         <Link href="/" className="w-fit">
           <Image
-            className="w-24 sm:w-24 md:w-28 dark:hidden inline transition duration-300 transform hover:scale-110"
+            className="w-24 sm:w-24 md:w-28 pb-2 sdark:hidden inline transition duration-300 transform hover:scale-110"
             src="/logos/light.png"
             alt="BDPA logo"
             width={1000000}
@@ -39,7 +39,7 @@ export default function Navbar({ user }) {
         </Link>
         <Link href="/" className="w-fit">
           <Image
-            className="w-24 sm:w-24 md:w-28 pt-0 hidden dark:inline transition duration-300 transform hover:scale-110"
+            className="w-24 sm:w-24 md:w-28  hidden dark:inline transition duration-300 transform hover:scale-110"
             src="/logos/dark.png"
             alt="BDPA logo"
             width={1000000}
