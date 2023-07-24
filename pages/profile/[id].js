@@ -236,7 +236,7 @@ export default function Page({
               <div className="flex flex-col md:flex-row mt-4 w-full">
 
                 <div className="w-full p-4 border-gray-700 border-b group">
-                  <h2 className="text-base md:text-xl font-semibold text-gray-400 dark:text-gray-700 group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition mb-2">
+                  <h2 className="text-base md:text-xl font-semibold text-black dark:text-white duration-300 ease-in-out transition mb-2">
                     Education
                   </h2>
                   <UserInfo
@@ -277,7 +277,7 @@ export default function Page({
                       className="w-full p-4 group mt-4 border-gray-700 border-b"
                       key={section}
                     >
-                  <h2 className="text-base md:text-xl group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition font-semibold text-gray-400 dark:text-gray-700 mb-2">
+                  <h2 className="text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
                         {section.charAt(0).toUpperCase() + section.slice(1, section.length)}
                       </h2>
                       <UserInfo
