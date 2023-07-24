@@ -10,14 +10,15 @@ const ErrorComponent = ({
   setLoginError,
 }) => {
   const [visible, setVisible] = useState(false);
-  const [timerId, setTimerId] = useState(null);
+  // const [timerId, setTimerId] = useState(null);
+  const timerId = useRef(null);
 
   useEffect(() => {
     setVisible(false);
 
     // Clear the previous timer whenever the error prop changes
-    if (timerId) {
-      clearTimeout(timerId);
+    if (timerId.current) {
+      clearTimeout(timerId.current);
     }
 
     if (error !== null) {
@@ -25,16 +26,17 @@ const ErrorComponent = ({
       const timer = setTimeout(() => {
         setVisible(false);
       }, 2000); // Changed the duration to 2000 milliseconds (2 seconds)
-      setTimerId(timer);
+      // setTimerId(timer);
+      timerId.current = timer;
     }
 
     // Clear the timeout when the component unmounts
     return () => {
-      if (timerId) {
-        clearTimeout(timerId);
+      if (timerId.current) {
+        clearTimeout(timerId.current);
       }
     };
-  }, [error, timerId]);
+  }, [error]);
 
   const handleCancelButtonClick = () => {
     if (loginerror) {

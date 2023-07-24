@@ -42,7 +42,7 @@ export default function ForgotPassword() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-white dark:bg-black text-black dark:text-white">
+    <section class="bg-gray-50 dark:bg-gray-900">
       <Navbar />
       {error && <ErrorComponent error={error} />}
 
@@ -50,70 +50,77 @@ export default function ForgotPassword() {
         <title>Forgot Password | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex items-center justify-center w-full flex-1 px-20 text-center">
-        <div className="w-full max-w-md">
-          <form
-            className="bg-white dark:bg-gray-900 rounded-lg shadow-xl px-8 pt-6 pb-8 mb-4"
-            onSubmit={handleResetPassword}
-          >
-            <h1 className="text-3xl mb-6 text-center font-bold dark:text-gray-200">
-              Forgot Your Password?
+      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              Forgot your password?
+              <p className="text-gray-500 font-semibold text-sm mt-3">
+                Enter your email address and we&apos;ll send you instructions on
+                how to reset your password.
+              </p>
             </h1>
+
             {success ? (
-              <p className="text-green-500 text-sm mb-4">
-                Ideally, this generated reset link would be sent to the provided
-                email for verification, but for the purposes of this project,
-                its here to demo functionality: <br /> <br />
+              <>
+                <p className="text-green-500 text-sm mb-3 text-center">
+                  Ideally, this generated reset link would be sent to the
+                  provided email for verification, but for the purposes of this
+                  project, its here to demo functionality:
+                </p>
+                <div className="text-center mx-auto text-blue-500 underline w-fit">
                 <Link href={`/auth/reset/${success}`}>
                   {window.location.hostname + `/auth/reset/${success}`}
                 </Link>
-                <br />
-                The link expires in one hour
-              </p>
-            ) : (
-              <>
-                <p className="text-gray-500 text-sm mb-4">
-                  Enter your email address and we&apos;ll send you instructions
-                  on how to reset your password.
+                </div>
+                <p className="text-red-500 text-sm text-center underline">
+                  The link expires in one hour
                 </p>
-                <div className="mb-4">
+              </>
+            ) : (
+              <form
+                class="space-y-4 md:space-y-6"
+                action="#"
+                onSubmit={handleResetPassword}
+              >
+                <div>
                   <label
-                    className="block text-gray-700 dark:text-gray-200 text-sm font-bold mb-2"
-                    htmlFor="email"
+                    for="email"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                   >
-                    Email
+                    Your email
                   </label>
                   <input
-                    className="appearance-none rounded-lg w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="email"
                     type="email"
-                    placeholder="Email"
+                    name="email"
+                    id="email"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="name@company.com"
+                    required=""
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                   />
                 </div>
-                <div className="flex items-center justify-center">
-                  <button
-                    className="pr-6 pl-6 pt-2 pb-2 text-left border rounded-xl bg-gray-300 hover:bg-gray-400 text-white focus:text-blue-600 dark:bg-gray-800 border-black dark:border-white text-xl"
-                    type="submit"
+                <button
+                  type="submit"
+                  class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                >
+                  {btnText}
+                </button>
+                <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                  Remember password?{" "}
+                  <Link
+                    href="/auth/login"
+                    class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
-                    {btnText}
-                  </button>
-                </div>
-              </>
+                    Log in
+                  </Link>
+                </p>
+              </form>
             )}
-            <p className="text-center text-gray-700 dark:text-gray-200 mt-5">
-              Remember your password?{" "}
-              <Link
-                href="/auth/login"
-                className="text-blue-600 dark:text-blue-400"
-              >
-                Log in here
-              </Link>
-            </p>
-          </form>
+          </div>
         </div>
-      </main>
-    </div>
+      </div>
+    </section>
   );
 }
