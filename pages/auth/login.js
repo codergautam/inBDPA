@@ -218,7 +218,7 @@ export default function Login() {
             <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
               <div>
                 <label
-                  for="username"
+                  htmlFor="username"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your email or username
@@ -235,7 +235,7 @@ export default function Login() {
               </div>
               <div>
                 <label
-                  for="password"
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Password
@@ -266,7 +266,7 @@ export default function Login() {
                       checked={rememberMe}
                       onChange={(event) => setRememberMe(event.target.checked)}
                       className="text-gray-500 dark:text-gray-300"
-                      for="remember"
+                      htmlFor="remember"
                     >
                       Remember me
                     </label>

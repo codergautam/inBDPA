@@ -284,7 +284,7 @@ export default function Signup() {
                           setRememberMe(event.target.checked)
                         }
                         class="text-gray-500 dark:text-gray-300"
-                        for="remember"
+                        htmlFor="remember"
                       >
                         Remember me
                       </label>
