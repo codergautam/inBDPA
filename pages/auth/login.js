@@ -87,7 +87,7 @@ export default function Login() {
     } else if (areAllFieldsFilled()) {
       setSuccess("Logging in...");
       <ErrorComponent
-        error={success}
+      errorInComponent={success}
         side="bottom"
         color="green"
         blocked={false}
@@ -153,7 +153,7 @@ export default function Login() {
         <Navbar />
       </div>
       <ErrorComponent
-        error={loginerror}
+        errorInComponent={loginerror}
         side="top"
         color="red"
         blocked={false}
@@ -163,7 +163,7 @@ export default function Login() {
       />
       {error && (
         <ErrorComponent
-          error={error}
+        errorInComponent={error}
           side="top"
           color="red"
           blocked={false}
@@ -197,7 +197,7 @@ export default function Login() {
                   {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
                 </p>
                 <ErrorComponent
-                  error={
+                errorInComponent={
                     <p className=" mb-1">
                       You are temporarily blocked.
                       <br /> Please try again after {timeRemaining}.<br />

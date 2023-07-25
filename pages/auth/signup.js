@@ -101,9 +101,9 @@ export default function Signup() {
                     setError("Please solve the captcha.");
                     setSubmitYesNo(false);
                   } else if (areAllFieldsFilled() && captchaSolved) {
-                    setSuccess("User created");
+                    // setSuccess("User created");
                     <ErrorComponent
-                      error={success}
+                    errorInComponent={success}
                       side="bottom"
                       color="green"
                       blocked={false}
@@ -451,9 +451,8 @@ Create Account
                 )}
                 {captchaSolved && (
                   <>
-                    {setSuccess("Captcha completed")}
                     <ErrorComponent
-                      error={success}
+                      errorInComponent={"Captcha completed"}
                       side="bottom"
                       color="green"
                       blocked={false}
@@ -463,7 +462,7 @@ Create Account
                 )}
                 {error && (
                   <ErrorComponent
-                    error={error}
+                    errorInComponent={error}
                     side="bottom"
                     color="red"
                     blocked={false}

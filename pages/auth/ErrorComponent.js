@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const ErrorComponent = ({
-  error,
+  errorInComponent,
   side,
   color,
   blocked,
@@ -21,7 +21,7 @@ const ErrorComponent = ({
       clearTimeout(timerId.current);
     }
 
-    if (error !== null) {
+    if (errorInComponent !== null) {
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
@@ -36,7 +36,7 @@ const ErrorComponent = ({
         clearTimeout(timerId.current);
       }
     };
-  }, [error]);
+  }, [errorInComponent]);
 
   const handleCancelButtonClick = () => {
     if (loginerror) {
@@ -85,7 +85,7 @@ const ErrorComponent = ({
                     : `text-emerald-500 text-sm`
                 }
               >
-                {error}
+                {errorInComponent}
               </div>
             </div>
             <div className="h-full">
