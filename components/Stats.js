@@ -19,10 +19,10 @@ export default function Stats() {
 
   async function dostuff() {
     console.log("Doing stuff");
-    setUsers("...");
-    setTotalViews("...");
-    setSessions("...");
-    setOpportunities("...");
+    // setUsers("...");
+    // setTotalViews("...");
+    // setSessions("...");
+    // setOpportunities("...");
     let data = await getInfoData();
     if (data.success) {
       console.log();
