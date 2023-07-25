@@ -10,7 +10,7 @@ export default function Captcha({ setSolved, solvedyesno }) {
     // if (solved === false) {
     createCaptcha();
     // } else {
-    //   var canvas = document.getElementById("captchaCanvas");
+    // var canvas = document.getElementById("captchaCanvas");
     // var context = canvas.getContext("2d");
     // // context.clearRect(0, 0, canvas.width, canvas.height);
     // // context.fillStyle = "#FFFFFF"; // Set white background
@@ -57,18 +57,16 @@ export default function Captcha({ setSolved, solvedyesno }) {
       context.font = "25px Calibri";
       context.fillStyle = "#000000"; // Set black text color
       const textWidth = context.measureText(captcha.join("")).width;
-      let metrics = context.measureText(captcha.join(""));
-      const fontHeight =
-        metrics.fontBoundingBoxAscent + metrics.fontBoundingBoxDescent;
+      const metrics = context.measureText(captcha.join(""));
       const actualHeight =
         metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
-      console.log(Math.round(actualHeight)/2);
       context.fillText(
         captcha.join(""),
-        canvas.width/2 - textWidth/2,
-        canvas.height/2 + Math.round(Math.round(actualHeight)/2)
+        canvas.width / 2 - textWidth / 2,
+        canvas.height / 2 + Math.round(Math.round(actualHeight) / 2)
       );
       // -----------
+      setSolved(false);
       setSolvedState(false);
       setValidationStatus("");
     } else {
@@ -101,7 +99,7 @@ export default function Captcha({ setSolved, solvedyesno }) {
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
               className={`border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black ${
-                validationStatus === "invalid" ? "border-red-500" : ""
+                validationStatus === "invalid" && "border-red-500"
               }`}
             />
             <button

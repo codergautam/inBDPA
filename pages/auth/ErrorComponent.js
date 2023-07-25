@@ -1,41 +1,50 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
-const ErrorComponent = ({ error, side, color, blocked, setError, loginerror, setLoginError}) => {
+const ErrorComponent = ({
+  errorInComponent,
+  side,
+  color,
+  blocked,
+  setErrornew,
+  loginerror,
+  setLoginError,
+}) => {
   const [visible, setVisible] = useState(false);
-  const [timerId, setTimerId] = useState(null);
+  // const [timerId, setTimerId] = useState(null);
+  const timerId = useRef(null);
 
   useEffect(() => {
     setVisible(false);
 
     // Clear the previous timer whenever the error prop changes
-    if (timerId) {
-      clearTimeout(timerId);
+    if (timerId.current) {
+      clearTimeout(timerId.current);
     }
 
-    if (error) {
+    if (errorInComponent !== null) {
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
       }, 2000); // Changed the duration to 2000 milliseconds (2 seconds)
-      setTimerId(timer);
+      // setTimerId(timer);
+      timerId.current = timer;
     }
 
     // Clear the timeout when the component unmounts
     return () => {
-      if (timerId) {
-        clearTimeout(timerId);
+      if (timerId.current) {
+        clearTimeout(timerId.current);
       }
     };
-  }, [error, timerId]);
+  }, [errorInComponent]);
 
   const handleCancelButtonClick = () => {
-    if (loginerror){
-      setLoginError()
+    if (loginerror) {
+      setLoginError("");
     }
     setVisible(false);
-    setError(null);
+    setErrornew(null);
   };
-
 
   return (
     <>
@@ -76,7 +85,7 @@ const ErrorComponent = ({ error, side, color, blocked, setError, loginerror, set
                     : `text-emerald-500 text-sm`
                 }
               >
-                {error}
+                {errorInComponent}
               </div>
             </div>
             <div className="h-full">

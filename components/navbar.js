@@ -130,14 +130,14 @@ export default function Navbar({ user }) {
               Home
             </Link>
             <Link
-              href="../auth/login"
+              href="/auth/login"
               className="px-2 py-1 text-md sm:text-md xl:text-lg font-medium dark:hover:text-blue-500 hover:text-blue-600 transition duration-400 ease-in-out text-black dark:text-white mb-2 md:mb-0"
             >
               Login
             </Link>
 
             <Link
-              href="../auth/signup"
+              href="/auth/signup"
               className="px-2 py-1 text-md sm:text-md xl:text-lg font-medium dark:hover:text-blue-500 hover:text-blue-600 transition duration-400 ease-in-out text-black dark:text-white mb-2 md:mb-0"
             >
               Sign up
