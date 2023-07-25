@@ -91,7 +91,6 @@ export default function SearchPage({ user }) {
           {/* Search Bar */}
           <div className="relative text-gray-600 dark:text-gray-400 px-64 md:px-32 sm:px-0">
             <input
-              type="search"
               name="search"
               placeholder="Search"
               value={searchQuery}
