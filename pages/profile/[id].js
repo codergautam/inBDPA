@@ -225,9 +225,9 @@ export default function Page({
                 )}
               </>
             ) : null}
-            {editable || requestedUser.sections.about ? (
+            {editable || requestedUser.sections?.about ? (
               <AboutSection
-                about={requestedUser.sections.about}
+                about={requestedUser.sections?.about}
                 onSave={handleAboutSave}
                 setRequestedUser={setRequestedUser}
                 editable={editable}

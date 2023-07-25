@@ -171,7 +171,7 @@ export default function SearchPage({ user }) {
                             </span>
                             {afterMatch}
                           </span>
-                        ) : result.sections.about}
+                        ) : result?.sections?.about}
                       </p>
                       <p className="text-gray-600 dark:text-gray-400">
                         Type: {result.type}<br />

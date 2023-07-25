@@ -106,7 +106,7 @@ export async function searchUsers(query) {
         delete user.email;
         // Figure out where the match was found and its position
         const matchField = user.username.match(regexQuery) ? 'username' : user.link.match(regexQuery) ? 'link' : 'about';
-        const matchText = matchField === 'about' ? user.sections.about : user[matchField];
+        const matchText = matchField === 'about' ? user.sections?.about : user[matchField];
         let matchPosition;
         try {
           matchPosition = matchText.toLowerCase().indexOf(query.toLowerCase());
@@ -127,8 +127,8 @@ export async function searchUsers(query) {
     // Prioritize exact matches
     users.sort((a, b) => {
 
-      let aField = a.match.field === 'about' ? a.sections.about : a[a.match.field];
-      let bField = b.match.field === 'about' ? b.sections.about : b[b.match.field];
+      let aField = a.match.field === 'about' ? a.sections?.about : a[a.match.field];
+      let bField = b.match.field === 'about' ? b.sections?.about : b[b.match.field];
       if (aField.toLowerCase() === query.toLowerCase() && bField.toLowerCase() !== query.toLowerCase()) {
         return -1; // a is exact match, b is not
       }
