@@ -90,7 +90,7 @@ let circles = node.append("image")
         .each(function(d) { // Use the 'each' function to iterate over the selection
           var img = new Image();
           img.onerror = () => { // Bind the onerror event to img
-            d3.select(this).attr("href", "https://static.vecteezy.com/system/resources/thumbnails/004/511/281/small/default-avatar-photo-placeholder-profile-picture-vector.jpg"); // Replace the src with the placeholder image
+            d3.select(this).attr("href", "/placeholderPfp.jpg"); // Replace the src with the placeholder image
           }
           img.src = d.profilePicture; // Trigger the load/error event by setting the src
         });
