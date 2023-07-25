@@ -52,7 +52,7 @@ export default function ForgotPassword() {
       </Head>
       <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-          <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+          <div class={success ? "p-6" : "p-6 space-y-4 md:space-y-6 sm:p-8"}>
             <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
               Forgot your password?
               <p className="text-gray-500 font-semibold text-sm mt-3">
@@ -63,24 +63,27 @@ export default function ForgotPassword() {
 
             {success ? (
               <>
-                <p className="text-green-500 text-sm mb-3 text-center">
+                <p className="text-green-500 text-sm my-5 text-center">
                   Ideally, this generated reset link would be sent to the
                   provided email for verification, but for the purposes of this
                   project, its here to demo functionality:
                 </p>
-                <div className="text-center mx-auto text-blue-500 underline w-fit">
                 <Link href={`/auth/reset/${success}`}>
-                  {window.location.hostname + `/auth/reset/${success}`}
+                  <div className="text-center mx-auto mb-3 text-white w-fit font-bold text-md bg-blue-700 pt-3 pb-2 px-8 rounded-md">
+                    Demo Link{" "}
+                    <p className="text-blue-400 text-sm text-center italic">
+                      The link expires in one hour
+                    </p>
+                  </div>
                 </Link>
-                </div>
-                <p className="text-red-500 text-sm text-center underline">
-                  The link expires in one hour
+
+                <p className="text-red-500 text-sm text-center underline" onClick={handleResetPassword}>
+                  Didn&apos;t get the link? resend
                 </p>
               </>
             ) : (
               <form
                 class="space-y-4 md:space-y-6"
-                action="#"
                 onSubmit={handleResetPassword}
               >
                 <div>
@@ -110,7 +113,7 @@ export default function ForgotPassword() {
                 <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                   Remember password?{" "}
                   <Link
-                    href="/auth/login"
+                    href="../auth/login"
                     class="font-medium text-primary-600 hover:underline dark:text-primary-500"
                   >
                     Log in
