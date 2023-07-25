@@ -117,7 +117,7 @@ export default function Page({
         <UserBanner editable={editable} banner={banner} />
       ) : null}
 
-      <main className="flex flex-col mt-20 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
+      <main className="flex flex-col mt-4 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
         {requestedUser ? (
           <>
           <div className="flex flex-col md:flex-row md:gap-6 w-full">
@@ -170,7 +170,7 @@ export default function Page({
                   />
                 </div>
           </div>
-            <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl dark:text-white pt-5">
+            <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5">
               {requestedUser.username}
             </h1>
             <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
