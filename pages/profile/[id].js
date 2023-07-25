@@ -22,6 +22,7 @@ import LinkChanger from "@/components/LinkChanger";
 import ConnectionList from "@/components/ConnectionList";
 import { get } from "mongoose";
 import UserBanner from "@/components/UserBanner";
+import NetworkGraphModal from "@/components/NetworkGraph";
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
   return new Promise((resolve, reject) => {
@@ -298,6 +299,7 @@ export default function Page({
                   Connections
                 </h2>
                 <UserConnections />
+                <NetworkGraphModal />
               </div>
             ) : null}
           </>
