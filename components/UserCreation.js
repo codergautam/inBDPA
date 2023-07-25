@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 
 export default function UserCreation() {
-  let types = ["inner", "staff", "admin"];
+  let types = ["inner", "staff", "administrator"];
   const [type, setType] = useState(types[0]);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -25,7 +25,7 @@ export default function UserCreation() {
       username,
       email,
       password,
-      type: type,
+      type: type == "admin" ? "administrator" : type,
       changeUser: false,
     };
 

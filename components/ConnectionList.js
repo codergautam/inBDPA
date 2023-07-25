@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
+import NetworkGraphModal from './NetworkGraph';
 
 const ConnectionList = ({ connections, clickable, user_id, isYou, theirName }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,6 +66,9 @@ const ConnectionList = ({ connections, clickable, user_id, isYou, theirName }) =
       <h1 onClick={clickable ? openModal : null} className={`${clickable ? 'cursor-pointer' : ''} ${connections[1].length == 0 ? "text-gray-700 text-xs semism:text-sm md:text-lg hover:text-gray-500" : "text-black dark:text-white hover:text-blue-500"} duration-300 ease-in-out transition`}>
        <span className="font-bold">{connections[1].length}</span> connections
       </h1>
+      {isYou ? (
+        <NetworkGraphModal data={connections[0]} />
+      ) : null}
 
       <Modal
         isOpen={isModalOpen}

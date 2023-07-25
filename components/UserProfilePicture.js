@@ -22,7 +22,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
     setPreviewSrc(imageSrc);
     setIsOpen(false);
     setFileSet(false);
-    setPreviewSrc(null);
     setZoom(1);
     setCropArea({x: 0, y: 0, width: 0, height: 0})
   };
@@ -62,7 +61,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
         setPreviewSrc(`/api/public/pfps/${id}`);
         setIsOpen(false);
         setFileSet(false);
-        setPreviewSrc(null);
         setZoom(1);
         setCropArea({x: 0, y: 0, width: 0, height: 0})
       } else {
@@ -87,7 +85,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
       reader.readAsDataURL(file);
     } else {
       setSelectedFile(null);
-      setPreviewSrc(null);
     }
   };
 
@@ -98,7 +95,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
       setPreviewSrc(`https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon`);
     } else {
       setSelectedFile(null);
-      setPreviewSrc(null);
     }
   };
 
@@ -106,7 +102,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   return (
     <div className='w-full pb-16'>
       <div className="flex justify-center items-center mb-4 cursor-pointer" onClick={() => setIsOpen(true)}>
-        <img className="absolute p-2 bg-white dark:bg-gray-800 rounded-full h-auto w-auto sm:h-28 sm:w-28 md:h-32 md:w-32 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
+        <img className="absolute p-2 bg-white dark:bg-gray-800 rounded-full h-auto w-auto sm:h-28 sm:w-28 md:w-36 md:h-36 lg:h-48 lg:w-48 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
       </div>
 
       {isOpen && (
@@ -158,11 +154,16 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
                 // <img className="w-full h-full object-contain mx-auto rounded-md" src={previewSrc} alt="User Profile" />
 
                     ) : null}
+                    {previewSrc && isGravatar && editable ? (
+                      <div className="flex justify-center items-center" style={{zIndex: 5}}>
+                        <img className="w-48 h-48 max-h-48 relative" src={previewSrc} alt="User Profile"  />
+                      </div>
+                    ) : null}
                     {!editable && (
                       <div className="flex justify-center items-center" style={{zIndex: 5}}>
 
                         {/* preview image */}
-                        <img className="w-48 h-48 max-h-48 relative" src={previewSrc} alt="User Profile"  />
+                        <img className="w-48 h-48 max-h-48 relative" src={previewSrc} alt="User Profile" />
                       </div>
 
                     )}

@@ -178,3 +178,42 @@ a {
   margin-bottom: 20px;
 }
 
+
+.links line {
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  stroke: #fff;
+  stroke-width: 1.5;
+}
+
+.nodes text {
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+
+}
+ image {
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+
+}
+
+image:hover {
+  transform: scale(1.2);
+}
+
+text {
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
+
+}
+
+text:hover {
+  transform: scale(1.2);
+}
+
+.node-image {
+  z-index: 99;
+}

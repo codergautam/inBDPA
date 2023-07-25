@@ -685,7 +685,7 @@ export async function getUserPfpAndBanner(userId) {
   }
 }
 
-export function getManyUsersFast(user_ids) {
+export function getManyUsersFast(user_ids, full=false) {
   return new Promise((resolve, reject) => {
   Profile.find({ user_id: { $in: user_ids } })
   .then((profiles) => {
@@ -697,6 +697,7 @@ export function getManyUsersFast(user_ids) {
         username: profile.username,
         pfp: profile.pfp,
         user_id: profile.user_id,
+        connections: full ? profile.connections : undefined,
         gravatarUrl: !profile.pfp || profile.pfp === 'gravatar' ? `https://www.gravatar.com/avatar/${md5(profile.email)}?d=identicon` : null,
       }
     });

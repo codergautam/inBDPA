@@ -2,7 +2,6 @@
 import Head from "next/head";
 import Navbar from "@/components/navbar";
 import UserStats from "@/components/UserStats";
-import UserConnections from "@/components/UserConnections";
 import UserProfilePicture from "@/components/UserProfilePicture";
 import UserInfo from "@/components/UserInfo";
 import {
@@ -22,6 +21,7 @@ import LinkChanger from "@/components/LinkChanger";
 import ConnectionList from "@/components/ConnectionList";
 import { get } from "mongoose";
 import UserBanner from "@/components/UserBanner";
+import NetworkGraphModal from "@/components/NetworkGraph";
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
   return new Promise((resolve, reject) => {
@@ -101,7 +101,7 @@ export default function Page({
   }, []);
 
   // Sections in the user profile
-  const sections = ["volunteering", "skills", "experience"];
+  const sections = ["education", "volunteering", "skills", "experience"];
 
   return (
     <div className="flex flex-col">
@@ -117,7 +117,7 @@ export default function Page({
         <UserBanner editable={editable} banner={banner} />
       ) : null}
 
-      <main className="flex flex-col mt-20 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
+      <main className="flex flex-col mt-4 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
         {requestedUser ? (
           <>
           <div className="flex flex-col md:flex-row md:gap-6 w-full">
@@ -170,7 +170,7 @@ export default function Page({
                   />
                 </div>
           </div>
-            <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl dark:text-white pt-5">
+            <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5">
               {requestedUser.username}
             </h1>
             <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
@@ -231,14 +231,16 @@ export default function Page({
                 onSave={handleAboutSave}
                 setRequestedUser={setRequestedUser}
                 editable={editable}
+                otherSections={requestedUser.sections}
+                name={requestedUser.username}
               />
             ) : null}
 
-            {user ? (
+            {/* {user ? (
               <div className="flex flex-col md:flex-row mt-4 w-full">
 
                 <div className="w-full p-4 border-gray-700 border-b group">
-                  <h2 className="text-base md:text-xl font-semibold text-gray-400 dark:text-gray-700 group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition mb-2">
+                  <h2 className="text-base md:text-xl font-semibold text-black dark:text-white duration-300 ease-in-out transition mb-2">
                     Education
                   </h2>
                   <UserInfo
@@ -249,7 +251,7 @@ export default function Page({
                   />
                 </div>
               </div>
-            ) : null}
+            ) : null} */}
 
             {/*
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
@@ -279,7 +281,7 @@ export default function Page({
                       className="w-full p-4 group mt-4 border-gray-700 border-b"
                       key={section}
                     >
-                  <h2 className="text-base md:text-xl group-hover:text-black dark:group-hover:text-white duration-300 ease-in-out transition font-semibold text-gray-400 dark:text-gray-700 mb-2">
+                  <h2 className="text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
                         {section.charAt(0).toUpperCase() + section.slice(1, section.length)}
                       </h2>
                       <UserInfo
@@ -287,19 +289,11 @@ export default function Page({
                         user={user}
                         requestedUser={requestedUser}
                         section={section}
+                        setRequestedUser={setRequestedUser}
                       />
                     </div>
                   ))
               : null}
-
-            {user ? (
-              <div className="w-full mt-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  Connections
-                </h2>
-                <UserConnections />
-              </div>
-            ) : null}
           </>
         ) : (
           <>

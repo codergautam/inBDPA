@@ -26,7 +26,23 @@ async function handler(req, res) {
     }
 
     // Destructure the title, contents and prompt from the request body
-    const { title, contents, prompt } = req.body;
+    const { title, contents, prompt, bio } = req.body;
+    if(bio) {
+        try {
+            const chatCompletion = await openai.createChatCompletion({
+                model: "gpt-3.5-turbo-0613",
+                messages: [
+                    { role: "system", content: "You are a professional linkedin bio writer. Only output the finished text that goes in 'bio', NOTHING else." },
+                    { role: "user", content: `${contents}\n\n Based on the above info, generate a bio for this user with this modification prompt: ${prompt}. Please output just the rewritten \`bio\`, nothing else !` }
+                ],
+            });
+
+            const gptResponse = chatCompletion.data.choices[0].message;
+            res.status(200).json({ gptResponse });
+        } catch (error) {
+            res.status(200).json({ error: "Failed to process" });
+        }
+    } else {
     if (!title || !contents) {
         res.status(200).json({ error: "Title or Content is empty!" });
         return;
@@ -59,8 +75,9 @@ async function handler(req, res) {
 
       const gptResponse2 = chatCompletion2.data.choices[0].message;
         res.status(200).json({ gptResponse, gptResponse2 });
-
     } catch (error) {
         res.status(200).json({ error: "Failed to process" });
     }
+}
+
 }
