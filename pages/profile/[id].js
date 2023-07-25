@@ -231,6 +231,8 @@ export default function Page({
                 onSave={handleAboutSave}
                 setRequestedUser={setRequestedUser}
                 editable={editable}
+                otherSections={requestedUser.sections}
+                name={requestedUser.username}
               />
             ) : null}
 
@@ -287,6 +289,7 @@ export default function Page({
                         user={user}
                         requestedUser={requestedUser}
                         section={section}
+                        setRequestedUser={setRequestedUser}
                       />
                     </div>
                   ))

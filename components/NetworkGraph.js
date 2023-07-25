@@ -99,7 +99,7 @@ let circles = node.append("image")
 
      var rect = labelGroups.append("rect")
        .attr("fill", "white")
-       .attr("opacity", 0.6);
+       .attr("opacity", 0.8);
 
      var labels = labelGroups.append("text")
        .text(function(d) { return d.id; })
@@ -114,10 +114,10 @@ let circles = node.append("image")
        d.bbox = bbox;
      });
 
-     rect.attr("x", function(d) { return d.bbox.x; })
-       .attr("y", function(d) { return d.bbox.y; })
-       .attr("width", function(d) { return d.bbox.width; })
-       .attr("height", function(d) { return d.bbox.height; });
+     rect.attr("x", function(d) { return d.bbox.x-5; })
+       .attr("y", function(d) { return d.bbox.y-2.5; })
+       .attr("width", function(d) { return d.bbox.width+10; })
+       .attr("height", function(d) { return d.bbox.height+5; });
 
 
        circles.on("click", function(d) {

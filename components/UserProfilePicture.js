@@ -154,7 +154,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
                 // <img className="w-full h-full object-contain mx-auto rounded-md" src={previewSrc} alt="User Profile" />
 
                     ) : null}
-                    {previewSrc && isGravatar ? (
+                    {previewSrc && isGravatar && editable ? (
                       <div className="flex justify-center items-center" style={{zIndex: 5}}>
                         <img className="w-48 h-48 max-h-48 relative" src={previewSrc} alt="User Profile"  />
                       </div>
