@@ -25,7 +25,7 @@ export default function UserCreation() {
       username,
       email,
       password,
-      type: type,
+      type: type == "admin" ? "administrator" : type,
       changeUser: false,
     };
 
