@@ -9,6 +9,8 @@ export default function ForgotPassword() {
   const [btnText, setBtnText] = useState("Reset Password");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
+  const [link, setLink] = useState(false);
+
 
   const handleResetPassword = async (event) => {
     event.preventDefault();
@@ -33,7 +35,8 @@ export default function ForgotPassword() {
       if (data.error) {
         setError(data.error);
       } else {
-        setSuccess('Email sent');
+        setSuccess("Email sent");
+        setLink(data.reset_id);
       }
     } catch (error) {
       setBtnText("Reset Password");
@@ -42,8 +45,10 @@ export default function ForgotPassword() {
   };
 
   return (
-    <section class="bg-gray-50 dark:bg-gray-900">
-      <Navbar />
+    <section class="bg-gray-50 dark:bg-gray-900 h-screen">
+      <div className="h-0 w-screen">
+        <Navbar />
+      </div>{" "}
       {error && (
         <ErrorComponent
           error={error}
@@ -62,12 +67,11 @@ export default function ForgotPassword() {
           setError={setSuccess}
         />
       )}
-
       <Head>
         <title>Forgot Password | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+      <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
         <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class={success ? "p-6" : "p-6 space-y-4 md:space-y-6 sm:p-8"}>
             {success ? (
@@ -77,7 +81,7 @@ export default function ForgotPassword() {
                   provided email for verification, but for the purposes of this
                   project, its here to demo functionality:
                 </p>
-                <Link href={`/auth/reset/${success}`}>
+                <Link href={`/auth/reset/${link}`}>
                   <div className="text-center mx-auto mb-1 text-white w-fit font-bold text-md bg-blue-700 pt-3 pb-2 px-8 rounded-md">
                     Demo Link{" "}
                   </div>
