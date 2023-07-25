@@ -77,7 +77,6 @@ export default function Opportunity({user, opportunity, activeSessions}) {
         })
       }).then(res => res.json());
       if(data.success) {
-        alert("Deleted Opportunity!")
         router.push("/opportunities")
         return
       } else {
@@ -102,7 +101,6 @@ export default function Opportunity({user, opportunity, activeSessions}) {
         })
       }).then(res => res.json())
       if(data.success) {
-        alert("Successfully edited opportunity!")
         router.reload()
         return
       } else {
