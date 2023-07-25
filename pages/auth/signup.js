@@ -4,11 +4,11 @@ import Link from "next/link";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import Navbar from "@/components/navbar";
-import ErrorComponent from "./ErrorComponent"; //flagged
+import ErrorComponent from "./ErrorComponent";
 import { useEffect, useState } from "react";
 import React from "react";
 // const Captcha = dynamic(() => import('../captchatry2'), { ssr: false })
-import Captcha from "@/components/Captcha"; //flagged
+import Captcha from "@/components/Captcha";
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -338,7 +338,7 @@ defaultValue=""
                           setRememberMe(event.target.checked)
                         }
                         class="text-gray-500 dark:text-gray-300"
-                        htmlFor="remember"
+                        for="remember"
                       >
                         Remember me
                       </label>
