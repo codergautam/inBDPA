@@ -170,7 +170,7 @@ export default function Page({
                   />
                 </div>
           </div>
-            <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl dark:text-white pt-5">
+            <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5">
               {requestedUser.username}
             </h1>
             <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
