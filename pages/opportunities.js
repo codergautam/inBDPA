@@ -108,12 +108,11 @@ useEffect(() => {
     }).then(res => res.json())
 
     if (data.success) {
-      alert("Created new opportunity!");
       setCreatingOpportunity(false);
       setValue("");
       setTitle("");
       setSelectedOpportunity(null);
-      router.reload();
+      router.push("/opportunity/"+data.opportunity.opportunity_id);
     } else {
       alert("Failed to create new opportunity...");
     }
@@ -157,7 +156,6 @@ useEffect(() => {
     }).then(res => res.json())
 
     if (data.success) {
-      alert("Successfully edited opportunity!");
       router.reload();
     } else {
       alert("Failed to edit this opportunity...");

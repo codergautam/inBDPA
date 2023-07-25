@@ -10,7 +10,16 @@ export default function handler(req, res) {
     fs.readFile(filePath, (err, data) => {
       if (err) {
         if(err.code === 'ENOENT') {
-          res.status(404).json({ error: 'File not found' });
+          // res.status(404).json({ error: 'File not found' });
+
+          // If the file is not found, send the default image
+          fs.readFile(path.join(process.cwd(), 'public', 'placeholderPfp.jpg'), (err, data) => {
+            if (err) {
+              res.status(500).json({ error: 'Failed to read file' });
+            }
+            res.status(200).send(data);
+          });
+
           return;
         } else {
         res.status(500).json({ error: 'Failed to read file' });

@@ -22,7 +22,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
     setPreviewSrc(imageSrc);
     setIsOpen(false);
     setFileSet(false);
-    setPreviewSrc(null);
     setZoom(1);
     setCropArea({x: 0, y: 0, width: 0, height: 0})
   };
@@ -62,7 +61,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
         setPreviewSrc(`/api/public/pfps/${id}`);
         setIsOpen(false);
         setFileSet(false);
-        setPreviewSrc(null);
         setZoom(1);
         setCropArea({x: 0, y: 0, width: 0, height: 0})
       } else {
@@ -87,7 +85,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
       reader.readAsDataURL(file);
     } else {
       setSelectedFile(null);
-      setPreviewSrc(null);
     }
   };
 
@@ -98,7 +95,6 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
       setPreviewSrc(`https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon`);
     } else {
       setSelectedFile(null);
-      setPreviewSrc(null);
     }
   };
 
@@ -158,11 +154,16 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
                 // <img className="w-full h-full object-contain mx-auto rounded-md" src={previewSrc} alt="User Profile" />
 
                     ) : null}
+                    {previewSrc && isGravatar ? (
+                      <div className="flex justify-center items-center" style={{zIndex: 5}}>
+                        <img className="w-48 h-48 max-h-48 relative" src={previewSrc} alt="User Profile"  />
+                      </div>
+                    ) : null}
                     {!editable && (
                       <div className="flex justify-center items-center" style={{zIndex: 5}}>
 
                         {/* preview image */}
-                        <img className="w-48 h-48 max-h-48 relative" src={previewSrc} alt="User Profile"  />
+                        <img className="w-48 h-48 max-h-48 relative" src={previewSrc} alt="User Profile" />
                       </div>
 
                     )}

@@ -2,7 +2,6 @@
 import Head from "next/head";
 import Navbar from "@/components/navbar";
 import UserStats from "@/components/UserStats";
-import UserConnections from "@/components/UserConnections";
 import UserProfilePicture from "@/components/UserProfilePicture";
 import UserInfo from "@/components/UserInfo";
 import {
@@ -22,6 +21,7 @@ import LinkChanger from "@/components/LinkChanger";
 import ConnectionList from "@/components/ConnectionList";
 import { get } from "mongoose";
 import UserBanner from "@/components/UserBanner";
+import NetworkGraphModal from "@/components/NetworkGraph";
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
   return new Promise((resolve, reject) => {
@@ -101,7 +101,7 @@ export default function Page({
   }, []);
 
   // Sections in the user profile
-  const sections = ["volunteering", "skills", "experience"];
+  const sections = ["education", "volunteering", "skills", "experience"];
 
   return (
     <div className="flex flex-col">
@@ -234,7 +234,7 @@ export default function Page({
               />
             ) : null}
 
-            {user ? (
+            {/* {user ? (
               <div className="flex flex-col md:flex-row mt-4 w-full">
 
                 <div className="w-full p-4 border-gray-700 border-b group">
@@ -249,7 +249,7 @@ export default function Page({
                   />
                 </div>
               </div>
-            ) : null}
+            ) : null} */}
 
             {/*
         <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
@@ -291,15 +291,6 @@ export default function Page({
                     </div>
                   ))
               : null}
-
-            {user ? (
-              <div className="w-full mt-4">
-                <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
-                  Connections
-                </h2>
-                <UserConnections />
-              </div>
-            ) : null}
           </>
         ) : (
           <>
