@@ -129,7 +129,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
     <div className="container mx-auto">
       <div className={`flex items-center justify-center mx-auto pb-5`}>
         <button
-          className="text-gray-600 dark:text-gray-700 hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
+          className="text-gray-600 dark:text-gray-700 font-bold hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
           onClick={toggleMode}
           style={{ display: editable ? 'block' : 'none' }}
         >
@@ -253,7 +253,7 @@ const MyComponent = ({ user, requestedUser, section }) => {
                 </div>
               ))}
               <div className="space-x-2 ml-4">
-              {editorItems.length <= 10 && (
+              {editorItems.length < 10 && (
                 <button
                   className="bg-green-500 hover:bg-green-600 dark:bg-green-800/50 dark:hover:bg-green-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
                   onClick={createItem}

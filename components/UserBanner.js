@@ -62,14 +62,7 @@ const UserBanner = ({ editable, banner }) => {
   };
 
   return (
-    <div className="user-banner my-2">
-        {banner ? (
-          <img src={'/api/public/banners/'+banner} alt="User Banner" className="w-11/12 p-2 bg-white dark:p-0 dark:bg-none rounded mx-auto mt-4 h-64 object-cover object-center" />
-
-      // <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-      //     <img src={'/banners/'+banner} alt="User Banner" className=" object-cover object-top" style={{ width: '100%', height: 'auto' }} />
-      // </div>
-        ) : null}
+    <div className={`${banner ? "mb-0" : "mb-20" } user-banner my-2`}>
 
       {editable ? (
         <div className='mt-2 mx-auto text-center w-min min-w-max mb-4'>
@@ -86,6 +79,13 @@ const UserBanner = ({ editable, banner }) => {
           </button>
           ) : null}
         </div>
+      ) : null}
+      {banner ? (
+        <img src={'/api/public/banners/'+banner} alt="User Banner" className="w-11/12 p-2 bg-white dark:p-0 dark:bg-none rounded mx-auto mt-4 h-64 object-cover object-center" />
+
+    // <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
+    //     <img src={'/banners/'+banner} alt="User Banner" className=" object-cover object-top" style={{ width: '100%', height: 'auto' }} />
+    // </div>
       ) : null}
     </div>
   );
