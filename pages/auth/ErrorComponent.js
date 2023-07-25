@@ -5,7 +5,7 @@ const ErrorComponent = ({
   side,
   color,
   blocked,
-  setError,
+  setErrornew,
   loginerror,
   setLoginError,
 }) => {
@@ -43,7 +43,7 @@ const ErrorComponent = ({
       setLoginError("");
     }
     setVisible(false);
-    setError(null);
+    setErrornew(null);
   };
 
   return (
