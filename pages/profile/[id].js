@@ -225,14 +225,12 @@ export default function Page({
                 )}
               </>
             ) : null}
-            {editable || requestedUser.sections?.about ? (
+            {editable || requestedUser.sections.about ? (
               <AboutSection
-                about={requestedUser.sections?.about}
+                about={requestedUser.sections.about}
                 onSave={handleAboutSave}
                 setRequestedUser={setRequestedUser}
                 editable={editable}
-                otherSections={requestedUser.sections}
-                name={requestedUser.username}
               />
             ) : null}
 
@@ -289,7 +287,6 @@ export default function Page({
                         user={user}
                         requestedUser={requestedUser}
                         section={section}
-                        setRequestedUser={setRequestedUser}
                       />
                     </div>
                   ))
