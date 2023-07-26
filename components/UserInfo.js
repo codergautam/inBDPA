@@ -245,7 +245,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                         placeholder="Description"
                         maxLength={MAX_DESCRIPTION_LENGTH}
                         value={item.description}
-                        draggable={false}
+                        style={{resize: 'none'}}
                         onChange={(e) => updateItem(index, 'description', e.target.value)}
                       />
                     </>
