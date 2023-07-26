@@ -83,7 +83,7 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable, otherSections
   };
 
   return (
-    <div className="w-full hover:-translate-y-2 duration-300 ease-in-out group mt-4  rounded bg-gray-100 dark:bg-gray-700 p-4  shadow-xl">
+    <div className="w-full p-4 group mt-4 rounded-md border-2 border-gray-700 shadow-xl">
       <h2 className="text-base md:text-xl font-semibold text-black dark:text-white mb-2 duration-300 ease-in-out transition">About</h2>
       {editing ? (
         <div>
@@ -185,7 +185,7 @@ const AboutSection = ({ about, onSave, setRequestedUser, editable, otherSections
           {editable ? (
           <div className="flex justify-end">
             <button
-              className="px-4 py-2 mx-auto text-black dark:text-white pb-2 border-b border-gray-700  hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white duration-300 ease-in-out transition"
+              className="px-4 py-2 mx-auto text-gray-700 hover:text-black dark:hover:text-white pb-2 border-b border-gray-700  hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white duration-300 ease-in-out transition"
               onClick={handleEditClick}
             >
               Edit
