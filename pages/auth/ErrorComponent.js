@@ -6,6 +6,7 @@ const ErrorComponent = ({
   blocked,
   errorInComponent,
   setError,
+  attempterror,
 }) => {
   const [visible, setVisible] = useState(false);
   // const [timerId, setTimerId] = useState(null);
@@ -20,7 +21,9 @@ const ErrorComponent = ({
     }
 
     if (errorInComponent !== null) {
-      setError(errorInComponent);
+      if (attempterror === false) {
+        setError(errorInComponent);
+      }
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
@@ -37,7 +40,9 @@ const ErrorComponent = ({
 
   const handleCancelButtonClick = () => {
     setVisible(false);
-    setError(null);
+    if (attempterror === false) {
+      setError(null);
+    }
   };
 
   return (
