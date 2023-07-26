@@ -68,7 +68,7 @@ export default function Captcha({ setSolved, solvedyesno }) {
       // -----------
       setSolved(false);
       setSolvedState(false);
-      setValidationStatus("");
+      setValidationStatus("invalid");
     } else {
       return;
     }

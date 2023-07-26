@@ -41,7 +41,9 @@ export default function Signup() {
         : setPassStrength("Strong");
     }
     {
-      /[A-Z]/.test(name)
+      name.length === 0
+        ? setNameError("Fill Username")
+        : /[A-Z]/.test(name)
         ? setNameError("Must be lowercase")
         : name.length < 4
         ? setNameError("Must be over 4 chars")
@@ -52,9 +54,11 @@ export default function Signup() {
         : setNameError("✓");
     }
     {
-      !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
-        email
-      )
+      email.length === 0
+        ? setEmailError("Fill Email")
+        : !/^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(
+            email
+          )
         ? setEmailError("Invalid email")
         : setEmailError("✓");
     }
@@ -79,7 +83,7 @@ export default function Signup() {
 
   return (
     <>
-      <section class="bg-gray-50 dark:bg-gray-900 h-screen">
+      <section className="bg-gray-50 dark:bg-gray-900 h-screen">
         <div className="h-0 w-screen">
           <Navbar />
         </div>
@@ -88,10 +92,10 @@ export default function Signup() {
           <title>Signup | inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-          <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create an account
               </h1>
               <form
@@ -103,7 +107,7 @@ export default function Signup() {
                   } else if (areAllFieldsFilled() && captchaSolved) {
                     // setSuccess("User created");
                     <ErrorComponent
-                    errorInComponent={success}
+                      errorInComponent={success}
                       side="bottom"
                       color="green"
                       blocked={false}
@@ -168,15 +172,14 @@ export default function Signup() {
                     type="text"
                     className={
                       name === ""
-                        ? `bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`
+                        ? `bg-gray-50 border border-gray-400 text-gray-500 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500`
                         : nameerror !== "✓"
-                        ? `bg-gray-50 border border-red-300 text-red-600 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-red-500 dark:focus:ring-red-500 dark:focus:border-red-500`
-                        : `bg-gray-50 border border-green-300 text-green-600 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-green-500 dark:focus:ring-green-500 dark:focus:border-green-500`
+                        ? `bg-gray-50 border border-red-400 text-gray-500 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-gray-400 dark:focus:ring-red-500 dark:focus:border-red-500`
+                        : `bg-gray-50 border border-green-400 text-gray-500 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-gray-400 dark:focus:ring-green-500 dark:focus:border-green-500`
                     }
-                    defaultValue=""
                   />
                   {name === "" ? (
-                    <p className="text-sm text-white dark:text-gray-800 text-right pt-1 pr-2">
+                    <p className="text-sm text-gray-200 dark:text-gray-600 text-right pt-1 pr-2">
                       {nameerror && nameerror}
                     </p>
                   ) : nameerror !== "✓" ? (
@@ -204,16 +207,15 @@ export default function Signup() {
                     placeholder="name@company.com"
                     name="email"
                     className={
-                      email === ""
-                        ? `bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`
+                      name === ""
+                        ? `bg-gray-50 border border-gray-400 text-gray-500 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500`
                         : emailerror !== "✓"
-                        ? `bg-gray-50 border border-red-300 text-red-600 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-red-500 dark:focus:ring-red-500 dark:focus:border-red-500`
-                        : `bg-gray-50 border border-green-300 text-green-600 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-green-500 dark:focus:ring-green-500 dark:focus:border-green-500`
+                        ? `bg-gray-50 border border-red-400 text-gray-500 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-gray-400 dark:focus:ring-red-600 dark:focus:border-red-500`
+                        : `bg-gray-50 border border-green-400 text-gray-500 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-gray-400 dark:focus:ring-green-500 dark:focus:border-green-500`
                     }
-                    defaultValue=""
                   />
                   {email === "" ? (
-                    <p className="text-sm text-white dark:text-gray-800 text-right pt-1 pr-2">
+                    <p className="text-sm text-gray-200 dark:text-gray-600 text-right pt-1 pr-2">
                       {emailerror && emailerror}
                     </p>
                   ) : emailerror !== "✓" ? (
@@ -243,8 +245,7 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className={`bg-gray-50 border border-red-300 text-red-900 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-red-500 dark:focus:ring-red-500 dark:focus:border-red-500`}
-                        defaultValue=""
+                        className={`bg-gray-50 border border-red-400 text-black sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-gray-500 dark:font-bold dark:focus:ring-red-500 dark:focus:border-red-500`}
                       />
                       <p className="text-sm text-red-500 text-right pt-1 pr-2">
                         Weak Password
@@ -260,8 +261,7 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className={`bg-gray-50 border border-yellow-300 text-yellow-900 sm:text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-yellow-600 placeholder-gray-400 dark:text-yellow-500 dark:focus:ring-yellow-500 dark:focus:border-yellow-500`}
-                        defaultValue=""
+                        className={`bg-gray-50 border border-yellow-400 text-black sm:text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-yellow-600 placeholder-gray-400 dark:text-gray-500 dark:font-bold dark:focus:ring-yellow-500 dark:focus:border-yellow-500`}
                       />
                       <p className="text-sm text-yellow-500 text-right pt-1 pr-2">
                         Moderate Password
@@ -277,8 +277,7 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className={`bg-gray-50 border border-green-300 text-green-900 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-green-500 dark:focus:ring-green-500 dark:focus:border-green-500`}
-                        defaultValue=""
+                        className={`bg-gray-50 border border-green-400 text-black sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-gray-500 dark:font-bold dark:focus:ring-green-500 dark:focus:border-green-500`}
                       />
                       <p className="text-sm text-green-500 text-right pt-1 pr-2">
                         Strong Password
@@ -294,8 +293,7 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        defaultValue=""
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-600 dark:text-gray-500 dark:font-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                       <p className="text-sm text-gray-200 dark:text-gray-600 text-right pt-1 pr-2">
                         Fill Password
@@ -320,25 +318,25 @@ className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
 defaultValue=""
 />
 </div> */}
-                <div class="flex items-center justify-between py-2 pb-3 lg:p-0">
-                  <div class="flex items-start">
-                    <div class="flex items-center h-5">
+                <div className="flex items-center justify-between py-2 pb-3 lg:p-0">
+                  <div className="flex items-start">
+                    <div className="flex items-center h-5">
                       <input
                         id="remember"
                         aria-describedby="remember"
                         type="checkbox"
-                        class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
+                        className="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800"
                         required=""
                       />
                     </div>
-                    <div class="ml-3 text-sm">
+                    <div className="ml-3 text-sm">
                       <label
                         checked={rememberMe}
                         onChange={(event) =>
                           setRememberMe(event.target.checked)
                         }
-                        class="text-gray-500 dark:text-gray-300"
-                        for="remember"
+                        className="text-gray-500 dark:text-gray-300"
+                        htmlFor="remember"
                       >
                         Remember me
                       </label>
@@ -397,7 +395,7 @@ defaultValue=""
                   Already have an account?{" "}
                   <Link
                     href="/auth/login"
-                    class="font-medium underline text-primary-600 dark:text-primary-500"
+                    className="font-medium underline text-primary-600 dark:text-primary-500"
                   >
                     Log in
                   </Link>

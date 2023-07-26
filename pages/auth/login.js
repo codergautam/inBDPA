@@ -82,12 +82,17 @@ export default function Login() {
 
   const handleLogin = async (event) => {
     if (!areAllFieldsFilled()) {
-      setError("Please fill out all fields.");
+      <ErrorComponent
+      errorInComponent={"Please fill out all fields."}
+      side="bottom"
+      color="green"
+      blocked={false}
+      setError={setError}
+    />;
       setSubmitYesNo(false);
     } else if (areAllFieldsFilled()) {
-      setSuccess("Logging in...");
       <ErrorComponent
-      errorInComponent={success}
+        errorInComponent={"Logging in..."}
         side="bottom"
         color="green"
         blocked={false}
@@ -121,7 +126,13 @@ export default function Login() {
         setLoginAttempts(loginAttempts + 1);
         setRemainingAttempts(3 - loginAttempts - 1);
         localStorage.setItem("loginAttempts", loginAttempts + 1);
-        setError(data.error);
+        <ErrorComponent
+        errorInComponent={data.error}
+        side="bottom"
+        color="green"
+        blocked={false}
+        setError={setError}
+      />;
       } else {
         setBtnText("Logging in...");
         // Redirect to home page
@@ -132,7 +143,13 @@ export default function Login() {
     } catch (error) {
       setSubmitYesNo(false);
       setBtnText("Log in");
-      setError("An error occurred while logging in.");
+      <ErrorComponent
+      errorInComponent={"An error occurred while logging in."}
+      side="bottom"
+      color="green"
+      blocked={false}
+      setError={setError}
+    />;
     }
   };
 
@@ -157,19 +174,17 @@ export default function Login() {
         side="top"
         color="red"
         blocked={false}
-        setError={setError}
-        loginerror={loginerror}
-        setLoginError={setLoginError}
+        setError={setLoginError}
       />
-      {error && (
+      {/* {error && (
         <ErrorComponent
-        errorInComponent={error}
+          errorInComponent={error}
           side="top"
           color="red"
           blocked={false}
           setError={setError}
         />
-      )}
+      )} */}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
@@ -197,7 +212,7 @@ export default function Login() {
                   {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
                 </p>
                 <ErrorComponent
-                errorInComponent={
+                  errorInComponent={
                     <p className=" mb-1">
                       You are temporarily blocked.
                       <br /> Please try again after {timeRemaining}.<br />
@@ -218,7 +233,7 @@ export default function Login() {
             <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
               <div>
                 <label
-                  for="username"
+                  htmlFor="username"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your email or username
@@ -235,7 +250,7 @@ export default function Login() {
               </div>
               <div>
                 <label
-                  for="password"
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Password
@@ -266,7 +281,7 @@ export default function Login() {
                       checked={rememberMe}
                       onChange={(event) => setRememberMe(event.target.checked)}
                       className="text-gray-500 dark:text-gray-300"
-                      for="remember"
+                      htmlFor="remember"
                     >
                       Remember me
                     </label>

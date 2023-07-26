@@ -1,13 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const ErrorComponent = ({
-  errorInComponent,
   side,
   color,
   blocked,
-  setErrornew,
-  loginerror,
-  setLoginError,
+  errorInComponent,
+  setError,
 }) => {
   const [visible, setVisible] = useState(false);
   // const [timerId, setTimerId] = useState(null);
@@ -22,15 +20,14 @@ const ErrorComponent = ({
     }
 
     if (errorInComponent !== null) {
+      setError(errorInComponent);
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
-      }, 2000); // Changed the duration to 2000 milliseconds (2 seconds)
-      // setTimerId(timer);
+      }, 8000);
       timerId.current = timer;
     }
 
-    // Clear the timeout when the component unmounts
     return () => {
       if (timerId.current) {
         clearTimeout(timerId.current);
@@ -39,11 +36,8 @@ const ErrorComponent = ({
   }, [errorInComponent]);
 
   const handleCancelButtonClick = () => {
-    if (loginerror) {
-      setLoginError("");
-    }
     setVisible(false);
-    setErrornew(null);
+    setError(null);
   };
 
   return (
