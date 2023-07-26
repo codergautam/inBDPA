@@ -25,7 +25,7 @@ export default function Navbar({ user }) {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between w-full bg-slate-100 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
+    <div className="flex flex-col md:flex-row items-center justify-between w-full bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
       <div className="md:flex-none flex flex-row justify-between md:justify-normal w-full md:w-fit h-min items-center">
         <div className="w-fit">
         <Link href="/" className="w-fit">
