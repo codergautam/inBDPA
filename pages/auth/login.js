@@ -169,14 +169,14 @@ export default function Login() {
       <div className="h-0 w-screen">
         <Navbar />
       </div>
-      <ErrorComponent
+      {loginerror ? <ErrorComponent
         errorInComponent={loginerror}
         side="top"
         color="red"
         blocked={false}
         setError={setLoginError}
       />
-      {/* {error && (
+      {error && (
         <ErrorComponent
           errorInComponent={error}
           side="top"
@@ -184,7 +184,7 @@ export default function Login() {
           blocked={false}
           setError={setError}
         />
-      )} */}
+      )}
       <Head>
         <title>Login | inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
