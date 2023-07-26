@@ -5,10 +5,11 @@ import UserStats from "@/components/UserStats";
 import UserProfilePicture from "@/components/UserProfilePicture";
 import UserInfo from "@/components/UserInfo";
 import {
+  getUserFromMongo,
   getUserFromProfileId,
-  getUserPfpAndBanner,
   increaseViewCountMongo,
   incrementUserViews,
+  updateUserMongo,
 } from "@/utils/api";
 import { useEffect, useState } from "react";
 import { withIronSessionSsr } from "iron-session/next"; // server-side session handling
@@ -19,7 +20,6 @@ import { fetchConnections, findConnectionDepth } from "@/utils/neo4j.mjs";
 import addSuffix from "@/utils/ordinalSuffix";
 import LinkChanger from "@/components/LinkChanger";
 import ConnectionList from "@/components/ConnectionList";
-import { get } from "mongoose";
 import UserBanner from "@/components/UserBanner";
 import NetworkGraphModal from "@/components/NetworkGraph";
 
@@ -372,7 +372,10 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   let pfp;
   let banner;
   if (requestedUser) {
-    const data = await getUserPfpAndBanner(requestedUser?.user_id);
+    const data = await getUserFromMongo(requestedUser?.user_id);
+    if(!data.username) {
+      await updateUserMongo(requestedUser?.user_id, {username: requestedUser.username});
+    }
     pfp = data.pfp;
     banner = data.banner;
     // banner = await getUserBanner(requestedUser?.user_id, "banner");
