@@ -64,12 +64,16 @@ const resetSchema = new Schema({
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 const Reset = mongoose.models.Reset ?? mongoose.model('Reset', resetSchema);
 // addUserNameToSchema()
-async function createNewProfile({ user_id, username, link }) {
+async function createNewProfile({ user_id, username, link, pfp, email, type, views }) {
   console.log("username:", username)
   const newProfile = new Profile({
     username,
     user_id,
     link,
+    pfp,
+    email,
+    type,
+    views
   });
 
   try {
@@ -81,10 +85,14 @@ async function createNewProfile({ user_id, username, link }) {
    return false;
   }
 }
+function sanitizeRegex(input) {
+  return input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
 
 
 export async function searchUsers(query) {
   try {
+    query = sanitizeRegex(query);
     const regexQuery = new RegExp(query, 'i');  // 'i' makes it case insensitive
     const profiles = await Profile.find({
       $or: [
@@ -605,7 +613,8 @@ export async function createUser(user) {
   if(res.success) {
     console.log("Creating new profile");
     res.user.link = generateRandomId();
-    await createNewProfile({ user_id: res.user.user_id, username: res.user.username, link: res.user.link });
+    await createNewProfile({ user_id: res.user.user_id, username: res.user.username, link: res.user.link,
+      pfp: "gravatar", email: res.user.email, type: res.user.type });
   }
   return res;
 
