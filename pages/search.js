@@ -46,34 +46,7 @@ export default function SearchPage({ user }) {
     setTimeoutId(newTimeoutId);
   };
 
-  // Check if a user is logged in
-  if (!user) {
-    return (
-      <div className="text-black bg-black flex flex-col min-h-screen">
-        <Head>
-          <title>inBDPA - Home</title>
-          <link rel="icon" href="/favicon.png" />
-        </Head>
-        <Navbar user={user} />
 
-        <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
-          <div className="container px-5 py-24 mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
-              You need an account to search for users
-            </h1>
-            <div className="flex justify-center">
-              <Link
-                href="/auth/signup"
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Create an Account
-              </Link>
-            </div>
-          </div>
-        </section>
-      </div>
-    );
-  }
 
   return (
     <div className="text-black bg-black flex flex-col min-h-screen">
@@ -291,14 +264,16 @@ export default function SearchPage({ user }) {
 }
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
-  if(!req.session.user || !req.session.user?.id) {
-    return {
-      redirect: {
-        destination: "/auth/login?error=You must be logged in to view this page.",
-        permanent: false,
-      },
-    };
-  }
+    // Check if a user is logged in
+    if (!req.session.user) {
+      return {
+        redirect: {
+          destination: '/auth/login?error=You must have an account or be logged in to view this page.',
+          permanent: false
+        },
+        props: {}
+      };
+    }
   return {
     props: { user: req.session.user ?? null },
   };
