@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
+import ErrorComponent from "pages/auth/ErrorComponent.js";
 
-export default function Captcha({ setSolved, solvedyesno }) {
+export default function Captcha({ setSolved, solvedyesno, setShowModal }) {
   const [captchaCode, setCaptchaCode] = useState("");
   const [solved, setSolvedState] = useState(solvedyesno);
   const [userInput, setUserInput] = useState("");
   const [validationStatus, setValidationStatus] = useState("");
+  const [error, setError] = useState("");
 
   useEffect(() => {
     // if (solved === false) {
@@ -46,7 +48,7 @@ export default function Captcha({ setSolved, solvedyesno }) {
       // context.fillStyle = "#000000"; // Set black text color
       // context.fillText(captcha.join(""), 0, 30);
 
-      canvas.width = 130;
+      canvas.width = 150;
       canvas.height = 40;
 
       context.textBaseline = "alphabetic";
@@ -86,38 +88,50 @@ export default function Captcha({ setSolved, solvedyesno }) {
   }
 
   return (
-    <div className="captcha flex justify-center items-center flex-col space-y-4">
+    <>
       {!solved && (
         <>
-          <canvas className="rounded" id="captchaCanvas"></canvas>
-          <div className="justify-center items-center space-x-2">
+          <canvas className="rounded mx-auto mb-4" id="captchaCanvas"></canvas>
             <input
               type="text"
               placeholder="Enter Captcha"
               id="captchaTextBox"
               name="captchaTextBox"
+              htmlFor="captchaButton"
               value={userInput}
               onChange={(e) => setUserInput(e.target.value)}
-              className={`border rounded py-2 px-4 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:text-black ${
-                validationStatus === "invalid" && "border-red-500"
-              }`}
+              className="mb-4 bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             />
-            <button
-              type="submit"
-              onClick={validateCaptcha}
-              className="bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded focus:outline-none focus:ring-2 my-2 focus:ring-blue-500"
+
+          <div className="flex items-center space-x-2">
+            <a
+              onClick={() => setShowModal(false)}
+              class="w-1/2 text-red-600 bg-gray-600 hover:bg-gray-700 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
             >
-              Submit
+              ← Back
+            </a>
+            <button
+              type="button"
+              htmlFor="captchaTextBox"
+              id='captchaButton'
+              name='captchaButton'
+              onClick={validateCaptcha}
+              class="w-1/2 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+            >
+              Submit →
             </button>
-          </div>
+            </div>
+          {validationStatus === "invalid" && (
+            <ErrorComponent
+              errorInComponent={"Invalid Captcha, try again"}
+              side="bottom"
+              color="red"
+              blocked={false}
+              setError={setError}
+              attempterror={false}
+            />
+          )}
         </>
-      )}
-      {validationStatus === "invalid" ? (
-        <p className="text-red-500">Invalid Captcha. Please try again.</p>
-      ) : (
-        <p className="text-red-500 hidden">
-          Invalid Captcha. Please try again.
-        </p>
       )}
       {solved && (
         <>
@@ -142,6 +156,6 @@ export default function Captcha({ setSolved, solvedyesno }) {
           </svg>
         </>
       )}
-    </div>
+    </>
   );
 }

@@ -1,13 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 
 const ErrorComponent = ({
-  errorInComponent,
   side,
   color,
   blocked,
-  setErrornew,
-  loginerror,
-  setLoginError,
+  errorInComponent,
+  setError,
+  attempterror,
 }) => {
   const [visible, setVisible] = useState(false);
   // const [timerId, setTimerId] = useState(null);
@@ -22,15 +21,16 @@ const ErrorComponent = ({
     }
 
     if (errorInComponent !== null) {
+      if (attempterror === false) {
+        setError(errorInComponent);
+      }
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
-      }, 2000); // Changed the duration to 2000 milliseconds (2 seconds)
-      // setTimerId(timer);
+      }, 8000);
       timerId.current = timer;
     }
 
-    // Clear the timeout when the component unmounts
     return () => {
       if (timerId.current) {
         clearTimeout(timerId.current);
@@ -39,11 +39,10 @@ const ErrorComponent = ({
   }, [errorInComponent]);
 
   const handleCancelButtonClick = () => {
-    if (loginerror) {
-      setLoginError("");
-    }
     setVisible(false);
-    setErrornew(null);
+    if (attempterror === false) {
+      setError(null);
+    }
   };
 
   return (
@@ -52,12 +51,12 @@ const ErrorComponent = ({
         <div
           className={
             side === "top" && color === "green"
-              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-1`
+              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-1 md:z-50`
               : side === "bottom" && color === "green"
-              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-1`
+              ? `bg-emerald-100 border-t-4 border-emerald-500 rounded-b text-emerald-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-1 z-50`
               : side === "top" && color === "red"
-              ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-1`
-              : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-1`
+              ? `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit top-1 z-50`
+              : `bg-red-100 border-t-4 border-red-500 rounded-b text-red-900 px-4 pr-3 py-2 shadow-md fixed inset-x-0 mx-auto sm:w-fit bottom-1 z-50`
           }
         >
           <div className="flex w-fit justify-center mx-auto">

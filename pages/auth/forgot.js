@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
@@ -6,11 +6,21 @@ import ErrorComponent from "./ErrorComponent";
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
-  const [btnText, setBtnText] = useState("Reset Password");
+  const [btnText, setBtnText] = useState("Fill all Fields");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [link, setLink] = useState(false);
-
+  const areAllFieldsFilled = () => {
+    return email !== "";
+  };
+  const areallfieldsfilled = areAllFieldsFilled();
+  useEffect(() => {
+    if (!areallfieldsfilled) {
+      setBtnText("Fill Field");
+    }else{
+      setBtnText("Reset Password");
+    }
+  }, [areallfieldsfilled])
 
   const handleResetPassword = async (event) => {
     event.preventDefault();
@@ -82,8 +92,8 @@ export default function ForgotPassword() {
                   project, its here to demo functionality:
                 </p>
                 <Link href={`/auth/reset/${link}`}>
-                  <div className="text-center mx-auto mb-1 text-white w-fit font-bold text-md bg-blue-700 pt-3 pb-2 px-8 rounded-md">
-                    Demo Link{" "}
+                  <div className="text-center mx-auto mb-2 text-blue-600 w-fit font-bold text-xs sm:text-lg bg-white pt-3 pb-3 px-2 sm:px-8 rounded-md underline">
+                  {window.location.hostname + `/auth/reset/${link}`}
                   </div>
                 </Link>
                 <p className="text-blue-400 text-sm text-center italic mb-6">
@@ -127,12 +137,35 @@ export default function ForgotPassword() {
                       onChange={(event) => setEmail(event.target.value)}
                     />
                   </div>
+                  {!areAllFieldsFilled() ? (
                   <button
+                    className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                    type="button"
+                    disabled={!areAllFieldsFilled()}
+                    onClick={() => setShowModal(true)}
+                  >
+                    <span className="flex justify-center items-center">
+                      {btnText}
+                    </span>
+                  </button>
+                ) : (
+                  <button
+                    className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                    type="button"
+                    disabled={!areAllFieldsFilled()}
+                    onClick={() => setShowModal(true)}
+                  >
+                    <span className="flex justify-center items-center">
+                      {btnText}
+                    </span>
+                  </button>
+                )}
+                  {/* <button
                     type="submit"
                     class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                   >
                     {btnText}
-                  </button>
+                  </button> */}
                   <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                     Remember password?{" "}
                     <Link

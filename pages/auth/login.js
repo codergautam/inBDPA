@@ -82,17 +82,10 @@ export default function Login() {
 
   const handleLogin = async (event) => {
     if (!areAllFieldsFilled()) {
+      setSuccess(null);
       setError("Please fill out all fields.");
       setSubmitYesNo(false);
     } else if (areAllFieldsFilled()) {
-      setSuccess("Logging in...");
-      <ErrorComponent
-      errorInComponent={success}
-        side="bottom"
-        color="green"
-        blocked={false}
-        setError={setSuccess}
-      />;
       setSubmitYesNo(true);
     }
     event.preventDefault();
@@ -121,6 +114,7 @@ export default function Login() {
         setLoginAttempts(loginAttempts + 1);
         setRemainingAttempts(3 - loginAttempts - 1);
         localStorage.setItem("loginAttempts", loginAttempts + 1);
+        setSuccess(null);
         setError(data.error);
       } else {
         setBtnText("Logging in...");
@@ -132,6 +126,7 @@ export default function Login() {
     } catch (error) {
       setSubmitYesNo(false);
       setBtnText("Log in");
+      setSuccess(null);
       setError("An error occurred while logging in.");
     }
   };
@@ -152,22 +147,34 @@ export default function Login() {
       <div className="h-0 w-screen">
         <Navbar />
       </div>
-      <ErrorComponent
-        errorInComponent={loginerror}
-        side="top"
-        color="red"
-        blocked={false}
-        setError={setError}
-        loginerror={loginerror}
-        setLoginError={setLoginError}
-      />
+      {success && (
+        <ErrorComponent
+          errorInComponent={success}
+          side="bottom"
+          color="green"
+          blocked={false}
+          setError={setSuccess}
+          attempterror={false}
+        />
+      )}
+      {loginerror && (
+        <ErrorComponent
+          errorInComponent={loginerror}
+          side="top"
+          color="red"
+          blocked={false}
+          setError={setLoginError}
+          attempterror={false}
+        />
+      )}
       {error && (
         <ErrorComponent
-        errorInComponent={error}
+          errorInComponent={error}
           side="top"
           color="red"
           blocked={false}
           setError={setError}
+          attempterror={false}
         />
       )}
       <Head>
@@ -197,7 +204,7 @@ export default function Login() {
                   {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
                 </p>
                 <ErrorComponent
-                errorInComponent={
+                  errorInComponent={
                     <p className=" mb-1">
                       You are temporarily blocked.
                       <br /> Please try again after {timeRemaining}.<br />
@@ -207,6 +214,7 @@ export default function Login() {
                   color="red"
                   blocked={true}
                   setError={setError}
+                  attempterror={true}
                 />
               </>
             ) : (
@@ -218,7 +226,7 @@ export default function Login() {
             <form className="space-y-4 md:space-y-6" onSubmit={handleLogin}>
               <div>
                 <label
-                  for="username"
+                  htmlFor="username"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Your email or username
@@ -235,7 +243,7 @@ export default function Login() {
               </div>
               <div>
                 <label
-                  for="password"
+                  htmlFor="password"
                   className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                 >
                   Password
@@ -266,7 +274,7 @@ export default function Login() {
                       checked={rememberMe}
                       onChange={(event) => setRememberMe(event.target.checked)}
                       className="text-gray-500 dark:text-gray-300"
-                      for="remember"
+                      htmlFor="remember"
                     >
                       Remember me
                     </label>
