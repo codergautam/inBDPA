@@ -82,17 +82,12 @@ export default function Login() {
 
   const handleLogin = async (event) => {
     if (!areAllFieldsFilled()) {
-      <ErrorComponent
-        errorInComponent={"Please fill out all fields."}
-        side="bottom"
-        color="green"
-        blocked={false}
-        setError={setError}
-      />;
+      setError("Please fill out all fields.");
       setSubmitYesNo(false);
     } else if (areAllFieldsFilled()) {
+      setSuccess("Logging in...");
       <ErrorComponent
-        errorInComponent={"Logging in..."}
+      errorInComponent={success}
         side="bottom"
         color="green"
         blocked={false}
@@ -126,13 +121,7 @@ export default function Login() {
         setLoginAttempts(loginAttempts + 1);
         setRemainingAttempts(3 - loginAttempts - 1);
         localStorage.setItem("loginAttempts", loginAttempts + 1);
-        <ErrorComponent
-          errorInComponent={data.error}
-          side="bottom"
-          color="green"
-          blocked={false}
-          setError={setError}
-        />;
+        setError(data.error);
       } else {
         setBtnText("Logging in...");
         // Redirect to home page
@@ -143,13 +132,7 @@ export default function Login() {
     } catch (error) {
       setSubmitYesNo(false);
       setBtnText("Log in");
-      <ErrorComponent
-        errorInComponent={"An error occurred while logging in."}
-        side="bottom"
-        color="green"
-        blocked={false}
-        setError={setError}
-      />;
+      setError("An error occurred while logging in.");
     }
   };
 
@@ -180,7 +163,7 @@ export default function Login() {
       )}
       {error && (
         <ErrorComponent
-          errorInComponent={error}
+        errorInComponent={error}
           side="top"
           color="red"
           blocked={false}
@@ -214,7 +197,7 @@ export default function Login() {
                   {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
                 </p>
                 <ErrorComponent
-                  errorInComponent={
+                errorInComponent={
                     <p className=" mb-1">
                       You are temporarily blocked.
                       <br /> Please try again after {timeRemaining}.<br />
