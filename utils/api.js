@@ -85,10 +85,14 @@ async function createNewProfile({ user_id, username, link, pfp, email, type, vie
    return false;
   }
 }
+function sanitizeRegex(input) {
+  return input.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+}
 
 
 export async function searchUsers(query) {
   try {
+    query = sanitizeRegex(query);
     const regexQuery = new RegExp(query, 'i');  // 'i' makes it case insensitive
     const profiles = await Profile.find({
       $or: [

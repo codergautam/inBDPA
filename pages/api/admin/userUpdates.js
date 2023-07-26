@@ -40,6 +40,9 @@ export default withIronSessionApiRoute(handler, ironOptions);
         const userId = req.session.user.id
         let user = await getUserFromMongo(userId)
         let shouldRefresh = false
+        if(!user) {
+          return res.json({success: false, error: "User not found"})
+        }
         if(user.refreshSession) {
           //This event only arises when someone else updates a user's type
           req.session.user.type = user.type
