@@ -112,6 +112,7 @@ export default function Signup() {
                       color="green"
                       blocked={false}
                       setError={setSuccess}
+                      attempterror={false}
                     />;
                     setSubmitYesNo(true);
                   } else if (areAllFieldsFilled() && !captchaSolved) {
@@ -402,44 +403,29 @@ defaultValue=""
                 </div>
                 {showModal && !captchaSolved && (
                   <>
-                    <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-                      <div className="relative w-auto my-6 mx-auto max-w-3xl">
-                        <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white dark:bg-gray-900 outline-none focus:outline-none">
-                          <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 dark:border-slate-600 rounded-t">
-                            <h3 className="text-3xl font-semibold">Captcha</h3>
-                          </div>
+                    <div className="justify-center items-center flex fixed inset-0 z-50 w-4/5 sm:w-1/2 md:w-2/5 xl:w-1/5 mx-auto">
+                      <div class="h-fit bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full">
+                        <div class="p-8 w-full h-fit">
+                          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white pb-7">
+                            Captcha
+                          </h1>
                           <div
-                            className="mx-auto pb-6 p-10 rounded-2xl"
+                            className="mx-auto rounded-2xl"
                             id="captchadiv"
                           >
                             {captchaSolved ? (
                               <Captcha
                                 setSolved={setSolved}
                                 solvedyesno={true}
+                                setShowModal={setShowModal}
                               />
                             ) : (
                               <Captcha
                                 setSolved={setSolved}
                                 solvedyesno={false}
+                                setShowModal={setShowModal}
                               />
                             )}
-                          </div>
-
-                          <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 dark:border-slate-600 rounded-b">
-                            <button
-                              className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                              type="button"
-                              onClick={() => setShowModal(false)}
-                            >
-                              ← Back
-                            </button>
-                            {/* <button
-className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-type="submit"
-// onClick={() => setShowModal(false)}
->
-Create Account
-</button> */}
                           </div>
                         </div>
                       </div>
@@ -448,15 +434,14 @@ Create Account
                   </>
                 )}
                 {captchaSolved && (
-                  <>
-                    <ErrorComponent
-                      errorInComponent={"Captcha completed"}
-                      side="bottom"
-                      color="green"
-                      blocked={false}
-                      setError={setSuccess}
-                    />
-                  </>
+                  <ErrorComponent
+                    errorInComponent={"Captcha completed"}
+                    side="bottom"
+                    color="green"
+                    blocked={false}
+                    setError={setSuccess}
+                    attempterror={false}
+                  />
                 )}
                 {error && (
                   <ErrorComponent
@@ -464,6 +449,8 @@ Create Account
                     side="bottom"
                     color="red"
                     blocked={false}
+                    setError={setError}
+                    attempterror={false}
                   />
                 )}
               </form>
