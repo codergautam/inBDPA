@@ -237,7 +237,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   if (!req.session.user) {
     return {
       redirect: {
-        destination: '/auth/login?error=You must be logged in to view this page.',
+        destination: '/auth/login?error=You must be logged in or have an account to view this page.',
         permanent: false
       },
       props: {}
