@@ -25,7 +25,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     return {
       redirect: {
         permanent: false,
-        destination: "/",
+        destination: "/auth/login?error=You must be logged in to view this page.",
       },
       props: {},
     };
