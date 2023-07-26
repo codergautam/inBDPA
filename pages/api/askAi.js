@@ -40,6 +40,7 @@ async function handler(req, res) {
             const gptResponse = chatCompletion.data.choices[0].message;
             res.status(200).json({ gptResponse });
         } catch (error) {
+            console.log(error)
             res.status(200).json({ error: "Failed to process" });
         }
     } else {
@@ -76,6 +77,7 @@ async function handler(req, res) {
       const gptResponse2 = chatCompletion2.data.choices[0].message;
         res.status(200).json({ gptResponse, gptResponse2 });
     } catch (error) {
+        console.log(error)
         res.status(200).json({ error: "Failed to process" });
     }
 }
