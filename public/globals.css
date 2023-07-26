@@ -161,7 +161,7 @@ a {
 /* Light mode */
 @media (prefers-color-scheme: light) {
   .gradient-bg {
-    background: linear-gradient(160deg, #cfe1f0 0%, #ade6e0 100%);
+    background: linear-gradient(160deg, #f9fafb 0%, #ade6e0 100%);
   }
 }
 
