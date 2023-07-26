@@ -83,12 +83,12 @@ export default function Login() {
   const handleLogin = async (event) => {
     if (!areAllFieldsFilled()) {
       <ErrorComponent
-      errorInComponent={"Please fill out all fields."}
-      side="bottom"
-      color="green"
-      blocked={false}
-      setError={setError}
-    />;
+        errorInComponent={"Please fill out all fields."}
+        side="bottom"
+        color="green"
+        blocked={false}
+        setError={setError}
+      />;
       setSubmitYesNo(false);
     } else if (areAllFieldsFilled()) {
       <ErrorComponent
@@ -127,12 +127,12 @@ export default function Login() {
         setRemainingAttempts(3 - loginAttempts - 1);
         localStorage.setItem("loginAttempts", loginAttempts + 1);
         <ErrorComponent
-        errorInComponent={data.error}
-        side="bottom"
-        color="green"
-        blocked={false}
-        setError={setError}
-      />;
+          errorInComponent={data.error}
+          side="bottom"
+          color="green"
+          blocked={false}
+          setError={setError}
+        />;
       } else {
         setBtnText("Logging in...");
         // Redirect to home page
@@ -144,12 +144,12 @@ export default function Login() {
       setSubmitYesNo(false);
       setBtnText("Log in");
       <ErrorComponent
-      errorInComponent={"An error occurred while logging in."}
-      side="bottom"
-      color="green"
-      blocked={false}
-      setError={setError}
-    />;
+        errorInComponent={"An error occurred while logging in."}
+        side="bottom"
+        color="green"
+        blocked={false}
+        setError={setError}
+      />;
     }
   };
 
@@ -169,13 +169,15 @@ export default function Login() {
       <div className="h-0 w-screen">
         <Navbar />
       </div>
-      {loginerror ? <ErrorComponent
-        errorInComponent={loginerror}
-        side="top"
-        color="red"
-        blocked={false}
-        setError={setLoginError}
-      />
+      {loginerror && (
+        <ErrorComponent
+          errorInComponent={loginerror}
+          side="top"
+          color="red"
+          blocked={false}
+          setError={setLoginError}
+        />
+      )}
       {error && (
         <ErrorComponent
           errorInComponent={error}
