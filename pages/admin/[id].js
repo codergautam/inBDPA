@@ -20,6 +20,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   const requestedUser = (await getUserFromProfileId(id)).user;
   if (
     req.session.user == null ||
+     !req.session.user?.id ||
     req.session.user.type !== "administrator"
   ) {
     return {

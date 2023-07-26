@@ -198,7 +198,7 @@ export const getServerSideProps = withIronSessionSsr(async ({
     params
 }) => {
 
-    if(!req.session.user) {
+    if(!req.session.user || !req.session.user?.id) {
       return {
         redirect: {
           destination: '/auth/login',

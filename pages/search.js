@@ -291,6 +291,14 @@ export default function SearchPage({ user }) {
 }
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
+  if(!req.session.user || !req.session.user?.id) {
+    return {
+      redirect: {
+        destination: "/auth/login?error=You must be logged in to view this page.",
+        permanent: false,
+      },
+    };
+  }
   return {
     props: { user: req.session.user ?? null },
   };
