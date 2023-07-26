@@ -149,7 +149,7 @@ export default function Login() {
       </div>
       {success && (
         <ErrorComponent
-          errorInComponent={success}
+          error={success}
           side="bottom"
           color="green"
           blocked={false}
@@ -159,7 +159,7 @@ export default function Login() {
       )}
       {loginerror && (
         <ErrorComponent
-          errorInComponent={loginerror}
+          error={loginerror}
           side="top"
           color="red"
           blocked={false}
@@ -169,7 +169,7 @@ export default function Login() {
       )}
       {error && (
         <ErrorComponent
-          errorInComponent={error}
+          error={error}
           side="top"
           color="red"
           blocked={false}
@@ -204,7 +204,7 @@ export default function Login() {
                   {remainingAttempts === 1 ? "attempt" : "attempts"} remaining.
                 </p>
                 <ErrorComponent
-                  errorInComponent={
+                  error={
                     <p className=" mb-1">
                       You are temporarily blocked.
                       <br /> Please try again after {timeRemaining}.<br />

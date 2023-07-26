@@ -4,7 +4,7 @@ const ErrorComponent = ({
   side,
   color,
   blocked,
-  errorInComponent,
+  error,
   setError,
   attempterror,
 }) => {
@@ -20,9 +20,9 @@ const ErrorComponent = ({
       clearTimeout(timerId.current);
     }
 
-    if (errorInComponent !== null) {
+    if (error !== null) {
       if (attempterror === false) {
-        setError(errorInComponent);
+        setError(error);
       }
       setVisible(true);
       const timer = setTimeout(() => {
@@ -36,7 +36,7 @@ const ErrorComponent = ({
         clearTimeout(timerId.current);
       }
     };
-  }, [errorInComponent]);
+  }, [error]);
 
   const handleCancelButtonClick = () => {
     setVisible(false);
@@ -84,7 +84,7 @@ const ErrorComponent = ({
                     : `text-emerald-500 text-sm`
                 }
               >
-                {errorInComponent}
+                {error}
               </div>
             </div>
             <div className="h-full">

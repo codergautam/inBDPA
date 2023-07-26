@@ -154,14 +154,14 @@ a {
 /* Dark mode */
 @media (prefers-color-scheme: dark) {
   .gradient-bg {
-    background: linear-gradient(160deg, #002036 0%, #076061 100%);
+    background: linear-gradient(160deg, #111827 0%, #076061 100%);
   }
 }
 
 /* Light mode */
 @media (prefers-color-scheme: light) {
   .gradient-bg {
-    background: linear-gradient(160deg, #cfe1f0 0%, #ade6e0 100%);
+    background: linear-gradient(160deg, #f9fafb 0%, #ade6e0 100%);
   }
 }
 
