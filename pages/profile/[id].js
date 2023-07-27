@@ -297,16 +297,20 @@ export default function Page({
           </>
         ) : (
           <>
-            <h1 className="text-3xl font-semibold text-gray-900 dark:text-white pt-5 ">
-              {error ?? "Unexpected Error"}
-            </h1>
-            <Link
-              href="/"
-              className="text-xl text-gray-900 dark:text-white mt-2 mb-4 bg-blue-200 p-2 rounded-sm dark:bg-blue-800"
-            >
-              Return to home page
-            </Link>
-          </>
+  <h1 className="text-3xl font-semibold text-gray-900 dark:text-white pt-5 ">
+    {error ?? "Unexpected Error"}
+  </h1>
+  <Link
+    href="/"
+    className="text-xl text-gray-900 dark:text-white mt-2 mb-4 bg-blue-200 p-2 rounded-sm dark:bg-blue-800"
+  >
+    Return to home page
+  </Link>
+  <div className="h-screen w-full bg-white dark:bg-gray-800">
+  </div>
+</>
+
+
         )}
       </main>
     </div>
