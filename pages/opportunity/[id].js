@@ -179,7 +179,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
             ) : null}
             <br/>
             <hr/>
-            <div className="text-lg text-gray-800 dark:text-white w-11/12 mx-auto mt-2">
+            <div className="text-lg text-gray-800 dark:text-white md:w-11/12 sm:w-full mx-auto mt-2 break-words">
               <div className="markdown-content" dangerouslySetInnerHTML={{ __html: marked(opportunity.contents, {gfm: true, breaks: true}) }}></div>
             </div>
             </div>

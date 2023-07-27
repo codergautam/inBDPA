@@ -1,6 +1,6 @@
 import { withIronSessionApiRoute } from "iron-session/next"
 import { ironOptions } from "@/utils/ironConfig"
-import { addConnection, removeConnection } from "@/utils/api";
+import { addConnection, removeConnection, updateUserMongo } from "@/utils/api";
 import { fetchConnections, findConnectionDepth, updateUser } from "@/utils/neo4j.mjs";
 export default withIronSessionApiRoute(handler, ironOptions)
 
@@ -46,6 +46,8 @@ async function handler(req, res) {
       console.log("new connections", connections)
       await updateUser(user_id, connections);
       await updateUser(user.id, myConnections);
+      await updateUserMongo(user_id, {connections});
+      await updateUserMongo(user.id, {connections: myConnections});
     }
     } else {
       data = await removeConnection(user.id, user_id);
@@ -54,6 +56,8 @@ async function handler(req, res) {
         myConnections = myConnections.filter(c => c != user_id);
         await updateUser(user_id, connections);
         await updateUser(user.id, myConnections);
+        await updateUserMongo(user_id, {connections});
+        await updateUserMongo(user.id, {connections: myConnections});
         newDepth = await findConnectionDepth(user.id, user_id);
       }
     }

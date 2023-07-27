@@ -1,13 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
-import * as d3 from "d3";
 import Modal from "react-modal";
+import {DataSet, Network} from 'vis-network/standalone/umd/vis-network';
 
 function NetworkGraphModal() {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isFullMode, setIsFullMode] = useState(false);
-  const d3Container = useRef(null);
+  const [isRendering, setIsRendering] = useState(false);
+  const visContainer = useRef(null);
 
   useEffect(() => {
     setIsLoading(true);
@@ -21,164 +22,132 @@ function NetworkGraphModal() {
   }, [modalIsOpen, isFullMode]);
 
   useEffect(() => {
-    if (modalIsOpen && data && d3Container.current) {
-    const svg = d3.select(d3Container.current);
-    svg.selectAll("*").remove(); // Clear any previous content from SVG
 
+    console.log("modalIsOpen", modalIsOpen, "data", data, "visContainer", visContainer);
+    if (modalIsOpen && visContainer.current) {
+      setIsRendering(true);
+// create an array with nodes
+var nodes = new DataSet(Object.keys(data.users).map((a,i)=>{
+  return {
+    id: a,
+    shape: 'circularImage',
+    image: data.users[a].pfp === "gravatar" ? data.users[a].gravatarUrl : '/api/public/pfps/'+data.users[a].pfp,
+    label: data.users[a].username,
+    link: '/profile/'+data.users[a].link,
+    size: i==0? 40 : 30
+  }
+}));
 
-    var width = svg.node().parentNode.clientWidth;
-    var height = svg.node().parentNode.clientHeight;
+// create an array with edges
+// Helper function to generate a unique key for each connection
+function generateKey(from, to) {
+  return [from, to].sort().join('-');
+}
 
+// Create a set to keep track of unique connections
+let uniqueConnections = new Set();
 
-    var g = svg.append("g");
+// Create an array with edges
+let links = data.links.map(a => {
+  return {
+    from: a.source,
+    to: a.target
+  }
+}).filter(a => {
+  // Generate a key for the current connection
+  let key = generateKey(a.from, a.to);
 
+  // If the key is already in the set, filter out the connection
+  if (uniqueConnections.has(key)) {
+    return false;
+  }
 
-    var zoom = d3.zoom()
-    .scaleExtent([0.5, 10])
-    .on("zoom", function() { g.attr("transform", d3.event.transform); });
+  // Otherwise, add the key to the set and keep the connection
+  uniqueConnections.add( key);
+  return true;
+}).filter(a => a.from !== a.to);
+console.log("links", links);
 
+console.log("links", links);
+var edges = new DataSet(
+  links
+);
 
-    svg.call(zoom);
-
-
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
-
-
-    var simulation = d3.forceSimulation()
-    .force("link", d3.forceLink().id(function (d) { return d.id; }).distance(200).strength(1))
-    .force("charge", d3.forceManyBody().strength(-1000))
-    .force("center", d3.forceCenter(width / 2, height / 2))
-    .force("collision", d3.forceCollide().radius(50));
-
-
-    var rawData = data;
-    var graph = processRawData(rawData);
-
-
-    var link = g.append("g")
-    .attr("class", "links")
-    .selectAll("line")
-    .data(graph.links)
-    .enter().append("line")
-    .attr("stroke-width", function (d) { return Math.sqrt(d.value); });
-
-
-    var defs = svg.append('defs'); // Create a <defs> element for definitions.
-
-    var clipPath = defs.append('clipPath') // Create a <clipPath> element.
-      .attr('id', 'clip-circle'); // Give the clipPath an ID.
-
-    clipPath.append('circle') // Append a <circle> to the clipPath.
-      .attr('r', 50);
-
-    var node = g.append("g")
-        .attr("class", "nodes")
-        .selectAll("g")
-        .data(graph.nodes)
-        .enter().append("g");
-
-let circles = node.append("image")
-        .attr("href", function (d) {
-          return d.profilePicture;
-        })
-        .attr("x", -50)
-        .attr("y", -50)
-        .attr("width", 100)
-        .attr("height", 100)
-        .attr("class", "node-circle")
-        .attr("clip-path", "url(#clip-circle)") // Apply the clipping path to the image.
-        .each(function(d) { // Use the 'each' function to iterate over the selection
-          var img = new Image();
-          img.onerror = () => { // Bind the onerror event to img
-            d3.select(this).attr("href", "/placeholderPfp.jpg"); // Replace the src with the placeholder image
-          }
-          img.src = d.profilePicture; // Trigger the load/error event by setting the src
-        });
-     // Apply the clipping path to the image.
-     var labelGroups = node.append("g");
-
-     var rect = labelGroups.append("rect")
-       .attr("fill", "white")
-       .attr("opacity", 0.8);
-
-     var labels = labelGroups.append("text")
-       .text(function(d) { return d.id; })
-       .attr("text-anchor", "middle")
-       .attr("dominant-baseline", "middle")
-       .style("font-size", "15px")
-       .style("font-weight", "bold");
-
-     // Compute the size of the rectangles based on the size of the text.
-     labels.each(function(d) {
-       var bbox = this.getBBox();
-       d.bbox = bbox;
-     });
-
-     rect.attr("x", function(d) { return d.bbox.x-5; })
-       .attr("y", function(d) { return d.bbox.y-2.5; })
-       .attr("width", function(d) { return d.bbox.width+10; })
-       .attr("height", function(d) { return d.bbox.height+5; });
-
-
-       circles.on("click", function(d) {
-        window.location.href = `/profile/${d.link}`;
-      });
-      labels.on("click", function(d) {
-        window.location.href = `/profile/${d.link}`;
-      });
-
-    node.append("title")
-    .text(function (d) { return d.id; });
-
-
-    simulation
-    .nodes(graph.nodes)
-    .on("tick", ticked);
-
-
-    simulation.force("link")
-    .links(graph.links);
-
-
-    function ticked() {
-    link
-    .attr("x1", function (d) { return d.source.x; })
-    .attr("y1", function (d) { return d.source.y; })
-    .attr("x2", function (d) { return d.target.x; })
-    .attr("y2", function (d) { return d.target.y; });
-
-
-    node
-    .attr("transform", function(d) {
-    return "translate(" + d.x + "," + d.y + ")";
-    })
+// create a network
+var container = visContainer.current;
+var datanode = {
+  nodes: nodes,
+  edges: edges,
+};
+var options = {
+  nodes: {
+    borderWidth: 4,
+    size: 30,
+    color: {
+      border: "#222222",
+      background: "#666666"
+    },
+    font: {
+      color: '#222222',
+      size: 14,
+      face: 'arial',
+      background: 'white',
+      zIndex: 1000
     }
+  },
+  interaction: {
+    dragNodes: false,
+    hover: true,
+    zoomSpeed: 0.3
+  }
+};
 
 
-    function processRawData(rawData) {
-        var nodes = Object.values(rawData.users).map((user, i) => {
-         user.profilePictureURL = user.pfp == "gravatar" ? user.gravatarUrl : `/api/public/pfps/${user.pfp}`
-            return {
-            id: user.username,
-            link: user.link,
-            group: i,
-            profilePicture: user.profilePictureURL, // Assuming profilePictureURL is the property containing the URL for the profile picture.
-          };
+var network = new Network(container, datanode, options);
+network.on("afterDrawing", function () {
+  setIsRendering(false);
+});
+let lastPosition = null;
+const max_zoom = 2;
+const min_zoom = 0.5;
+    network.on("zoom", function (params) {
+      if (params.scale < min_zoom|| params.scale > max_zoom) { // adjust this value according to your requirement
+        network.moveTo({
+          position: lastPosition, // use the last position before zoom limit
+          scale: params.scale > max_zoom ? max_zoom : min_zoom // this scale prevents zooming out beyond the desired limit
         });
-
-        var links = rawData.links.map(link => {
-          return {
-            source: rawData.users[link.source].username,
-            target: rawData.users[link.target].username,
-            value: 1,
-          };
-        });
-
-        return { nodes, links };
+      } else {
+        // store the current position as the last position before zoom limit
+        lastPosition = network.getViewPosition();
       }
+    });
+    // on pan, store the current position
+    network.on("dragEnd", function () {
+      lastPosition = network.getViewPosition();
+    });
 
+  // Event listener for when a node is selected
+  network.on("click", function (params) {
+    if (params.nodes.length > 0) {
+      // The user clicked on a node
+      var nodeId = params.nodes[0]; // Get the ID of the first selected node
+
+      // Get the node data from the DataSet
+      var nodeData = nodes.get(nodeId);
+
+      // Open the link in a new tab
+      window.open(nodeData.link, "_blank");
     }
-    }, [modalIsOpen, data]);
+  });
+
+  network.on("hoverNode", function () {
+    visContainer.current.style.cursor = 'pointer'; // Change cursor to pointer
+  });
+  network.on("blurNode", function () {
+    visContainer.current.style.cursor = 'default'; // Change cursor back to default
+  });
+    }
+  }, [modalIsOpen, data]);
 
 
   return (
@@ -235,7 +204,17 @@ let circles = node.append("image")
         {isLoading ?<div className="flex justify-center items-center flex-col">
             <h1 className="text-xl font-bold text-black">Crunching the latest data...</h1>
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
-          </div> : <svg ref={d3Container} className="w-full h-full"></svg>}
+          </div> : (
+            <>
+              {isRendering ? <div className="flex justify-center items-center flex-col">
+            <h1 className="text-xl font-bold text-black">Rendering..</h1>
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900"></div>
+          </div>: null}
+
+            <div ref={visContainer} className="w-full h-full">
+            </div>
+            </>
+          )}
 
       </Modal>
     </div>
