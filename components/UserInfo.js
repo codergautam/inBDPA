@@ -181,7 +181,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
         >
           <div className="overflow-auto" style={{ maxHeight: '80vh' }}>
             <div className="space-y-4">
-              <h1 className="text-center text-2xl font-bold"> <span className='text-gray-700 font-normal'>Edit:</span> {section.charAt(0).toUpperCase() + section.slice(1, section.length)}</h1>
+              <h1 className="text-center text-2xl font-bold"> <span className='text-gray-700 dark:text-white font-normal'>Edit:</span> {section.charAt(0).toUpperCase() + section.slice(1, section.length)}</h1>
               {editorItems.map((item, index) => (
                 <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
                   {section !== 'skills' ? (
