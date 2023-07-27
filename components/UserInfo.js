@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
 import Modal from 'react-modal';
 import _ from 'lodash';
 
@@ -114,7 +112,11 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           return;
         }
         if (!item.startedAt || (item.startedAt > (item.endedAt ?? Date.now()))) {
-          alert('Please enter a valid date range for each item.');
+          alert('Please enter a valid start date for each item.');
+          return;
+        }
+        if(item.endedAt && item.endedAt > Date.now()) {
+          alert('Please enter a valid end date for each item.');
           return;
         }
       }
@@ -187,7 +189,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                   {section !== 'skills' ? (
                     <>
                       <input
-                        className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
+                        className="border dark:border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                         placeholder="Title"
                         maxLength={30}
                         value={item.title}
@@ -196,12 +198,14 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                       <div className="flex space-x-2 mb-2">
                         <div className='w-1/2'>
                           From:
-                          <DatePicker
-                            className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
-                            selected={item.startedAt}
-                            placeholderText="Start Date"
-                            onChange={(date) => updateItem(index, 'startedAt', date)}
-                          />
+                          <input
+    type="date"
+    className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
+    value={item.startedAt ? item.startedAt.toISOString().substr(0, 10) : ""}
+    onChange={(event) => updateItem(index, 'startedAt', new Date(event.target.value))}
+/>
+
+
                         </div>
                         <div className='w-1/2'>
                           To:
@@ -223,12 +227,13 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
 </div>
 
                             <div className={item.endedAt === null ? 'hidden' : ''}>
-                              <DatePicker
-                                className={`border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white`}
-                                selected={item.endedAt}
-                                placeholderText="End Date"
-                                onChange={(date) => updateItem(index, 'endedAt', date)}
-                              />
+                            <input
+    type="date"
+    className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
+    value={item.endedAt ? item.endedAt.toISOString().substr(0, 10) : ""}
+    onChange={(event) => updateItem(index, 'endedAt', new Date(event.target.value))}
+/>
+
                             </div>
                           </div>
                         </div>
