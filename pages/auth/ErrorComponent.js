@@ -18,6 +18,9 @@ const ErrorComponent = ({
     // Clear the previous timer whenever the error prop changes
     if (timerId.current) {
       clearTimeout(timerId.current);
+      if (attempterror === false) {
+        setError(null);
+      }
     }
 
     if (error !== null) {
@@ -27,6 +30,9 @@ const ErrorComponent = ({
       setVisible(true);
       const timer = setTimeout(() => {
         setVisible(false);
+        if (attempterror === false) {
+          setError(null);
+        }
       }, 8000);
       timerId.current = timer;
     }
@@ -34,6 +40,9 @@ const ErrorComponent = ({
     return () => {
       if (timerId.current) {
         clearTimeout(timerId.current);
+        if (attempterror === false) {
+          setError(null);
+        }
       }
     };
   }, [error]);
