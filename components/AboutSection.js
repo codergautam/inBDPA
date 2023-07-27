@@ -242,13 +242,9 @@ const AboutSection = ({
       ) : (
         <div>
           {about ? (
-<<<<<<< Updated upstream
-            <p className="text-gray-900 text-xs md:text-base dark:text-white mb-4">
+            <p className="text-gray-900 text-xs md:text-base dark:text-white mb-4 break-words">
               {about}
             </p>
-=======
-            <p className="text-gray-900 text-xs md:text-base dark:text-white mb-4 break-words">{about}</p>
->>>>>>> Stashed changes
           ) : (
             <p className="text-gray-500 dark:text-gray-400 mb-4">
               Add an about section
