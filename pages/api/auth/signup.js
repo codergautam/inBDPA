@@ -19,11 +19,11 @@ import { getIronOptions } from "@/utils/ironConfig";
   }
   // Validate password
   if(password.length <= 10) {
-    return res.send({ error: "Password must be greater than 10 characters" });
+    return res.send({ error: "Password must be at least 11 characters" });
   }
   // Validate username
   if(username.length < 4) {
-    return res.send({ error: "Username must be at least 4 characters" });
+    return res.send({ error: "Username must be at least 5 characters" });
   }
   if(username.length > 16) {
     return res.send({ error: "Username must be at most 16 characters" });
