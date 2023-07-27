@@ -200,7 +200,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                           From:
                           <input
     type="date"
-    className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
+    className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-3/4 text-black dark:text-white"
     value={item.startedAt ? item.startedAt.toISOString().substr(0, 10) : ""}
     onChange={(event) => updateItem(index, 'startedAt', new Date(event.target.value))}
 />
@@ -229,7 +229,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                             <div className={item.endedAt === null ? 'hidden' : ''}>
                             <input
     type="date"
-    className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-1/2 text-black dark:text-white"
+    className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-3/4 text-black dark:text-white"
     value={item.endedAt ? item.endedAt.toISOString().substr(0, 10) : ""}
     onChange={(event) => updateItem(index, 'endedAt', new Date(event.target.value))}
 />
