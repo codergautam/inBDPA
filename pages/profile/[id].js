@@ -22,6 +22,7 @@ import LinkChanger from "@/components/LinkChanger";
 import ConnectionList from "@/components/ConnectionList";
 import UserBanner from "@/components/UserBanner";
 import NetworkGraphModal from "@/components/NetworkGraph";
+import md5 from "blueimp-md5";
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
   return new Promise((resolve, reject) => {
@@ -108,6 +109,18 @@ export default function Page({
       <Head>
         <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
+        {requestedUser ? (
+          <>
+    <title>{requestedUser?.username}&apos;s Profile - inBDPA</title>
+    <meta name="description" content={requestedUser?.sections?.about} />
+    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+    <meta property="og:title" content={`${requestedUser?.username}'s Profile`} />
+    <meta property="og:description" content={requestedUser?.sections?.about} />
+    <meta property="og:image" content={(!requestedUser?.pfp) || (requestedUser?.pfp === "gravatar") ? `https://www.gravatar.com/avatar/${md5(requestedUser?.email)}?s=256` : '/api/public/pfps/'+requestedUser?.pfp} />
+    <meta property="og:type" content="profile" />
+    <link rel="icon" href="/favicon.ico" />
+    </>
+        ) : null}
       </Head>
       <div className="w-full">
         <Navbar user={user} />

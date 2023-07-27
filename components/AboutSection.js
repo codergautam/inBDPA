@@ -242,7 +242,7 @@ const AboutSection = ({
       ) : (
         <div>
           {about ? (
-            <p className="text-gray-900 text-xs md:text-base dark:text-white mb-4">
+            <p className="text-gray-900 text-xs md:text-base dark:text-white mb-4 break-words">
               {about}
             </p>
           ) : (
