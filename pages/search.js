@@ -13,12 +13,14 @@ export default function SearchPage({ user }) {
   const [timeoutId, setTimeoutId] = useState();
   const [displayedUsers, setDisplayedUsers] = useState(3);
   const [displayedOpportunities, setDisplayedOpportunities] = useState(3);
+  const [loading, setLoading] = useState(false);
 
   const handleInputChange = (e) => {
     // Cancel the previous timeout
     if (timeoutId) {
       clearTimeout(timeoutId);
     }
+    setLoading(true);
 
     const value = e.target.value;
     setSearchQuery(value);
@@ -41,7 +43,8 @@ export default function SearchPage({ user }) {
       const data = await res.json();
       // Update the search results state with the new data
       setSearchResults(data);
-    }, 100); // Adjust debounce delay as needed
+      setLoading(false);
+    }, 300); // Adjust debounce delay as needed
 
     setTimeoutId(newTimeoutId);
   };
@@ -73,12 +76,19 @@ export default function SearchPage({ user }) {
           </div>
 
           {/* Display Search Results */}
+
           <div className="mt-6 flex flex-col gap-8 items-center justify-center">
+          { loading ? (
+              <div className="flex justify-center items-center">
+              <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
+            </div>
+            ) : null}
             {!searchResults.error && ms > 0 && (searchResults.users.length > 0 || searchResults.opportunities.length > 0) && (
               <p className="text-gray-600 dark:text-gray-400">
                 Found {searchResults.users.length + searchResults.opportunities.length} result{searchResults.users.length + searchResults.opportunities.length > 1 ? 's' : ''} in {ms}ms
               </p>
             )}
+
             {!searchResults.error && (
               <h1>Users</h1>
             )}
