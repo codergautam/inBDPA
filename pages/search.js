@@ -61,7 +61,7 @@ export default function SearchPage({ user }) {
       <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 w-screen flex-grow">
         <div className="container px-5 py-24 mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
-            Search
+            Search Engine:
           </h1>
 
           {/* Search Bar */}
@@ -72,7 +72,9 @@ export default function SearchPage({ user }) {
               value={searchQuery}
               onChange={handleInputChange}
               className="bg-gray-200 dark:bg-gray-700 h-16 px-5 pr-10 rounded-full text-lg focus:outline-none w-full"
+
             />
+
           </div>
 
           {/* Display Search Results */}
@@ -132,7 +134,6 @@ export default function SearchPage({ user }) {
 
               return (
                 <div key={index} className="flex flex-row rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center content-center">
-
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row rounded-full content-center mt-2 ml-2 mb-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
                     <div className="p-6 flex flex-row items-center content-center h-full ml-1 ">
@@ -147,7 +148,7 @@ export default function SearchPage({ user }) {
                           </span>
                         ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-400 flex-row ml-2 mr-2 justify-">
+                      <p className="text-gray-600 dark:text-gray-400 flex-row ml-2 mr-2">
                         {match && match.field === "about" ? (
                           <span>
                             {beforeMatch}
@@ -219,7 +220,6 @@ export default function SearchPage({ user }) {
                 }
               }
               return (
-     
                 <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center">
                   <Link href={`/opportunity/${result.opportunity_id}`}>
                     <div className="p-6 flex flex-col items-center justify-center h-full">
