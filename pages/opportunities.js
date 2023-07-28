@@ -29,7 +29,7 @@ export default function Page({ user }) {
   const [opps, setOpps] = useState([]);
   const [loading, setLoading] = useState(false);
   const lastOppRef = useRef(null);
-  const [mdEditorMode, setMdEditorMode] = useState('live');
+  const [formSubmitting, setFormSubmitting] = useState(false);
 
 
 
@@ -89,11 +89,14 @@ useEffect(() => {
 
 
   const makeNewOpportunity = async () => {
+    if(formSubmitting) return;
+
     if(!title || !value) {
       alert("Please fill out all fields!");
       return;
     }
     console.log(title, value);
+    setFormSubmitting(true);
 
     let data = await fetch("/api/opportunities/createOpportunity", {
       method: "POST",
@@ -105,7 +108,7 @@ useEffect(() => {
         contents: value
       })
     }).then(res => res.json())
-
+    setFormSubmitting(false);
     if (data.success) {
       setCreatingOpportunity(false);
       setValue("");
@@ -138,10 +141,13 @@ useEffect(() => {
   }
 
   const editOpportunity = async () => {
+    if(formSubmitting) return;
+
     if(!title || !value) {
       alert("Please fill out all fields!")
       return
     }
+    setFormSubmitting(true)
     let data = await fetch("/api/opportunities/editOpportunity", {
       method: "POST",
       headers: {
@@ -153,7 +159,7 @@ useEffect(() => {
         contents: value
       })
     }).then(res => res.json())
-
+    setFormSubmitting(false)
     if (data.success) {
       router.reload();
     } else {
@@ -196,7 +202,7 @@ useEffect(() => {
   contentLabel="Create Opportunity"
   ariaHideApp={false}
 >
- <OpportunityForm user={user} editingOpportunity={false} handleFormSubmit={makeNewOpportunity} handleClose={()=>setCreatingOpportunity(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} />
+ <OpportunityForm user={user} editingOpportunity={false} handleFormSubmit={makeNewOpportunity} handleClose={()=>setCreatingOpportunity(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} submitting={formSubmitting} />
 </Modal>
 
 
@@ -207,7 +213,7 @@ useEffect(() => {
           ariaHideApp={false}
         >
 
-          <OpportunityForm user={user} editingOpportunity={editingOpportunity} handleFormSubmit={editOpportunity} handleClose={()=>setEditingOpportunity(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} />
+          <OpportunityForm user={user} editingOpportunity={editingOpportunity} handleFormSubmit={editOpportunity} handleClose={()=>setEditingOpportunity(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} submitting={formSubmitting}/>
         </Modal>
 
         <div className="grid grid-cols-1 gap-6 max-w-2xl mx-auto items-center">

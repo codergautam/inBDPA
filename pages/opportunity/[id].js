@@ -46,7 +46,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     const [value, setValue] = useState("");
     const [title, setTitle] = useState("")
     const [parsedContent, setParsedContent] = useState("");
-
+    const [formSubmitting, setFormSubmitting] = useState(false);
 
     let refreshRef = useRef()
 
@@ -87,10 +87,12 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     }
 
     const editOpportunity = async () => {
+      if(formSubmitting) return;
       if(!title || !value) {
         alert("Please fill out all fields!")
         return
       }
+      setFormSubmitting(true);
       let data = await fetch("/api/opportunities/editOpportunity", {
         method: "POST",
         headers: {
@@ -102,6 +104,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
           contents: value
         })
       }).then(res => res.json())
+      setFormSubmitting(false);
       if(data.success) {
         router.reload()
         return
@@ -147,7 +150,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
               isOpen={!!editingOpportunity}
               contentLabel="Create Opportunity"
             >
-              <OpportunityForm title={title} setTitle={setTitle} value={value} setValue={setValue} handleFormSubmit={editOpportunity} handleClose={() => setEditingOpportunity(null)} editingOpportunity={true} />
+              <OpportunityForm title={title} setTitle={setTitle} value={value} setValue={setValue} handleFormSubmit={editOpportunity} handleClose={() => setEditingOpportunity(null)} editingOpportunity={true} submitting={formSubmitting}/>
             </Modal>
             <div className="bg-gray-100 dark:bg-gray-700 p-12 rounded-md">
             <p className="text-l sm:text-xl md:text-2xl lg:text-3xl text-center font-bold text-gray-800 dark:text-white break-words">
