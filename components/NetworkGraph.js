@@ -23,7 +23,6 @@ function NetworkGraphModal() {
 
   useEffect(() => {
 
-    console.log("modalIsOpen", modalIsOpen, "data", data, "visContainer", visContainer);
     if (modalIsOpen && visContainer.current) {
       setIsRendering(true);
 // create an array with nodes

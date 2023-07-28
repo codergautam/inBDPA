@@ -39,7 +39,6 @@ const loadOpportunities = async (first=false) => {
   setLoading(true);
 
 
-  console.trace("loading opportunities", lastOppRef.current)
   let data = await fetch("/api/opportunities/getOpportunities", {
     method: "POST",
     headers: {
