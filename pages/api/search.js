@@ -22,10 +22,6 @@ async function handler(req, res) {
         res.json({success: false, error: "Query too long"})
         return;
     }
-    if(query.length < 3) {
-        res.json({success: false, error: "Query too short. Type "+(3-query.length)+" more characters!"})
-        return;
-    }
     let data = await searchUsers(query);
     res.json(data);
 }

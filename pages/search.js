@@ -133,7 +133,7 @@ export default function SearchPage({ user }) {
                             </span>
                             {afterMatch}
                           </span>
-                        ) : result.username}
+                        ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
                       </h2>
                       <p className="text-gray-600 dark:text-gray-400">
                         {match && match.field === "about" ? (
@@ -144,7 +144,7 @@ export default function SearchPage({ user }) {
                             </span>
                             {afterMatch}
                           </span>
-                        ) : result?.sections?.about}
+                        ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
                       </p>
                       <p className="text-gray-600 dark:text-gray-400">
                         Type: {result.type}<br />
@@ -221,7 +221,7 @@ export default function SearchPage({ user }) {
                             </span>
                             {afterMatch}
                           </span>
-                        ) : result.title}
+                        ) : result.title.length > 80 ? result.title.substring(0, 80) + "..." : result.title}
                       </h2>
                       <p className="text-gray-600 dark:text-gray-400">
                         {match && match.field === "content" ? (
@@ -232,7 +232,7 @@ export default function SearchPage({ user }) {
                             </span>
                             {afterMatch}
                           </span>
-                        ) : result.content}
+                        ) : result.content.length > 80 ? result.content.substring(0, 80) + "..." : result.content}
                       </p>
                       <p className="text-gray-600 dark:text-gray-400">
                         Views: {result.views}<br />
