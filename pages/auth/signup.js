@@ -88,7 +88,7 @@ export default function Signup() {
         {navhidden && (
           <div className="opacity-50 fixed inset-0 z-30 bg-black h-full w-full md:hidden"></div>
         )}
-        <div className=" bg-white z-40 fixed w-screen">
+        <div className=" z-40 fixed w-screen md:static md:h-0">
           <Navbar navhidden={navhidden} setNavHidden={setNavHidden} />
         </div>
 
@@ -98,12 +98,12 @@ export default function Signup() {
         </Head>
         <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0 z-10 md:">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
-            <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+            <div className="p-6 space-y-4 md:space-y-6 sm:p-8 md:pt-6">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create an account
               </h1>
               <form
-                className="space-y-1 lg:space-y-4"
+                className="space-y-1 "
                 onSubmit={(event) => {
                   if (!areAllFieldsFilled() && !captchaSolved) {
                     setSuccess(null);
@@ -327,7 +327,7 @@ className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg
 defaultValue=""
 />
 </div> */}
-                <div className="flex items-center justify-between py-2 pb-3 lg:p-0">
+                <div className="flex items-center justify-between pb-3 ">
                   <div className="flex items-start">
                     <div className="flex items-center h-5">
                       <input
@@ -400,7 +400,7 @@ defaultValue=""
                   </button>
                 )}
 
-                <div className="text-sm font-light text-gray-500 dark:text-gray-400 pt-1 lg:p-0">
+                <div className="text-sm font-light text-gray-500 dark:text-gray-400 pt-2">
                   Already have an account?{" "}
                   <Link
                     href="/auth/login"
