@@ -83,7 +83,7 @@ export default function ResetPassword({ resetId, failError }) {
 
   return (
     <>
-      <section class="bg-gray-50 dark:bg-gray-900 h-screen">
+      <section className="bg-gray-50 dark:bg-gray-900 h-screen">
         <Head>
           <title>Reset Password | inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
@@ -101,26 +101,26 @@ export default function ResetPassword({ resetId, failError }) {
             attempterror={false}
           />
         )}
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
-          <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+          <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             {failError ? (
-              <div class="space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white mb-6">
+              <div className="space-y-4 md:space-y-6 sm:p-8">
+                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white mb-6">
                   {failError ?? "Unexpected Error"}
                 </h1>
                 <Link href="/auth/login">
-                  <button class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+                  <button className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     Return to login
                   </button>
                 </Link>
               </div>
             ) : (
-              <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-                <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Reset Your Password
                 </h1>
                 <form
-                  class="space-y-1 lg:space-y-4"
+                  className="space-y-1 lg:space-y-4"
                   onSubmit={handleChangePassword}
                 >
                   {success ? (
@@ -211,7 +211,7 @@ export default function ResetPassword({ resetId, failError }) {
                       <div>
                         <label
                           for="password"
-                          class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                          className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                         >
                           Confirm password
                         </label>
@@ -292,11 +292,11 @@ export default function ResetPassword({ resetId, failError }) {
                           </span>
                         </button>
                       )}
-                      <p class="text-sm font-light text-gray-500 dark:text-gray-400">
+                      <p className="text-sm font-light text-gray-500 dark:text-gray-400">
                         Remember password?{" "}
                         <Link
                           href="/auth/login"
-                          class="font-medium text-primary-600 hover:underline dark:text-primary-500"
+                          className="font-medium text-primary-600 hover:underline dark:text-primary-500"
                         >
                           Log in
                         </Link>

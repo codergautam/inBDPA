@@ -116,7 +116,7 @@ export default function Navbar({ user }) {
             </Link>
             <Link
               href={`/profile/${user.link}`}
-              className="text-sm sm:text-md xl:text-lg font-medium text-gray-200 bg-gray-700 hover:text-black hover:bg-gray-300 dark:text-black dark:bg-gray-200 dark:hover:text-white dark:hover:bg-gray-600 transition duration-300 ease-in-out rounded-full px-4 py-2 md:ml-2 ml-0"
+              className="text-sm sm:text-md xl:text-lg font-medium text-gray-200 bg-gray-700 hover:text-black hover:bg-gray-300 dark:text-black dark:bg-gray-200 dark:hover:text-white dark:hover:bg-gray-600 transition duration-300 ease-in-out rounded-full px-4 py-1.5 md:ml-2 ml-0"
             >
               Profile
             </Link>

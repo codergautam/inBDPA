@@ -408,9 +408,9 @@ defaultValue=""
                 {showModal && !captchaSolved && (
                   <>
                     <div className="justify-center items-center flex fixed inset-0 z-50 w-4/5 sm:w-1/2 md:w-2/5 xl:w-1/5 mx-auto">
-                      <div class="h-fit bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full">
-                        <div class="p-8 w-full h-fit">
-                          <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white pb-7">
+                      <div className="h-fit bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700 w-full">
+                        <div className="p-8 w-full h-fit">
+                          <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white pb-7">
                             Captcha
                           </h1>
                           <div className="mx-auto rounded-2xl" id="captchadiv">
