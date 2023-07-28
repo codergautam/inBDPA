@@ -39,7 +39,7 @@ async function handler(req, res) {
             if(tokens > 4000) {
                 model = "gpt-3.5-turbo-0613-16k"
                 if(openaiTokenCounter.chat(messages, model) > 8000) {
-                    return res.status(200).json({ error: "Too many tokens" });
+                    return res.status(200).json({ error: "Your text is too big for the AI!" });
                 }
             }
 
@@ -70,7 +70,9 @@ async function handler(req, res) {
             { role: "system", content: "You are a job/volunteer opportunity writer. Only output the finished text that goes in 'contents', NOTHING else. Please use markdown to style it amazingly." },
             { role: "user", content: `title: ${title}\n contents: ${contents}\n\n Rewrite the above 'contents' with this modification prompt: ${prompt}. Please output just the rewritten \`contents\`, nothing else (not even title)!` }
         ]
-
+        if(openaiTokenCounter.chat(messages1, "gpt-3.5-turbo-0613") > 4000) {
+            return res.status(200).json({ error: "Your text is too big for the AI!" });
+        }
         const chatCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo-0613",
             messages: messages1,

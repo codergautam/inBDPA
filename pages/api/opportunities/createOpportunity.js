@@ -13,6 +13,15 @@ export default withIronSessionApiRoute(handler, ironOptions);
   }
   const creator_id = req.session.user.id;
   console.log("Body for new Opportunity:", { title, contents, creator_id })
+  if(!title || !contents) {
+    return res.json({success: false, error: "Missing required fields"});
+  }
+  if(contents.length > 3000) {
+    return res.json({success: false, error: "Contents too long"});
+  }
+  if(title.length > 100) {
+    return res.json({success: false, error: "Title too long"});
+  }
   let data = await createOpportunity({title, contents, creator_id});
   if(data.success) {
     delete data.opportunity.updatedAt;

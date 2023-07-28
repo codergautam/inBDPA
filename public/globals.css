@@ -217,3 +217,16 @@ text:hover {
 .node-image {
   z-index: 99;
 }
+blockquote {
+  position: relative;
+  padding-left: 1em;
+}
+
+blockquote::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  border-left: 2px solid #000;
+}

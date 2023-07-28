@@ -113,7 +113,7 @@ useEffect(() => {
       setSelectedOpportunity(null);
       router.push("/opportunity/"+data.opportunity.opportunity_id);
     } else {
-      alert("Failed to create new opportunity...");
+      alert(data.error??"Failed to create new opportunity...");
     }
 
 
