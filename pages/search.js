@@ -68,7 +68,7 @@ export default function SearchPage({ user }) {
           <div className="relative text-gray-600 dark:text-gray-400 px-64 md:px-32 sm:px-0">
             <input
               name="search"
-              placeholder="Search"
+              placeholder="Search for users, opporunities, etc."
               value={searchQuery}
               onChange={handleInputChange}
               className="bg-gray-200 dark:bg-gray-700 h-16 px-5 pr-10 rounded-full text-sm focus:outline-none w-full"
