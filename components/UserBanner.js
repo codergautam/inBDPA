@@ -80,18 +80,18 @@ const UserBanner = ({ editable, banner }) => {
     <div className={`${banner ? "mb-0" : "mb-20"} user-banner my-2`}>
 
       {editable ? (
-        <div className='mt-2 mx-auto text-center w-min min-w-max mb-4'>
+        <div className='mt-2 mx-auto text-center w-min min-w-max mb-4 space-x-2'>
           <label
             htmlFor="banner-upload"
-            className="dark:text-white text-black py-2 px-4 hover:rounded mx-auto cursor-pointer hover:bg-gray-400 dark:hover:bg-blue-500/50 duration-300 transition"
+            className="text-white hover:text-black py-2 px-4 rounded mx-auto cursor-pointer hover:bg-blue-400 bg-blue-600 duration-300 transition"
           >
             {banner ? 'Change Banner' : 'Add Banner'}
           </label>
           <input type="file" id="banner-upload" accept="image/*" onChange={handleFileSelect} style={{ display: 'none' }} />
           {banner ? (
-            <button className="dark:text-white text-black py-2 px-4 rounded hover:bg-gray-400 dark:hover:bg-red-500/50 duration-300 transition" onClick={handleBannerRemove} disabled={uploading}>
+            <label className="text-white hover:text-black py-2 px-4 rounded mx-auto cursor-pointer hover:bg-red-400 bg-red-600 duration-300 transition" onClick={handleBannerRemove} disabled={uploading}>
               {uploading ? 'Processing...' : 'Remove Banner'}
-            </button>
+            </label>
           ) : null}
         </div>
       ) : null}
