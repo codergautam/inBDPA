@@ -33,8 +33,8 @@ export default function Navbar({ user }) {
             className="w-24 sm:w-24 md:w-28 dark:hidden inline transition duration-300 transform hover:scale-110"
             src="/logos/light.png"
             alt="BDPA logo"
-            width={1000000}
-            height={1000000}
+            width={80}
+            height={27}
           />
         </Link>
         <Link href="/" className="w-fit">
@@ -42,8 +42,8 @@ export default function Navbar({ user }) {
             className="w-24 sm:w-24 md:w-28 pt-0 hidden dark:inline transition duration-300 transform hover:scale-110"
             src="/logos/dark.png"
             alt="BDPA logo"
-            width={1000000}
-            height={1000000}
+            width={80}
+            height={27}
           />
         </Link>
         </div>

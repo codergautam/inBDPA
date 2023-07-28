@@ -1,8 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 const UserBanner = ({ editable, banner }) => {
   const [selectedFile, setSelectedFile] = useState();
   const [uploading, setUploading] = useState(false);
+  const [noImage, setNoImage] = useState(true);
+  let imageEl = null;
+
+  const imageRefCb = (image) => {
+    if (image) {
+      imageEl = image;
+      if (image.complete) {
+        setNoImage(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    imageRefCb(imageEl);
+  });
 
   const handleBannerUpload = async (file) => {
     if (!file) {
@@ -23,8 +39,8 @@ const UserBanner = ({ editable, banner }) => {
       window.location.reload();
     } else {
       try {
-      let data = await response.json();
-      alert("Failed to upload banner: " + data.error || "Unknown error");
+        let data = await response.json();
+        alert("Failed to upload banner: " + (data.error || "Unknown error"));
       } catch (e) {
         alert("Failed to upload banner");
       }
@@ -44,9 +60,8 @@ const UserBanner = ({ editable, banner }) => {
       window.location.reload();
     } else {
       try {
-      let data = await response.json();
-
-      alert("Failed to remove banner: " + data.error || "Unknown error");
+        let data = await response.json();
+        alert("Failed to remove banner: " + (data.error || "Unknown error"));
       } catch (e) {
         alert("Failed to remove banner.");
       }
@@ -61,32 +76,38 @@ const UserBanner = ({ editable, banner }) => {
     handleBannerUpload(file);
   };
 
-  return (
-    <div className={`${banner ? "mb-0" : "mb-20" } user-banner my-2`}>
+    return (
+    <div className={`${banner ? "mb-0" : "mb-20"} user-banner my-2`}>
 
       {editable ? (
         <div className='mt-2 mx-auto text-center w-min min-w-max mb-4'>
           <label
-  htmlFor="banner-upload"
-  className="dark:text-white text-black py-2 px-4 hover:rounded mx-auto cursor-pointer hover:bg-gray-400 dark:hover:bg-blue-500/50 duration-300 transition"
->
-  {banner ? 'Change Banner' : 'Add Banner'}
-</label>
+            htmlFor="banner-upload"
+            className="dark:text-white text-black py-2 px-4 hover:rounded mx-auto cursor-pointer hover:bg-gray-400 dark:hover:bg-blue-500/50 duration-300 transition"
+          >
+            {banner ? 'Change Banner' : 'Add Banner'}
+          </label>
           <input type="file" id="banner-upload" accept="image/*" onChange={handleFileSelect} style={{ display: 'none' }} />
           {banner ? (
-            <button className=" dark:text-white text-black py-2 px-4 rounded hover:bg-gray-400 dark:hover:bg-red-500/50 duration-300 transition" onClick={handleBannerRemove} disabled={uploading}>
-            {uploading ? 'Processing...' : 'Remove Banner'}
-          </button>
+            <button className="dark:text-white text-black py-2 px-4 rounded hover:bg-gray-400 dark:hover:bg-red-500/50 duration-300 transition" onClick={handleBannerRemove} disabled={uploading}>
+              {uploading ? 'Processing...' : 'Remove Banner'}
+            </button>
           ) : null}
         </div>
       ) : null}
-      {banner ? (
-        <img src={'/api/public/banners/'+banner} alt="User Banner" className="w-11/12 p-2 bg-white dark:p-0 dark:bg-none rounded mx-auto mt-4 h-64 object-cover object-center" />
 
-    // <div style={{ width: '100%', height: '200px', display: 'flex', justifyContent: 'center', alignItems: 'center', overflow: 'hidden' }}>
-    //     <img src={'/banners/'+banner} alt="User Banner" className=" object-cover object-top" style={{ width: '100%', height: 'auto' }} />
-    // </div>
+      {banner ? (
+        <img
+          src={'/api/public/banners/' + banner}
+          alt="User Banner"
+          className={`w-11/12 p-2 bg-white dark:p-0 dark:bg-none rounded mx-auto mt-4 h-64 object-cover object-center ${noImage ? '' : ''}`}
+          ref={imageRefCb}
+          onError={() => setNoImage(true)}
+          onLoad={() => setNoImage(false)}
+        />
+
       ) : null}
+
     </div>
   );
 };

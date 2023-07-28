@@ -107,11 +107,10 @@ export default function Page({
   return (
     <div className="flex flex-col">
       <Head>
-        <title>inBDPA</title>
         <link rel="icon" href="/favicon.ico" />
         {requestedUser ? (
           <>
-    <title>{requestedUser?.username}&apos;s Profile - inBDPA</title>
+    <title>{requestedUser?.username+"'s Profile - inBDPA"}</title>
     <meta name="description" content={requestedUser?.sections?.about} />
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <meta property="og:title" content={`${requestedUser?.username}'s Profile`} />
@@ -120,7 +119,7 @@ export default function Page({
     <meta property="og:type" content="profile" />
     <link rel="icon" href="/favicon.ico" />
     </>
-        ) : null}
+        ) : <title>Profile Not Found - inBDPA</title>}
       </Head>
       <div className="w-full">
         <Navbar user={user} />
