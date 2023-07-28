@@ -70,7 +70,7 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
     <div className="p-4 mb-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md shadow-lg cursor-pointer  transition duration-200 ease-in-out">
     <Link href={`/opportunity/${opportunity.opportunity_id}`}>
 
-      <p className="text-lg font-semibold">{opportunity.title}</p>
+      <p className="text-lg font-semibold overflow-clip">{opportunity.title}</p>
       <p className="text-sm text-gray-500 dark:text-gray-200">
         {msToTime(Date.now() - opportunity.createdAt)} ago
       </p>
