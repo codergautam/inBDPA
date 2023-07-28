@@ -111,8 +111,8 @@ export default function SearchPage({ user }) {
 
                 // Break the fieldText into three parts
                 beforeMatch = fieldText.substring(0, position);
-                matched = fieldText.substring(position, position + searchQuery.length);
-                afterMatch = fieldText.substring(position + searchQuery.length);
+                matched = fieldText.substring(position, position + searchResults.queryLength);
+                afterMatch = fieldText.substring(position + searchResults.queryLength);
 
                 // If the beforematch is too long, cut it off and add ...
                 if (beforeMatch.length > 40) {
@@ -199,8 +199,8 @@ export default function SearchPage({ user }) {
 
                 // Break the fieldText into three parts
                 beforeMatch = fieldText.substring(0, position);
-                matched = fieldText.substring(position, position + searchQuery.length);
-                afterMatch = fieldText.substring(position + searchQuery.length);
+                matched = fieldText.substring(position, position + searchResults.queryLength);
+                afterMatch = fieldText.substring(position + searchResults.queryLength);
 
                 // If the beforematch is too long, cut it off and add ...
                 if (beforeMatch.length > 40) {

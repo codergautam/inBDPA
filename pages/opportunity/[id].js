@@ -12,6 +12,7 @@ import Modal from 'react-modal';
 import "@uiw/react-md-editor/markdown-editor.css";
 import "@uiw/react-markdown-preview/markdown.css";
 import Link from "next/link"
+import { sanitize, isSupported } from "isomorphic-dompurify";
 
 import OpportunityForm from "@/components/OpportunityForm"
 
@@ -61,7 +62,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     }, [])
 
     useEffect(() => {
-      const parsed = marked(opportunity?.contents ?? "",  {gfm: true, breaks: true});
+      const parsed = (marked(opportunity?.contents ?? "",  {gfm: true, breaks: true}));
       setParsedContent(parsed);
     }, [opportunity?.contents]);
 
@@ -180,7 +181,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
             <br/>
             <hr/>
             <div className="text-lg text-gray-800 dark:text-white md:w-11/12 sm:w-full mx-auto mt-2 break-words">
-              <div className="markdown-content" dangerouslySetInnerHTML={{ __html: marked(opportunity.contents, {gfm: true, breaks: true}) }}></div>
+              <div className="markdown-content" dangerouslySetInnerHTML={{ __html: (marked(opportunity.contents, {gfm: true, breaks: true})) }}></div>
             </div>
             </div>
           </main>
@@ -216,6 +217,9 @@ export const getServerSideProps = withIronSessionSsr(async ({
     }
     let active = (await countSessionsForOpportunity(params.id)).active
     let opportunity = (await getOpportunity(params.id)).opportunity;
+    if(opportunity) {
+    opportunity.contents = sanitize(opportunity.contents)
+    }
     // const window = new JSDOM('').window
     // const DOMPurify = createDOMPurify(window)
     // opportunity.contents = marked(opportunity.contents)

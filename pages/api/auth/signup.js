@@ -23,7 +23,7 @@ import { getIronOptions } from "@/utils/ironConfig";
   }
   // Validate username
   if(username.length < 4) {
-    return res.send({ error: "Username must be at least 5 characters" });
+    return res.send({ error: "Username must be at least 4 characters" });
   }
   if(username.length > 16) {
     return res.send({ error: "Username must be at most 16 characters" });
@@ -63,6 +63,8 @@ import { getIronOptions } from "@/utils/ironConfig";
 
 
 
+  delete user.user.key;
+  delete user.user.salt;
   return res.send(user);
 }
 

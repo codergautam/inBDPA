@@ -92,6 +92,7 @@ function sanitizeRegex(input) {
 
 export async function searchUsers(query) {
   try {
+    const origQuery = query+'';
     query = sanitizeRegex(query);
     const regexQuery = new RegExp(query, 'i');  // 'i' makes it case insensitive
     const profiles = await Profile.find({
@@ -177,7 +178,7 @@ export async function searchUsers(query) {
           ...opportunity,
           match: {
             field: matchField,
-            position: matchPosition
+            position: matchPosition,
           }
         };
       }
@@ -628,7 +629,6 @@ export async function setUserPfp(userId, pfp) {
           { pfp }, // document to insert when nothing was found
           { new: true, upsert: true } // options
       );
-      console.log('Profile pfp successfully updated: ', updatedProfile);
       return true;
   } catch (error) {
       console.log('Error while trying to update profile pfp: ', error);
