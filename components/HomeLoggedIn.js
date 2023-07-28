@@ -15,7 +15,7 @@ once: true,
 }, []);
 
 return (
-<section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 ">
+<section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 h-screen flex-grow">
 <div className="container px-5 py-24 mx-auto">
 <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
 Hello, {user.username}!

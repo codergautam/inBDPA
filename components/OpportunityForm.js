@@ -56,6 +56,15 @@ function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle
     }
   };
 
+  useEffect(() => {
+    if(value && value.length > 3000) {
+      setValue(value.substring(0,3000))
+    }
+    if(title && title.length > 100) {
+      setTitle(title.substring(0,100))
+    }
+  }, [value, title])
+
   return (
     <div
       className="

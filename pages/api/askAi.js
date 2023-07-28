@@ -2,6 +2,7 @@
 import { withIronSessionApiRoute } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import { Configuration, OpenAIApi } from "openai";
+import openaiTokenCounter from 'openai-gpt-token-counter';
 
 // Create OpenAI instance
 const configuration = new Configuration({
@@ -29,12 +30,22 @@ async function handler(req, res) {
     const { title, contents, prompt, bio } = req.body;
     if(bio) {
         try {
+            const messages =  [
+                { role: "system", content: "You are a professional linkedin bio writer. Only output the finished text that goes in 'bio', NOTHING else." },
+                { role: "user", content: `${contents}\n\n Based on the above info, generate a bio for this user with this modification prompt: ${prompt}. Please output just the rewritten \`bio\`, nothing else !` }
+            ];
+            let model = "gpt-3.5-turbo-0613"
+            const tokens = openaiTokenCounter.chat(messages, "gpt-3.5-turbo-0613");
+            if(tokens > 4000) {
+                model = "gpt-3.5-turbo-0613-16k"
+                if(openaiTokenCounter.chat(messages, model) > 8000) {
+                    return res.status(200).json({ error: "Your text is too big for the AI!" });
+                }
+            }
+
             const chatCompletion = await openai.createChatCompletion({
-                model: "gpt-3.5-turbo-0613",
-                messages: [
-                    { role: "system", content: "You are a professional linkedin bio writer. Only output the finished text that goes in 'bio', NOTHING else." },
-                    { role: "user", content: `${contents}\n\n Based on the above info, generate a bio for this user with this modification prompt: ${prompt}. Please output just the rewritten \`bio\`, nothing else !` }
-                ],
+                model,
+                messages
             });
 
             const gptResponse = chatCompletion.data.choices[0].message;
@@ -55,23 +66,27 @@ async function handler(req, res) {
 
     // Process with GPT-3.5-turbo
     try {
+        const messages1 = [
+            { role: "system", content: "You are a job/volunteer opportunity writer. Only output the finished text that goes in 'contents', NOTHING else. Please use markdown to style it amazingly." },
+            { role: "user", content: `title: ${title}\n contents: ${contents}\n\n Rewrite the above 'contents' with this modification prompt: ${prompt}. Please output just the rewritten \`contents\`, nothing else (not even title)!` }
+        ]
+        if(openaiTokenCounter.chat(messages1, "gpt-3.5-turbo-0613") > 4000) {
+            return res.status(200).json({ error: "Your text is too big for the AI!" });
+        }
         const chatCompletion = await openai.createChatCompletion({
             model: "gpt-3.5-turbo-0613",
-            messages: [
-                { role: "system", content: "You are a job/volunteer opportunity writer. Only output the finished text that goes in 'contents', NOTHING else. Please use markdown to style it amazingly." },
-                { role: "user", content: `title: ${title}\n contents: ${contents}\n\n Rewrite the above 'contents' with this modification prompt: ${prompt}. Please output just the rewritten \`contents\`, nothing else (not even title)!` }
-            ],
+            messages: messages1,
         });
 
         const gptResponse = chatCompletion.data.choices[0].message;
-
+        const messages2 = [
+            { role: "system", content: "You are a job/volunteer opportunity title writer. Only output the finished title, NOTHING else." },
+            { role: "user", content: `contents: ${contents}\n\n Generate a title for the above contents. Please output just the rewritten \`title\`, nothing else (not even title)!` }
+        ]
         // Write new title
         const chatCompletion2 = await openai.createChatCompletion({
           model: "gpt-3.5-turbo-0613",
-          messages: [
-              { role: "system", content: "You are a job/volunteer opportunity title writer. Only output the finished title, NOTHING else." },
-              { role: "user", content: `contents: ${contents}\n\n Generate a title for the above contents. Please output just the rewritten \`title\`, nothing else (not even title)!` }
-          ],
+          messages: messages2,
       });
 
       const gptResponse2 = chatCompletion2.data.choices[0].message;
