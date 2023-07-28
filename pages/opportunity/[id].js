@@ -51,6 +51,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     let refreshRef = useRef()
 
     useEffect(()=>{
+      if(!opportunity) return;
         refreshRef.current = setInterval(async ()=> {
             setViews("...")
             setActive("...")
@@ -62,7 +63,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     }, [])
 
     useEffect(() => {
-      const parsed = (marked(opportunity?.contents ?? "",  {gfm: true, breaks: true}));
+      const parsed = (marked(opportunity?.contents ?? "",  {gfm: true, breaks: true, mangle: false, headerIds: false, headerPrefix: false}));
       setParsedContent(parsed);
     }, [opportunity?.contents]);
 
@@ -111,7 +112,6 @@ export default function Opportunity({user, opportunity, activeSessions}) {
         setTitle("")
         // setSelectedOpportunity(null)
       }
-      console.log("Editing: " + opportunity_id)
     }
 
 
@@ -144,13 +144,13 @@ export default function Opportunity({user, opportunity, activeSessions}) {
   </Link>
 </div>
             <Modal
-              isOpen={editingOpportunity}
+              isOpen={!!editingOpportunity}
               contentLabel="Create Opportunity"
             >
               <OpportunityForm title={title} setTitle={setTitle} value={value} setValue={setValue} handleFormSubmit={editOpportunity} handleClose={() => setEditingOpportunity(null)} editingOpportunity={true} />
             </Modal>
             <div className="bg-gray-100 dark:bg-gray-700 p-12 rounded-md">
-            <p className="text-l sm:text-xl md:text-2xl lg:text-3xl text-center font-bold text-gray-800 dark:text-white">
+            <p className="text-l sm:text-xl md:text-2xl lg:text-3xl text-center font-bold text-gray-800 dark:text-white break-words">
 
               {opportunity.title}
             </p>
@@ -181,7 +181,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
             <br/>
             <hr/>
             <div className="text-lg text-gray-800 dark:text-white md:w-11/12 sm:w-full mx-auto mt-2 break-words">
-              <div className="markdown-content" dangerouslySetInnerHTML={{ __html: (marked(opportunity.contents, {gfm: true, breaks: true})) }}></div>
+              <div className="markdown-content" dangerouslySetInnerHTML={{ __html: (marked(opportunity.contents, {gfm: true, breaks: true, mangle: false, headerIds: false, headerPrefix: false})) }}></div>
             </div>
             </div>
           </main>

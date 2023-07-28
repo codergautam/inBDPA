@@ -16,6 +16,7 @@ const AboutSection = ({
   const [aiPrompt, setAiPrompt] = useState("");
   const [aiError, setAiError] = useState(null);
   const [aiSubmitting, setAiSubmitting] = useState(false);
+  const [saving, setSaving] = useState(false);
 
   const handleEditClick = () => {
     setNewAbout(about);
@@ -23,17 +24,21 @@ const AboutSection = ({
   };
 
   const handleSaveClick = () => {
+    setSaving(true);
     onSave(newAbout, setRequestedUser)
       .then((updatedAbout) => {
         setEditing(false);
+        setSaving(false);
         setNewAbout(updatedAbout);
       })
       .catch((error) => {
         // Handle the error if needed
+        setSaving(false);
       });
   };
 
   const handleCancelClick = () => {
+    setSaving(false);
     setEditing(false);
   };
 
@@ -229,7 +234,9 @@ const AboutSection = ({
               className="px-4 py-2 mr-2 text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-500/50 dark:hover:bg-blue-500/75 rounded-md duration-300 ease-in-out transition"
               onClick={handleSaveClick}
             >
-              Save
+              {
+                saving ? "Saving.." : "Save"
+              }
             </button>
             <button
               className="px-4 py-2 text-white bg-gray-500 hover:bg-slate-500 dark:bg-gray-500/50 dark:hover:bg-gray-500/75 rounded-md duration-300 ease-in-out transition"

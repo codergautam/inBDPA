@@ -64,11 +64,9 @@ const App = ({ Component, pageProps }) => {
       }
     }, 5000)
     const start = () => {
-      console.log("start");
       setLoading(true);
     };
     const end = () => {
-      console.log("finished");
       setLoading(false);
     };
     router.events.on("routeChangeStart", start);
@@ -87,12 +85,13 @@ const App = ({ Component, pageProps }) => {
 const sessionIdRef = useRef(null);
 
 const handleRouteChangeStart = async (url, first=false) => {
-  console.log("Going to end session", sessionIdRef.current);
+  if(typeof first !== "boolean") first = false;
+  console.log("Changing..", url, first);
+
   if(first) url = prevPath;
-  if(typeof url == "undefined" || !parseUrl(url)) return;
 
   //Dont change if going to same page
-  if(!first && (url == prevPath)) return;
+  if(!first && (url == prevPath)) return console.log("Going to same page");
 
   if(!first && sessionIdRef.current) {
     // End old session
@@ -103,11 +102,12 @@ const handleRouteChangeStart = async (url, first=false) => {
       })
     });
     let endSessionData = await endSessionRes.json();
-    console.log(endSessionData);
+    console.log("Ended session",endSessionData)
 
     // Clear the sessionId ref here to make sure it's null for the next route
     sessionIdRef.current = null;
   }
+  if(typeof url == "undefined" || !parseUrl(url)) return console.log("Invalid url",url, prevPath);
 
   // Make new session
   let makeSessionRes = await fetch('/api/makeSession', {
@@ -119,15 +119,13 @@ const handleRouteChangeStart = async (url, first=false) => {
   });
   let makeSessionData = await makeSessionRes.json();
   if (makeSessionData.session_id) {
-    console.log("Setting session id", makeSessionData.session_id)
+    console.log("Setting session id", makeSessionData.session_id, "for url", url)
     sessionIdRef.current = makeSessionData.session_id;
   }
 };
 
   const renewSession = async () => {
     if(!sessionIdRef.current) return;
-  if(typeof url=="undefined" || !parseUrl(url)) return;
-
 
     fetch('/api/renewSession', {
       method: 'POST',
@@ -147,7 +145,7 @@ const handleRouteChangeStart = async (url, first=false) => {
 
 
   useEffect(() => {
-    let renewInterval = setInterval(renewSession, 1000 * 20);
+    let renewInterval = setInterval(renewSession, 1000 * 5);
     return () => clearInterval(renewInterval);
   }, [sessionIdRef.current]);
 
