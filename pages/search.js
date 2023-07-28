@@ -219,7 +219,7 @@ export default function SearchPage({ user }) {
                 }
               }
               return (
-                <div className="rounded-sm bg-gray-100 dark:bg-gray-800">
+     
                 <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center">
                   <Link href={`/opportunity/${result.opportunity_id}`}>
                     <div className="p-6 flex flex-col items-center justify-center h-full">
@@ -251,7 +251,7 @@ export default function SearchPage({ user }) {
                     </div>
                   </Link>
                 </div>
-                </div>
+
               );
             }) : (
               <div className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto">
