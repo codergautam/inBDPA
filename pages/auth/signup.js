@@ -24,7 +24,6 @@ export default function Signup() {
   const [passwordstrength, setPassStrength] = useState("");
   const [nameerror, setNameError] = useState("");
   const [emailerror, setEmailError] = useState("");
-  const [navhidden, setNavHidden] = useState(false);
 
   // Function to check if all fields are filled
   const areAllFieldsFilled = () => {
@@ -85,12 +84,10 @@ export default function Signup() {
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900 h-screen">
-        {navhidden && (
-          <div className="opacity-50 fixed inset-0 z-30 bg-black h-full w-full md:hidden"></div>
-        )}
-        <div className=" z-40 fixed w-screen md:static md:h-0">
-          <Navbar navhidden={navhidden} setNavHidden={setNavHidden} />
+                <div className=" z-40 fixed w-screen md:static md:h-0">
+          <Navbar />
         </div>
+
 
         <Head>
           <title>Signup | inBDPA</title>
