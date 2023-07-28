@@ -71,7 +71,7 @@ export default function SearchPage({ user }) {
               placeholder="Enter search here"
               value={searchQuery}
               onChange={handleInputChange}
-              className="bg-gray-200 dark:bg-gray-700 h-16 px-5 pr-10 rounded-full text-sm focus:outline-none w-full"
+              className="bg-gray-200 dark:bg-gray-700 h-16 px-5 pr-10 rounded-full text-lg focus:outline-none w-full"
             />
           </div>
 
@@ -131,9 +131,9 @@ export default function SearchPage({ user }) {
               }
 
               return (
-                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto flex-col items-center justify-center content-center text-center">
+                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center items-center justify-center">
                   <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex  h-full ">
+                    <div className="p-6 flex flex-col items-center justify-center content-center h-full ">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
                           <span>
@@ -156,10 +156,10 @@ export default function SearchPage({ user }) {
                           </span>
                         ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400 text-center">
+                      <p className="text-gray-600 dark:text-gray-400">
                         Type: {result.type}<br />
                         Views: {result.views}<br />
-                        <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="rounded-full w-24 h-24" />
+                        <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="rounded-full justify-center w-24 h-24" />
                       </p>
                     </div>
                   </Link>
