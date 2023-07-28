@@ -8,7 +8,7 @@ import LoggedInHome from "@/components/HomeLoggedIn";
 
 export default function Home({count, user}) {
   return (
-    <div className="text-black bg-black flex flex-col min-h-screen">
+    <div className="text-black bg-gray-50 dark:bg-gray-900 flex flex-col min-h-screen">
       <Head>
         <title>inBDPA - Home</title>
         <link rel="icon" href="/favicon.png" />
