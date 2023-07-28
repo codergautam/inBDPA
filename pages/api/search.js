@@ -15,11 +15,11 @@ async function handler(req, res) {
     }
     let query = req.body.query;
     if(!query) {
-        res.json({success: false, error: "No query provided"})
+        res.json({success: false, error: "No query has been provided"})
         return;
     }
     if(query.length > 64) {
-        res.json({success: false, error: "Query too long"})
+        res.json({success: false, error: "Search exceeded 64 characters"})
         return;
     }
     let data = await searchUsers(query);
