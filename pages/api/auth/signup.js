@@ -3,6 +3,7 @@ import { encryptPassword } from "@/utils/encryptPassword";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { createUser as createUserNode } from "@/utils/neo4j.mjs";
+import tlds from "tlds";
 
 import { getIronOptions } from "@/utils/ironConfig";
  async function handler(req, res) {
@@ -15,6 +16,14 @@ import { getIronOptions } from "@/utils/ironConfig";
   }
   // Validate email
   if(!email.includes("@")) {
+    return res.send({ error: "Invalid email" });
+  }
+  let domain = email.split("@")[1];
+  if(!domain.includes(".")) {
+    return res.send({ error: "Invalid email" });
+  }
+  let tld = domain.split(".")[1];
+  if(!tlds.includes(tld)) {
     return res.send({ error: "Invalid email" });
   }
   // Validate password
