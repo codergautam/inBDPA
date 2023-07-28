@@ -65,7 +65,7 @@ export default function SearchPage({ user }) {
           </h1>
 
           {/* Search Bar */}
-          <div className="relative text-gray-600 dark:text-gray-400 px-64 md:px-32 sm:px-0">
+          <div className="relative text-gray-600 dark:text-gray-400 lg:px-64 md:px-32 sm:px-0">
             <input
               name="search"
               placeholder="Search for users, opporunities, etc."
