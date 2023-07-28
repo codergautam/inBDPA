@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import {DataSet, Network} from 'vis-network/standalone/umd/vis-network';
 
-function NetworkGraphModal() {
+function NetworkGraphModal({user}) {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [data, setData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -33,7 +33,7 @@ var nodes = new DataSet(Object.keys(data.users).map((a,i)=>{
     image: data.users[a].pfp === "gravatar" ? data.users[a].gravatarUrl : '/api/public/pfps/'+data.users[a].pfp,
     label: data.users[a].username,
     link: '/profile/'+data.users[a].link,
-    size: i==0? 40 : 30
+    size: user==a ? 40 : 30
   }
 }));
 
