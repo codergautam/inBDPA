@@ -87,7 +87,11 @@ export default function Navbar({ user }) {
           <>
             <Link
               href={`/admin/${user.link}`}
+<<<<<<< Updated upstream
               className="border-1 px-2 py-1 text-md xl:text-lg font-black text-emerald-500 dark:hover:text-white transition duration-400 ease-in-out hover:text-black"
+=======
+              className="px-2 py-1 text-md xl:text-lg font-bold text-emerald-500 dark:hover:text-white transition duration-400 ease-in-out hover:text-black"
+>>>>>>> Stashed changes
             >
               Admin
             </Link>
