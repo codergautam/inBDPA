@@ -8,8 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask, faBars } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-export default function Navbar({ user }) {
-  const [navhidden, setNavHidden] = useState(false);
+export default function Navbar({ user, navhidden, setNavHidden }) {
 
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
@@ -25,27 +24,27 @@ export default function Navbar({ user }) {
   };
 
   return (
-    <div className="flex flex-col md:flex-row items-center justify-between w-full bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
+    <div className="flex flex-col md:flex-row items-center justify-between w-full bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center z-40 rounded-b-3xl ">
       <div className="md:flex-none flex flex-row justify-between md:justify-normal w-full md:w-fit h-min items-center">
         <div className="w-fit">
-        <Link href="/" className="w-fit">
-          <Image
-            className="w-24 sm:w-24 md:w-28 dark:hidden inline transition duration-300 transform hover:scale-110"
-            src="/logos/light.png"
-            alt="BDPA logo"
-            width={1000000}
-            height={1000000}
-          />
-        </Link>
-        <Link href="/" className="w-fit">
-          <Image
-            className="w-24 sm:w-24 md:w-28 pt-0 hidden dark:inline transition duration-300 transform hover:scale-110"
-            src="/logos/dark.png"
-            alt="BDPA logo"
-            width={1000000}
-            height={1000000}
-          />
-        </Link>
+          <Link href="/" className="w-fit">
+            <Image
+              className="w-24 sm:w-24 md:w-28 dark:hidden inline transition duration-300 transform hover:scale-110"
+              src="/logos/light.png"
+              alt="BDPA logo"
+              width={1000000}
+              height={1000000}
+            />
+          </Link>
+          <Link href="/" className="w-fit">
+            <Image
+              className="w-24 sm:w-24 md:w-28 pt-0 hidden dark:inline transition duration-300 transform hover:scale-110"
+              src="/logos/dark.png"
+              alt="BDPA logo"
+              width={1000000}
+              height={1000000}
+            />
+          </Link>
         </div>
         <svg
           className="md:hidden inline h-min w-10 fill-current dark:text-white text-black"
@@ -61,13 +60,17 @@ export default function Navbar({ user }) {
       {/* <div
         className={
           navhidden
-            ? "h-min flex flex-row items-center"
-            : "h-min items-center hidden"
+            ?"h-min flex flex-row items-center"
+            :"h-min items-center hidden"
         }
       ></div> */}
 
       <div
-        className={navhidden ? "h-min flex flex-col md:flex-row items-center gap-y-1 pb-2 md:gap-y-0 md:pb-0" : "h-min md:flex flex-col md:flex-row hidden items-center gap-y-1 pb-2 md:gap-y-0 md:pb-0"}
+        className={
+          navhidden
+            ? "h-min flex flex-col md:flex-row items-center gap-y-1 pb-2 md:gap-y-0 md:pb-0"
+            : "h-min md:flex flex-col md:flex-row hidden items-center gap-y-1 pb-2 md:gap-y-0 md:pb-0"
+        }
       >
         {user && user.impersonating && (
           <>
