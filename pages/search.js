@@ -58,7 +58,7 @@ export default function SearchPage({ user }) {
         <link rel="icon" href="/favicon.png" />
       </Head>
       <Navbar user={user} />
-      <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
+      <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 w-screen flex-grow">
         <div className="container px-5 py-24 mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
             Search
@@ -218,9 +218,9 @@ export default function SearchPage({ user }) {
                   afterMatch = afterMatch + '...';
                 }
               }
-
               return (
-                <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto">
+                <div className="rounded-sm bg-gray-100 dark:bg-gray-800">
+                <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center">
                   <Link href={`/opportunity/${result.opportunity_id}`}>
                     <div className="p-6 flex flex-col items-center justify-center h-full">
                       <h2 className="text-xl font-semibold mb-2">
@@ -250,6 +250,7 @@ export default function SearchPage({ user }) {
                       </p>
                     </div>
                   </Link>
+                </div>
                 </div>
               );
             }) : (
