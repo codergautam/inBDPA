@@ -33,7 +33,7 @@ const ErrorComponent = ({
         if (attempterror === false) {
           setError(null);
         }
-      }, 8000);
+      }, 20000);
       timerId.current = timer;
     }
 

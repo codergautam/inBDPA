@@ -13,6 +13,7 @@ import { useSearchParams } from "next/navigation";
 export default function Login() {
   const searchParams = useSearchParams();
   const [loginerror, setLoginError] = useState(searchParams.get("error"));
+  const [resetsuccess, setResetSuccess] = useState(searchParams.get("success"));
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -154,6 +155,16 @@ export default function Login() {
           color="green"
           blocked={false}
           setError={setSuccess}
+          attempterror={false}
+        />
+      )}
+            {resetsuccess && (
+        <ErrorComponent
+          error={resetsuccess}
+          side="bottom"
+          color="green"
+          blocked={false}
+          setError={setResetSuccess}
           attempterror={false}
         />
       )}

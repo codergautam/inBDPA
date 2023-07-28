@@ -17,15 +17,15 @@ export default function ForgotPassword() {
   useEffect(() => {
     if (!areallfieldsfilled) {
       setBtnText("Fill Field");
-    }else{
+    } else {
       setBtnText("Reset Password");
     }
-  }, [areallfieldsfilled])
+  }, [areallfieldsfilled]);
 
   const handleResetPassword = async (event) => {
     event.preventDefault();
-    setError("");
-    setSuccess(false);
+    setError(null);
+    setSuccess(null);
     setBtnText("Resetting...");
 
     try {
@@ -43,13 +43,16 @@ export default function ForgotPassword() {
       const data = await response.json();
 
       if (data.error) {
+        setSuccess(null);
         setError(data.error);
       } else {
+        setError(null);
         setSuccess("Email sent");
         setLink(data.reset_id);
       }
     } catch (error) {
       setBtnText("Reset Password");
+      setSuccess(null);
       setError("An error occurred while resetting the password.");
     }
   };
@@ -66,6 +69,7 @@ export default function ForgotPassword() {
           color="red"
           blocked={false}
           setError={setError}
+          attempterror={false}
         />
       )}
       {success && (
@@ -75,6 +79,7 @@ export default function ForgotPassword() {
           color="green"
           blocked={false}
           setError={setSuccess}
+          attempterror={false}
         />
       )}
       <Head>
@@ -92,11 +97,11 @@ export default function ForgotPassword() {
                   project, its here to demo functionality:
                 </p>
                 <Link href={`/auth/reset/${link}`}>
-                  <div className="text-center mx-auto mb-2 text-blue-600 w-fit font-bold text-xs sm:text-lg bg-white pt-3 pb-3 px-2 sm:px-8 rounded-md underline">
-                  {window.location.hostname + `/auth/reset/${link}`}
+                  <div className="text-center mx-auto mb-2 text-white w-fit font-bold text-xs sm:text-lg bg-blue-600 pt-3 pb-3 px-2 sm:px-8 rounded-md underline">
+                    {window.location.hostname + `/auth/reset/${link}`}
                   </div>
                 </Link>
-                <p className="text-blue-400 text-sm text-center italic mb-6">
+                <p className="text-red-500 text-sm text-center italic mb-6">
                   expires in one hour
                 </p>
                 <p
@@ -138,27 +143,27 @@ export default function ForgotPassword() {
                     />
                   </div>
                   {!areAllFieldsFilled() ? (
-                  <button
-                    className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-                    type="submit"
-                    disabled={!areAllFieldsFilled()}
-                    onClick={() => setShowModal(true)}
-                  >
-                    <span className="flex justify-center items-center">
-                      {btnText}
-                    </span>
-                  </button>
-                ) : (
-                  <button
-                    className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                    type="submit"
-                    disabled={!areAllFieldsFilled()}
-                  >
-                    <span className="flex justify-center items-center">
-                      {btnText}
-                    </span>
-                  </button>
-                )}
+                    <button
+                      className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                      type="submit"
+                      disabled={!areAllFieldsFilled()}
+                      onClick={() => setShowModal(true)}
+                    >
+                      <span className="flex justify-center items-center">
+                        {btnText}
+                      </span>
+                    </button>
+                  ) : (
+                    <button
+                      className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                      type="submit"
+                      disabled={!areAllFieldsFilled()}
+                    >
+                      <span className="flex justify-center items-center">
+                        {btnText}
+                      </span>
+                    </button>
+                  )}
                   {/* <button
                     type="submit"
                     class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"

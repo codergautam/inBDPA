@@ -34,7 +34,7 @@ export default function Signup() {
     {
       password.length === 0
         ? setPassStrength("Empty")
-        : password.length < 10
+        : password.length < 11
         ? setPassStrength("Weak")
         : password.length < 17
         ? setPassStrength("Moderate")
@@ -102,10 +102,10 @@ export default function Signup() {
                 className="space-y-1 lg:space-y-4"
                 onSubmit={(event) => {
                   if (!areAllFieldsFilled() && !captchaSolved) {
+                    setSuccess(null);
                     setError("Please solve the captcha.");
                     setSubmitYesNo(false);
                   } else if (areAllFieldsFilled() && captchaSolved) {
-                    // setSuccess("User created");
                     <ErrorComponent
                       error={success}
                       side="bottom"
@@ -116,9 +116,11 @@ export default function Signup() {
                     />;
                     setSubmitYesNo(true);
                   } else if (areAllFieldsFilled() && !captchaSolved) {
+                    setSuccess(null);
                     setError("Please fill out all fields.");
                     setSubmitYesNo(false);
                   } else {
+                    setSuccess(null);
                     setError("Please fill out all fields.");
                     setSubmitYesNo(false);
                   }
@@ -142,6 +144,7 @@ export default function Signup() {
                       response.json().then((data) => {
                         if (data.error) {
                           setSubmitYesNo(false);
+                          setSuccess(null);
                           setError(data.error);
                           return;
                         }
@@ -152,6 +155,7 @@ export default function Signup() {
                     .catch((error) => {
                       setSubmitYesNo(false);
                       setBtnText("Sign up");
+                      setSuccess(null);
                       setError("An error occurred while signing up.");
                     });
                 }}
@@ -409,10 +413,7 @@ defaultValue=""
                           <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white pb-7">
                             Captcha
                           </h1>
-                          <div
-                            className="mx-auto rounded-2xl"
-                            id="captchadiv"
-                          >
+                          <div className="mx-auto rounded-2xl" id="captchadiv">
                             {captchaSolved ? (
                               <Captcha
                                 setSolved={setSolved}

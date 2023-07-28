@@ -10,7 +10,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
   if(req.method !== "POST") return res.send({ error: "Method not allowed" });
 
 
-  const { resetId, password} = req.body;
+  const { resetId, password, confirmPassword} = req.body;
   if(!resetId) {
     return res.send({error: "Unexpected Error"})
   }
@@ -18,9 +18,13 @@ export default withIronSessionApiRoute(handler, ironOptions);
   if (!password) {
     return res.send({ error: "Please enter a password" });
   }
-  if(password.length < 8) {
-    return res.send({ error: "Password must be at least 8 characters" });
+    if (password !== confirmPassword) {
+    return res.send({ error: "Passwords don't match" });
   }
+  if(password.length < 11) {
+    return res.send({ error: "Password must be at least 11 characters" });
+  }
+
 
   let resetLink = await getResetLink(resetId);
   if(!resetLink || resetLink.error) {

@@ -1,24 +1,37 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Head from "next/head";
-import { useRouter } from "next/router";
+import { useRouter, push } from "next/router";
 import { getResetLink } from "@/utils/api";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import ErrorComponent from "pages/auth/ErrorComponent.js";
+import { redirect } from "next/navigation";
 
 export default function ResetPassword({ resetId, failError }) {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [btnText, setBtnText] = useState("Change Password");
+  const [btnText, setBtnText] = useState("Reset Password");
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(null);
 
-  const router = useRouter();
+  const { router } = useRouter();
+
+  const areAllFieldsFilled = () => {
+    return password !== "" && confirmPassword !== "";
+  };
+  const areallfieldsfilled = areAllFieldsFilled();
+  useEffect(() => {
+    if (!areallfieldsfilled) {
+      setBtnText("Fill all Fields");
+    } else {
+      setBtnText("Reset Password");
+    }
+  }, [areallfieldsfilled]);
 
   const handleChangePassword = async (event) => {
     event.preventDefault();
-    setError("");
-    setSuccess(false);
+    setError(null);
+    setSuccess(null);
     setBtnText("Changing Password...");
 
     try {
@@ -30,6 +43,7 @@ export default function ResetPassword({ resetId, failError }) {
         body: JSON.stringify({
           resetId,
           password,
+          confirmPassword,
         }),
       });
 
@@ -37,15 +51,23 @@ export default function ResetPassword({ resetId, failError }) {
       const data = await response.json();
 
       if (data.error) {
+        setSuccess(null);
         setError(data.error);
       } else {
-        setSuccess(true);
+        setError(null);
+        setSuccess("Your password has been reset");
       }
     } catch (error) {
-      setBtnText("Change Password");
+      setBtnText("Reset Password");
+      setSuccess(null);
       setError("An error occurred while changing the password.");
     }
   };
+  useEffect(() => {
+    if (success !== null) {
+      push('/auth/login?success="Your password has been reset"');
+    }
+  }, [success]);
 
   return (
     <>
@@ -55,9 +77,18 @@ export default function ResetPassword({ resetId, failError }) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <div className="h-0 w-screen">
-        <Navbar />
-      </div>
-        {error && <ErrorComponent error={error} />}
+          <Navbar />
+        </div>
+        {error && (
+          <ErrorComponent
+            error={error}
+            side="bottom"
+            color="red"
+            blocked={false}
+            setError={setError}
+            attempterror={false}
+          />
+        )}
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             {failError ? (
@@ -66,9 +97,7 @@ export default function ResetPassword({ resetId, failError }) {
                   {failError ?? "Unexpected Error"}
                 </h1>
                 <Link href="/auth/login">
-                  <button
-                    class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                  >
+                  <button class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
                     Return to login
                   </button>
                 </Link>
@@ -78,20 +107,12 @@ export default function ResetPassword({ resetId, failError }) {
                 <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                   Reset Your Password
                 </h1>
-                <form class="space-y-4 md:space-y-6" action="#">
+                <form
+                  class="space-y-4 md:space-y-6"
+                  onSubmit={handleChangePassword}
+                >
                   {success ? (
-                    <div>
-                      <p className="text-green-500 text-sm mb-4">
-                        Your password has been reset successfully.
-                      </p>
-                      <br />
-                      <Link
-                        href="/auth/login"
-                        className="text-xl text-gray-900 dark:text-white mt-2 mb-4 bg-blue-200 p-2 rounded-sm dark:bg-blue-800"
-                      >
-                        Log In
-                      </Link>
-                    </div>
+                    <p></p>
                   ) : (
                     <>
                       <div>
@@ -130,13 +151,28 @@ export default function ResetPassword({ resetId, failError }) {
                           }
                         />
                       </div>
-
-                      <button
-                        type="submit"
-                        class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
-                      >
-                        {btnText}
-                      </button>
+                      {!areAllFieldsFilled() ? (
+                        <button
+                          className="cursor-not-allowed w-full text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                          type="submit"
+                          disabled={!areAllFieldsFilled()}
+                          onClick={() => setShowModal(true)}
+                        >
+                          <span className="flex justify-center items-center">
+                            {btnText}
+                          </span>
+                        </button>
+                      ) : (
+                        <button
+                          className="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+                          type="submit"
+                          disabled={!areAllFieldsFilled()}
+                        >
+                          <span className="flex justify-center items-center">
+                            {btnText}
+                          </span>
+                        </button>
+                      )}
                       <p class="text-sm font-light text-gray-500 dark:text-gray-400">
                         Remember password?{" "}
                         <Link
