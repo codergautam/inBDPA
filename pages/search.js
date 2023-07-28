@@ -8,7 +8,7 @@ import { ironOptions } from "@/utils/ironConfig";
 export default function SearchPage({ user }) {
   // Placeholder data for search results
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState({ error: "No query has been provided" });
+  const [searchResults, setSearchResults] = useState({ error: "You can search for users usernames and their about!" });
   const [ms, setMs] = useState(0);
   const [timeoutId, setTimeoutId] = useState();
   const [displayedUsers, setDisplayedUsers] = useState(3);
@@ -131,9 +131,11 @@ export default function SearchPage({ user }) {
               }
 
               return (
-                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center items-center justify-center">
+                <div key={index} className="flex flex-row rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center content-center">
+
+                    <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row rounded-full content-center mt-2 ml-2 mb-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex flex-col items-center justify-center content-center h-full ">
+                    <div className="p-6 flex flex-row items-center content-center h-full ml-1 ">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
                           <span>
@@ -145,7 +147,7 @@ export default function SearchPage({ user }) {
                           </span>
                         ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-400 justify-center">
+                      <p className="text-gray-600 dark:text-gray-400 flex-row ml-2 mr-2 justify-">
                         {match && match.field === "about" ? (
                           <span>
                             {beforeMatch}
@@ -156,10 +158,9 @@ export default function SearchPage({ user }) {
                           </span>
                         ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400">
+                      <p className="text-gray-600 dark:text-gray-400 justify-end">
                         Type: {result.type}<br />
                         Views: {result.views}<br />
-                        <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="rounded-full justify-center w-24 h-24" />
                       </p>
                     </div>
                   </Link>
