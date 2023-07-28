@@ -68,7 +68,7 @@ export default function SearchPage({ user }) {
           <div className="relative text-gray-600 dark:text-gray-400 px-64 md:px-32 sm:px-0">
             <input
               name="search"
-              placeholder="Search"
+              placeholder="Enter search here"
               value={searchQuery}
               onChange={handleInputChange}
               className="bg-gray-200 dark:bg-gray-700 h-16 px-5 pr-10 rounded-full text-sm focus:outline-none w-full"
@@ -131,9 +131,9 @@ export default function SearchPage({ user }) {
               }
 
               return (
-                <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto">
+                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto items-center justify-center">
                   <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex flex-col items-center justify-center h-full">
+                    <div className="p-6 flex flex-col items-center justify-center content-center h-full ">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
                           <span>
@@ -145,7 +145,7 @@ export default function SearchPage({ user }) {
                           </span>
                         ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-400">
+                      <p className="text-gray-600 dark:text-gray-400 justify-center">
                         {match && match.field === "about" ? (
                           <span>
                             {beforeMatch}
