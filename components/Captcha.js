@@ -106,7 +106,7 @@ export default function Captcha({ setSolved, solvedyesno, setShowModal }) {
           <div className="flex items-center space-x-2">
             <button
               onClick={() => setShowModal(false)}
-              class="w-1/2 text-red-600 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
+              className="w-1/2 text-red-600 bg-gray-200 hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
             >
               ← Back
             </button>
@@ -116,7 +116,7 @@ export default function Captcha({ setSolved, solvedyesno, setShowModal }) {
               id="captchaButton"
               name="captchaButton"
               onClick={validateCaptcha}
-              class="w-1/2 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+              className="w-1/2 text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
             >
               Submit →
             </button>
