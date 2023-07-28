@@ -24,6 +24,7 @@ export default function Signup() {
   const [passwordstrength, setPassStrength] = useState("");
   const [nameerror, setNameError] = useState("");
   const [emailerror, setEmailError] = useState("");
+  const [navhidden, setNavHidden] = useState(false);
 
   // Function to check if all fields are filled
   const areAllFieldsFilled = () => {
@@ -84,15 +85,18 @@ export default function Signup() {
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900 h-screen">
-        <div className="h-0 w-screen">
-          <Navbar />
+        {navhidden && (
+          <div className="opacity-50 fixed inset-0 z-30 bg-black h-full w-full md:hidden"></div>
+        )}
+        <div className=" bg-white z-40 fixed w-screen">
+          <Navbar navhidden={navhidden} setNavHidden={setNavHidden} />
         </div>
 
         <Head>
           <title>Signup | inBDPA</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0">
+        <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto h-screen lg:py-0 z-10 md:">
           <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
