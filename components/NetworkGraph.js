@@ -99,7 +99,8 @@ var options = {
     dragNodes: false,
     hover: true,
     zoomSpeed: 0.3
-  }
+  },
+
 };
 
 

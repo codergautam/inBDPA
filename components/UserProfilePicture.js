@@ -15,6 +15,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   const [previewSrc, setPreviewSrc] = useState(imageSrc);
   const [fileSet, setFileSet] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleClose = () => {
     setIsGravatar(!pfp || pfp === 'gravatar');
@@ -64,7 +65,12 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
         setZoom(1);
         setCropArea({x: 0, y: 0, width: 0, height: 0})
       } else {
-        alert('Error uploading image');
+        try {
+          const { error } = await response.json();
+          setError(error ?? "Failed to upload image");
+        } catch (e) {
+          setError("Failed to upload image");
+        }
       }
     }
   };
@@ -176,6 +182,9 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
                 >
                   {saving ? "Saving Changes.." : "Save Changes"}
                 </button>
+              )}
+              {error && (
+                <span className="text-red-500 text-sm mt-2">{error}</span>
               )}
             </div>
           </div>

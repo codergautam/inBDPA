@@ -83,8 +83,8 @@ function handler(req, res) {
       image
         .metadata()
         .then((metadata) => {
-          if (metadata.width < 200 || metadata.height < 200) {
-            res.status(400).json({ error: 'Image must be at least 200x200 pixels.' });
+          if (metadata.width < 100 || metadata.height < 100) {
+            res.status(400).json({ error: 'Image must be at least 100x100 pixels.' });
             return;
           }
           const origWidth = metadata.width;
@@ -109,7 +109,7 @@ function handler(req, res) {
         } else {
           // Remove the original file
           fs.unlinkSync(filePath);
-          
+
           setUserPfp(req.session.user.id, `resized_${file.filename}`)
             .then(() => {
               res.status(200).json({ id: `resized_${file.filename}` });
