@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "npx concurrently \"next dev\" \"node utils/startCronJob.mjs\"",
     "build": "next build",
-    "start": "npx concurrently \"next start -p 4204\" \"node utils/startCronJob.mjs\"",
+    "start": "npx concurrently \"next start -p 1025\" \"node utils/startCronJob.mjs\"",
     "lint": "next lint"
   },
   "dependencies": {
