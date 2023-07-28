@@ -92,6 +92,7 @@ function sanitizeRegex(input) {
 
 export async function searchUsers(query) {
   try {
+    const origQuery = query+'';
     query = sanitizeRegex(query);
     const regexQuery = new RegExp(query, 'i');  // 'i' makes it case insensitive
     const profiles = await Profile.find({
@@ -177,7 +178,7 @@ export async function searchUsers(query) {
           ...opportunity,
           match: {
             field: matchField,
-            position: matchPosition
+            position: matchPosition,
           }
         };
       }

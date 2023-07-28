@@ -23,5 +23,6 @@ async function handler(req, res) {
         return;
     }
     let data = await searchUsers(query);
+    data.queryLength = query.length;
     res.json(data);
 }
