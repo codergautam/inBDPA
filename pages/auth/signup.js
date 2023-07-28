@@ -36,7 +36,7 @@ export default function Signup() {
         ? setPassStrength("Empty")
         : password.length < 11
         ? setPassStrength("Weak")
-        : password.length < 17
+        : password.length < 18
         ? setPassStrength("Moderate")
         : setPassStrength("Strong");
     }
@@ -46,11 +46,11 @@ export default function Signup() {
         : /[A-Z]/.test(name)
         ? setNameError("Must be lowercase")
         : name.length < 4
-        ? setNameError("Must be over 4 chars")
+        ? setNameError("Must be over at least 4 characters")
         : name.length > 16
-        ? setNameError("Must be under 16 chars")
+        ? setNameError("Cannot be greater than 16 characters")
         : !/^[a-zA-Z0-9]+$/.test(name)
-        ? setNameError("must be alphanumeric")
+        ? setNameError("Must be alphanumeric")
         : setNameError("✓");
     }
     {
