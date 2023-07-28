@@ -63,6 +63,8 @@ import { getIronOptions } from "@/utils/ironConfig";
 
 
 
+  delete user.user.key;
+  delete user.user.salt;
   return res.send(user);
 }
 

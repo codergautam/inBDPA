@@ -22,7 +22,16 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
-  limits: { fileSize: 2 * 1024 * 1024 }, // Limit the file size to 2MB
+  limits: { fileSize: 2 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    // Only allow image mimetypes
+    console.log(file.mimetype);
+    if (file.mimetype.startsWith("image/")) {
+      cb(null, true);
+    } else {
+      cb(new multer.MulterError('LIMIT_UNEXPECTED_FILE', file), false);
+    }
+  },
 });
 
 function handler(req, res) {

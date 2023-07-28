@@ -629,7 +629,6 @@ export async function setUserPfp(userId, pfp) {
           { pfp }, // document to insert when nothing was found
           { new: true, upsert: true } // options
       );
-      console.log('Profile pfp successfully updated: ', updatedProfile);
       return true;
   } catch (error) {
       console.log('Error while trying to update profile pfp: ', error);
