@@ -36,6 +36,8 @@ function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle
       return;
     }
     setAiSubmitting(true);
+    setAiError(null);
+
     try {
       const res = await axios.post('/api/askAi', { title, contents: value, prompt: aiPrompt });
       setAiSubmitting(false);
@@ -52,7 +54,7 @@ function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle
     } catch (error) {
       console.error(error);
       setAiSubmitting(false);
-      setAiError(error.message);
+        setAiError(error.response.data.error ?? "Unexpected Error" );
     }
   };
 

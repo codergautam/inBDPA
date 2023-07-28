@@ -67,7 +67,7 @@ const ConnectionList = ({ connections, clickable, user_id, isYou, theirName }) =
        <span className="font-bold">{connections[1].length}</span> connections
       </h1>
       {isYou ? (
-        <NetworkGraphModal data={connections[0]} />
+        <NetworkGraphModal data={connections[0]} user={user_id}/>
       ) : null}
 
       <Modal

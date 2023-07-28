@@ -10,7 +10,7 @@ const AboutSection = ({
   name,
 }) => {
   const [editing, setEditing] = useState(false);
-  const [newAbout, setNewAbout] = useState(about);
+  const [newAbout, setNewAbout] = useState(about??"");
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [suggesionsopen, setSuggestionsOpen] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
@@ -69,6 +69,8 @@ const AboutSection = ({
     if (about) dataText += "Current Bio: " + about;
 
     setAiSubmitting(true);
+    setAiError(null);
+
     try {
       const res = await axios.post("/api/askAi", {
         contents: dataText,
@@ -78,7 +80,7 @@ const AboutSection = ({
       setAiSubmitting(false);
       if (res.data.error) {
         console.error(res.data.error);
-        setAiError(res.data.error);
+        setAiError("Unexpected Error" );
         return;
       }
       setNewAbout(res.data.gptResponse.content);
@@ -87,9 +89,10 @@ const AboutSection = ({
 
       setAiModalOpen(false);
     } catch (error) {
-      console.error(error);
+      console.log(error.response);
       setAiSubmitting(false);
-      setAiError(error.message);
+      setAiError(error.response.data.error ?? "Unexpected Error" );
+
     }
   };
 

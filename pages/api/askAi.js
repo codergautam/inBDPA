@@ -3,7 +3,12 @@ import { withIronSessionApiRoute } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import { Configuration, OpenAIApi } from "openai";
 import openaiTokenCounter from 'openai-gpt-token-counter';
+import rateLimit from '../../utils/rateLimit'
 
+const limiter = rateLimit({
+  interval: 60 * 1000, // 60 seconds
+  uniqueTokenPerInterval: 100, // Max 100 users per second
+})
 // Create OpenAI instance
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -14,6 +19,12 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
 async function handler(req, res) {
     // Check if user is logged in
+    try {
+    await limiter.check(res, 5, 'CACHE_TOKEN');
+    } catch(e) {
+        return res.status(429).json({ error: "I'm overloaded! Try me again in a minute." });
+    }
+
     const user = req.session.user
     if (!user) {
         res.status(401).json({ error: "Unauthorized" });
