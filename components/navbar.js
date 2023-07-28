@@ -33,8 +33,8 @@ export default function Navbar({ user }) {
             className="w-24 sm:w-24 md:w-28 dark:hidden inline transition duration-300 transform hover:scale-110"
             src="/logos/light.png"
             alt="BDPA logo"
-            width={80}
-            height={27}
+            width={1000000}
+            height={1000000}
           />
         </Link>
         <Link href="/" className="w-fit">
@@ -42,8 +42,8 @@ export default function Navbar({ user }) {
             className="w-24 sm:w-24 md:w-28 pt-0 hidden dark:inline transition duration-300 transform hover:scale-110"
             src="/logos/dark.png"
             alt="BDPA logo"
-            width={80}
-            height={27}
+            width={1000000}
+            height={1000000}
           />
         </Link>
         </div>
@@ -87,7 +87,7 @@ export default function Navbar({ user }) {
           <>
             <Link
               href={`/admin/${user.link}`}
-              className="border-1 px-2 py-1 text-xs sm:text-lg font-bold text-emerald-500 dark:hover:text-white transition duration-400 ease-in-out hover:text-black"
+              className="px-2 py-1 text-md xl:text-lg font-bold text-emerald-500 dark:hover:text-white transition duration-400 ease-in-out hover:text-black"
             >
               Admin
             </Link>

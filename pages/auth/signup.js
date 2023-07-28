@@ -177,10 +177,10 @@ export default function Signup() {
                     type="text"
                     className={
                       name === ""
-                        ? `bg-gray-50 border border-gray-400 text-gray-500 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500`
+                        ? `bg-gray-50 border border-gray-400 text-gray-500 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`
                         : nameerror !== "✓"
-                        ? `bg-gray-50 border border-red-400 text-gray-500 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-gray-400 dark:focus:ring-red-500 dark:focus:border-red-500`
-                        : `bg-gray-50 border border-green-400 text-gray-500 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-gray-400 dark:focus:ring-green-500 dark:focus:border-green-500`
+                        ? `bg-gray-50 border border-red-400 text-gray-500 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500`
+                        : `bg-gray-50 border border-green-400 text-gray-500 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500`
                     }
                   />
                   {name === "" ? (
@@ -213,10 +213,10 @@ export default function Signup() {
                     name="email"
                     className={
                       name === ""
-                        ? `bg-gray-50 border border-gray-400 text-gray-500 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-gray-400 dark:focus:ring-blue-500 dark:focus:border-blue-500`
+                        ? `bg-gray-50 border border-gray-400 text-gray-500 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`
                         : emailerror !== "✓"
-                        ? `bg-gray-50 border border-red-400 text-gray-500 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-gray-400 dark:focus:ring-red-600 dark:focus:border-red-500`
-                        : `bg-gray-50 border border-green-400 text-gray-500 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-gray-400 dark:focus:ring-green-500 dark:focus:border-green-500`
+                        ? `bg-gray-50 border border-red-400 text-gray-500 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-white dark:focus:ring-red-600 dark:focus:border-red-500`
+                        : `bg-gray-50 border border-green-400 text-gray-500 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500`
                     }
                   />
                   {email === "" ? (
@@ -250,7 +250,7 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className={`bg-gray-50 border border-red-400 text-black sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-gray-500 dark:font-bold dark:focus:ring-red-500 dark:focus:border-red-500`}
+                        className={`bg-gray-50 border border-red-400 text-black sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-white  dark:focus:ring-red-500 dark:focus:border-red-500`}
                       />
                       <p className="text-sm text-red-500 text-right pt-1 pr-2">
                         Weak Password
@@ -266,7 +266,7 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className={`bg-gray-50 border border-yellow-400 text-black sm:text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-yellow-600 placeholder-gray-400 dark:text-gray-500 dark:font-bold dark:focus:ring-yellow-500 dark:focus:border-yellow-500`}
+                        className={`bg-gray-50 border border-yellow-400 text-black sm:text-sm rounded-lg focus:ring-yellow-600 focus:border-yellow-600 block w-full p-2.5 dark:bg-gray-700 dark:border-yellow-600 placeholder-gray-400 dark:text-white  dark:focus:ring-yellow-500 dark:focus:border-yellow-500`}
                       />
                       <p className="text-sm text-yellow-500 text-right pt-1 pr-2">
                         Moderate Password
@@ -282,7 +282,7 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className={`bg-gray-50 border border-green-400 text-black sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-gray-500 dark:font-bold dark:focus:ring-green-500 dark:focus:border-green-500`}
+                        className={`bg-gray-50 border border-green-400 text-black sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-white  dark:focus:ring-green-500 dark:focus:border-green-500`}
                       />
                       <p className="text-sm text-green-500 text-right pt-1 pr-2">
                         Strong Password
@@ -298,7 +298,7 @@ export default function Signup() {
                         name="password"
                         type="password"
                         placeholder="••••••••"
-                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-600 dark:text-gray-500 dark:font-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                       />
                       <p className="text-sm text-gray-200 dark:text-gray-600 text-right pt-1 pr-2">
                         Fill Password
