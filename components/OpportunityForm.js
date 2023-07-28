@@ -6,9 +6,9 @@ const MDEditor = dynamic(
   { ssr: false, loading: () => <div className="flex items-center justify-center py-12"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div></div>  }
 );
 
-function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle, value, setValue, handleClose }) {
+function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle, value, setValue, handleClose, submitting }) {
   const formTitle = editingOpportunity ? "Edit Opportunity" : "Create Opportunity";
-  const buttonText = editingOpportunity ? "Complete Edits" : "Create Opportunity";
+  const buttonText = submitting ? (editingOpportunity ? "Completing Edits.." : "Creating Opportunity..") : (editingOpportunity ? "Complete Edits" : "Create Opportunity");
   const [mdEditorMode, setMdEditorMode] = useState('live');
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [aiPrompt, setAiPrompt] = useState('');
