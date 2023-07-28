@@ -15,7 +15,7 @@ async function handler(req, res) {
     }
     let query = req.body.query;
     if(!query) {
-        res.json({success: false, error: "No search has been provided"})
+        res.json({success: false, error: "No query has been provided"})
         return;
     }
     if(query.length > 64) {

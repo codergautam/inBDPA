@@ -8,7 +8,7 @@ import { ironOptions } from "@/utils/ironConfig";
 export default function SearchPage({ user }) {
   // Placeholder data for search results
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState({ error: "Type a query!" });
+  const [searchResults, setSearchResults] = useState({ error: "No query has been provided" });
   const [ms, setMs] = useState(0);
   const [timeoutId, setTimeoutId] = useState();
   const [displayedUsers, setDisplayedUsers] = useState(3);
