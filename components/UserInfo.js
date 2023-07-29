@@ -91,10 +91,10 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
         description: item.description,
       };
     });
-    items2 = items2.filter((item) => {
-      if (typeof item === 'string' && item.trim().length == 0) return false;
-      return true;
-    });
+    // items2 = items2.filter((item) => {
+    //   if (typeof item === 'string' && item.trim().length == 0) return false;
+    //   return true;
+    // });
 
     // Client side validation
     if (section !== 'skills') {
@@ -122,6 +122,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
       }
     } else {
       for (const item of items2) {
+        console.log(item)
         if (item.trim().length === 0) {
           alert('Please fill out all the skills.');
           return;
