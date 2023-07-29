@@ -69,7 +69,7 @@ export default function SearchPage({ user,query="" }) {
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
             Search Engine:
           </h1>
-
+</div>
           {/* Search Bar */}
           <div className="relative text-gray-600 dark:text-gray-400 lg:px-64 md:px-32 sm:px-0">
             <input
@@ -94,14 +94,14 @@ export default function SearchPage({ user,query="" }) {
                 Found {searchResults.users.length + searchResults.opportunities.length} result{searchResults.users.length + searchResults.opportunities.length > 1 ? 's' : ''} in {ms}ms
               </p>
             )}
-<div className="md:bg-gray-100 md:dark:bg-gray-800 ">
+<div className="md:bg-gray-100 md:dark:bg-gray-800">
   <div className="text-center m-2">
             {!searchResults.error && (
               <h1>Users</h1>
             )}
 
             {!searchResults.error && searchResults.users.length === 0 && (
-              <p className="text-gray-600 dark:text-gray-400 ">
+              <p className="text-gray-600 dark:text-gray-400">
                 No users found
               </p>
             )}
@@ -140,7 +140,7 @@ export default function SearchPage({ user,query="" }) {
               }
 
               return (
-                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg hover:bg-gray-300 bg-gray-200 dark:bg-gray-700  max-w-3xl flex-col md:flex-row text-center content-center md:text-base text-sm mx-1">
+                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden shadow-lg hover:bg-gray-300 bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 max-w-3xl md:text-base text-sm">
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
                     <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1 ">
@@ -185,7 +185,7 @@ export default function SearchPage({ user,query="" }) {
             )}
           </div>
           </div>
-
+          <div className="md:bg-gray-100 md:dark:bg-gray-800 w-2/3">
           {/* Display Search Results (opps) */}
           <div className="mt-6 flex flex-col gap-8 items-center justify-center">
             {!searchResults.error && (
