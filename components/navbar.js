@@ -66,6 +66,26 @@ export default function Navbar({ user,showSearch=true }) {
             <path d="M 3 8 A 2.0002 2.0002 0 1 0 3 12 L 47 12 A 2.0002 2.0002 0 1 0 47 8 L 3 8 z M 3 23 A 2.0002 2.0002 0 1 0 3 27 L 47 27 A 2.0002 2.0002 0 1 0 47 23 L 3 23 z M 3 38 A 2.0002 2.0002 0 1 0 3 42 L 47 42 A 2.0002 2.0002 0 1 0 47 38 L 3 38 z"></path>
           </svg>
         </div>
+        <div className="relative">
+        { showSearch ? (
+          <>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search"
+          className="border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
+        />
+        <div className="absolute top-0 left-0 ml-3 mt-2">
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="text-gray-400 dark:text-white"
+          />
+        </div>
+        </>
+        ) : null}
+
+      </div>
         <div className="hidden md:flex items-end h-min flex-row rounded-b-lg bg-gray-900 md:place place-items-end">
           {user && user.impersonating && (
             <>
@@ -159,27 +179,6 @@ export default function Navbar({ user,showSearch=true }) {
             : "hidden"
         }
       >
-
-      <div className="relative">
-        { showSearch ? (
-          <>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search"
-          className="border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
-        />
-        <div className="absolute top-0 left-0 ml-3 mt-2">
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="text-gray-400 dark:text-white"
-          />
-        </div>
-        </>
-        ) : null}
-
-      </div>
         {user && user.impersonating && (
           <>
             <button
@@ -255,6 +254,26 @@ export default function Navbar({ user,showSearch=true }) {
             </Link>
           </>
         )}
+              <div className="relative">
+        { showSearch ? (
+          <>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search"
+          className="border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
+        />
+        <div className="absolute top-0 left-0 ml-3 mt-2">
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="text-gray-400 dark:text-white"
+          />
+        </div>
+        </>
+        ) : null}
+
+      </div>
       </div>
     </>
   );
