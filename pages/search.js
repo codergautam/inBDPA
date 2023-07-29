@@ -1,25 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Head from "next/head";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 
-export default function SearchPage({ user,query="" }) {
+export default function SearchPage({ user }) {
   // Placeholder data for search results
-  const [searchQuery, setSearchQuery] = useState(query);
+  const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState({ error: "You can search for users usernames and their about sections!" });
   const [ms, setMs] = useState(0);
   const [timeoutId, setTimeoutId] = useState();
   const [displayedUsers, setDisplayedUsers] = useState(3);
   const [displayedOpportunities, setDisplayedOpportunities] = useState(3);
   const [loading, setLoading] = useState(false);
-  const searchInputRef = useRef(null);
-
-  // Use useEffect to set the focus on the input element when the component mounts
-  useEffect(() => {
-    searchInputRef.current.focus();
-  }, []);
 
   const handleInputChange = (e) => {
     // Cancel the previous timeout
@@ -63,13 +57,13 @@ export default function SearchPage({ user,query="" }) {
         <title>inBDPA - Home</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <Navbar user={user} showSearch={false} />
-      <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
+      <Navbar user={user} />
+      <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 w-screen flex-grow">
         <div className="container px-5 py-24 mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
             Search Engine:
           </h1>
-</div>
+
           {/* Search Bar */}
           <div className="relative text-gray-600 dark:text-gray-400 lg:px-64 md:px-32 sm:px-0">
             <input
@@ -77,7 +71,6 @@ export default function SearchPage({ user,query="" }) {
               placeholder="Search for users, opporunities, etc."
               value={searchQuery}
               onChange={handleInputChange}
-              ref={searchInputRef}
               className="bg-gray-200 dark:bg-gray-700 h-16 px-5 pr-10 rounded-full text-lg focus:outline-none w-full"
             />
           </div>
@@ -94,12 +87,12 @@ export default function SearchPage({ user,query="" }) {
                 Found {searchResults.users.length + searchResults.opportunities.length} result{searchResults.users.length + searchResults.opportunities.length > 1 ? 's' : ''} in {ms}ms
               </p>
             )}
-<div className="md:bg-gray-100 md:dark:bg-gray-800 rounded-md">
+<div className="md:bg-gray-100 md:dark:bg-gray-800">
   <div className="text-center m-2">
             {!searchResults.error && (
               <h1>Users</h1>
             )}
-
+            
             {!searchResults.error && searchResults.users.length === 0 && (
               <p className="text-gray-600 dark:text-gray-400">
                 No users found
@@ -185,7 +178,7 @@ export default function SearchPage({ user,query="" }) {
             )}
           </div>
           </div>
-          <div className="md:bg-gray-100 md:dark:bg-gray-800 justify-center w-2/3">
+
           {/* Display Search Results (opps) */}
           <div className="mt-6 flex flex-col gap-8 items-center justify-center">
             {!searchResults.error && (
@@ -283,7 +276,7 @@ export default function SearchPage({ user,query="" }) {
   );
 }
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req, res, query }) {
+export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
     // Check if a user is logged in
     if (!req.session.user) {
       return {
@@ -295,6 +288,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res,
       };
     }
   return {
-    props: { user: req.session.user ?? null, query: query.query ?? null },
+    props: { user: req.session.user ?? null },
   };
 }, ironOptions);
