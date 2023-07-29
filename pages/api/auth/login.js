@@ -24,8 +24,10 @@ async function handler(req, res) {
     return res.send({error: user.error});
   }
 
+  if(user.user) {
   delete user.user.salt;
   delete user.user.key;
+  }
   return res.send(user);
 }
 

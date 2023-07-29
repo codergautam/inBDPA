@@ -21,8 +21,13 @@ import addSuffix from "@/utils/ordinalSuffix";
 import LinkChanger from "@/components/LinkChanger";
 import ConnectionList from "@/components/ConnectionList";
 import UserBanner from "@/components/UserBanner";
-import NetworkGraphModal from "@/components/NetworkGraph";
 import md5 from "blueimp-md5";
+import rateLimit from "@/utils/rateLimit";
+
+const limiter = rateLimit({
+  interval: 60 * 60 * 1000, // 1 hr
+  uniqueTokenPerInterval: 1000,
+})
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
   return new Promise((resolve, reject) => {
@@ -34,7 +39,8 @@ const handleAboutSave = (newAbout, setRequestedUser) => {
       .then((data) => {
         console.log(data);
         if (!data.success) {
-          alert("Error saving about section");
+          alert(data.error ?? "Unexpected Error saving about");
+          reject();
         } else {
           console.log(setRequestedUser);
           setRequestedUser((prev) => ({
@@ -378,11 +384,21 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 
   if (requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
     // Increment view count
+    let view = true;
     try {
+      await limiter.check(res, 2, "viewUser"+requestedUser?.user_id, req)
+      } catch(e) {
+        console.log("ratelimited", e);
+        view = false
+      }
+      if(view) {
+    try {
+      console.log("Incrementing")
       await incrementUserViews(requestedUser?.user_id);
       await increaseViewCountMongo(requestedUser?.user_id);
     } catch (e) {
       console.log(e);
+    }
     }
   }
   let pfp;

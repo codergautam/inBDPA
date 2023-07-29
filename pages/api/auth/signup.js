@@ -37,12 +37,12 @@ import { getIronOptions } from "@/utils/ironConfig";
   if(username.length > 16) {
     return res.send({ error: "Username must be at most 16 characters" });
   }
+  // make sure alphanumeric ()
   if(username.toLowerCase() !== username) {
-    return res.send({ error: "Username must be lowercase" });
+    return res.send({ error: "Username cannot contain uppercase letters" });
   }
-  // make sure alphanumeric
-  if(!username.match(/^[a-z0-9]+$/)) {
-    return res.send({ error: "Username must contain only numbers and letters" });
+  if(!username.match(/^[a-zA-Z0-9_-]+$/)) {
+    return res.send({ error: "Username cannot contain special characters" });
   }
   const { key, salt } = await encryptPassword(password);
   console.log(`Key: ${key}, Length: ${key.length}`);
@@ -72,8 +72,11 @@ import { getIronOptions } from "@/utils/ironConfig";
 
 
 
-  delete user.user.key;
-  delete user.user.salt;
+
+  if(user.user) {
+    delete user.user.salt;
+    delete user.user.key;
+    }
   return res.send(user);
 }
 

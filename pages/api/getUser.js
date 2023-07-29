@@ -7,11 +7,11 @@ export default withIronSessionApiRoute(handler, ironOptions)
 async function handler(req, res) {
     const { username } = req.body;
     if(!username) {
-        res.json({success: false, error: "Didn't provide a username or email"})
+        return res.json({success: false, error: "Didn't provide a username or email"})
     }
     // make sure admin
     if(!req.session.user || req.session.user.type !== "administrator") {
-        res.json({success: false, error: "Not authorized"})
+        return res.json({success: false, error: "Not authorized"})
     }
 
     let newProf = await findProfile(username)
@@ -20,9 +20,9 @@ async function handler(req, res) {
         console.log("Sending req")
         let data = await getUser(username);
         data.user.link = newProf.link;
-        res.json({success: true, user: data.user})
+        return res.json({success: true, user: data.user})
     } else {
-        res.json({success: false})
+       return res.json({success: false})
     }
     // res.json(data)
 }
