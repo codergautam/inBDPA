@@ -61,6 +61,7 @@ export default function UserSearch() {
         // Create a new debounce timer
         debounceTimer.current = setTimeout(async () => {
             console.log(value);
+            let users
             let user = await fetch("/api/getUser", {
                 next: {
                     revalidate: 2
