@@ -169,8 +169,8 @@ export default function UserSearch() {
     }
 
     return (
-        <div className="mt-8 mb-8 flex flex-col w-1/2 mx-auto text-center bg-gray-100 dark:bg-gray-900 p-8 rounded-lg shadow-md">
-          <p className="text-4xl text-gray-700 dark:text-white font-bold">Modify a user</p>
+        <div className="mt-8 mb-8 flex flex-col w-5/6 md:w-3/4 xl:w-3/5 text-center bg-gray-100 dark:bg-gray-900 p-8 rounded-lg shadow-md">
+          <p className="text-3xl lg:text-4xl text-gray-700 dark:text-white font-bold">Modify a user</p>
           <label className="text-gray-500 dark:text-gray-300 text-xl mb-4">Username:</label>
           <input value={query} onChange={(e)=>{
               setQuery(e.target.value)
@@ -193,18 +193,18 @@ export default function UserSearch() {
                   <span className="text-gray-500 dark:text-gray-400">Total Views:</span> {outputUser.views}
               </p>
               <div className="flex flex-col mt-4">
-                  {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-gray-500 dark:bg-blue-700 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                      Promote to <span className="text-blue-500 dark:text-blue-300">{nextPosition}</span>
+                  {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-gray-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                      Promote to <span className="text-blue-600 dark:text-blue-300">{nextPosition}</span>
                   </button> : <></>}
                   {/* Administrators can not demote other admins!!!! */}
-                  {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-gray-500 dark:bg-blue-700 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                  {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-gray-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
                       Demote to <span className="text-red-500 dark:text-red-300">{previousPosition}</span>
                   </button> : <></>}
-                  {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-700 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                  {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
                           Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
                       </button>: <></>}
 
-                  {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-700 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                  {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
                           Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
                       </button>: <></>}
               </div>

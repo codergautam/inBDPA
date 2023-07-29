@@ -42,7 +42,7 @@ export default function Stats() {
   }, []);
 
   return (
-    <div className="flex flex-wrap justify-center mt-6">
+    <div className="flex flex-col lg:flex-row justify-center mt-6 mx-auto w-full sm:w-4/5 lg:w-3/4 xl:w-1/2">
       <StatItem label="Total Users" value={users} />
       <StatItem label="Active Sessions" value={sessions} />
       <StatItem label="Total Views on Platform" value={totalViews} />
@@ -53,11 +53,11 @@ export default function Stats() {
 
 function StatItem({ label, value }) {
   return (
-    <div className="m-4 flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900  rounded-lg shadow-md w-60 sm:w-64 lg:w-72 p-4 transition-all duration-500 transform hover:scale-105">
-      <p className="text-gray-500 dark:text-gray-200 text-lg sm:text-lg lg:text-xl mb-2">
+    <div className="lg:w-1/4 text-center m-4 grow flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md p-4 transition-all duration-500 transform hover:scale-105">
+      <p className="text-center text-gray-500 dark:text-gray-200 text-md lg:text-lg xl:text-xl mb-2">
         {label}
       </p>
-      <p className="font-bold text-xl sm:text-2xl lg:text-2xl text-blue-500">
+      <p className="text-center font-bold text-xl sm:text-2xl lg:text-2xl text-blue-600">
         {numberWithCommas(value)}
       </p>
     </div>

@@ -60,7 +60,7 @@ export default function UserCreation() {
   };
 
   return (
-    <div className="mt-8 mb-8 flex flex-col w-1/2 mx-auto text-center bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md">
+    <div className="mt-8 mb-8 m-4 flex flex-col sm:w-4/5 lg:w-1/2 xl:w-1/2 mx-auto text-center bg-white dark:bg-gray-900 p-8 rounded-lg shadow-md">
       {showStatus && (
         <p className={`text-2xl font-bold mb-4 ${error ? "text-red-500" : "text-green-500"}`}>
           {status}
@@ -74,10 +74,10 @@ export default function UserCreation() {
       </p>
       {showingForm && (
         <div className="flex flex-col items-center">
-          <p className="text-4xl text-gray-700 dark:text-white font-bold mb-4">
+          <p className="text-2xl sm:text-3xl lg:text-4xl text-gray-700 dark:text-white font-bold mb-4">
             Create a New User
           </p>
-          <div className="w-3/4">
+          <div className="w-5/6">
             <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Username:</label>
             <input
               onChange={(e) => setUsername(e.target.value)}
@@ -114,7 +114,7 @@ export default function UserCreation() {
             </select>
             <button
               onClick={handleSubmit}
-              className="bg-gray-500 dark:bg-blue-700 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-full mt-2 rounded text-white px-6 py-3 text-xl"
+              className="bg-gray-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-full mt-2 rounded-lg text-white px-6 py-3 text-xl"
             >
               Submit
             </button>
