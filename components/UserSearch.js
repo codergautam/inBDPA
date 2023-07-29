@@ -49,53 +49,57 @@ export default function UserSearch() {
         }
         //After everything
     }
+    let debounceTimer = useRef(null)
 
     const checkForUser = async (value) => {
-        clearTimeout(promotionRef)
-        setOutputUserStatus("...")
-        console.log(value)
-        let user = await fetch("/api/getUser", {
-            next: {
-                revalidate: 2
-            },
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                username: value
-            }),
-            credentials: "include"
-        }).then(res => res.json())
-        if(user.success) {
-            setOutputUserStatus("")
-            console.log("User:")
-            console.log(user.user)
-            setOutputUser(user.user)
-            clearTimeout(promotionRef)
-            if(user.user) {
-            if(user.user.type != "administrator") {
-                let newPos = listOfTypes[listOfTypes.indexOf(user.user.type)+1];
-                console.log(`New Position: ${newPos}`)
-                setNextPosition(newPos)
+        // Clear the previous debounce timer
+        clearTimeout(debounceTimer.current);
+
+        // Set the loading status while typing
+        setOutputUserStatus("...");
+
+        // Create a new debounce timer
+        debounceTimer.current = setTimeout(async () => {
+            console.log(value);
+            let user = await fetch("/api/getUser", {
+                next: {
+                    revalidate: 2
+                },
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: value
+                }),
+                credentials: "include"
+            }).then((res) => res.json());
+
+            if (user.success) {
+                setOutputUserStatus("");
+                console.log("User:");
+                console.log(user.user);
+                setOutputUser(user.user);
+
+                if (user.user) {
+                    if (user.user.type !== "administrator") {
+                        let newPos = listOfTypes[listOfTypes.indexOf(user.user.type) + 1];
+                        console.log(`New Position: ${newPos}`);
+                        setNextPosition(newPos);
+                    }
+                    if (user.user.type !== "inner") {
+                        let newPos = listOfTypes[listOfTypes.indexOf(user.user.type) - 1];
+                        console.log(`Previous Position: ${newPos}`);
+                        setPreviousPosition(newPos);
+                    }
+                }
+            } else {
+                setOutputUserStatus("No user found...");
+                setOutputUser(null);
             }
-            if(user.user.type != "inner") {
-                let newPos = listOfTypes[listOfTypes.indexOf(user.user.type)-1];
-                console.log(`Previous Position: ${newPos}`)
-                setPreviousPosition(newPos)
-            }
-        } else {
-            setOutputUserStatus("No user found...")
-        }
-            return
-        } else {
-            setOutputUserStatus("No user found...")
-            setOutputUser(null)
-            // promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000);
-            return
-        }
-        //Error stuff
-    }
+        }, 300); // Adjust the debounce delay as needed (e.g., 1000ms = 1 second).
+    };
+
 
     // const inquire = (value) => {
     //     setOutputWords("...")
