@@ -198,18 +198,25 @@ export default function UserSearch() {
               setQuery(e.target.value)
               checkForUser(e.target.value)
               }} className="bg-transparent border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white" type="text" />
+          <div className="flex flex-wrap justify-center mt-4">
+    {suggestions.filter((n)=>n!=query).map((suggestion, index) => (
+        <button
+            onClick={() => {
+                setQuery(suggestion)
+                checkForUser(suggestion)
+            }}
+            key={index}
+            className="m-2 px-4 py-2 text-sm font-bold text-center text-gray-800 bg-gray-200 border border-gray-300 rounded-full cursor-pointer hover:bg-gray-300 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600"
+        >
+            {suggestion}
+        </button>
+    ))}
+</div>
           <p className="text-center text-xl font-bold dark:text-gray-300 mt-4">
               {outputUserStatus}
           </p>
-          <div className="flex">
-          {suggestions.map((e,i) => {
-            return (
-                <p className="text-center text-xl font-bold dark:text-gray-300 mt-4" key={i}>
-                    {e}
-                </p>
-            )
-          })}
-          </div>
+
+
           {outputUser ? <div className="text-center text-gray-700 dark:text-white">
               <Link className="text-2xl font-bold mt-4" href={"/profile/"+outputUser.link}>
                   {outputUser.username}
