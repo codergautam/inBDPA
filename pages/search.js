@@ -295,6 +295,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res,
       };
     }
   return {
-    props: { user: req.session.user ?? null, query: query.query },
+    props: { user: req.session.user ?? null, query: query.query ?? null },
   };
 }, ironOptions);
