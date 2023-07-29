@@ -87,14 +87,14 @@ export default function SearchPage({ user }) {
                 Found {searchResults.users.length + searchResults.opportunities.length} result{searchResults.users.length + searchResults.opportunities.length > 1 ? 's' : ''} in {ms}ms
               </p>
             )}
-<div className="bg-gray-100 dark:bg-gray-800 ">
+<div className="md:bg-gray-100 md:dark:bg-gray-800 ">
   <div className="text-center m-2">
             {!searchResults.error && (
               <h1>Users</h1>
             )}
             
             {!searchResults.error && searchResults.users.length === 0 && (
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600 dark:text-gray-400 ">
                 No users found
               </p>
             )}
