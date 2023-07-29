@@ -131,10 +131,10 @@ export default function SearchPage({ user }) {
               }
 
               return (
-                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto xxs:flex-col sm:flex-row text-center content-center sm:text-base xxs:text-sm">
-                    <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row xxs:self-center rounded-full mt-2 ml-2 mb-2 w-24 h-24" />
+                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto flex-col sm:flex-row text-center content-center sm:text-base text-sm">
+                    <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex sm:flex-row items-center content-center h-full xxs:flex-col ml-1 ">
+                    <div className="p-6 flex sm:flex-row items-center content-center h-full flex-col ml-1 ">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
                           <span>
@@ -146,7 +146,7 @@ export default function SearchPage({ user }) {
                           </span>
                         ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-400 xxs:flex-col sm:flex-row ml-2 mr-2">
+                      <p className="text-gray-600 dark:text-gray-400 flex-col sm:flex-row ml-2 mr-2">
                         {match && match.field === "about" ? (
                           <span>
                             {beforeMatch}
