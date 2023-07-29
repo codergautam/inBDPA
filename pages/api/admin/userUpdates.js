@@ -27,15 +27,11 @@ export default withIronSessionApiRoute(handler, ironOptions);
     console.log(`Status: ${status}`)
     let data = await forceLogoutUserStatus(userId, status)
     return res.json(data)
-    // console.log(data)
-    // if(data.success) {
-    //   return res.json({success: true})
-    // } else {
-    //   return res.json({success: false, error: "Failed to logout user at this moment"})
-    // }
   } else if(req.method == "GET") {
     if(req.session.user.type == "administrator") {
         return res.json({success:true, forceLogout: false})
+    } else if(req.session.user.impersonating) {
+      return res.redirect("/returnToAdmin")
     } else {
         const userId = req.session.user.id
         let user = await getUserFromMongo(userId)
