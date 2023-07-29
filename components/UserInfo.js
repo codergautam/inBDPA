@@ -147,6 +147,22 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
     setMode('view');
   };
 
+  const validateAndSetDate = (index, value) => {
+    try {
+      // Attempt to parse the date
+      const date = new Date(value);
+      if (isNaN(date.getTime())) {
+        throw new Error("Invalid date");
+      }
+
+      // If it's a valid date, update the item
+      updateItem(index, 'endedAt', date);
+    } catch (error) {
+      // Handle the error (here we just console log it, but you could handle it in a way that suits your needs)
+      console.error(error);
+    }
+  };
+
   const [isPresent, setIsPresent] = useState(false)
   return (
     <div className="container mx-auto">
