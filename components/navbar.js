@@ -1,17 +1,18 @@
 /* eslint-disable @next/next/no-img-element */
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faMask, faBars } from "@fortawesome/free-solid-svg-icons";
+import { faMask, faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-export default function Navbar({ user }) {
+export default function Navbar({ user,showSearch=true }) {
   const [navhidden, setNavHidden] = useState(false);
 
   const router = useRouter();
+  const [query, setQuery] = useState(""); // TODO: Implement search
   const [isOpen, setIsOpen] = useState(false);
   const leaveImpersonation = async () => {
     let data = await fetch("/api/admin/returnToAdmin").then((res) =>
@@ -23,6 +24,12 @@ export default function Navbar({ user }) {
       // TODO: Handle error
     }
   };
+
+  useEffect(() => {
+    if (query.trim().length > 0) {
+      router.push(`/search?query=${encodeURIComponent(query)}`);
+    }
+  }, [query]);
 
   return (
     <>
@@ -152,6 +159,27 @@ export default function Navbar({ user }) {
             : "hidden"
         }
       >
+
+      <div className="relative">
+        { showSearch ? (
+          <>
+        <input
+          type="text"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="Search"
+          className="border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
+        />
+        <div className="absolute top-0 left-0 ml-3 mt-2">
+          <FontAwesomeIcon
+            icon={faSearch}
+            className="text-gray-400 dark:text-white"
+          />
+        </div>
+        </>
+        ) : null}
+
+      </div>
         {user && user.impersonating && (
           <>
             <button

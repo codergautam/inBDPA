@@ -1,19 +1,25 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
 import Head from "next/head";
 import { withIronSessionSsr } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 
-export default function SearchPage({ user }) {
+export default function SearchPage({ user,query="" }) {
   // Placeholder data for search results
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState(query);
   const [searchResults, setSearchResults] = useState({ error: "You can search for users usernames and their about sections!" });
   const [ms, setMs] = useState(0);
   const [timeoutId, setTimeoutId] = useState();
   const [displayedUsers, setDisplayedUsers] = useState(3);
   const [displayedOpportunities, setDisplayedOpportunities] = useState(3);
   const [loading, setLoading] = useState(false);
+  const searchInputRef = useRef(null);
+
+  // Use useEffect to set the focus on the input element when the component mounts
+  useEffect(() => {
+    searchInputRef.current.focus();
+  }, []);
 
   const handleInputChange = (e) => {
     // Cancel the previous timeout
@@ -57,8 +63,8 @@ export default function SearchPage({ user }) {
         <title>inBDPA - Home</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <Navbar user={user} />
-      <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 w-screen flex-grow">
+      <Navbar user={user} showSearch={false} />
+      <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
         <div className="container px-5 py-24 mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
             Search Engine:
@@ -71,12 +77,12 @@ export default function SearchPage({ user }) {
               placeholder="Search for users, opporunities, etc."
               value={searchQuery}
               onChange={handleInputChange}
+              ref={searchInputRef}
               className="bg-gray-200 dark:bg-gray-700 h-16 px-5 pr-10 rounded-full text-lg focus:outline-none w-full"
             />
           </div>
 
           {/* Display Search Results */}
-
           <div className="mt-6 flex flex-col gap-8 items-center justify-center">
           { loading ? (
               <div className="flex justify-center items-center">
@@ -88,15 +94,18 @@ export default function SearchPage({ user }) {
                 Found {searchResults.users.length + searchResults.opportunities.length} result{searchResults.users.length + searchResults.opportunities.length > 1 ? 's' : ''} in {ms}ms
               </p>
             )}
-
+<div className="md:bg-gray-100 md:dark:bg-gray-800 ">
+  <div className="text-center m-2">
             {!searchResults.error && (
               <h1>Users</h1>
             )}
+
             {!searchResults.error && searchResults.users.length === 0 && (
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600 dark:text-gray-400 ">
                 No users found
               </p>
             )}
+            </div>
             {!searchResults.error ? searchResults.users.slice(0, displayedUsers).map((result, index) => {
               const match = result.match;
               let beforeMatch = '';
@@ -131,7 +140,7 @@ export default function SearchPage({ user }) {
               }
 
               return (
-                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto flex-col md:flex-row text-center content-center md:text-base text-sm">
+                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg hover:bg-gray-300 bg-gray-200 dark:bg-gray-700  max-w-3xl flex-col md:flex-row text-center content-center md:text-base text-sm mx-1">
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
                     <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1 ">
@@ -174,6 +183,7 @@ export default function SearchPage({ user }) {
                 Load More Users
               </button>
             )}
+          </div>
           </div>
 
           {/* Display Search Results (opps) */}
@@ -273,7 +283,7 @@ export default function SearchPage({ user }) {
   );
 }
 
-export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
+export const getServerSideProps = withIronSessionSsr(async function ({ req, res, query }) {
     // Check if a user is logged in
     if (!req.session.user) {
       return {
@@ -285,6 +295,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
       };
     }
   return {
-    props: { user: req.session.user ?? null },
+    props: { user: req.session.user ?? null, query: query.query },
   };
 }, ironOptions);

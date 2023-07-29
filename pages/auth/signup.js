@@ -49,8 +49,8 @@ export default function Signup() {
         ? setNameError("Must be over at least 4 characters")
         : name.length > 16
         ? setNameError("Cannot be greater than 16 characters")
-        : !/^[a-zA-Z0-9]+$/.test(name)
-        ? setNameError("Must be alphanumeric")
+        : !/^[a-zA-Z0-9_-]+$/.test(name)
+        ? setNameError("Cannot have special characters")
         : setNameError("✓");
     }
     {

@@ -6,6 +6,11 @@ import { convertHexToBuffer } from "@/utils/encryptPassword";
 export default withIronSessionApiRoute(handler, ironOptions);
 
  async function handler(req, res) {
+
+  if(req.session.user.type == "inner") {
+    return res.json({success: false, message: "smh, inners :(", error: "Unauthorized"})
+  }
+
   const { title, contents } = req.body
   const user = req.session.user;
   if(!user) {
