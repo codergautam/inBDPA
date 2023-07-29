@@ -10,7 +10,7 @@ config();
 
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 const MONGO_URI = process.env.MONGO_URI;
-const MONGODB_API_WAIT_TIME = 1500;
+const MONGODB_API_WAIT_TIME = 2000;
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
