@@ -94,7 +94,7 @@ export default function SearchPage({ user,query="" }) {
                 Found {searchResults.users.length + searchResults.opportunities.length} result{searchResults.users.length + searchResults.opportunities.length > 1 ? 's' : ''} in {ms}ms
               </p>
             )}
-<div className="md:bg-gray-100 md:dark:bg-gray-800">
+<div className="md:bg-gray-100 md:dark:bg-gray-800 rounded-md">
   <div className="text-center m-2">
             {!searchResults.error && (
               <h1>Users</h1>
@@ -185,7 +185,7 @@ export default function SearchPage({ user,query="" }) {
             )}
           </div>
           </div>
-          <div className="md:bg-gray-100 md:dark:bg-gray-800 w-2/3">
+          <div className="md:bg-gray-100 md:dark:bg-gray-800 justify-center w-2/3">
           {/* Display Search Results (opps) */}
           <div className="mt-6 flex flex-col gap-8 items-center justify-center">
             {!searchResults.error && (
