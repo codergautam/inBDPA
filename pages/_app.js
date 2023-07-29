@@ -198,7 +198,9 @@ const handleRouteChangeStart = async (url, first=false) => {
     if(loading) {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800">
+        <div className="w-full">
         <Navbar user={pageProps.user} />
+      </div>
 
         <div className="flex-1 flex items-center justify-center">
           <div className="animate-spin rounded-full h-32 w-32 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
