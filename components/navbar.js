@@ -8,11 +8,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask, faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-export default function Navbar({ user,showSearch=true }) {
+export default function Navbar({ user,showSearch=true, queryText="" }) {
   const [navhidden, setNavHidden] = useState(false);
 
   const router = useRouter();
-  const [query, setQuery] = useState(""); // TODO: Implement search
+  const [query, setQuery] = useState(queryText);
   const [isOpen, setIsOpen] = useState(false);
   const leaveImpersonation = async () => {
     let data = await fetch("/api/admin/returnToAdmin").then((res) =>
@@ -26,7 +26,7 @@ export default function Navbar({ user,showSearch=true }) {
   };
 
   useEffect(() => {
-    if (query.trim().length > 0) {
+    if (query.trim().length > 0 && query != queryText) {
       router.push(`/search?query=${encodeURIComponent(query)}`);
     }
   }, [query]);

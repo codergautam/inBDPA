@@ -199,6 +199,7 @@ const handleRouteChangeStart = async (url, first=false) => {
     return (
       <div className="fixed inset-0 flex flex-col items-center justify-center bg-white dark:bg-gray-800">
         <div className="w-full">
+        {/* <Navbar user={pageProps.user} queryText={router.query.query} /> */}
         <Navbar user={pageProps.user} />
       </div>
 

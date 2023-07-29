@@ -120,6 +120,13 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           return;
         }
       }
+    } else {
+      for (const item of items2) {
+        if (item.trim().length === 0) {
+          alert('Please fill out all the skills.');
+          return;
+        }
+      }
     }
 
 
@@ -272,6 +279,9 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                 </div>
               ))}
               <div className="space-x-2 ml-4">
+                {editorItems.length >= 10 && (
+                  <p className="text-red-500">You cannot add more than 10 items here.</p>
+                )}
               {editorItems.length < 10 && (
                 <button
                   className="bg-green-500 hover:bg-green-600 dark:bg-green-800/50 dark:hover:bg-green-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
