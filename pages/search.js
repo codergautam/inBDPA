@@ -131,10 +131,10 @@ export default function SearchPage({ user }) {
               }
 
               return (
-                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto flex-col sm:flex-row text-center content-center sm:text-base text-sm">
+                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto flex-col md:flex-row text-center content-center md:text-base text-sm">
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex sm:flex-row items-center content-center h-full flex-col ml-1 ">
+                    <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1 ">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
                           <span>
@@ -146,7 +146,7 @@ export default function SearchPage({ user }) {
                           </span>
                         ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-400 flex-col sm:flex-row ml-2 mr-2">
+                      <p className="text-gray-600 dark:text-gray-400 flex-col md:flex-row ml-2 mr-2">
                         {match && match.field === "about" ? (
                           <span>
                             {beforeMatch}
@@ -220,8 +220,8 @@ export default function SearchPage({ user }) {
               return (
                 <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center">
                   <Link href={`/opportunity/${result.opportunity_id}`}>
-                    <div className="p-6 flex flex-col items-center justify-center h-full">
-                      <h2 className="text-xl font-semibold mb-2">
+                    <div className="p-6 flex flex-col items-start justify-center h-full">
+                      <h2 className="text-xl font-semibold ml-5 mb-2">
                         {match && match.field === "title" ? (
                           <span>
                             {beforeMatch}
@@ -243,7 +243,7 @@ export default function SearchPage({ user }) {
                           </span>
                         ) : result.content.length > 80 ? result.content.substring(0, 80) + "..." : result.content}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm">
                         Views: {result.views}<br />
                       </p>
                     </div>
