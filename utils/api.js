@@ -428,7 +428,7 @@ export async function changeProfileLink(user_id, newLink) {
 
 // Define the sendRequest function to make API requests
 let simulateError = false;
-const MAX_REQUESTS_RATE = 6;
+const MAX_REQUESTS_RATE = 3;
 const TIME_WINDOW = 1000;
 
 let queue = [];
