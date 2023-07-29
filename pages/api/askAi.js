@@ -20,7 +20,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 async function handler(req, res) {
     // Check if user is logged in
     try {
-    await limiter.check(res, 5, 'CACHE_TOKEN');
+    await limiter.check(res, 5, 'CACHE_TOKEN', req);
     } catch(e) {
         return res.status(429).json({ error: "I'm overloaded! Try me again in a minute." });
     }

@@ -83,7 +83,7 @@ const AboutSection = ({
         setAiError("Unexpected Error" );
         return;
       }
-      setNewAbout(res.data.gptResponse.content);
+      setNewAbout(res.data.gptResponse.content.length > 1000 ? res.data.gptResponse.content.substring(0,1000) : res.data.gptResponse.content);
 
       setAiPrompt("");
 
@@ -91,7 +91,7 @@ const AboutSection = ({
     } catch (error) {
       console.log(error.response);
       setAiSubmitting(false);
-      setAiError(error.response.data.error ?? "Unexpected Error" );
+      setAiError(error.response?.data?.error ?? "Unexpected Error" );
 
     }
   };

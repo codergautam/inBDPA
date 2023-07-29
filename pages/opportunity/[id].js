@@ -15,7 +15,12 @@ import Link from "next/link"
 import { sanitize, isSupported } from "isomorphic-dompurify";
 
 import OpportunityForm from "@/components/OpportunityForm"
+import rateLimit from "@/utils/rateLimit"
 
+const limiter = rateLimit({
+  interval: 60 * 60 * 1000, // 1 hr
+  uniqueTokenPerInterval: 1000,
+})
 
 async function updateInfo(opportunity_id) {
     console.log("Updating")
@@ -212,12 +217,20 @@ export const getServerSideProps = withIronSessionSsr(async ({
       }
     }
 
+    let increase = true;
+    try {
+      await limiter.check(res, 2, 'viewOpportunity'+params?.id, req)
+    } catch(e) {
+      increase = false;
+    }
+    if(increase) {
     try {
         await incrementOpportunityViews(params.id)
         await increaseOpportunityViewCountMongo(params.id)
     } catch (error) {
         console.log(`Error incrementing views on Opportity ${params.id}: ${error} `)
     }
+  }
     let active = (await countSessionsForOpportunity(params.id)).active
     let opportunity = (await getOpportunity(params.id)).opportunity;
     if(opportunity) {
