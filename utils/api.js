@@ -37,7 +37,7 @@ const profileSchema = new Schema({
   connections: [String],
   pfp: String,
   banner: String,
-  forceLogout: Boolean,
+  forceLogout: Date,
   refreshSession: Boolean,
 });
 
@@ -769,12 +769,9 @@ export async function refreshSession(userId, refreshSession) {
   })
 }
 
-export async function forceLogoutUserStatus(userId, status) {
-  let returnVal
-  if(status) {
-    console.log("Now Forcing Logout")
+export async function setForceLogout(userId, date) {
     try {
-      await Profile.updateOne({user_id: userId},{ $set: { forceLogout: true } }, {
+      await Profile.updateOne({user_id: userId},{ $set: { forceLogout: date } }, {
               new: true,
               upsert: true
             })
@@ -784,25 +781,6 @@ export async function forceLogoutUserStatus(userId, status) {
       console.log("error: " + error)
       return {success:false}
     }
-  } else {
-    console.log("Lifting force")
-    try {
-      await Profile.updateOne({user_id: userId},{
-        $set: {
-          forceLogout: false
-        }
-            }, {
-              new: true,
-              upsert: true
-            })
-            console.log("Updated profile by removing")
-            return {success:true}
-    } catch (error) {
-      console.log("error: " + error)
-      return {success:false}
-    }
-    return;
-  }
 }
 
 export async function getUserFromMongo(userId) {

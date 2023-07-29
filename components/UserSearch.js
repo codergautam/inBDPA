@@ -206,13 +206,12 @@ export default function UserSearch() {
       {outputUser ? (
         <div className="text-center text-gray-700 dark:text-white">
           <Link
-            className="text-3xl font-bold mt-4 text-green-500"
+            className="text-3xl border-b-4 border-gray-300 dark:border-gray-700 pb-1 font-bold mt-4 text-green-500"
             href={"/profile/" + outputUser.link}
           >
             {outputUser.username}
           </Link>
-          <hr className="mt-1 max-w-md mx-auto" />
-          <p className="text-xl mt-1 truncate">{outputUser.email}</p>
+          <p className="text-xl mt-4 truncate">{outputUser.email}</p>
           <div className="sm:flex space-x-3 w-fit mx-auto">
             <p className="text-xl mt-2 flex mx-auto md:mx-0 w-fit">
               <span className="text-gray-500 dark:text-gray-400 pr-1">
@@ -266,7 +265,7 @@ export default function UserSearch() {
               >
                 Impersonate{" "}
                 <FontAwesomeIcon
-                  className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out"
+                  className="my-auto ml-2 text-gray-300 dark:text-blue-300 group-hover:text-white transition duration-300 ease-in-out"
                   icon={faMask}
                 ></FontAwesomeIcon>
               </button>
@@ -281,7 +280,7 @@ export default function UserSearch() {
               >
                 Force to Log Out{" "}
                 <FontAwesomeIcon
-                  className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out"
+                  className="my-auto ml-2 text-gray-300 dark:text-blue-300 group-hover:text-white transition duration-300 ease-in-out"
                   icon={faRightFromBracket}
                 ></FontAwesomeIcon>
               </button>
