@@ -38,31 +38,39 @@ const App = ({ Component, pageProps }) => {
 
 
   useEffect(() => {
-    forcedLogoutRef.current = setInterval(async ()=> {
+    const checkStuff = async () => {
+      console.log("hello")
       // console.log(`Date: ${Date.now()}`)
       let data = await fetch("/api/admin/userUpdates").then(res => res.json())
       // console.log("Data for Forced Logout: ", data)
-      if(data.forceLogout) {
-        // console.log("Must logout :(")
-        let moreData = await fetch("/api/admin/userUpdates", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                status: false
-            })
-        }).then(res => res.json());
-        // console.log("More Data: ", moreData)
-        if(moreData.success) {
-          alert("You were forced to log out by an admin")
-          router.push("/api/auth/logout")
-        }
-      } else if(data.shouldRefresh) {
-        alert("Your user type has been updated by an admin")
+      let minutes = 1
+      let d = (new Date(data.forceLogout))
+      console.log("pure: ", data.forceLogout)
+      console.log("Date for Logout: ", d)
+      console.log(`${minutes} Minute(s): `, (Math.pow(10, 3) * 60 * minutes))
+      console.log("Difference: ", (new Date()).getTime() - d.getTime())
+      if(data.imp && data.leave) {
+        alert("This user has been forced to logout, you're now returning to admin")
         router.reload()
+        return;
       }
-    }, 5000)
+      if((new Date()).getTime() - (new Date(data.forceLogout)).getTime() < (Math.pow(10, 3) * 60 * minutes)){
+        await fetch("/api/admin/userUpdates", {
+          method: "POST",
+          headers: {
+            "Content-Type" : "application/json"
+          }
+        }).then(res => res.json())
+        alert("You were forced to log out by an admin")
+        router.push("/api/auth/logout")
+      } else if(data.shouldRefresh) {
+          alert("Your user type has been updated by an admin")
+          router.reload()
+          return;
+      }
+    }
+    checkStuff()
+    forcedLogoutRef.current = setInterval(checkStuff, 5000)
     const start = () => {
       setLoading(true);
     };
@@ -73,6 +81,7 @@ const App = ({ Component, pageProps }) => {
     router.events.on("routeChangeComplete", end);
     router.events.on("routeChangeError", end);
     return () => {
+      if(typeof forceLogoutRef !== "undefined" && typeof forceLogoutRef.current !== "undefined" && forceLogoutRef.current) clearTimeout(forceLogoutRef.current)
       router.events.off("routeChangeStart", start);
       router.events.off("routeChangeComplete", end);
       router.events.off("routeChangeError", end);

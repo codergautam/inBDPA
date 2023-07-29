@@ -1,9 +1,7 @@
-import { authenticateUser, forceLogoutUserStatus, getUserByUsername, getUserFromMongo, loginUser, refreshSession, updateUser } from "@/utils/api";
-import { NextResponse } from "next/server";
+import { setForceLogout, getUser, getUserFromMongo } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 
 import { ironOptions } from "@/utils/ironConfig";
-import { convertHexToBuffer } from "@/utils/encryptPassword";
 export default withIronSessionApiRoute(handler, ironOptions);
 
  async function handler(req, res) {
@@ -11,27 +9,23 @@ export default withIronSessionApiRoute(handler, ironOptions);
     return res.json({success: false, error: "You aren't logged in"})
   }
   if(req.method == "POST") {
-    let userId, status
+    let {userId} = req.body
     if(req.session.user.type == "administrator") {
       //Forcing logout from admin view
       userId = req.body.userId
-      status = req.body.status
+      let data = await setForceLogout(userId, (new Date()))
+      return res.json(data)
     } else {
       //This is a regular user disabling their forced logout status
       userId = req.session.user.id
-      status = req.body.status
-      if(status != false) {
-        return res.json({success: false, error: "You aren't able to force logout others or yourself"})
-      }
+      let d = new Date()
+      //Makes it impossible for them to be forced out again, this prevents them from logging back in and being logged out again
+      let data = await setForceLogout(userId, (new Date(d.getTime() - (Math.pow(10, 3) * 60 * 1.2))))
+      return res.json(data)
     }
-    console.log(`Status: ${status}`)
-    let data = await forceLogoutUserStatus(userId, status)
-    return res.json(data)
   } else if(req.method == "GET") {
     if(req.session.user.type == "administrator") {
-        return res.json({success:true, forceLogout: false})
-    } else if(req.session.user.impersonating) {
-      return res.redirect("/returnToAdmin")
+        return res.json({success:true})
     } else {
         const userId = req.session.user.id
         let user = await getUserFromMongo(userId)
@@ -48,9 +42,31 @@ export default withIronSessionApiRoute(handler, ironOptions);
           //No longer needs to reset session
           await refreshSession(userId, false)
         }
+
+        ///If they must be forced to logout but impersonation is occuring
+        if((new Date()).getTime() - (new Date(user.forceLogout)).getTime() < (Math.pow(10, 3) * 60)) {
+          if(req.session.user.impersonating) {
+            console.log("Impersonation going on")
+      
+            let adminId = req.session.user.adminId;
+            let adminLink = req.session.user.adminLink
+            let user = await getUser(adminId);
+        
+            // store in session
+            if(user.success) {
+                req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: adminLink, salt: user.user.salt, key: user.user.key};
+                console.log(req.session.user);
+                await req.session.save();
+                return res.json({success: true, leave: true, imp: true})
+            } else {
+                return res.send({success: false});
+            }
+          }
+        }
+
         console.log("User for checking for logout: ", user)
         if(user) {
-            return res.json({success: true, forceLogout: user.forceLogout, shouldRefresh })
+            return res.json({ success: true, forceLogout: user.forceLogout, shouldRefresh })
         }
     }
     // return res.json({success: false})
