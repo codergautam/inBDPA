@@ -20,6 +20,7 @@ export default function UserSearch() {
     const [outputUser, setOutputUser] = useState(null)
     const [outputUserStatus, setOutputUserStatus] = useState("")
     const [promotionDisabled, setPromotionDisabled] = useState(false)
+    const [suggestions, setSuggestions] = useState([]);
 
     const [query, setQuery] = useState("")
     let promotionRef
@@ -51,17 +52,31 @@ export default function UserSearch() {
     }
     let debounceTimer = useRef(null)
 
-    const checkForUser = async (value) => {
+    const checkForUser = async (value, change=true) => {
         // Clear the previous debounce timer
         clearTimeout(debounceTimer.current);
 
         // Set the loading status while typing
-        setOutputUserStatus("...");
+        if(change) setOutputUserStatus("...");
 
         // Create a new debounce timer
         debounceTimer.current = setTimeout(async () => {
             console.log(value);
-            let users
+            let users = await fetch("/api/search", {
+                headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({ query: value }),
+                  method: "post"
+            });
+            try {
+                users = await users.json();
+            } catch (e) {
+                console.log(e);
+            }
+            if(users?.users) {
+            setSuggestions(users.users.slice(0, 3).map(e=>e.username))
+            }
             let user = await fetch("/api/getUser", {
                 next: {
                     revalidate: 2
@@ -124,7 +139,6 @@ export default function UserSearch() {
     const forceLogoutUser = async (id) => {
         clearTimeout(promotionRef)
         setOutputUser(null)
-        setQuery("")
         setOutputUserStatus("...")
         let data = await fetch("/api/admin/userUpdates", {
             method: "POST",
@@ -141,16 +155,17 @@ export default function UserSearch() {
         if(data.success) {
             setOutputUserStatus(`Forced ${outputUser.username} to logout`)
             promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            await checkForUser(query, false)
         } else {
-            setOutputUserStatus(`Failed to forcefully logout ${outputUser.username}, ecountered error: ${data.error}`)
+            setOutputUserStatus(`Failed to forcefully logout ${outputUser.username}, encountered error: ${data.error}`)
             promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            await checkForUser(query, false)
         }
     }
 
     const changeUserType = async (id, newPos) => {
         clearTimeout(promotionRef)
         setOutputUser(null)
-        setQuery("")
         setOutputUserStatus("...")
         let data = await fetch("/api/admin/updateUserType", {
             method: "POST",
@@ -167,9 +182,11 @@ export default function UserSearch() {
         if(data.success) {
             setOutputUserStatus("Changed User to " + newPos)
             promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            await checkForUser(query, false)
         } else {
             setOutputUserStatus("Failed to change user type, ecountered error: " + data.error)
             promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            await checkForUser(query, false)
         }
     }
 
@@ -184,6 +201,15 @@ export default function UserSearch() {
           <p className="text-center text-xl font-bold dark:text-gray-300 mt-4">
               {outputUserStatus}
           </p>
+          <div className="flex">
+          {suggestions.map((e,i) => {
+            return (
+                <p className="text-center text-xl font-bold dark:text-gray-300 mt-4" key={i}>
+                    {e}
+                </p>
+            )
+          })}
+          </div>
           {outputUser ? <div className="text-center text-gray-700 dark:text-white">
               <Link className="text-2xl font-bold mt-4" href={"/profile/"+outputUser.link}>
                   {outputUser.username}
