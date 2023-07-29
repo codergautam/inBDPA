@@ -64,9 +64,7 @@ export default function Navbar({ user,showSearch=true }) {
             onClick={() => setNavHidden(!navhidden)}
           >
             <path d="M 3 8 A 2.0002 2.0002 0 1 0 3 12 L 47 12 A 2.0002 2.0002 0 1 0 47 8 L 3 8 z M 3 23 A 2.0002 2.0002 0 1 0 3 27 L 47 27 A 2.0002 2.0002 0 1 0 47 23 L 3 23 z M 3 38 A 2.0002 2.0002 0 1 0 3 42 L 47 42 A 2.0002 2.0002 0 1 0 47 38 L 3 38 z"></path>
-          </svg>
-        </div>
-        <div className="relative">
+          </svg>        <div className="relative hidden md:inline">
         { showSearch ? (
           <>
         <input
@@ -84,9 +82,11 @@ export default function Navbar({ user,showSearch=true }) {
         </div>
         </>
         ) : null}
+        </div>
+
 
       </div>
-        <div className="hidden md:flex items-end h-min flex-row rounded-b-lg bg-gray-900 md:place place-items-end">
+        <div className="hidden md:flex items-end h-min flex-row rounded-b-lg bg-gray-50 dark:bg-gray-900 md:place place-items-end">
           {user && user.impersonating && (
             <>
               <button
@@ -175,7 +175,7 @@ export default function Navbar({ user,showSearch=true }) {
       <div
         className={
           navhidden
-            ? "items-center w-fit flex flex-col gap-y-1 pr-3 pl-3 place-self-end pb-6 pt-6 rounded-b-lg bg-gray-900 md:hidden mt-16 absolute z-10 border-t-0 border"
+            ? "items-center w-fit flex flex-col gap-y-1 pr-3 pl-3 place-self-end pb-6 pt-6 rounded-b-lg bg-gray-50 dark:bg-gray-900 md:hidden mt-16 absolute z-10 border-t-0 border"
             : "hidden"
         }
       >
