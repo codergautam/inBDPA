@@ -74,7 +74,7 @@ export default function UserCreation() {
       </p>
       {showingForm && (
         <div className="flex flex-col items-center">
-          <p className="text-2xl sm:text-3xl lg:text-4xl text-gray-700 dark:text-white font-bold mb-4">
+          <p className="text-2xl sm:text-3xl lg:text-4xl text-blue-600 font-bold mb-4">
             Create a New User
           </p>
           <div className="w-5/6">
@@ -114,7 +114,7 @@ export default function UserCreation() {
             </select>
             <button
               onClick={handleSubmit}
-              className="bg-gray-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-full mt-2 rounded-lg text-white px-6 py-3 text-xl"
+              className="bg-green-500 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-full mt-2 rounded-lg text-white px-6 py-3 text-xl"
             >
               Submit
             </button>

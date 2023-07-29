@@ -300,7 +300,7 @@ export default function Login() {
               </div>
               {areAllFieldsFilled() ? (
                 <button
-                  className="w-full text-white bg-emerald-600 hover:bg-emerald-700 focus:ring-4 focus:outline-none focus:ring-emerald-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-emerald-600 dark:hover:bg-emerald-700 dark:focus:ring-emerald-800"
+                  className="w-full text-white bg-green-400 hover:bg-green-500 focus:ring-4 focus:outline-none focus:ring-green-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                   type="submit"
                   disabled={remainingAttempts === 0 || !areAllFieldsFilled()}
                 >
