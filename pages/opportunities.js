@@ -249,8 +249,13 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     }
   }
 
-  let type = (await getUserFromMongo(req.session.user.id)).type;
-  req.session.user.type = type;
+  if(req.session.user) {
+  let user = (await getUserFromMongo(req.session.user.id));
+  if(user && user.link && user.type) {
+
+  req.session.user.type = user.type;
+  }
+  }
 
   return {
     props: { user: req.session.user ?? null },
