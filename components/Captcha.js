@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import ErrorComponent from "pages/auth/ErrorComponent.js";
 
-export default function Captcha({ setSolved, solvedyesno, setShowModal }) {
+export default function Captcha({
+  setSolved,
+  solvedyesno,
+  setShowModal,
+  submitForm,
+}) {
   const [captchaCode, setCaptchaCode] = useState("");
   const [solved, setSolvedState] = useState(solvedyesno);
   const [userInput, setUserInput] = useState("");
@@ -70,7 +75,7 @@ export default function Captcha({ setSolved, solvedyesno, setShowModal }) {
       // -----------
       setSolved(false);
       setSolvedState(false);
-      setValidationStatus("");
+      setValidationStatus("invalid");
     } else {
       return;
     }
@@ -81,6 +86,7 @@ export default function Captcha({ setSolved, solvedyesno, setShowModal }) {
       setSolved(true);
       setSolvedState(true);
       setValidationStatus("valid");
+      submitForm(null, true);
     } else {
       createCaptcha();
       setValidationStatus("invalid");

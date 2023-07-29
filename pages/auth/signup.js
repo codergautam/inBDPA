@@ -81,6 +81,75 @@ export default function Signup() {
     submityesno,
   ]);
 
+  const submitForm = (event, fromCaptcha=false) => {
+    if (!areAllFieldsFilled() && !captchaSolved) {
+      setSuccess(null);
+      setError("Please solve the captcha.");
+      setSubmitYesNo(false);
+    } else if (areAllFieldsFilled() && (captchaSolved || fromCaptcha)) {
+      setError(null);
+      <ErrorComponent
+        error={"User Created"}
+        side="bottom"
+        color="green"
+        blocked={false}
+        setError={setSuccess}
+        attempterror={false}
+      />;
+      setError(null);
+      setSubmitYesNo(true);
+    } else if (areAllFieldsFilled() && !captchaSolved) {
+      setSuccess(null);
+      <ErrorComponent
+      error={"Please fill out all fields."}
+      side="bottom"
+      color="red"
+      blocked={false}
+      setError={setError}
+      attempterror={false}
+    />
+      setSubmitYesNo(false);
+    } else {
+      setSuccess(null);
+      setError("Please fill out all fields.");
+      setSubmitYesNo(false);
+    }
+    if(event) event?.preventDefault();
+    setBtnText("Signing up...");
+    fetch("/api/auth/signup", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: name,
+        email,
+        password,
+        rememberMe,
+        changeUser: true,
+      }),
+      credentials: "include",
+    })
+      .then((response) => {
+        response.json().then((data) => {
+          if (data.error) {
+            setSubmitYesNo(false);
+            setSuccess(null);
+            setError(data.error);
+            return;
+          }
+          // Redirect to home page
+          window.location.href = "/";
+        });
+      })
+      .catch((error) => {
+        setSubmitYesNo(false);
+        setBtnText("Sign up");
+        setSuccess(null);
+        setError("An error occurred while signing up.");
+      });
+  }
+
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900 h-screen">
@@ -101,65 +170,7 @@ export default function Signup() {
               </h1>
               <form
                 className="space-y-1 "
-                onSubmit={(event) => {
-                  if (!areAllFieldsFilled() && !captchaSolved) {
-                    setSuccess(null);
-                    setError("Please solve the captcha.");
-                    setSubmitYesNo(false);
-                  } else if (areAllFieldsFilled() && captchaSolved) {
-                    <ErrorComponent
-                      error={success}
-                      side="bottom"
-                      color="green"
-                      blocked={false}
-                      setError={setSuccess}
-                      attempterror={false}
-                    />;
-                    setSubmitYesNo(true);
-                  } else if (areAllFieldsFilled() && !captchaSolved) {
-                    setSuccess(null);
-                    setError("Please fill out all fields.");
-                    setSubmitYesNo(false);
-                  } else {
-                    setSuccess(null);
-                    setError("Please fill out all fields.");
-                    setSubmitYesNo(false);
-                  }
-                  event.preventDefault();
-                  setBtnText("Signing up...");
-                  fetch("/api/auth/signup", {
-                    method: "POST",
-                    headers: {
-                      "Content-Type": "application/json",
-                    },
-                    body: JSON.stringify({
-                      username: name,
-                      email,
-                      password,
-                      rememberMe,
-                      changeUser: true,
-                    }),
-                    credentials: "include",
-                  })
-                    .then((response) => {
-                      response.json().then((data) => {
-                        if (data.error) {
-                          setSubmitYesNo(false);
-                          setSuccess(null);
-                          setError(data.error);
-                          return;
-                        }
-                        // Redirect to home page
-                        window.location.href = "/";
-                      });
-                    })
-                    .catch((error) => {
-                      setSubmitYesNo(false);
-                      setBtnText("Sign up");
-                      setSuccess(null);
-                      setError("An error occurred while signing up.");
-                    });
-                }}
+                onSubmit={submitForm}
               >
                 <div>
                   <label
@@ -419,12 +430,14 @@ defaultValue=""
                               <Captcha
                                 setSolved={setSolved}
                                 solvedyesno={true}
+                                submitForm={submitForm}
                                 setShowModal={setShowModal}
                               />
                             ) : (
                               <Captcha
                                 setSolved={setSolved}
                                 solvedyesno={false}
+                                submitForm={submitForm}
                                 setShowModal={setShowModal}
                               />
                             )}
