@@ -10,6 +10,7 @@ config();
 
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 const MONGO_URI = process.env.MONGO_URI;
+const MONGODB_API_WAIT_TIME = 1500;
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -153,7 +154,7 @@ async function getAllUserConnections(userId) {
     }
 
     connections.push(...d.connections);
-    await wait(1000);
+    await wait(MONGODB_API_WAIT_TIME);
   }
   return connections;
 }
@@ -192,11 +193,11 @@ async function getAllOpportunities(lastUpdated) {
       if(fullData && fullData.success && fullData.opportunity) {
         d.opportunities[i].content = fullData.opportunity.contents;
       }
-      await wait(1000);
+      await wait(MONGODB_API_WAIT_TIME);
     }
 
     opportunities.push(...d.opportunities);
-    await wait(1000);
+    await wait(MONGODB_API_WAIT_TIME);
   }
   return opportunities;
 }
@@ -236,7 +237,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   }
 
   latestUsers.push(...d.users);
-  await wait(1000);
+  await wait(MONGODB_API_WAIT_TIME);
   }
 
   console.log("Updating database...", latestUsers.length, "users");
