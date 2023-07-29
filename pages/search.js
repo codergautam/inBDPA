@@ -8,7 +8,7 @@ import { ironOptions } from "@/utils/ironConfig";
 export default function SearchPage({ user }) {
   // Placeholder data for search results
   const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState({ error: "You can search for users usernames and their about!" });
+  const [searchResults, setSearchResults] = useState({ error: "You can search for users usernames and their about sections!" });
   const [ms, setMs] = useState(0);
   const [timeoutId, setTimeoutId] = useState();
   const [displayedUsers, setDisplayedUsers] = useState(3);
@@ -72,9 +72,7 @@ export default function SearchPage({ user }) {
               value={searchQuery}
               onChange={handleInputChange}
               className="bg-gray-200 dark:bg-gray-700 h-16 px-5 pr-10 rounded-full text-lg focus:outline-none w-full"
-
             />
-
           </div>
 
           {/* Display Search Results */}
@@ -133,26 +131,26 @@ export default function SearchPage({ user }) {
               }
 
               return (
-                <div key={index} className="flex flex-row rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center content-center">
-                    <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row rounded-full content-center mt-2 ml-2 mb-2 w-24 h-24" />
+                <div key={index} className="flex rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto xxs:flex-col sm:flex-row text-center content-center sm:text-base xxs:text-sm">
+                    <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row xxs:self-center rounded-full mt-2 ml-2 mb-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex flex-row items-center content-center h-full ml-1 ">
+                    <div className="p-6 flex sm:flex-row items-center content-center h-full xxs:flex-col ml-1 ">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
                           <span>
                             {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500">
+                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
                               {matched}
                             </span>
                             {afterMatch}
                           </span>
                         ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-400 flex-row ml-2 mr-2">
+                      <p className="text-gray-600 dark:text-gray-400 xxs:flex-col sm:flex-row ml-2 mr-2">
                         {match && match.field === "about" ? (
                           <span>
                             {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500">
+                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
                               {matched}
                             </span>
                             {afterMatch}
@@ -227,7 +225,7 @@ export default function SearchPage({ user }) {
                         {match && match.field === "title" ? (
                           <span>
                             {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500">
+                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
                               {matched}
                             </span>
                             {afterMatch}
@@ -238,7 +236,7 @@ export default function SearchPage({ user }) {
                         {match && match.field === "content" ? (
                           <span>
                             {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500">
+                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
                               {matched}
                             </span>
                             {afterMatch}
