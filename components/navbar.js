@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask, faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-export default function Navbar({ user, queryText="" }) {
+export default function Navbar({ user, queryText = "" }) {
   const [navhidden, setNavHidden] = useState(false);
 
   const router = useRouter();
@@ -67,7 +67,9 @@ export default function Navbar({ user, queryText="" }) {
             onClick={() => setNavHidden(!navhidden)}
           >
             <path d="M 3 8 A 2.0002 2.0002 0 1 0 3 12 L 47 12 A 2.0002 2.0002 0 1 0 47 8 L 3 8 z M 3 23 A 2.0002 2.0002 0 1 0 3 27 L 47 27 A 2.0002 2.0002 0 1 0 47 23 L 3 23 z M 3 38 A 2.0002 2.0002 0 1 0 3 42 L 47 42 A 2.0002 2.0002 0 1 0 47 38 L 3 38 z"></path>
-          </svg>       <div className="relative w-full md:w-72 lg:w-96 hidden md:inline">
+          </svg>{" "}
+          
+        </div><div className="relative w-full md:w-72 lg:w-96 hidden md:inline">
             {user && (
               <>
                 <input
@@ -94,10 +96,7 @@ export default function Navbar({ user, queryText="" }) {
               </>
             )}
           </div>
-
-
-      </div>
-        <div className="hidden md:flex items-end h-min flex-row rounded-b-lg bg-gray-50 dark:bg-gray-900 md:place place-items-end">
+        <div className="hidden md:flex items-end h-min flex-row rounded-b-lg bg-gray-50 dark:bg-gray-900 md:place place-items-center">
           {user && user.impersonating && (
             <>
               <button
@@ -265,8 +264,8 @@ export default function Navbar({ user, queryText="" }) {
             </Link>
           </>
         )}
-               <div className="relative w-min">
-          { user ? (
+        <div className="relative w-min">
+          {user ? (
             <>
               <input
                 type="text"
@@ -278,13 +277,12 @@ export default function Navbar({ user, queryText="" }) {
               <div className="w-min absolute top-0 left-0 ml-2 mt-1">
                 <FontAwesomeIcon
                   icon={faSearch}
-                onClick={handleSearch}
+                  onClick={handleSearch}
                   className="text-gray-400 dark:text-white cursor-pointer"
                 />
               </div>
-
             </>
-          ) : null }
+          ) : null}
         </div>
       </div>
     </>
