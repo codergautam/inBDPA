@@ -59,13 +59,13 @@ export default function SearchPage({ user, query="" }) {
 
 
   return (
-    <div className="text-black bg-black flex flex-col min-h-screen">
+    <div className="text-black bg-black flex flex-col min-h-screen ">
       <Head>
         <title>inBDPA - Home</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
       <Navbar user={user} />
-      <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-900 w-screen flex-grow">
+      <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
         <div className="container px-5 py-24 mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
             Search:
