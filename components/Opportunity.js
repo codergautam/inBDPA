@@ -21,7 +21,6 @@ async function updateInfo(opportunity_id) {
     return { views: "N/A", active: "N/A" };
   }
 }
-
 const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportunity, setEditingOpportunity, setTitle, setValue }) => {
 
 //   useEffect(() => {
@@ -67,7 +66,9 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
   }
 
   return (
-    <div className="p-4 mb-4 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400  hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md shadow-lg cursor-pointer transition duration-200 ease-in-out">
+    
+    <div className="p-4 mb-4 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400  hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md shadow-xl cursor-pointer transition duration-200 ease-in-out content-normal">
+  
     <Link href={`/opportunity/${opportunity.opportunity_id}`}>
 
       <p className="text-xl font-semibold overflow-hidden dark:text-gray-300">{opportunity.title}</p>
