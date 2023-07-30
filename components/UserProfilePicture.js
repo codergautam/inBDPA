@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
-import md5 from 'blueimp-md5';
 import Cropper from 'react-easy-crop'
 
-const UserProfilePicture = ({ editable, email, pfp }) => {
+const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
   const [cropArea, setCropArea] = useState({x: 0, y: 0, width: 0, height: 0})
   const [zoom, setZoom] = useState(1)
@@ -10,7 +9,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
   const [isGravatar, setIsGravatar] = useState(!pfp || pfp === 'gravatar');
   const [selectedFile, setSelectedFile] = useState(null);
   const [imageSrc, setImageSrc] = useState(
-    (!pfp || pfp==='gravatar') ? `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${pfp}`
+    (!pfp || pfp==='gravatar') ? `https://www.gravatar.com/avatar/${hashedEmail}?d=identicon` : `/api/public/pfps/${pfp}`
   );
   const [previewSrc, setPreviewSrc] = useState(imageSrc);
   const [fileSet, setFileSet] = useState(false);
@@ -41,7 +40,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
       setSaving(false);
 
       if (response.ok) {
-        const gravatarUrl = `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon`;
+        const gravatarUrl = `https://www.gravatar.com/avatar/${hashedEmail}?d=identicon`;
         setImageSrc(gravatarUrl);
         setPreviewSrc(gravatarUrl);
         setIsOpen(false);
@@ -100,7 +99,7 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
     setIsGravatar(e.target.value === 'gravatar');
     if (e.target.value === 'gravatar') {
       setSelectedFile(null);
-      setPreviewSrc(`https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon`);
+      setPreviewSrc(`https://www.gravatar.com/avatar/${hashedEmail}?d=identicon`);
     } else {
       setSelectedFile(null);
     }
