@@ -127,6 +127,11 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           alert('Please fill out all the skills.');
           return;
         }
+        // Make sure skill is alphanumeric (dashes and underscore allowed)
+        if (!item.match(/^[a-zA-Z0-9-_]+$/)) {
+          alert('Skills cannot contain special characters.');
+          return;
+        }
       }
     }
 
@@ -280,9 +285,9 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                     </>
                   ) : (
                     <input
-                      className="border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
+                      className="border border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                       placeholder="Skill"
-                      maxLength={MAX_TITLE_LENGTH}
+                      maxLength={30}
                       value={item}
                       onChange={(e) => updateItem(index, undefined, e.target.value)}
                     />
