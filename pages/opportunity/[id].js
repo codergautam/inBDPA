@@ -163,10 +163,10 @@ export default function Opportunity({user, opportunity, activeSessions}) {
               {opportunity.title}
             </p>
             <p className="flex text-gray-600 dark:text-gray-100 text-lg w-min min-w-max mx-auto mt-2 space-x-2">
-  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 rounded">
+  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 rounded-xl">
    Views: {views}
   </span>
-  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 rounded">
+  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 rounded-xl">
     Active Viewers:  {isNaN(active) ? active : Math.max(active, 1)}
 
   </span>
@@ -174,14 +174,14 @@ export default function Opportunity({user, opportunity, activeSessions}) {
 
             {opportunity.creator_id == user.id ? (
               <div className='flex space-x-2 mt-2 mx-auto w-min min-w-max'>
-                <span onClick={() => deleteOpportunity(opportunity.opportunity_id)} className="cursor-pointer rounded flex bg-red-500 hover:bg-rose-500 p-1 transition duration-300 ease-in-out">
+                <span onClick={() => deleteOpportunity(opportunity.opportunity_id)} className="cursor-pointer rounded-md text-red-50 flex bg-red-600 hover:bg-red-500 p-1 transition duration-300 ease-in-out">
                   Delete <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faTrash} />
                 </span>
                 <span onClick={() => {
                   setEditingOpportunity(opportunity)
                   setTitle(opportunity.title)
                   setValue(opportunity.contents)
-                }} className="cursor-pointer rounded flex bg-orange-400 hover:bg-amber-500 p-1 transition duration-300 ease-in-out">
+                }} className="cursor-pointer rounded-md flex bg-orange-600 hover:bg-orange-500 p-1 text-orange-50 transition duration-300 ease-in-out">
                   Edit <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faPenNib} />
                 </span>
               </div>

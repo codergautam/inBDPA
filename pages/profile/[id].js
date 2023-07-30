@@ -27,7 +27,7 @@ import rateLimit from "@/utils/rateLimit";
 const limiter = rateLimit({
   interval: 60 * 60 * 1000, // 1 hr
   uniqueTokenPerInterval: 1000,
-})
+});
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
   return new Promise((resolve, reject) => {
@@ -197,8 +197,6 @@ export default function Page({
 
             {editable ? <LinkChanger link={link} /> : null}
 
-
-
             {user ? (
               <>
                 {editable ? null : (
@@ -299,8 +297,9 @@ export default function Page({
                       className="w-full p-4 group mt-4 border-gray-700 border-b"
                       key={section}
                     >
-                  <h2 className="text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
-                        {section.charAt(0).toUpperCase() + section.slice(1, section.length)}
+                      <h2 className="text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
+                        {section.charAt(0).toUpperCase() +
+                          section.slice(1, section.length)}
                       </h2>
                       <UserInfo
                         type={section}
@@ -315,20 +314,17 @@ export default function Page({
           </>
         ) : (
           <>
-  <h1 className="text-3xl font-semibold text-gray-900 dark:text-white pt-5 ">
-    {error ?? "Unexpected Error"}
-  </h1>
-  <Link
-    href="/"
-    className="text-xl text-gray-900 dark:text-white mt-2 mb-4 bg-blue-200 p-2 rounded-sm dark:bg-blue-800"
-  >
-    Return to home page
-  </Link>
-  <div className="h-screen w-full bg-white dark:bg-gray-800">
-  </div>
-</>
-
-
+            <h1 className="text-3xl font-semibold text-gray-900 dark:text-white pt-5 ">
+              {error ?? "Unexpected Error"}
+            </h1>
+            <Link
+              href="/"
+              className="text-xl text-gray-900 dark:text-white mt-2 mb-4 bg-blue-200 p-2 rounded-sm dark:bg-blue-800"
+            >
+              Return to home page
+            </Link>
+            <div className="h-screen w-full bg-white dark:bg-gray-800"></div>
+          </>
         )}
       </main>
     </div>
@@ -391,22 +387,24 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     //     console.log("ratelimited", e);
     //     view = false
     //   }
-      if(view) {
-    try {
-      console.log("Incrementing")
-      await incrementUserViews(requestedUser?.user_id);
-      await increaseViewCountMongo(requestedUser?.user_id);
-    } catch (e) {
-      console.log(e);
-    }
+    if (view) {
+      try {
+        console.log("Incrementing");
+        await incrementUserViews(requestedUser?.user_id);
+        await increaseViewCountMongo(requestedUser?.user_id);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
   let pfp;
   let banner;
   if (requestedUser) {
     const data = await getUserFromMongo(requestedUser?.user_id);
-    if(!data.username) {
-      await updateUserMongo(requestedUser?.user_id, {username: requestedUser.username});
+    if (!data.username) {
+      await updateUserMongo(requestedUser?.user_id, {
+        username: requestedUser.username,
+      });
     }
     pfp = data.pfp;
     banner = data.banner;

@@ -21,7 +21,6 @@ async function updateInfo(opportunity_id) {
     return { views: "N/A", active: "N/A" };
   }
 }
-
 const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportunity, setEditingOpportunity, setTitle, setValue }) => {
 
 //   useEffect(() => {
@@ -67,24 +66,27 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
   }
 
   return (
-    <div className="p-4 mb-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md shadow-lg cursor-pointer  transition duration-200 ease-in-out">
+    
+    <div className="p-4 mb-4 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400  hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md shadow-xl cursor-pointer transition duration-200 ease-in-out content-normal">
+  
     <Link href={`/opportunity/${opportunity.opportunity_id}`}>
 
-      <p className="text-lg font-semibold overflow-clip">{opportunity.title}</p>
-      <p className="text-sm text-gray-500 dark:text-gray-200">
+      <p className="text-xl font-semibold overflow-hidden dark:text-gray-300">{opportunity.title}</p>
+      <p className="text-xs ml-1">
         {msToTime(Date.now() - opportunity.createdAt)} ago
       </p>
-      <p className="text-sm text-gray-500 dark:text-gray-200">Views: {opportunity.views}</p>
-      <p className="text-sm text-gray-600 dark:text-gray-200 ">
+
+      <p className="text-sm bg-gray-300 dark:bg-gray-600 dark:text-gray-300 w-fit px-1 mt-1 rounded-xl">Views: {opportunity.views}</p>
+      <p className="text-sm bg-gray-300 dark:bg-gray-600 dark:text-gray-300 w-fit px-1 mt-1 rounded-xl">
         Active Viewers: {opportunity.active}
       </p>
       </Link>
 
       {user.id === opportunity.creator_id ? (
-                <div className='flex justify-between mt-4'>
+                <div className='flex justify-end mt-4'>
                   <button
                     onClick={() => deleteOpportunity(opportunity.opportunity_id)}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition-all ease-in-out"
+                    className="bg-red-600 hover:bg-red-500 text-red-50 font-bold py-2 px-4 rounded-md transition-all ease-in-out"
                   >
                     Delete
                     <FontAwesomeIcon className="text-white w-4 h-4 inline ml-2" icon={faTrash} />
@@ -96,7 +98,7 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
                       console.log(opportunity);
                       setValue(opportunity.content);
                     }}
-                    className="bg-orange-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-full transition-all ease-in-out"
+                    className="bg-orange-600 hover:bg-orange-500 text-orange-50 font-bold py-2 px-4 rounded-md transition-all ease-in-out"
                   >
                     Edit
                     <FontAwesomeIcon className="text-white w-4 h-4 inline ml-2" icon={faPenNib} />
