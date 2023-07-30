@@ -27,7 +27,7 @@ import rateLimit from "@/utils/rateLimit";
 const limiter = rateLimit({
   interval: 60 * 60 * 1000, // 1 hr
   uniqueTokenPerInterval: 1000,
-})
+});
 
 const handleAboutSave = (newAbout, setRequestedUser) => {
   return new Promise((resolve, reject) => {
@@ -116,16 +116,36 @@ export default function Page({
         <link rel="icon" href="/favicon.ico" />
         {requestedUser ? (
           <>
-    <title>{requestedUser?.username+"'s Profile - inBDPA"}</title>
-    <meta name="description" content={requestedUser?.sections?.about} />
-    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <meta property="og:title" content={`${requestedUser?.username}'s Profile`} />
-    <meta property="og:description" content={requestedUser?.sections?.about} />
-    <meta property="og:image" content={(!requestedUser?.pfp) || (requestedUser?.pfp === "gravatar") ? `https://www.gravatar.com/avatar/${md5(requestedUser?.email)}?s=256` : '/api/public/pfps/'+requestedUser?.pfp} />
-    <meta property="og:type" content="profile" />
-    <link rel="icon" href="/favicon.ico" />
-    </>
-        ) : <title>Profile Not Found - inBDPA</title>}
+            <title>{requestedUser?.username + "'s Profile - inBDPA"}</title>
+            <meta name="description" content={requestedUser?.sections?.about} />
+            <meta
+              name="viewport"
+              content="initial-scale=1.0, width=device-width"
+            />
+            <meta
+              property="og:title"
+              content={`${requestedUser?.username}'s Profile`}
+            />
+            <meta
+              property="og:description"
+              content={requestedUser?.sections?.about}
+            />
+            <meta
+              property="og:image"
+              content={
+                !requestedUser?.pfp || requestedUser?.pfp === "gravatar"
+                  ? `https://www.gravatar.com/avatar/${md5(
+                      requestedUser?.email
+                    )}?s=256`
+                  : "/api/public/pfps/" + requestedUser?.pfp
+              }
+            />
+            <meta property="og:type" content="profile" />
+            <link rel="icon" href="/favicon.ico" />
+          </>
+        ) : (
+          <title>Profile Not Found - inBDPA</title>
+        )}
       </Head>
       <div className="w-full">
         <Navbar user={user} />
@@ -138,56 +158,58 @@ export default function Page({
       <main className="flex flex-col mt-4 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
         {requestedUser ? (
           <>
-          <div className="flex flex-col md:flex-row md:gap-6 w-full">
-          <div className="hidden md:flex flex-col md:w-1/3 p-4">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                    Statistics
-                  </h2>
-                  <UserStats
-                    views={requestedUser.views}
-                    activeSessions={activeSess}
-                    connectionStatus={
-                      depth > 0
-                        ? addSuffix(depth) + " connection"
-                        : "Not Connected"
-                    }
-                    editable={editable}
-                  />
-          </div>
-                <div className="md:w-1/3">
-                  <UserProfilePicture
-                    editable={editable}
-                    email={requestedUser.email}
-                    pfp={pfp}
-                  />
-                </div>
-          <div className="flex md:hidden flex-col w-full mx-auto">
-                  <h2 className="text-xs sm:text-lg md:text-xl text-center font-bold text-gray-900 dark:text-white mb-2 w-full">
-                    Profile Statistics
-                  </h2>
-                  <UserStats
-                    views={requestedUser.views}
-                    activeSessions={activeSess}
-                    connectionStatus={
-                      depth > 0
-                        ? addSuffix(depth) + " connection"
-                        : "Not Connected"
-                    }
-                    editable={editable}
-                  />
-                </div>
-                <div className="w-full md:w-1/3">
-                  <p className=" mt-4 font-bold text-black dark:text-white text-xs sm:text-lg md:text-xl">Network</p>
-                      <ConnectionList
-                    connections={connections}
-                    clickable={!!user}
-                    user_id={requestedUser.user_id}
-                    isYou={user?.id == requestedUser.user_id}
-                    depth={depth}
-                    theirName={requestedUser.username}
-                  />
-                </div>
-          </div>
+            <div className="flex flex-col md:flex-row md:gap-6 w-full">
+              <div className="hidden md:flex flex-col md:w-1/3 p-4">
+                <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                  Statistics
+                </h2>
+                <UserStats
+                  views={requestedUser.views}
+                  activeSessions={activeSess}
+                  connectionStatus={
+                    depth > 0
+                      ? addSuffix(depth) + " connection"
+                      : "Not Connected"
+                  }
+                  editable={editable}
+                />
+              </div>
+              <div className="md:w-1/3">
+                <UserProfilePicture
+                  editable={editable}
+                  email={requestedUser.email}
+                  pfp={pfp}
+                />
+              </div>
+              <div className="flex md:hidden flex-col w-full mx-auto">
+                <h2 className="text-xs sm:text-lg md:text-xl text-center font-bold text-gray-900 dark:text-white mb-2 w-full">
+                  Profile Statistics
+                </h2>
+                <UserStats
+                  views={requestedUser.views}
+                  activeSessions={activeSess}
+                  connectionStatus={
+                    depth > 0
+                      ? addSuffix(depth) + " connection"
+                      : "Not Connected"
+                  }
+                  editable={editable}
+                />
+              </div>
+              <div className="w-full md:w-1/3">
+                <p className=" mt-4 font-bold text-black dark:text-white text-xs sm:text-lg md:text-xl">
+                  Network
+                </p>
+                <ConnectionList
+                  connections={connections}
+                  clickable={!!user}
+                  user_id={requestedUser.user_id}
+                  isYou={user?.id == requestedUser.user_id}
+                  depth={depth}
+                  theirName={requestedUser.username}
+                />
+              </div>
+            </div>
             <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5 w-full">
               {requestedUser.username}
             </h1>
@@ -196,8 +218,6 @@ export default function Page({
             </h1>
 
             {editable ? <LinkChanger link={link} /> : null}
-
-
 
             {user ? (
               <>
@@ -299,8 +319,9 @@ export default function Page({
                       className="w-full p-4 group mt-4 border-gray-700 border-b"
                       key={section}
                     >
-                  <h2 className="text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
-                        {section.charAt(0).toUpperCase() + section.slice(1, section.length)}
+                      <h2 className="text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
+                        {section.charAt(0).toUpperCase() +
+                          section.slice(1, section.length)}
                       </h2>
                       <UserInfo
                         type={section}
@@ -315,20 +336,17 @@ export default function Page({
           </>
         ) : (
           <>
-  <h1 className="text-3xl font-semibold text-gray-900 dark:text-white pt-5 ">
-    {error ?? "Unexpected Error"}
-  </h1>
-  <Link
-    href="/"
-    className="text-xl text-gray-900 dark:text-white mt-2 mb-4 bg-blue-200 p-2 rounded-sm dark:bg-blue-800"
-  >
-    Return to home page
-  </Link>
-  <div className="h-screen w-full bg-white dark:bg-gray-800">
-  </div>
-</>
-
-
+            <h1 className="text-3xl font-semibold text-gray-900 dark:text-white pt-5 ">
+              {error ?? "Unexpected Error"}
+            </h1>
+            <Link
+              href="/"
+              className="text-xl text-gray-900 dark:text-white mt-2 mb-4 bg-blue-200 p-2 rounded-sm dark:bg-blue-800"
+            >
+              Return to home page
+            </Link>
+            <div className="h-screen w-full bg-white dark:bg-gray-800"></div>
+          </>
         )}
       </main>
     </div>
@@ -391,22 +409,24 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     //     console.log("ratelimited", e);
     //     view = false
     //   }
-      if(view) {
-    try {
-      console.log("Incrementing")
-      await incrementUserViews(requestedUser?.user_id);
-      await increaseViewCountMongo(requestedUser?.user_id);
-    } catch (e) {
-      console.log(e);
-    }
+    if (view) {
+      try {
+        console.log("Incrementing");
+        await incrementUserViews(requestedUser?.user_id);
+        await increaseViewCountMongo(requestedUser?.user_id);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
   let pfp;
   let banner;
   if (requestedUser) {
     const data = await getUserFromMongo(requestedUser?.user_id);
-    if(!data.username) {
-      await updateUserMongo(requestedUser?.user_id, {username: requestedUser.username});
+    if (!data.username) {
+      await updateUserMongo(requestedUser?.user_id, {
+        username: requestedUser.username,
+      });
     }
     pfp = data.pfp;
     banner = data.banner;
