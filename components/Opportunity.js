@@ -82,7 +82,7 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
       </Link>
 
       {user.id === opportunity.creator_id ? (
-                <div className='flex justify-between mt-4'>
+                <div className='flex justify-end mt-4'>
                   <button
                     onClick={() => deleteOpportunity(opportunity.opportunity_id)}
                     className="bg-red-600 hover:bg-red-500 text-red-50 font-bold py-2 px-4 rounded-md transition-all ease-in-out"
