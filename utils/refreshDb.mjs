@@ -10,7 +10,7 @@ config();
 
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 const MONGO_URI = process.env.MONGO_URI;
-const API_WAIT_TIME = 1500;
+const API_WAIT_TIME = 0;
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -257,6 +257,8 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   latestUsers.push(...d.users);
   await wait(API_WAIT_TIME);
   }
+  // Reverse so that new users are first
+  latestUsers.reverse()
 
   console.log("Updating database...", latestUsers.length, "users");
   let startTime = Date.now();
@@ -279,11 +281,13 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       }
     }
   }
+  let n = 0;
   for(let latestUser of latestUsers) {
     // CHECK IF USER EXISTS
+    n++;
     let user = await Profile.findOne({ user_id: latestUser.user_id });
     let existsNeo4j = await userExists(latestUser.user_id);
-
+    console.log("Processing "+n+"/"+latestUsers.length)
     if(!user) {
       // CREATE NEW USER
 
