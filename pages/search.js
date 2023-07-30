@@ -89,11 +89,13 @@ export default function SearchPage({ user, query="" }) {
               <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
             </div>
             ) : null}
+
             {!searchResults.error && ms > 0 && (searchResults.users.length > 0 || searchResults.opportunities.length > 0) && (
               <p className="text-gray-600 dark:text-gray-400">
                 Found {searchResults.users.length + searchResults.opportunities.length} result{searchResults.users.length + searchResults.opportunities.length > 1 ? 's' : ''} in {ms}ms
               </p>
             )}
+
   <div className="text-center m-2">
             {!searchResults.error && (
               <h1>Users</h1>
@@ -178,7 +180,7 @@ export default function SearchPage({ user, query="" }) {
             {!searchResults.error && searchResults.users.length > displayedUsers && (
               <div className="text-center">
               <button
-                className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-gray-400 dark:hover:text-gray-300 text-gray-900 font-bold py-2 px-4 rounded w-full"
+                className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-gray-400 dark:hover:text-gray-300 text-gray-900 font-bold text-lg py-2 px-4 rounded w-full"
                 onClick={() => setDisplayedUsers(displayedUsers + 3)}
               >
                 Load More Users
@@ -276,7 +278,7 @@ export default function SearchPage({ user, query="" }) {
             {!searchResults.error && searchResults.opportunities.length > displayedOpportunities && (
                <div className="text-center">
               <button
-                className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-gray-400 dark:hover:text-gray-300 text-gray-900 font-bold py-2 px-4 rounded w-full"
+                className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-gray-400 dark:hover:text-gray-300 text-gray-900 font-bold text-lg py-2 px-4 rounded w-full"
                 onClick={() => setDisplayedOpportunities(displayedOpportunities + 3)}
               >
                 Load More Opportunities
