@@ -121,7 +121,7 @@ export default function Page({
     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     <meta property="og:title" content={`${requestedUser?.username}'s Profile`} />
     <meta property="og:description" content={requestedUser?.sections?.about} />
-    <meta property="og:image" content={(!requestedUser?.pfp) || (requestedUser?.pfp === "gravatar") ? `https://www.gravatar.com/avatar/${md5(requestedUser?.email)}?s=256` : '/api/public/pfps/'+requestedUser?.pfp} />
+    <meta property="og:image" content={(!requestedUser?.pfp) || (requestedUser?.pfp === "gravatar") ? `https://www.gravatar.com/avatar/${requestedUser?.hashedEmail}?s=256` : '/api/public/pfps/'+requestedUser?.pfp} />
     <meta property="og:type" content="profile" />
     <link rel="icon" href="/favicon.ico" />
     </>
@@ -157,7 +157,7 @@ export default function Page({
                 <div className="md:w-1/3">
                   <UserProfilePicture
                     editable={editable}
-                    email={requestedUser.email}
+                    hashedEmail={requestedUser?.hashedEmail}
                     pfp={pfp}
                   />
                 </div>
@@ -385,12 +385,12 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   if (requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
     // Increment view count
     let view = true;
-    try {
-      await limiter.check(res, 2, "viewUser"+requestedUser?.user_id, req)
-      } catch(e) {
-        console.log("ratelimited", e);
-        view = false
-      }
+    // try {
+    //   await limiter.check(res, 2, "viewUser"+requestedUser?.user_id, req)
+    //   } catch(e) {
+    //     console.log("ratelimited", e);
+    //     view = false
+    //   }
       if(view) {
     try {
       console.log("Incrementing")
@@ -413,13 +413,21 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     // banner = await getUserBanner(requestedUser?.user_id, "banner");
   }
 
+  function getGravatarHash(email) {
+    email = email.trim().toLowerCase();
+    return md5(email);
+  }
+
   let safeRequestedUser;
   if (requestedUser)
     safeRequestedUser = {
       ...requestedUser,
       salt: null,
       key: null,
+      email: null,
+      hashedEmail: getGravatarHash(requestedUser.email),
     };
+
 
   return {
     props: {

@@ -59,7 +59,7 @@ export default function Navbar({ user, queryText="" }) {
             </Link>
           </div>
           <svg
-            className="hidden inline h-min w-10 fill-current dark:text-white text-black"
+            className="md:hidden inline h-min w-10 fill-current dark:text-white text-black"
             xmlns="http://www.w3.org/2000/svg"
             width="50"
             height="50"

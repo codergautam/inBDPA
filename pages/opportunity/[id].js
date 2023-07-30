@@ -218,11 +218,11 @@ export const getServerSideProps = withIronSessionSsr(async ({
     }
 
     let increase = true;
-    try {
-      await limiter.check(res, 2, 'viewOpportunity'+params?.id, req)
-    } catch(e) {
-      increase = false;
-    }
+    // try {
+    //   await limiter.check(res, 2, 'viewOpportunity'+params?.id, req)
+    // } catch(e) {
+    //   increase = false;
+    // }
     if(increase) {
     try {
         await incrementOpportunityViews(params.id)
