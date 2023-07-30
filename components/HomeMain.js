@@ -102,10 +102,10 @@ export default function Main({count}) {
 </div>
 
       </div>
-      <div className="container flex flex-col items-center justify-center mx-auto w-4/5">
+      <div className="items-center mx-auto w-1/2">
       <Tilt className="Tilt" tiltMaxAngleX="5" tiltMaxAngleY="5">
   <img
-    className="object-cover object-center border shadow-md g327 "
+    className=" border shadow-md g327 w-full"
     alt="Placeholder Image"
     src="/home.png"
   />
