@@ -103,7 +103,7 @@ export async function searchUsers(query) {
       ]
     })
     .sort({ views: -1 }) // Sort by views descending
-    .limit(25);
+    .limit(500);
 
     let users = await Promise.all(profiles.map(async (user) => {
 
@@ -156,7 +156,7 @@ export async function searchUsers(query) {
       ]
     })
     .sort({ views: -1 }) // Sort by views descending
-    .limit(25);
+    .limit(500);
 
      opportunities = await Promise.all(opportunities.map(async (opportunity) => {
 

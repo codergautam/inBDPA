@@ -47,11 +47,11 @@ export default withIronSessionApiRoute(handler, ironOptions);
         if((new Date()).getTime() - (new Date(user.forceLogout)).getTime() < (Math.pow(10, 3) * 60)) {
           if(req.session.user.impersonating) {
             console.log("Impersonation going on")
-      
+
             let adminId = req.session.user.adminId;
             let adminLink = req.session.user.adminLink
             let user = await getUser(adminId);
-        
+
             // store in session
             if(user.success) {
                 req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: adminLink, salt: user.user.salt, key: user.user.key};
@@ -64,7 +64,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
           }
         }
 
-        console.log("User for checking for logout: ", user)
         if(user) {
             return res.json({ success: true, forceLogout: user.forceLogout, shouldRefresh })
         }

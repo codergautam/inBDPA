@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMask, faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 
-export default function Navbar({ user,showSearch=true, queryText="" }) {
+export default function Navbar({ user, queryText="" }) {
   const [navhidden, setNavHidden] = useState(false);
 
   const router = useRouter();
@@ -24,16 +24,19 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
       // TODO: Handle error
     }
   };
+  const handleSearch = () => {
+    router.push(`/search?query=${encodeURIComponent(query)}`);
+  };
 
-  useEffect(() => {
-    if (query.trim().length > 0 && query != queryText) {
-      router.push(`/search?query=${encodeURIComponent(query)}`);
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      handleSearch();
     }
-  }, [query]);
+  };
 
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center justify-between w-screen bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
+      <div className="flex flex-col md:flex-row items-center justify-between w-full bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
         <div className="md:flex-none flex flex-row justify-between md:justify-normal w-full md:w-fit h-min items-center">
           <div className="w-fit">
             <Link href="/" className="w-fit">
@@ -56,7 +59,7 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
             </Link>
           </div>
           <svg
-            className="md:hidden inline h-min w-10 fill-current dark:text-white text-black mr-9"
+            className="hidden inline h-min w-10 fill-current dark:text-white text-black"
             xmlns="http://www.w3.org/2000/svg"
             width="50"
             height="50"
@@ -64,25 +67,33 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
             onClick={() => setNavHidden(!navhidden)}
           >
             <path d="M 3 8 A 2.0002 2.0002 0 1 0 3 12 L 47 12 A 2.0002 2.0002 0 1 0 47 8 L 3 8 z M 3 23 A 2.0002 2.0002 0 1 0 3 27 L 47 27 A 2.0002 2.0002 0 1 0 47 23 L 3 23 z M 3 38 A 2.0002 2.0002 0 1 0 3 42 L 47 42 A 2.0002 2.0002 0 1 0 47 38 L 3 38 z"></path>
-          </svg>        <div className="relative hidden md:inline">
-        { showSearch ? (
-          <>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search"
-          className="border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
-        />
-        <div className="absolute top-0 left-0 ml-3 mt-2">
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="text-gray-400 dark:text-white"
-          />
-        </div>
-        </>
-        ) : null}
-        </div>
+          </svg>       <div className="relative w-full md:w-72 lg:w-96 hidden md:inline">
+            {user && (
+              <>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Search"
+                  className="w-full border-1 px-3 py-2 text-md sm:text-lg xl:text-xl font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
+                />
+                <div className="hidden top-0 left-0 ml-3 mt-3">
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className="text-gray-400 dark:text-white"
+                  />
+                </div>
+                {/* ... Search Button ... */}
+                <button
+                  onClick={handleSearch}
+                  className="absolute top-0 right-0 h-full px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-full focus:outline-none"
+                >
+                  <FontAwesomeIcon icon={faSearch} />
+                </button>
+              </>
+            )}
+          </div>
 
 
       </div>
@@ -175,7 +186,7 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
       <div
         className={
           navhidden
-            ? "items-center w-fit flex flex-col gap-y-1 pr-3 pl-3 place-self-end pb-6 pt-6 rounded-b-lg bg-gray-50 dark:bg-gray-900 md:hidden mt-16 absolute z-10 border-t-0 border"
+            ? "items-center w-fit flex flex-col gap-y-1 pr-3 pl-3 place-self-end pb-6 pt-6 rounded-b-lg bg-gray-50 dark:bg-gray-900 md:hidden mt-16 absolute z-20 border-t-0 border right-0 top-0"
             : "hidden"
         }
       >
@@ -254,26 +265,27 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
             </Link>
           </>
         )}
-              <div className="relative">
-        { showSearch ? (
-          <>
-        <input
-          type="text"
-          value={query}
-          onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search"
-          className="border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
-        />
-        <div className="absolute top-0 left-0 ml-3 mt-2">
-          <FontAwesomeIcon
-            icon={faSearch}
-            className="text-gray-400 dark:text-white"
-          />
-        </div>
-        </>
-        ) : null}
+               <div className="relative w-min">
+          { user ? (
+            <>
+              <input
+                type="text"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search"
+                className="w-min border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-7"
+              />
+              <div className="w-min absolute top-0 left-0 ml-2 mt-1">
+                <FontAwesomeIcon
+                  icon={faSearch}
+                onClick={handleSearch}
+                  className="text-gray-400 dark:text-white cursor-pointer"
+                />
+              </div>
 
-      </div>
+            </>
+          ) : null }
+        </div>
       </div>
     </>
   );

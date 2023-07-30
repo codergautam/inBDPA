@@ -19,7 +19,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
   const { opportunity_id } = req.body;
   try {
-  let opportunities = [...await getAllOpportunitiesMongo(3, opportunity_id ?? null)];
+  let opportunities = [...await getAllOpportunitiesMongo(4, opportunity_id ?? null)];
   opportunities = await Promise.all(opportunities.map(async (opportunity) => {
     try {
     const active = (await countSessionsForOpportunity(opportunity.opportunity_id)).active

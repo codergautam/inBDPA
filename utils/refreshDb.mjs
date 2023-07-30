@@ -10,7 +10,7 @@ config();
 
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 const MONGO_URI = process.env.MONGO_URI;
-const MONGODB_API_WAIT_TIME = 2000;
+const API_WAIT_TIME = 2000;
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -154,7 +154,7 @@ async function getAllUserConnections(userId) {
     }
 
     connections.push(...d.connections);
-    await wait(MONGODB_API_WAIT_TIME);
+    await wait(API_WAIT_TIME);
   }
   return connections;
 }
@@ -193,11 +193,11 @@ async function getAllOpportunities(lastUpdated) {
       if(fullData && fullData.success && fullData.opportunity) {
         d.opportunities[i].content = fullData.opportunity.contents;
       }
-      await wait(MONGODB_API_WAIT_TIME);
+      await wait(API_WAIT_TIME);
     }
 
     opportunities.push(...d.opportunities);
-    await wait(MONGODB_API_WAIT_TIME);
+    await wait(API_WAIT_TIME);
   }
   return opportunities;
 }
@@ -217,6 +217,24 @@ async function deleteOpportunityMongo(opportunityId) {
   }
 }
 
+export async function userExistsAPI(user_id) {
+  try {
+    let url = `${BASE_URL}/users/${user_id}`;
+
+    let data = await(sendRequest(url, 'GET'));
+    if(data && data.success && data.user?.user_id) {
+      return true
+    } else {
+      if(!data || !data?.success) {
+        return {error: true}
+      }
+      return false;
+    }
+  } catch (error) {
+    console.log("Error while trying to check if user exists", user_id);
+    return {error: true};
+  }
+}
 
 export default async function fetchDataAndSaveToDB(lastUpdated) {
   console.log("Fetching data from HSCC API...");
@@ -237,16 +255,39 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   }
 
   latestUsers.push(...d.users);
-  await wait(MONGODB_API_WAIT_TIME);
+  await wait(API_WAIT_TIME);
   }
+  // Reverse so that new users are first
+  latestUsers.reverse()
 
   console.log("Updating database...", latestUsers.length, "users");
   let startTime = Date.now();
+  if(!lastUpdated) {
+    // Remove users that were not updated
+    let users = await Profile.find({});
+    for(let user of users) {
+      if(!latestUsers.find(u => u.user_id === user.user_id)) {
+        // Before removing user make sure they not in the api
+        let userexistsInDb = await userExistsAPI(user.user_id);
+        if(userexistsInDb || userexistsInDb.error) continue;
+        console.log("DELETING USER", user.user_id)
+        await Profile.deleteOne({ user_id: user.user_id });
+
+        try {
+        await deleteUser(user.user_id);
+      } catch (error) {
+        console.log("Error while trying to delete user in neo4j", user.user_id, user.username);
+      }
+      }
+    }
+  }
+  let n = 0;
   for(let latestUser of latestUsers) {
     // CHECK IF USER EXISTS
+    n++;
     let user = await Profile.findOne({ user_id: latestUser.user_id });
     let existsNeo4j = await userExists(latestUser.user_id);
-
+    console.log("Processing "+n+"/"+latestUsers.length)
     if(!user) {
       // CREATE NEW USER
 
@@ -309,23 +350,6 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     } catch (error) {
       console.log("Error while trying to set/update user in neo4j", latestUser.user_id, latestUser.username);
     }
-    }
-  }
-
-  if(!lastUpdated) {
-    // Remove users that were not updated
-    let users = await Profile.find({});
-    for(let user of users) {
-      if(!latestUsers.find(u => u.user_id === user.user_id)) {
-        console.log("Removing user", user.user_id, user.username);
-        await Profile.deleteOne({ user_id: user.user_id });
-
-        try {
-        await deleteUser(user.user_id);
-      } catch (error) {
-        console.log("Error while trying to delete user in neo4j", user.user_id, user.username);
-      }
-      }
     }
   }
 
