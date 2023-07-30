@@ -6,7 +6,9 @@
     "dev": "npx concurrently \"next dev\" \"node utils/startCronJob.mjs\"",
     "build": "next build",
     "start": "npx concurrently \"next start -p 1025\" \"node utils/startCronJob.mjs\"",
-    "lint": "next lint"
+    "lint": "next lint",
+    "startprod": "npx concurrently \"next start -p 3000\" \"node utils/startCronJob.mjs\"",
+    "prod":"npx pm2 start pm2.json --exp-backoff-restart-delay=100"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.4.0",
