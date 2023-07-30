@@ -16,7 +16,7 @@ async function handler(req, res) {
     // Fetch your connections
     let connections = await fetchConnections(user.id, 3);
     connections.push(user.id);
-      let users = await getManyUsersFast(connections, true);
+      let users = await getManyUsersFast(connections, false, true);
 
       let links = []
       for(let connection of connections) {

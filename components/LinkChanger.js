@@ -15,7 +15,6 @@ const LinkChanger = ({ link }) => {
         body: JSON.stringify({ newLink }),
       });
       response = await response.json();
-      console.log(response);
 
       if (response.success) {
         // Redirect to the new link

@@ -220,6 +220,7 @@ export async function getAllOpportunitiesMongo(limit, opportunity_id_after) {
       // Return only limit results, and only return opportunities made after the opportunity_id_after opportunity
       const opportunities = await Opportunity.find(query).sort({createdAt: -1}).limit(limit)
       if (opportunities) {
+      // Make sure they are an array of json objects
           return opportunities;
       }
       return false;
@@ -694,21 +695,26 @@ export async function getUserPfpAndBanner(userId) {
   }
 }
 
-export function getManyUsersFast(user_ids, full=false) {
+export function getManyUsersFast(user_ids, full=false, getConnections=false) {
   return new Promise((resolve, reject) => {
-  Profile.find({ user_id: { $in: user_ids } })
+  Profile.find(user_ids ? { user_id: { $in: user_ids } } : {})
   .then((profiles) => {
     // Create an object with user_id as key and user object as value
     const usersObject = {};
     profiles.forEach((profile) => {
+      if(!full) {
       usersObject[profile.user_id] = {
         link: profile.link,
         username: profile.username,
         pfp: profile.pfp,
         user_id: profile.user_id,
-        connections: full ? profile.connections : undefined,
+        createdAt: profile.createdAt,
+        connections: getConnections ? profile.connections : undefined,
         gravatarUrl: !profile.pfp || profile.pfp === 'gravatar' ? `https://www.gravatar.com/avatar/${md5(profile.email)}?d=identicon` : null,
       }
+    } else {
+      usersObject[profile.user_id] = profile.toObject()
+    }
     });
 
     resolve(usersObject);

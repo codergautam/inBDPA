@@ -42,7 +42,7 @@ async function handler(req, res) {
     if(bio) {
         try {
             const messages =  [
-                { role: "system", content: "You are a professional linkedin bio writer. Only output the finished text that goes in 'bio', NOTHING else." },
+                { role: "system", content: "You are a professional bio writer. Write in 1st person, and Only output the finished bio text, NOTHING else." },
                 { role: "user", content: `${contents}\n\n Based on the above info, generate a bio for this user with this modification prompt: ${prompt}. Please output just the rewritten \`bio\`, nothing else !` }
             ];
             let model = "gpt-3.5-turbo-0613"
@@ -60,6 +60,9 @@ async function handler(req, res) {
             });
 
             const gptResponse = chatCompletion.data.choices[0].message;
+            if(gptResponse.content.startsWith("Bio: ")) {
+                return res.status(200).json({ gptResponse: {content: gptResponse.content.substring(5)} });
+            }
             res.status(200).json({ gptResponse });
         } catch (error) {
             console.log(error)

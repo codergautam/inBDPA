@@ -30,7 +30,7 @@ var nodes = new DataSet(Object.keys(data.users).map((a,i)=>{
   return {
     id: a,
     shape: 'circularImage',
-    image: data.users[a].pfp === "gravatar" ? data.users[a].gravatarUrl : '/api/public/pfps/'+data.users[a].pfp,
+    image: (data.users[a].pfp === "gravatar" ? data.users[a].gravatarUrl : '/api/public/pfps/'+data.users[a].pfp) ?? '/api/public/pfps/placeholder',
     label: data.users[a].username,
     link: '/profile/'+data.users[a].link,
     size: user==a ? 40 : 30
