@@ -107,7 +107,7 @@ export default function SearchPage({ user, query="" }) {
               </p>
             )}
             </div>
-            <div className="bg-gray-100 dark:bg-gray-800 rounded-md w-2/3">
+
             {!searchResults.error ? searchResults.users.slice(0, displayedUsers).map((result, index) => {
               const match = result.match;
               let beforeMatch = '';
@@ -142,7 +142,7 @@ export default function SearchPage({ user, query="" }) {
               }
 
               return (
-                <div key={index} className="flex flex-col md:flex-row text-center content-center  overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-500  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-full  md:text-base text-sm">
+                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
                     <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1">
@@ -188,7 +188,7 @@ export default function SearchPage({ user, query="" }) {
               </div>
              )}
           </div>
-          </div>
+
 
           {/* Display Search Results (opps) */}
           <div className="mt-6 flex flex-col gap-8 items-center justify-center">
@@ -202,7 +202,7 @@ export default function SearchPage({ user, query="" }) {
               </p>
             )}
             </div>
-            <div className="bg-gray-100 dark:bg-gray-800 rounded-md w-2/3">
+
             {!searchResults.error ? searchResults.opportunities.slice(0, displayedOpportunities).map((result, index) => {
               const match = result.match;
               let beforeMatch = '';
@@ -235,7 +235,7 @@ export default function SearchPage({ user, query="" }) {
                 }
               }
               return (
-                <div key={index} className="flex flex-col md:flex-row text-center content-center  overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-500  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-full  md:text-base text-sm">
+                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
                   <Link href={`/opportunity/${result.opportunity_id}`}>
                     <div className="p-6 flex flex-col items-start justify-center ml-1">
                       <h2 className="text-xl font-semibold ml-5 mb-2">
@@ -286,7 +286,6 @@ export default function SearchPage({ user, query="" }) {
               </div>
             )}
           </div>
-        </div>
         </div>
       </section>
     </div>
