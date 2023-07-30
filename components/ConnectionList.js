@@ -144,7 +144,7 @@ const ConnectionList = ({
                     onClick={() =>
                       (window.location.href = `/profile/${user.link}`)
                     }
-                    className={user.yourDepth == 1 ? `text-white text-lg font-semibold flex flex-col items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 p-4 mx-auto dark:shadow-2xl duration-300 ease-in-out transition w-full` :  `text-white hover:text-blue-600 font-semibold flex flex-col items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-700 p-3 mx-auto duration-300 ease-in-out transition w-full`}
+                    className={user.yourDepth == 1 ? `text-white text-lg font-semibold flex flex-col items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 p-4 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full` : user.yourDepth == 2 ? `text-white hover:text-black font-semibold flex flex-col items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 p-3 mx-auto duration-100 ease-in-out transition w-full` : `hover:text-white text-gray-300 flex flex-col items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 p-3 py-2 mx-auto duration-100 ease-in-out transition w-full`}
                   >
                     <p>
                       {user.username}
