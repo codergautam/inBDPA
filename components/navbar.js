@@ -275,7 +275,7 @@ export default function Navbar({ user, queryText="" }) {
                 placeholder="Search"
                 className="w-min border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-7"
               />
-              <div className="w-min absolute top-0 left-0 ml-2 mt-1">
+              <div className="w-min absolute top-0 left-0 ml-16 mt-1">
                 <FontAwesomeIcon
                   icon={faSearch}
                 onClick={handleSearch}
