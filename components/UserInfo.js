@@ -127,6 +127,11 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           alert('Please fill out all the skills.');
           return;
         }
+        // Make sure no spaces
+        if(!item.match(/^[^\s]+$/)) {
+          alert('Skills cannot contain spaces.');
+          return;
+        }
         // Make sure skill is alphanumeric (dashes and underscore allowed)
         if (!item.match(/^[a-zA-Z0-9-_]+$/)) {
           alert('Skills cannot contain special characters.');
