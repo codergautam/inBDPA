@@ -3,7 +3,7 @@
       {
           "name": "inbdpa",
           "script": "npm",
-          "args" : "startprod"
+          "args" : "run startprod"
       }
   ]
 }
