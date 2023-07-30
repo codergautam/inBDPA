@@ -94,7 +94,7 @@ export default function SearchPage({ user, query="" }) {
                 Found {searchResults.users.length + searchResults.opportunities.length} result{searchResults.users.length + searchResults.opportunities.length > 1 ? 's' : ''} in {ms}ms
               </p>
             )}
-<div className="md:bg-gray-100 md:dark:bg-gray-800">
+<div className="bg-gray-100 dark:bg-gray-800 rounded-md">
   <div className="text-center m-2">
             {!searchResults.error && (
               <h1>Users</h1>
@@ -140,10 +140,10 @@ export default function SearchPage({ user, query="" }) {
               }
 
               return (
-                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden shadow-lg hover:bg-gray-300 bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 max-w-3xl md:text-base text-sm">
+                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-500  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 max-w-3xl mx-2 md:text-base text-sm">
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1 ">
+                    <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
                           <span>
@@ -176,26 +176,31 @@ export default function SearchPage({ user, query="" }) {
               );
             }) : null}
             {!searchResults.error && searchResults.users.length > displayedUsers && (
+              <div className="text-center">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 m-2"
                 onClick={() => setDisplayedUsers(displayedUsers + 3)}
               >
                 Load More Users
               </button>
+              </div>
             )}
           </div>
           </div>
 
           {/* Display Search Results (opps) */}
           <div className="mt-6 flex flex-col gap-8 items-center justify-center">
+          <div className="bg-gray-100 dark:bg-gray-800 rounded-md">
+          <div className="text-center m-2">
             {!searchResults.error && (
               <h1>Opportunities</h1>
             )}
             {!searchResults.error && searchResults.opportunities.length === 0 && (
-              <p className="text-gray-600 dark:text-gray-400">
+              <p className="text-gray-600 dark:text-gray-400 rounded-xl">
                 No opportunities found
               </p>
             )}
+            </div>
             {!searchResults.error ? searchResults.opportunities.slice(0, displayedOpportunities).map((result, index) => {
               const match = result.match;
               let beforeMatch = '';
@@ -228,14 +233,14 @@ export default function SearchPage({ user, query="" }) {
                 }
               }
               return (
-                <div key={index} className="rounded-lg overflow-hidden shadow-lg bg-gray-200 dark:bg-gray-700 w-2/3 max-w-3xl mx-auto text-center">
+                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-500  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 max-w-3xl mx-2 md:text-base text-sm">
                   <Link href={`/opportunity/${result.opportunity_id}`}>
-                    <div className="p-6 flex flex-col items-start justify-center h-full">
+                    <div className="p-6 flex flex-col items-start justify-center ml-1">
                       <h2 className="text-xl font-semibold ml-5 mb-2">
                         {match && match.field === "title" ? (
                           <span>
                             {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
+                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900 ">
                               {matched}
                             </span>
                             {afterMatch}
@@ -269,14 +274,17 @@ export default function SearchPage({ user, query="" }) {
               </div>
             )}
             {!searchResults.error && searchResults.opportunities.length > displayedOpportunities && (
+               <div className="text-center">
               <button
-                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded m-2"
                 onClick={() => setDisplayedOpportunities(displayedOpportunities + 3)}
               >
                 Load More Opportunities
               </button>
+              </div>
             )}
           </div>
+        </div>
         </div>
       </section>
     </div>
