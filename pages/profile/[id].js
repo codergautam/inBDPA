@@ -385,12 +385,12 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   if (requestedUser && !(requestedUser?.user_id == req.session?.user?.id)) {
     // Increment view count
     let view = true;
-    try {
-      await limiter.check(res, 2, "viewUser"+requestedUser?.user_id, req)
-      } catch(e) {
-        console.log("ratelimited", e);
-        view = false
-      }
+    // try {
+    //   await limiter.check(res, 2, "viewUser"+requestedUser?.user_id, req)
+    //   } catch(e) {
+    //     console.log("ratelimited", e);
+    //     view = false
+    //   }
       if(view) {
     try {
       console.log("Incrementing")
