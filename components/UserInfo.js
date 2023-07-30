@@ -220,7 +220,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                       <input
                         className="border dark:border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                         placeholder="Title"
-                        maxLength={30}
+                        maxLength={100}
                         value={item.title}
                         onChange={(e) => updateItem(index, 'title', e.target.value)}
                       />
