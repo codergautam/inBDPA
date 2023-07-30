@@ -249,7 +249,7 @@ export default function SearchPage({ user, query="" }) {
                           </span>
                         ) : result.title.length > 80 ? result.title.substring(0, 80) + "..." : result.title}
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-400 flex-col md:flex-row mx-2">
+                      <p className="text-gray-600 dark:text-gray-400 flex-col md:flex-row mx-4">
                         {match && match.field === "content" ? (
                           <span>
                             {beforeMatch}
