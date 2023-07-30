@@ -67,15 +67,16 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
   }
 
   return (
-    <div className="p-4 mb-4 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md shadow-lg cursor-pointer  transition duration-200 ease-in-out">
+    <div className="p-4 mb-4 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400  hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md shadow-lg cursor-pointer transition duration-200 ease-in-out">
     <Link href={`/opportunity/${opportunity.opportunity_id}`}>
 
-      <p className="text-lg font-semibold overflow-clip">{opportunity.title}</p>
-      <p className="text-sm text-gray-500 dark:text-gray-200">
+      <p className="text-xl font-semibold overflow-hidden dark:text-gray-300">{opportunity.title}</p>
+      <p className="text-xs ml-1">
         {msToTime(Date.now() - opportunity.createdAt)} ago
       </p>
-      <p className="text-sm text-gray-500 dark:text-gray-200">Views: {opportunity.views}</p>
-      <p className="text-sm text-gray-600 dark:text-gray-200 ">
+
+      <p className="text-sm bg-gray-300 dark:bg-gray-600 dark:text-gray-300 w-fit px-1 mt-1 rounded-xl">Views: {opportunity.views}</p>
+      <p className="text-sm bg-gray-300 dark:bg-gray-600 dark:text-gray-300 w-fit px-1 mt-1 rounded-xl">
         Active Viewers: {opportunity.active}
       </p>
       </Link>
