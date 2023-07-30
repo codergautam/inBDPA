@@ -142,7 +142,7 @@ export default function SearchPage({ user, query="" }) {
               }
 
               return (
-                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
+                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
                     <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1">
@@ -168,7 +168,7 @@ export default function SearchPage({ user, query="" }) {
                           </span>
                         ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400 ">
+                      <p className="text-gray-600 dark:text-gray-400">
                         Type: {result.type}<br />
                         Views: {result.views}<br />
                       </p>
@@ -180,7 +180,7 @@ export default function SearchPage({ user, query="" }) {
             {!searchResults.error && searchResults.users.length > displayedUsers && (
               <div className="text-center">
               <button
-                className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-gray-400 dark:hover:text-gray-300 text-gray-900 font-bold text-lg py-2 px-4 rounded w-full"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-lg py-2 px-4 rounded w-full"
                 onClick={() => setDisplayedUsers(displayedUsers + 3)}
               >
                 Load More Users
@@ -229,16 +229,16 @@ export default function SearchPage({ user, query="" }) {
                 // If the aftermatch is too long, cut it off and add ...
                 if (afterMatch.length > 40) {
                   // cut it off right after the match
-                  afterMatch = afterMatch.substring(0, 40);
+                  afterMatch = afterMatch.substring(0, 20);
                   // add ...
                   afterMatch = afterMatch + '...';
                 }
               }
               return (
-                <div key={index} className="flex flex-col md:flex-row  rounded overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3 text-center content-center  md:text-base text-sm">
+                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
                   <Link href={`/opportunity/${result.opportunity_id}`}>
-                    <div className="p-6 flex flex-col items-start justify-center ml-1">
-                      <h2 className="text-xl font-semibold md:ml-5 mb-2">
+                  <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1">
+                      <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "title" ? (
                           <span>
                             {beforeMatch}
@@ -249,7 +249,7 @@ export default function SearchPage({ user, query="" }) {
                           </span>
                         ) : result.title.length > 80 ? result.title.substring(0, 80) + "..." : result.title}
                       </h2>
-                      <p className="text-gray-600 dark:text-gray-400">
+                      <p className="text-gray-600 dark:text-gray-400 flex-col md:flex-row mx-2">
                         {match && match.field === "content" ? (
                           <span>
                             {beforeMatch}
@@ -258,9 +258,9 @@ export default function SearchPage({ user, query="" }) {
                             </span>
                             {afterMatch}
                           </span>
-                        ) : result.content.length > 80 ? result.content.substring(0, 80) + "..." : result.content}
+                        ) : result.content.length > 80 ? result.content.substring(0, 60) + "..." : result.content}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm self-center md:self-end">
+                      <p className="text-gray-600 dark:text-gray-400">
                         Views: {result.views}<br />
                       </p>
                     </div>
@@ -278,7 +278,7 @@ export default function SearchPage({ user, query="" }) {
             {!searchResults.error && searchResults.opportunities.length > displayedOpportunities && (
                <div className="text-center">
               <button
-                className="bg-slate-200 hover:bg-slate-300 dark:bg-slate-700 dark:hover:bg-slate-500 dark:text-gray-400 dark:hover:text-gray-300 text-gray-900 font-bold text-lg py-2 px-4 rounded w-full"
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold text-lg py-2 px-4 rounded w-full"
                 onClick={() => setDisplayedOpportunities(displayedOpportunities + 3)}
               >
                 Load More Opportunities
