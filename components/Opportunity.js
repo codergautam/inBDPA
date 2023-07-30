@@ -85,7 +85,7 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
                 <div className='flex justify-between mt-4'>
                   <button
                     onClick={() => deleteOpportunity(opportunity.opportunity_id)}
-                    className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-full transition-all ease-in-out"
+                    className="bg-red-600 hover:bg-red-500 text-red-50 font-bold py-2 px-4 rounded-md transition-all ease-in-out"
                   >
                     Delete
                     <FontAwesomeIcon className="text-white w-4 h-4 inline ml-2" icon={faTrash} />
@@ -97,7 +97,7 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
                       console.log(opportunity);
                       setValue(opportunity.content);
                     }}
-                    className="bg-orange-400 hover:bg-amber-500 text-white font-bold py-2 px-4 rounded-full transition-all ease-in-out"
+                    className="bg-orange-600 hover:bg-orange-500 text-orange-50 font-bold py-2 px-4 rounded-md transition-all ease-in-out"
                   >
                     Edit
                     <FontAwesomeIcon className="text-white w-4 h-4 inline ml-2" icon={faPenNib} />
