@@ -23,12 +23,14 @@ const UserProfilePicture = ({ editable, email, pfp }) => {
     setPreviewSrc(imageSrc);
     setIsOpen(false);
     setFileSet(false);
+    setError(null)
     setZoom(1);
     setCropArea({x: 0, y: 0, width: 0, height: 0})
   };
 
   const handleSave = async () => {
     if(saving) return;
+    setError(null);
     const formData = new FormData();
     if (isGravatar) {
     setSaving(true);
