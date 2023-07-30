@@ -225,11 +225,14 @@ export async function userExistsAPI(user_id) {
     if(data && data.success && data.user?.user_id) {
       return true
     } else {
+      if(!data || !data?.success) {
+        return {error: true}
+      }
       return false;
     }
   } catch (error) {
     console.log("Error while trying to check if user exists", user_id);
-    return false;
+    return {error: true};
   }
 }
 
@@ -264,7 +267,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       if(!latestUsers.find(u => u.user_id === user.user_id)) {
         // Before removing user make sure they not in the api
         let userexistsInDb = await userExistsAPI(user.user_id);
-        if(userexistsInDb) continue;
+        if(userexistsInDb || userexistsInDb.error) continue;
         console.log("DELETING USER", user.user_id)
         await Profile.deleteOne({ user_id: user.user_id });
 
