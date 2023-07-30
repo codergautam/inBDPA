@@ -168,7 +168,7 @@ export default function SearchPage({ user, query="" }) {
                           </span>
                         ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400 justify-end">
+                      <p className="text-gray-600 dark:text-gray-400 ">
                         Type: {result.type}<br />
                         Views: {result.views}<br />
                       </p>
@@ -235,10 +235,10 @@ export default function SearchPage({ user, query="" }) {
                 }
               }
               return (
-                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
+                <div key={index} className="flex flex-col md:flex-row  rounded overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3 text-center content-center  md:text-base text-sm">
                   <Link href={`/opportunity/${result.opportunity_id}`}>
                     <div className="p-6 flex flex-col items-start justify-center ml-1">
-                      <h2 className="text-xl font-semibold ml-5 mb-2">
+                      <h2 className="text-xl font-semibold md:ml-5 mb-2">
                         {match && match.field === "title" ? (
                           <span>
                             {beforeMatch}
@@ -260,7 +260,7 @@ export default function SearchPage({ user, query="" }) {
                           </span>
                         ) : result.content.length > 80 ? result.content.substring(0, 80) + "..." : result.content}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm">
+                      <p className="text-gray-600 dark:text-gray-400 text-sm self-center md:self-end">
                         Views: {result.views}<br />
                       </p>
                     </div>
