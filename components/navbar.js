@@ -56,7 +56,7 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
             </Link>
           </div>
           <svg
-            className="md:hidden inline h-min w-10 fill-current dark:text-white text-black mr-9"
+            className="md:hidden inline h-min w-10 fill-current dark:text-white text-black"
             xmlns="http://www.w3.org/2000/svg"
             width="50"
             height="50"
@@ -72,9 +72,9 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search"
-          className="border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
+          className="w-9 border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
         />
-        <div className="absolute top-0 left-0 ml-3 mt-2">
+        <div className="top-0 left-0 ml-3 mt-2">
           <FontAwesomeIcon
             icon={faSearch}
             className="text-gray-400 dark:text-white"
@@ -175,7 +175,7 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
       <div
         className={
           navhidden
-            ? "items-center w-fit flex flex-col gap-y-1 pr-3 pl-3 place-self-end pb-6 pt-6 rounded-b-lg bg-gray-50 dark:bg-gray-900 md:hidden mt-16 absolute z-10 border-t-0 border"
+            ? "items-center w-fit flex flex-col gap-y-1 pr-3 pl-3 place-self-end pb-6 pt-6 rounded-b-lg bg-gray-50 dark:bg-gray-900 md:hidden mt-16 absolute z-20 border-t-0 border right-0 top-0"
             : "hidden"
         }
       >
@@ -254,7 +254,7 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
             </Link>
           </>
         )}
-              <div className="relative">
+              <div className="relative w-min">
         { showSearch ? (
           <>
         <input
@@ -262,9 +262,9 @@ export default function Navbar({ user,showSearch=true, queryText="" }) {
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="Search"
-          className="border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
+          className="w-min border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-7"
         />
-        <div className="absolute top-0 left-0 ml-3 mt-2">
+        <div className="w-min absolute top-0 left-0 ml-2 mt-1">
           <FontAwesomeIcon
             icon={faSearch}
             className="text-gray-400 dark:text-white"
