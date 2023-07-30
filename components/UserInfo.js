@@ -30,6 +30,9 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
   const [mode, setMode] = useState('view');
 
   const editable = user?.id === requestedUser.user_id;
+  function isValidDate(d) {
+    return d instanceof Date && !isNaN(d);
+  }
 
   useEffect(() => {
     // Update requestedUser.sections if the live items change
@@ -111,11 +114,11 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           alert('Please enter a description for each item.');
           return;
         }
-        if (!item.startedAt || (item.startedAt > (item.endedAt ?? Date.now()))) {
+        if (!item.startedAt || (item.startedAt > (item.endedAt ?? Date.now())) || item.startedAt > 9007199254740991 || item.startedAt <= 1) {
           alert('Please enter a valid start date for each item.');
           return;
         }
-        if(item.endedAt && item.endedAt > Date.now()) {
+        if(item.endedAt && item.endedAt > Date.now() || (item.endedAt && (item.endedAt > 9007199254740991 || item.endedAt <= 1))) {
           alert('Please enter a valid end date for each item.');
           return;
         }
@@ -151,27 +154,19 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
         section,
         content: items2,
       }),
-    });
+    }).then((e) => e.json()) .then((data) => {
 
+      if(data.success) {
     setLiveItems(_.cloneDeep(editorItems));
     setMode('view');
-  };
-
-  const validateAndSetDate = (index, value) => {
-    try {
-      // Attempt to parse the date
-      const date = new Date(value);
-      if (isNaN(date.getTime())) {
-        throw new Error("Invalid date");
+      }  else {
+        alert(data.error ?? "Unexpected Error, please try again")
       }
-
-      // If it's a valid date, update the item
-      updateItem(index, 'endedAt', date);
-    } catch (error) {
-      // Handle the error (here we just console log it, but you could handle it in a way that suits your needs)
-      console.error(error);
-    }
+    }).catch((e) => {
+      alert("Unexpected Error when updating profile")
+    })
   };
+
 
   const [isPresent, setIsPresent] = useState(false)
   return (
@@ -236,7 +231,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
     type="date"
     className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-3/4 text-black dark:text-white"
     value={item.startedAt ? item.startedAt.toISOString().substr(0, 10) : ""}
-    onChange={(event) => updateItem(index, 'startedAt', new Date(event.target.value))}
+    onChange={(event) => isValidDate(new Date(event.target.value)) && updateItem(index, 'startedAt', new Date(event.target.value))}
 />
 
 
@@ -265,7 +260,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
     type="date"
     className="border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 w-3/4 text-black dark:text-white"
     value={item.endedAt ? item.endedAt.toISOString().substr(0, 10) : ""}
-    onChange={(event) => updateItem(index, 'endedAt', new Date(event.target.value))}
+    onChange={(event) => isValidDate(event.target.value) && updateItem(index, 'endedAt', new Date(event.target.value))}
 />
 
                             </div>
