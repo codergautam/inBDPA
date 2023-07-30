@@ -45,7 +45,6 @@ const AboutSection = ({
   const handleAiSubmit = async () => {
     if (aiSubmitting) return;
 
-    console.log(otherSections);
     const sections = ["education", "volunteering", "skills", "experience"];
     let dataText = "Username: " + name + "\n\n";
     sections.forEach((section) => {

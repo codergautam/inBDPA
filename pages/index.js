@@ -21,11 +21,14 @@ export default function Home({count, user}) {
 
 export const getServerSideProps = withIronSessionSsr(async function ({ req, res }) {
   let userCount = await getUserCount();
+  let user;
   if(req.session.user) {
-    let user = await getUserFromMongo(req.session.user.id);
+    user = await getUserFromMongo(req.session.user.id);
     if(user && user.link && user.type) {
     req.session.user.link = user.link;
     req.session.user.type = user.type;
+    req.session.user.pfp  = user.pfp;
+    await req.session.save()
     }
   }
 
