@@ -47,7 +47,7 @@ const faqData = [
 
   },
   {
-    question: "What do you offer?",
+    question: "What does InBDPA offer?",
     answer:
     "We offer ways to find jobs and volunteering opportunities. We also have many ways to connect to a wide variety of people.",
   },
