@@ -10,7 +10,7 @@ const AboutSection = ({
   name,
 }) => {
   const [editing, setEditing] = useState(false);
-  const [newAbout, setNewAbout] = useState(about??"");
+  const [newAbout, setNewAbout] = useState(about ?? "");
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [suggesionsopen, setSuggestionsOpen] = useState(false);
   const [aiPrompt, setAiPrompt] = useState("");
@@ -79,10 +79,14 @@ const AboutSection = ({
       setAiSubmitting(false);
       if (res.data.error) {
         console.error(res.data.error);
-        setAiError("Unexpected Error" );
+        setAiError("Unexpected Error");
         return;
       }
-      setNewAbout(res.data.gptResponse.content.length > 1000 ? res.data.gptResponse.content.substring(0,1000) : res.data.gptResponse.content);
+      setNewAbout(
+        res.data.gptResponse.content.length > 1000
+          ? res.data.gptResponse.content.substring(0, 1000)
+          : res.data.gptResponse.content
+      );
 
       setAiPrompt("");
 
@@ -90,8 +94,7 @@ const AboutSection = ({
     } catch (error) {
       console.log(error.response);
       setAiSubmitting(false);
-      setAiError(error.response?.data?.error ?? "Unexpected Error" );
-
+      setAiError(error.response?.data?.error ?? "Unexpected Error");
     }
   };
 
@@ -224,7 +227,7 @@ const AboutSection = ({
             <button
               onClick={() => setAiModalOpen(true)}
               className="
-      px-4 py-2 mr-2 text-white bg-green-500 hover:bg-green-600 dark:bg-green-500/50 dark:hover:bg-green-500/75 rounded-md duration-300 ease-in-out transition
+      px-4 py-2 mr-2 text-white bg-green-600 hover:bg-green-700 rounded-md duration-300 ease-in-out transition
 
       "
             >
@@ -233,15 +236,13 @@ const AboutSection = ({
                 : "Improve with AI"}
             </button>
             <button
-              className="px-4 py-2 mr-2 text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-500/50 dark:hover:bg-blue-500/75 rounded-md duration-300 ease-in-out transition"
+              className="px-4 py-2 mr-2 text-white bg-blue-600 hover:bg-blue-500 rounded-md duration-300 ease-in-out transition"
               onClick={handleSaveClick}
             >
-              {
-                saving ? "Saving.." : "Save"
-              }
+              {saving ? "Saving.." : "Save"}
             </button>
             <button
-              className="px-4 py-2 text-white bg-gray-500 hover:bg-slate-500 dark:bg-gray-500/50 dark:hover:bg-gray-500/75 rounded-md duration-300 ease-in-out transition"
+              className="w-full justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
               onClick={handleCancelClick}
             >
               Cancel
