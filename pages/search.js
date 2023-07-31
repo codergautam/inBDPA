@@ -1,5 +1,3 @@
-// pages/search.js
-// This code is for the search page of the inBDPA project. It retrieves search results based on user input and displays them on the page. Users can search for users and opportunities. The code includes functionality for handling user input, sending requests to the search API, and updating the search results state. It also includes code for displaying the search results on the page, including loading more results and handling matches in the search query. The code uses React hooks and Next.js for server-side rendering.
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";
@@ -170,7 +168,7 @@ export default function SearchPage({ user, query="" }) {
                           </span>
                         ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
                       </p>
-                      <div className="flex flex-col items-center">
+                      <div className="flex flex-col justify-end items-center">
                       <p className="text-sm font-semibold text-gray-600 dark:text-gray-50 bg-gray-300 dark:bg-gray-800 w-fit px-2 mt-1 rounded-xl">
                         Type: {result.type}
                         </p>
