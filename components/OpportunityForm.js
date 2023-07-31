@@ -1,3 +1,5 @@
+// components/OpportunityForm.js
+// This code defines a React component called OpportunityForm. It provides a form for creating or editing opportunities. It includes a title input field, a Markdown editor for entering the opportunity content, and buttons for submitting the form or closing the form. It also includes an optional AI improvement feature that allows users to improve their opportunity content using an AI model. The form supports responsive design and adjusts the display based on the screen size. The code uses dynamic import to lazy load the Markdown editor component and axios for making API requests to the server.
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';

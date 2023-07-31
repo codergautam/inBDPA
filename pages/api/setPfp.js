@@ -1,3 +1,17 @@
+// pages/api/setPfp.js
+// This code is written to handle the API route for setting the user profile picture. 
+// 
+// - It imports the necessary dependencies and configurations.
+// - It defines the multer storage configuration for the uploaded images.
+// - It defines the multer upload configuration with file size limits and file type filtering.
+// - It defines the main handler function for the API route.
+// - It checks if the request method is POST and if the user is authenticated.
+// - It creates the 'pfps' directory if it doesn't exist.
+// - If there is an error in uploading the file, it returns the appropriate error response.
+// - If there is no file uploaded, it sets the user profile picture as 'gravatar'.
+// - If there is a file uploaded, it resizes and processes the image.
+// - It sets the user profile picture as the processed image and returns a success response.
+// - The config object is exported to disable the default body parser for this API route.
 import { setUserPfp } from '@/utils/api';
 import { ironOptions } from '@/utils/ironConfig';
 import fs from 'fs';

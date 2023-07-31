@@ -1,3 +1,5 @@
+// components/UserStats.js
+// This code is the UserStats component that displays user statistics such as profile views, active sessions, and connection status. The component receives the number of views, active sessions, connection status, and an editable flag as props. It returns a div element that contains the statistics with appropriate formatting and styling. The connection status is only displayed if the editable flag is set to false.
 import React from 'react';
 
 const UserStats = ({ views, activeSessions, connectionStatus, editable }) => {

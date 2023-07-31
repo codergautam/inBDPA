@@ -1,3 +1,5 @@
+// pages/api/opportunities/editOpportunity.js
+// This file contains a function for editing an opportunity. It first checks if the user is logged in and if they have the authorization to edit the opportunity. If the user is not logged in or is an "inner" user, it returns an error message. It then retrieves the opportunity details from the database and checks if the opportunity exists. If it doesn't, it returns an error message. If the user is the creator of the opportunity, it updates the opportunity details in the database and returns a success message. The function also logs the data and sends a response to the client.
 import { getOpportunity, getOpportunityMongo, updateOpportunity, updateOpportunityMongo } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 

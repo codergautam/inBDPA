@@ -1,3 +1,5 @@
+// pages/auth/login.js
+// This code is the login page component for the inBDPA project. It is responsible for rendering the login form and handling user authentication. The component includes form fields for the username, password, and remember me option. It also displays error and success messages based on the login process. The component keeps track of login attempts and blocks the user for a certain period of time after a certain number of failed attempts. The remaining attempts and time remaining are displayed to the user. The component uses the useState and useEffect hooks to manage state and perform side effects. The handleLogin function is called when the form is submitted and sends a POST request to the server to authenticate the user. The formatTimeRemaining function calculates the formatted time remaining based on the reset time. The getServerSideProps function is used to redirect the user to the home page if they are already logged in.
 /* eslint-disable @next/next/no-img-element */
 "use client";
 

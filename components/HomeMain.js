@@ -1,3 +1,5 @@
+// components/HomeMain.js
+// This code is the main component for the Home page of the inBDPA project. It includes various sections and features such as a hero section with a logo, a description section, a networking section, an opportunities section, and a frequently asked questions section. The code also includes functions to format numbers and round down numbers. The code uses external libraries such as AOS, react-parallax-tilt, next/image, and react-fontawesome.
 import React, { useEffect, useState } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';

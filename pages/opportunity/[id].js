@@ -1,3 +1,5 @@
+// pages/opportunity/[id].js
+// This file is responsible for displaying a specific opportunity based on its ID. It imports various components and functions to handle the functionality of viewing and editing an opportunity. The code first imports the necessary dependencies and sets up the necessary state variables. It then defines several functions for updating the opportunity information, deleting the opportunity, and editing the opportunity. The code also includes a useEffect hook to update the views and active viewers of the opportunity every 5 seconds. It also includes a useEffect hook to parse the markdown content of the opportunity. The code then defines the Opportunity component which displays the opportunity and includes options to delete or edit the opportunity if the user is the creator. The code also includes a getServerSideProps function which retrieves the necessary opportunity information and session data.
 import Head from "next/head"
 import Navbar from "@/components/navbar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -56,7 +58,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     let refreshRef = useRef()
 
     useEffect(()=>{
-      if(!opportunity) return;
+      if(!opportunity || opportunity.error) return;
         refreshRef.current = setInterval(async ()=> {
             setViews("...")
             setActive("...")
@@ -130,9 +132,9 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     <Navbar user={user}></Navbar>
     </div>
 
-        {!opportunity ? (
+        {!opportunity || opportunity.error ? (
           <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-800">
-          <p className="text-4xl text-gray-800 dark:text-white font-bold mb-8">Opportunity not found</p>
+          <p className="text-4xl text-gray-800 dark:text-white font-bold mb-8">{opportunity?.error ?? "Opportunity not found"}</p>
           <Link
             href="/opportunities"
             className="text-lg text-gray-800 dark:text-white font-semibold py-2 px-6 bg-blue-500 hover:bg-blue-600 rounded transition duration-200 ease-in-out"
@@ -232,10 +234,11 @@ export const getServerSideProps = withIronSessionSsr(async ({
     }
   }
     let active = (await countSessionsForOpportunity(params.id)).active
-    let opportunity = (await getOpportunity(params.id)).opportunity;
-    if(opportunity) {
+    let opportunity = (await getOpportunity(params.id));
+   if(opportunity.success) {
+    opportunity = opportunity.opportunity;
     opportunity.contents = sanitize(opportunity.contents)
-    }
+   }
     // const window = new JSDOM('').window
     // const DOMPurify = createDOMPurify(window)
     // opportunity.contents = marked(opportunity.contents)

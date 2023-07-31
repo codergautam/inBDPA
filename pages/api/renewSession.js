@@ -1,3 +1,5 @@
+// pages/api/renewSession.js
+// This code was written to handle a POST request to renew a session. It imports necessary functions from the "/utils" directory and the "iron-session/next" library. It then exports a wrapper function "withIronSessionApiRoute" that takes in a handler function and ironOptions as parameters. The handler function checks if the request method is POST and if not, it sends a "Method not allowed" error response. It then logs the renewal of the session and makes a request to renew the session using the provided sessionId. Finally, it sends the response data as a JSON object.
 import { withIronSessionApiRoute } from "iron-session/next"
 import { ironOptions } from "@/utils/ironConfig"
 import { createSession, deleteSession, getUserFromProfileId, renewSession } from "@/utils/api";

@@ -1,3 +1,13 @@
+// components/UserSearch.js
+// This code defines a React functional component called `UserSearch` which is used for modifying a user. It imports necessary dependencies from React and other libraries such as `@fortawesome/react-fontawesome` and `next/router`. The component uses state hooks such as `useState`, `useRef`, and `useEffect` to manage and update its state values.
+//
+// The component consists of several state variables which are used to store and manage user input and API responses. These include `query`, `suggestions`, `outputUser`, `outputUserStatus`, `nextPosition`, `previousPosition`, and more.
+//
+// There are functions defined within the component such as `impersonateUser`, `checkForUser`, `forceLogoutUser`, and `changeUserType`. These functions handle the logic for making API calls to perform actions on a user such as impersonation, force logout, and changing user type.
+//
+// The component returns JSX elements that render a UI for searching and modifying a user. It includes an input field, a list of suggestions, and buttons for different actions such as promotion, demotion, impersonation, and force logout. The UI also displays the user details and status messages based on API responses.
+//
+// Overall, this component serves as a user search and modification feature for an application.
 import { useState, useRef, useEffect } from "react"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMask, faGhost, faRightFromBracket } from '@fortawesome/free-solid-svg-icons';
@@ -77,7 +87,9 @@ export default function UserSearch() {
             if(users?.users) {
             setSuggestions(users.users.slice(0, 3).map(e=>e.username))
             }
-            let user = await fetch("/api/getUser", {
+            let user;
+            try {
+             user = await fetch("/api/getUser", {
                 next: {
                     revalidate: 2
                 },
@@ -90,7 +102,13 @@ export default function UserSearch() {
                 }),
                 credentials: "include"
             }).then((res) => res.json());
+        } catch (e) {
+            console.log(e);
+            setOutputUserStatus("Something went wrong.. Please try again shortly.");
+                setOutputUser(null);
+        }
 
+        if(user) {
             if (user.success) {
                 setOutputUserStatus("");
                 console.log("User:");
@@ -113,6 +131,7 @@ export default function UserSearch() {
                 setOutputUserStatus("No user found...");
                 setOutputUser(null);
             }
+        }
         }, 300); // Adjust the debounce delay as needed (e.g., 1000ms = 1 second).
     };
 
@@ -181,17 +200,23 @@ export default function UserSearch() {
         console.log(data)
         if(data.success) {
             setOutputUserStatus("Changed User to " + newPos)
-            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            promotionRef = setTimeout(async ()=>{
+                setOutputUserStatus("")
+
             await checkForUser(query, false)
+            }, 1000)
         } else {
-            setOutputUserStatus("Failed to change user type, ecountered error: " + data.error)
-            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            setOutputUserStatus( data.error ?? "Unexpected Error. Please try again shortly.")
+            promotionRef = setTimeout(async()=>{
             await checkForUser(query, false)
+
+                setOutputUserStatus("")
+            }, 5000)
         }
     }
 
     return (
-        <div className="mt-8 mb-8 flex flex-col w-5/6 md:w-3/4 xl:w-3/5 text-center border-none dark:bg-gray-900 p-8 rounded-lg dark:shadow-xl">
+        <div className="mt-8 mb-8 flex flex-col w-5/6 md:w-3/4 xl:w-3/5 text-center border-none dark:bg-gray-700 p-8 rounded-lg dark:shadow-xl">
           <p className="text-3xl lg:text-4xl text-gray-700 dark:text-white font-bold">Modify a user</p>
           <label className="text-gray-500 dark:text-gray-300 text-xl mb-4">Username:</label>
           <input value={query} onChange={(e)=>{

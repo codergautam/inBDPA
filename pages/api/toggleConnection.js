@@ -1,3 +1,5 @@
+// pages/api/toggleConnection.js
+// This code is the API route handler for toggling a connection between two users. When a POST request is made to this route, it will add a connection if one does not exist, and remove the connection if it does exist. The code first checks if the request method is POST and validates the request body. It then retrieves the user ids of the users involved in the connection. Next, it checks if the user making the connection is authenticated. After that, it fetches the current connections of both users and checks if they are already connected. If they are not connected, it adds the connection and updates the connections in both the Neo4j and MongoDB databases. If they are connected, it removes the connection and updates the databases. Finally, the code returns the updated connections and the new depth of the connection.
 import { withIronSessionApiRoute } from "iron-session/next"
 import { ironOptions } from "@/utils/ironConfig"
 import { addConnection, removeConnection, updateUserMongo } from "@/utils/api";

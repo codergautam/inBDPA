@@ -1,3 +1,5 @@
+// pages/api/suggestedConnections.js
+// This code is the API route for retrieving suggested connections for a user. It checks if the request is a GET request and if the user is logged in. It fetches the connection suggestions for the user and then fetches the user details for each suggested user. Finally, it returns the suggestions as a JSON response.
 import { withIronSessionApiRoute } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import { getConnectionSuggestions } from "@/utils/neo4j.mjs";

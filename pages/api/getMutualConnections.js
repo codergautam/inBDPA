@@ -1,3 +1,5 @@
+// pages/api/getMutualConnections.js
+// This code is responsible for handling a POST request to retrieve the mutual connections between two users. It first checks the request method and the validity of the request body. Then it fetches the connections of the requested user and the connections of the current user. It finds the mutual connections between the two sets of connections and removes duplicates and the requested user or the current user from the mutual connections. It then fetches the details of the mutual connections and calculates the depth of the connections. Finally, it returns the successful response with the mutual connections.
 import { withIronSessionApiRoute } from "iron-session/next"
 import { ironOptions } from "@/utils/ironConfig"
 import { fetchConnections, findConnectionDepth } from "@/utils/neo4j.mjs";

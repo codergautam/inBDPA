@@ -1,3 +1,5 @@
+// utils/encryptPassword.js
+// This code is responsible for encrypting a password using the PBKDF2 algorithm with a randomly generated salt. The `convertBufferToHex` function converts a byte array into a string of hexadecimal digits. The `convertHexToBuffer` function converts a string of hexadecimal digits into a byte array. The `deriveKeyFromPassword` function takes a password string and a salt buffer, and returns a key and salt as hexadecimal strings. The `encryptPassword` function takes a password string, derives a key and salt using `deriveKeyFromPassword`, and returns an object containing the key and salt as hexadecimal strings.
 import {webcrypto} from 'crypto';
 
 const KEY_SIZE_BYTES = 64;

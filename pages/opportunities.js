@@ -1,3 +1,5 @@
+// pages/opportunities.js
+// This code is for the "Opportunities" page of the inBDPA project. It allows users to view, create, edit, and delete opportunities. The page includes a list of opportunities, a create opportunity button (only visible to staff and administrators), and modals for creating and editing opportunities. The code fetches opportunities from the server and dynamically loads more when the user reaches the bottom of the page. The code also handles form submissions for creating and editing opportunities. It uses Next.js, React, and various libraries for components and functionality. The code also includes server-side authentication and session management.
 import Head from 'next/head';
 import Navbar from '@/components/navbar';
 import { useState, useEffect, useRef } from 'react';
@@ -188,14 +190,14 @@ useEffect(() => {
         <Navbar user={user} />
       </div>
 
-      <main className="container px-5 py-24 mx-auto">
+      <main className="container px-5 py-16 mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-gray-600 dark:text-gray-300 text-center">Opportunities</h2>
         {
           message ?
           <div className="text-black mx-auto font-semibold min-w-max w-min md:text-xl sm:text-lg text-base dark:text-green-500">
             {message}
           </div>
-          : 
+          :
           <></>
         }
         {user.type === "staff" || user.type === "administrator" ? (
@@ -266,6 +268,10 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   if(user && user.link && user.type) {
 
   req.session.user.type = user.type;
+  } else {
+    // Log em out
+    req.session.destroy();
+    return {user: null};
   }
   }
 
