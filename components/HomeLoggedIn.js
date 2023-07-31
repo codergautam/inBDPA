@@ -217,7 +217,7 @@ export default function HomeLoggedIn({ user }) {
           <div className="lg:w-1/4 lg:flex hidden relative">
          <div>
             {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
-            <div className="bg-gray-200 fixed pt-4 pb-14 right-10 top-1/2 dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
+            <div className="bg-gray-200 fixed pt-4 pb-14 right-10  dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
               <div className="flex items-center">
                 <img
@@ -232,23 +232,22 @@ export default function HomeLoggedIn({ user }) {
                   </p>
                 </div>
               </div>
-              <div className="mb-4">
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {user.email}
-                  </p>
-                  <p className="text-white">
-                    <span className="text-gray-600 dark:text-gray-400">/profile/</span>{user.link}
-                  </p>
-              </div>
               {/* <div className="break-words">
                 {JSON.stringify(user)}
               </div> */}
               <p className="text-gray-600 dark:text-gray-400 mb-2">{user.bio}</p>
-              <Link href={`/profile/${user.link}`} className="text-blue-500">
-                View Profile
-              </Link>
+              <div className="space-y-4">
+  <Link href={`/profile/${user.link}`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
+      View Profile
+  </Link>
+  <Link href={`/opportunities`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
+      View Opportunities
+  </Link>
+  <Link href={`/search`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
+      Search our Site
+  </Link>
+</div>
             </div>
-            {/* Add more links for other pages */}
           </div>
           </div>
         </div>
