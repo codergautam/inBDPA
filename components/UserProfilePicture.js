@@ -1,3 +1,16 @@
+// components/UserProfilePicture.js
+// This file contains the code for the UserProfilePicture component. The component is responsible for displaying a user's profile picture and allowing the user to edit or change it. The component uses the react-easy-crop library for cropping images.
+//
+// - The component uses state hooks to manage various variables such as the crop position, zoom level, and file input.
+// - The component uses the hashedEmail prop to generate a gravatar URL if the user does not have a profile picture.
+// - The handleSave function is responsible for saving the changes made to the profile picture. It makes a POST request to the '/api/setPfp' endpoint, sending the selected file, crop position, and zoom level.
+// - The handleImageChange function is triggered when a user selects a file from the file input. It reads the file using the FileReader API and sets the selectedFile and previewSrc state values.
+// - The handleOptionChange function is triggered when a user selects the "Use Gravatar" or "Upload Image" option. It sets the isGravatar state value and updates the previewSrc accordingly.
+// - The handleClose function is responsible for resetting the component's state values when the modal is closed.
+// - The component renders an image element which displays the profile picture. When clicked, it opens a modal where the user can edit or change the profile picture.
+// - The modal allows the user to choose between using their Gravatar or uploading a custom image. If the user chooses to upload an image, they can select a file from their device and see a preview of the selected image.
+// - When the user saves their changes, the appropriate action is taken based on the chosen option. If the user chooses to use their Gravatar, a request is made to the server to set the profile picture as the user's Gravatar. If the user chooses to upload an image, the file is sent to the server along with the crop position and zoom level.
+// - The component also handles error states and displays any errors that occur during the image upload process.
 import React, { useState } from 'react';
 import Cropper from 'react-easy-crop'
 
@@ -115,7 +128,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
 
       {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="relative bg-white dark:bg-gray-800 p-4 rounded-md max-w-lg mx-auto">
+          <div className="relative bg-white dark:bg-gray-900 p-4 rounded-md max-w-lg mx-auto">
             <button className="absolute top-2 right-2" onClick={handleClose} style={{zIndex: 10}}>
             <svg
                   className="fill-current text-red-500 hover:text-red-400 w-6 h-6 stroke-2"

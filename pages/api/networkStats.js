@@ -1,3 +1,5 @@
+// pages/api/networkStats.js
+// This code is written to handle an API route that returns network statistics for a user. It uses Iron Session for session management and Neo4j for fetching connections and determining connection depth. It also uses an external API for fetching user data. The code first checks if the user is authorized. If the "full" query parameter is present, it fetches the user's connections and their connections' connections up to a depth of 3. It then fetches the user data for these connections and constructs links between mutual connections. Finally, it returns the fetched user data and links in the response. If the "full" query parameter is not present, it fetches the user's connections up to a depth of 1 and constructs links between the user and these connections. It then returns the fetched user data and links in the response.
 import { withIronSessionApiRoute } from "iron-session/next"
 import { ironOptions } from "@/utils/ironConfig"
 import { fetchConnections, findConnectionDepth } from "@/utils/neo4j.mjs";

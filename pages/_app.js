@@ -1,3 +1,5 @@
+// pages/_app.js
+// // This code is the entry point for the Next.js application and serves as a wrapper component for all pages. It imports the necessary dependencies and components, sets up state and event listeners, and handles route changes. The "parseUrl" function is used to parse the URL and determine the page name and id. The "App" component renders a loading screen while the page is loading and the actual page content once it is loaded.
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import "@/public/globals.css"
@@ -128,7 +130,6 @@ const handleRouteChangeStart = async (url, first=false) => {
   });
   let makeSessionData = await makeSessionRes.json();
   if (makeSessionData.session_id) {
-    console.log("Setting session id", makeSessionData.session_id, "for url", url)
     sessionIdRef.current = makeSessionData.session_id;
   }
 };

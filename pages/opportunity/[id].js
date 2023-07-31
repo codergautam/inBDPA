@@ -1,3 +1,5 @@
+// pages/opportunity/[id].js
+// This file is responsible for displaying a specific opportunity based on its ID. It imports various components and functions to handle the functionality of viewing and editing an opportunity. The code first imports the necessary dependencies and sets up the necessary state variables. It then defines several functions for updating the opportunity information, deleting the opportunity, and editing the opportunity. The code also includes a useEffect hook to update the views and active viewers of the opportunity every 5 seconds. It also includes a useEffect hook to parse the markdown content of the opportunity. The code then defines the Opportunity component which displays the opportunity and includes options to delete or edit the opportunity if the user is the creator. The code also includes a getServerSideProps function which retrieves the necessary opportunity information and session data.
 import Head from "next/head"
 import Navbar from "@/components/navbar"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"

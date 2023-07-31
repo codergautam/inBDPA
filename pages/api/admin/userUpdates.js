@@ -1,3 +1,17 @@
+// pages/api/admin/userUpdates.js
+// This file contains the code for handling user updates in the admin interface. 
+// - The code imports functions for setting force logout, getting user details, and session handling from the utils/api module.
+// - It also imports the withIronSessionApiRoute function and ironOptions object from the iron-session/next and utils/ironConfig modules respectively.
+// - The code exports the default function with the IronSessionApiRoute handler and ironOptions as the options.
+// - The handler function is an asynchronous function that handles HTTP requests and responses.
+// - If the user session is not present, it returns a JSON response with an error message.
+// - If the request method is POST, it checks if the user is an administrator and handles force logout by setting the forceLogout value in the database. It returns a JSON response with the updated data.
+// - If the user is not an administrator, it disables force logout by setting the forceLogout value in the database with a past timestamp. It returns a JSON response with the updated data.
+// - If the request method is GET, it checks if the user is an administrator and returns a successful JSON response.
+// - If the user is not an administrator, it retrieves the user details from the database. If the user is not found, it returns a JSON response with an error message.
+// - If the user's refreshSession flag is set, it updates the user's type in the session and sets shouldRefresh to true.
+// - If the user must be forced to logout but impersonation is occurring, it stores the administrator's user details in the session and returns a JSON response with the updated data.
+// - If the user exists, it returns a JSON response with the forceLogout value and shouldRefresh flag.
 import { setForceLogout, getUser, getUserFromMongo } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 

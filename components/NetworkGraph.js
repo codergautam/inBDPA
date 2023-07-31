@@ -1,3 +1,15 @@
+// components/NetworkGraph.js
+// The file contains an implementation of a React component called "NetworkGraphModal". The component displays a network graph in a modal. It uses the vis-network library to render the graph.
+// 
+// The component has several states, such as modalIsOpen, data, isLoading, isFullMode, and isRendering, to manage its behavior and UI. 
+// 
+// The component includes two useEffect hooks. The first hook fetches the network data from an API endpoint when the modal is opened or the full mode checkbox is toggled. It sets the fetched data to the component's state.
+// 
+// The second useEffect hook is responsible for rendering the network graph when the modal is open and data is available. It creates an array of nodes and edges based on the fetched data and renders them using the vis-network library. It also includes event listeners for node selection, zooming, panning, and node hover.
+// 
+// The component also includes UI elements, such as a button to open the modal, a modal to display the network graph, and a checkbox to toggle between full and limited mode.
+// 
+// While the code appears to be functioning correctly, it could benefit from some code cleanup and better separation of concerns.
 import React, { useEffect, useRef, useState } from "react";
 import Modal from "react-modal";
 import {DataSet, Network} from 'vis-network/standalone/umd/vis-network';

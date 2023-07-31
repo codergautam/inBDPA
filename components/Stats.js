@@ -1,3 +1,5 @@
+// components/Stats.js
+// This file contains the code for the Stats component. The Stats component is responsible for fetching data from the "/api/info" endpoint and displaying various statistics about the platform. It makes use of the useState, useEffect, useRef, and fetch functions from React. The component also includes a StatItem component that is used to display individual statistics. The component fetches data from the "/api/info" endpoint and updates the state variables with the fetched data. It also sets up an interval to fetch data every 30 seconds. The fetched data is then displayed using the StatItem component.
 import { useEffect, useRef, useState } from "react";
 
 async function getInfoData() {
@@ -53,8 +55,8 @@ export default function Stats() {
 
 function StatItem({ label, value }) {
   return (
-    <div className="lg:w-1/4 text-center m-4 grow flex flex-col items-center justify-center dark:bg-gray-900 rounded-lg shadow-none bg-white border-2 dark:border-none dark:shadow-md p-4 transition-all duration-300 transform hover:scale-105">
-      <p className="text-center font-semibold text-black dark:font-semibold dark:text-green-500 text-md lg:text-lg xl:text-xl mb-2">
+    <div className="lg:w-1/4 text-center m-4 grow flex flex-col items-center justify-center dark:bg-gray-700 rounded-lg shadow-none bg-white border-2 dark:border-none dark:shadow-md p-4 transition-all duration-300 transform hover:scale-105">
+      <p className="text-center font-semibold text-black dark:font-semibold dark:text-white text-md lg:text-lg xl:text-xl mb-2">
         {label}:
       </p>
       <p className="text-center font-bold text-xl sm:text-2xl lg:text-2xl text-black dark:text-white">

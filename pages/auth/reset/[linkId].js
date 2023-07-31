@@ -1,3 +1,19 @@
+// pages/auth/reset/[linkId].js
+// This file is responsible for handling the reset password functionality in the authentication process. It renders the reset password form and handles the password change request.
+// 
+// The code imports necessary modules and components needed for the functionality such as useState, useEffect, Head, useRouter, Link, Navbar, ErrorComponent, and redirect.
+// 
+// The ResetPassword function is the main component in this file. It takes two props as parameters: resetId and failError. The resetId is used to identify the reset link and the failError is used to display any error that occurs during the reset process.
+// 
+// Inside the ResetPassword component, there are several state variables defined using the useState hook. These variables keep track of the current password, confirm password, button text, error message, success message, and password strength.
+// 
+// There are two helper functions defined: areAllFieldsFilled and handleChangePassword. areAllFieldsFilled checks if both password and confirm password fields are filled. handleChangePassword is an asynchronous function that handles the password change request. It sends a POST request to the reset endpoint using the fetch API and updates the state variables accordingly based on the response.
+// 
+// There are also two useEffect hooks defined. The first useEffect hook updates the button text based on whether all fields are filled or not. The second useEffect hook updates the password strength based on the length of the password.
+// 
+// The return statement contains the JSX code that renders the reset password form. It includes input fields for password and confirm password, as well as conditional rendering based on the success and failure states.
+// 
+// The file also exports a getServerSideProps function that is responsible for fetching the reset link information from the server. It checks if the reset link exists and if it has expired or been used. It returns the resetId prop or an error message prop for rendering in the ResetPassword component.
 import { useState, useEffect } from "react";
 import Head from "next/head";
 import { useRouter, push } from "next/router";

@@ -1,3 +1,17 @@
+// pages/auth/forgot.js
+// This code is written to implement the functionality of the Forgot Password page in a web application. 
+// - It imports necessary components and libraries such as React, Next.js, and various components.
+// - It defines a function component called ForgotPassword, which renders the UI of the page.
+// - It initializes state variables for email, button text, error, success, and link.
+// - It defines a helper function to check if all required fields are filled.
+// - It uses the useEffect hook to update the button text based on the state of the areAllFieldsFilled variable.
+// - It defines an async function to handle the reset password action.
+// - It uses the fetch function to send a POST request to the server with the email.
+// - It updates the state variables based on the response from the server.
+// - It renders the UI elements and conditional components based on the success and error states.
+// - It includes form elements and input fields for the email address.
+// - It conditionally renders different buttons based on the areAllFieldsFilled function.
+// - It includes a link to the login page and handles form submissions.
 import { useEffect, useState } from "react";
 import Head from "next/head";
 import Link from "next/link";

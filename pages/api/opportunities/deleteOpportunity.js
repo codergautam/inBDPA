@@ -1,3 +1,5 @@
+// pages/api/opportunities/deleteOpportunity.js
+// This file contains the code for deleting an opportunity. The code checks if the user is authorized to delete the opportunity and if the opportunity exists. If all the conditions are met, the opportunity is deleted from the database. If not, appropriate error messages are returned.
 import { deleteOpportunity, deleteOpportunityMongo, getOpportunity, getOpportunityMongo } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 

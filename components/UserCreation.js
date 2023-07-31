@@ -1,3 +1,17 @@
+// components/UserCreation.js
+// This file contains the code for a component called "UserCreation".
+//
+// This component is used to create a new user by filling out a form.
+//
+// The component uses React's useState, useRef, and useEffect hooks to manage state and handle form submission.
+//
+// The component displays a form to collect information such as username, email, password, and user type.
+//
+// The form submission is handled by the handleSubmit function, which sends a POST request to the "/api/auth/signup" endpoint with the form data.
+//
+// If the user creation is successful, the component displays a success message and resets the form.
+//
+// If there is an error during user creation, the component displays an error message.
 import { useState, useRef, useEffect } from "react";
 
 export default function UserCreation() {
@@ -60,21 +74,23 @@ export default function UserCreation() {
   };
 
   return (
-    <div className="mt-8 mb-8 m-4 flex flex-col sm:w-4/5 lg:w-1/2 xl:w-1/2 mx-auto text-center bg-white dark:bg-gray-900 p-8 rounded-lg border dark:border-none dark:shadow-xl">
+    <div className="mt-8 mb-8 m-4 flex flex-col sm:w-4/5 lg:w-1/2 xl:w-1/2 mx-auto text-center bg-white dark:bg-gray-700 p-8 rounded-lg border dark:border-none dark:shadow-xl">
       {showStatus && (
         <p className={`text-2xl font-bold mb-4 ${error ? "text-red-500" : "text-green-500"}`}>
           {status}
         </p>
       )}
+      <center>
       <p
         onClick={() => setShowingForm(!showingForm)}
-        className={`text-xl cursor-pointer text-black dark:text-white font-bold ${showingForm ? "text-rose-400 dark:text-red-500" : ""}`}
+        className={`text-xl cursor-pointer text-black dark:text-white dark:bg-gray-800 w-1/2 rounded-md px-2 font-bold ${showingForm ? "text-rose-400 dark:text-red-500" : ""}`}
       >
         {!showingForm ? "Create a new user" : "Close this form"}
       </p>
+      </center>
       {showingForm && (
         <div className="flex flex-col items-center">
-          <p className="text-2xl sm:text-3xl lg:text-4xl  text-black dark:text-blue-600 font-bold mb-4">
+          <p className="text-2xl sm:text-3xl lg:text-4xl  text-black dark:text-green-600 font-bold mb-4">
             Create a New User
           </p>
           <div className="w-5/6">
