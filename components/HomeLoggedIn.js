@@ -29,6 +29,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import md5 from "blueimp-md5";
 import msToTime from "@/utils/msToTime";
+import { useRouter } from "next/router";
 const getGreeting = () => {
   const currentHour = new Date().getHours();
   if (currentHour < 12) {
@@ -40,6 +41,7 @@ const getGreeting = () => {
   }
 };
 export default function HomeLoggedIn({ user }) {
+  const router = useRouter()
   const [feedData, setFeedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [lastItemId, setLastItemId] = useState(null);
@@ -151,11 +153,7 @@ export default function HomeLoggedIn({ user }) {
                       console.log(`Inner: ${e.target.value}`)
                       e.preventDefault()
                       // Indicate that a connection/disconnection operation is happening
-                      if (connectionLabel == "Connect")
-                        setConnectionLabel("Connecting...");
-                      else if (connectionLabel == "Disconnect")
-                        setConnectionLabel("Disconnecting...");
-                      else return;
+                      e.target.innerHTML = "Connecting..."
                       console.log("User: ", item)
                       let data = await fetch("/api/toggleConnection", {
                         method: "POST",
@@ -169,22 +167,15 @@ export default function HomeLoggedIn({ user }) {
                         // setConnections(() => data.connections);
                         // setDepth(() => data.newDepth);
                         // Indicate that the operation is complete
-                        setConnectionLabel(
-                          data.connections[0]?.includes(user?.id)
-                            ? "Disconnect"
-                            : "Connect"
-                        );
+                        alert("Successfully connected")
+                        router.push(`/profile/${item.link}`)
                       } else {
-                        // If the operation fails, reset the button's label
-                        setConnectionLabel(
-                          connections[0]?.includes(user?.id)
-                            ? "Disconnect"
-                            : "Connect"
-                        );
+                        alert("Failed to connect")
+                        e.target.innerHTML = "Connect"
                       }
                     }}
                   >
-                    {connectionLabel}
+                    Connect
                   </button>
                         ): null}
                         </div>
@@ -229,7 +220,7 @@ export default function HomeLoggedIn({ user }) {
           <div className="lg:w-1/4 lg:flex hidden relative">
          <div>
             {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
-            <div className="bg-gray-200 fixed right-10 top-1/2 dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
+            <div className="bg-gray-200 fixed pt-4 pb-14 right-10 top-1/2 dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
               <div className="flex items-center">
                 <img
