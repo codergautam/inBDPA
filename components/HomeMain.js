@@ -38,7 +38,7 @@ const faqData = [
   {
     question: "Is it free?",
     answer:
-      "Yes, it is complete free to join and use our platform..",
+      "Yes, it is complete free to join and use our platform.",
   },
   {
     question: "How do I promote my profile?",
@@ -46,6 +46,11 @@ const faqData = [
       "You can promote your profile by sharing it on social media, or by sharing it with your friends and family. You can also promote your profile by participating in our networking feature, where you can connect with other professionals and grow your network.",
 
   },
+  {
+    question:"",
+    answer:
+    "",
+  }
   // Add more FAQ items as needed
 ];
 
