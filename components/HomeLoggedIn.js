@@ -24,8 +24,6 @@
 import React, { useEffect, useState } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { faGears, faNetworkWired, faSearch, faShare, faShareNodes, faSuitcase } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import md5 from "blueimp-md5";
 import msToTime from "@/utils/msToTime";
@@ -167,7 +165,6 @@ export default function HomeLoggedIn({ user }) {
                         // setConnections(() => data.connections);
                         // setDepth(() => data.newDepth);
                         // Indicate that the operation is complete
-                        alert("Successfully connected")
                         router.push(`/profile/${item.link}`)
                       } else {
                         alert("Failed to connect")
