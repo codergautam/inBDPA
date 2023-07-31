@@ -265,7 +265,7 @@ const AboutSection = ({
           {editable ? (
             <div className="flex justify-end">
               <button
-                className="px-4 py-2 mx-auto text-gray-700 hover:text-black dark:hover:text-white pb-2 border-b border-gray-700  hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white duration-300 ease-in-out transition"
+                className="px-4 py-2 mx-auto text-gray-500 font-bold hover:text-black dark:hover:text-white pb-2 border-b border-gray-700  hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white duration-300 ease-in-out transition"
                 onClick={handleEditClick}
               >
                 Edit

@@ -1,6 +1,6 @@
 // components/UserProfilePicture.js
 // This file contains the code for the UserProfilePicture component. The component is responsible for displaying a user's profile picture and allowing the user to edit or change it. The component uses the react-easy-crop library for cropping images.
-// 
+//
 // - The component uses state hooks to manage various variables such as the crop position, zoom level, and file input.
 // - The component uses the hashedEmail prop to generate a gravatar URL if the user does not have a profile picture.
 // - The handleSave function is responsible for saving the changes made to the profile picture. It makes a POST request to the '/api/setPfp' endpoint, sending the selected file, crop position, and zoom level.
@@ -122,13 +122,13 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
   return (
     <div className='w-full pb-16'>
       <div className="flex justify-center items-center mb-4 cursor-pointer" onClick={() => setIsOpen(true)}>
-        <img className="absolute p-2 bg-white dark:bg-gray-800 rounded-full h-28 w-28 md:w-36 md:h-36 lg:h-48 lg:w-48 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
+        <img className="absolute p-2 bg-white dark:bg-gray-900 rounded-full h-28 w-28 md:w-36 md:h-36 lg:h-48 lg:w-48 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
       </div>
 
 
       {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
-          <div className="relative bg-white dark:bg-gray-800 p-4 rounded-md max-w-lg mx-auto">
+          <div className="relative bg-white dark:bg-gray-900 p-4 rounded-md max-w-lg mx-auto">
             <button className="absolute top-2 right-2" onClick={handleClose} style={{zIndex: 10}}>
             <svg
                   className="fill-current text-red-500 hover:text-red-400 w-6 h-6 stroke-2"

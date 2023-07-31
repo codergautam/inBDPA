@@ -197,7 +197,7 @@ useEffect(() => {
           <div className="text-black mx-auto font-semibold min-w-max w-min md:text-xl sm:text-lg text-base dark:text-green-500">
             {message}
           </div>
-          : 
+          :
           <></>
         }
         {user.type === "staff" || user.type === "administrator" ? (
