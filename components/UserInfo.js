@@ -186,7 +186,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           {section !== 'skills' ? (
             liveItems.map((item, index) => (
               <div className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition" key={index}>
-                <h2 className="text-sm md:text-lg font-bold mb-2 break-words">{item.title}</h2>
+                <h2 className="text-sm text-black dark:text-white md:text-lg font-bold mb-2 break-words">{item.title}</h2>
                 <p className="text-gray-800 text-xs md:text-base dark:text-white mb-1 break-words">
                   {item.startedAt.toDateString()} - {(item.endedAt ? item.endedAt.toDateString() : "Present Day")}
                 </p>
@@ -197,7 +197,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           ) : (
             liveItems.map((item, index) => (
               <div className="w-3/4 mx-auto" key={index}>
-                <h2 className="text-sm md:text-lg  font-bold break-words rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">{item}</h2>
+                <h2 className="text-sm md:text-lg text-black dark:text-white font-bold break-words rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">{item}</h2>
               </div>
             ))
           )}
@@ -225,7 +225,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                         onChange={(e) => updateItem(index, 'title', e.target.value)}
                       />
                       <div className="flex space-x-2 mb-2">
-                        <div className='w-1/2'>
+                        <div className='w-1/2 flex flex-col text-black dark:text-white'>
                           From:
                           <input
     type="date"
@@ -236,7 +236,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
 
 
                         </div>
-                        <div className='w-1/2'>
+                        <div className='w-1/2 flex flex-col text-black dark:text-white'>
                           To:
                           <div className="flex flex-col justify-start">
                           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -250,7 +250,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
       }
     }}
     type="checkbox"
-    className="peer mr-auto"
+    className="peer mr-auto bg-white"
     checked={item.endedAt === null}
   />
 </div>
@@ -300,10 +300,10 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                   </button>
                 </div>
               ))}
+              {editorItems.length >= 10 && (
+                <p className="text-rose-400 dark:text-red-500 font-bold dark:font-normal mb-2 ml-4">You cannot add more than 10 items here.</p>
+              )}
               <div className="space-x-2 ml-4">
-                {editorItems.length >= 10 && (
-                  <p className="text-red-500">You cannot add more than 10 items here.</p>
-                )}
               {editorItems.length < 10 && (
                 <button
                   className="bg-green-500 hover:bg-green-600 dark:bg-green-800/50 dark:hover:bg-green-900/50 text-white font-bold py-2 px-4 rounded transition duration-500 ease-in-out transform hover:-translate-y-1 hover:scale-110"
