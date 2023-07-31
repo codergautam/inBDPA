@@ -47,10 +47,20 @@ const faqData = [
 
   },
   {
-    question:"",
+    question: "What do you offer?",
     answer:
-    "",
-  }
+    "We offer ways to find jobs and volunteering opportunities. We also have many ways to connect to a wide variety of people.",
+  },
+  {
+    question: "How do I create a job opportunity?",
+    answer:
+    "Contact one of our administartors to ask to be prmoted to a staff member.",
+  },
+  {
+    question: "How do I see someones profile?",
+    answer:
+    "There are two ways, one, looking them up using our search feature, or, two, having them send you the link to their page.",
+  },
   // Add more FAQ items as needed
 ];
 
