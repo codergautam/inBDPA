@@ -205,7 +205,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           {section !== "skills"
             ? liveItems.map((item, index) => (
                 <div
-                  className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition"
+                  className="w-3/4 rounded bg-gray-100 dark:bg-gray-800 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition"
                   key={index}
                 >
                   <h2 className="text-sm text-black dark:text-white md:text-lg font-bold mb-2 break-words">
@@ -225,7 +225,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
               ))
             : liveItems.map((item, index) => (
                 <div className="w-3/4 mx-auto" key={index}>
-                  <h2 className="text-sm md:text-lg text-black dark:text-white font-bold break-words rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">
+                  <h2 className="text-sm md:text-lg text-black dark:text-white font-bold break-words rounded bg-gray-100 dark:bg-gray-800 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">
                     {item}
                   </h2>
                 </div>

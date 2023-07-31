@@ -130,7 +130,6 @@ const handleRouteChangeStart = async (url, first=false) => {
   });
   let makeSessionData = await makeSessionRes.json();
   if (makeSessionData.session_id) {
-    console.log("Setting session id", makeSessionData.session_id, "for url", url)
     sessionIdRef.current = makeSessionData.session_id;
   }
 };

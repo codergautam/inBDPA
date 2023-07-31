@@ -66,7 +66,7 @@ export default function SearchPage({ user, query="" }) {
       </Head>
       <Navbar user={user} />
       <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
-        <div className="container px-5 py-24 mx-auto">
+        <div className="container px-5 py-16 mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
             Search:
           </h1>

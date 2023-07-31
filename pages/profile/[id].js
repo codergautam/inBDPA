@@ -135,7 +135,7 @@ export default function Page({
         <UserBanner editable={editable} banner={banner} />
       ) : null}
 
-      <main className="flex flex-col mt-4 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-900 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
+      <main className="flex flex-col mt-4 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-700 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
         {requestedUser ? (
           <>
           <div className="flex flex-col md:flex-row md:gap-6 w-full">
@@ -303,7 +303,7 @@ export default function Page({
             >
               Return to home page
             </Link>
-            <div className="h-screen w-full bg-white dark:bg-gray-900"></div>
+            <div className="h-screen w-full bg-white dark:bg-gray-700"></div>
           </>
         )}
       </main>

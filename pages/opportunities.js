@@ -268,6 +268,10 @@ export const getServerSideProps = withIronSessionSsr(async function ({
   if(user && user.link && user.type) {
 
   req.session.user.type = user.type;
+  } else {
+    // Log em out
+    req.session.destroy();
+    return {user: null};
   }
   }
 

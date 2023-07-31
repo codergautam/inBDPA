@@ -1,25 +1,18 @@
 // pages/admin/[id].js
 // This code is for the admin page that is displayed when a user visits the /admin/[id] route. The code retrieves the id parameter from the dynamic route and fetches the user information using the getUserFromProfileId function. If the user is not logged in or is not an administrator, they are redirected to the login page. Otherwise, the user object is passed as a prop to the Page component. The Page component renders the admin dashboard with the Navbar, Stats, UserSearch, and UserCreation components.
-import { getRequestCookie } from "@/utils/getRequestCookie";
 import { withIronSessionSsr } from "iron-session/next";
 import Head from "next/head";
 import Navbar from "@/components/navbar";
-import { getUserFromProfileId } from "@/utils/api";
 import Stats from "@/components/Stats";
 import UserCreation from "@/components/UserCreation";
 import UserSearch from "@/components/UserSearch";
 import { ironOptions } from "@/utils/ironConfig";
-import { useRouter } from "next/router";
 
 export const getServerSideProps = withIronSessionSsr(async function ({
   req,
   res,
   params,
 }) {
-  // Get id param of dynamic route
-  // ex: /profile/1
-  const id = params.id;
-  const requestedUser = (await getUserFromProfileId(id)).user;
   if (
     req.session.user == null ||
     !req.session.user?.id ||
