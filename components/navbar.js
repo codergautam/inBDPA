@@ -89,7 +89,7 @@ export default function Navbar({ user, queryText = "" }) {
                 {/* ... Search Button ... */}
                 <button
                   onClick={handleSearch}
-                  className="absolute top-0 right-0 h-full px-4 py-2 text-gray-50 bg-green-600 hover:bg-green-700 rounded-full focus:outline-none"
+                  className="absolute top-0 right-0 h-full px-4 py-2 text-gray-50 bg-green-600 hover:bg-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 dark:focus:ring-green-400"
                 >
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
