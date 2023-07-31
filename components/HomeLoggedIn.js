@@ -133,25 +133,26 @@ export default function LoggedInHome({ user }) {
           </aside>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center md:justify-center">
+        <div className="lg:flex gap-6 md:justify-center">
           {/* Scrolling Feed */}
-          <div className="lg:col-span-2">
-            <h1 className="mb-2">Your Feed</h1>
-
+          <div className="lg:w-3/4 mr-auto">
+          <h1 className="mb-2">Your Feed</h1>
+          <div className="flex flex-col space-y-8">
             {feedData.map((item, index) => (
               <div
                 key={index}
-                className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700 mb-8"
+                className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700"
               >
                 {item.type === "user" && (
                   <Link href={`/profile/${item.link}`} passHref>
                     <div className="p-6 flex rounded-lg flex-col items-start justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out">
                       <img src={item.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${item.hashedEmail}?d=identicon` : `/api/public/pfps/${item.pfp}`} alt={item.username} className="w-10 h-10 rounded-full mr-4" />
-                      <div>
+                      <div className="">
+                        <div className="flex align-baseline mb-2">
                         <h2 className="text-lg font-semibold">{item.username}</h2>
                         {!item.isConnected ? (
                         <button
-                    className="bg-blue-500 my-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 ml-2 mb-auto hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
                     onClick={async (e) => {
                       console.log(`Inner: ${e.target.value}`)
                       e.preventDefault()
@@ -192,6 +193,7 @@ export default function LoggedInHome({ user }) {
                     {connectionLabel}
                   </button>
                         ): null}
+                        </div>
                       <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-all text-clip w-full">{item.sections.about.length > 200 ? item.sections.about.substring(0,200)+"..." : item.sections.about}</p>
                       </div>
                       <div className="flex flex-row gap-2">
@@ -224,16 +226,18 @@ export default function LoggedInHome({ user }) {
                 )}
               </div>
             ))}
+          </div>
             {loading && <div className="flex justify-center items-center">
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
           </div>}
           </div>
           {/* Sidebar */}
-         <aside className="lg:block lg:col-span-1 hidden fixed top-1/2 right-0 w-1/4 mr-9">
+          <div className="lg:w-1/4 lg:flex hidden relative">
+         <div>
             {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
-            <div className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
+            <div className="bg-gray-200 fixed right-10 top-1/2 dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
-              <div className="flex items-center mb-4">
+              <div className="flex items-center">
                 <img
                   src={user.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${user.pfp}`}
                   alt={`${user.username} Profile`}
@@ -246,13 +250,25 @@ export default function LoggedInHome({ user }) {
                   </p>
                 </div>
               </div>
+              <div className="mb-4">
+                  <p className="text-gray-600 dark:text-gray-400">
+                    {user.email}
+                  </p>
+                  <p className="text-white">
+                    <span className="text-gray-600 dark:text-gray-400">/profile/</span>{user.link}
+                  </p>
+              </div>
+              {/* <div className="break-words">
+                {JSON.stringify(user)}
+              </div> */}
               <p className="text-gray-600 dark:text-gray-400 mb-2">{user.bio}</p>
               <Link href={`/profile/${user.link}`} className="text-blue-500">
                 View Profile
               </Link>
             </div>
             {/* Add more links for other pages */}
-          </aside>
+          </div>
+          </div>
         </div>
       </div>
     </section>
