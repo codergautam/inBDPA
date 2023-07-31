@@ -1,3 +1,5 @@
+// pages/opportunities.js
+// This code is for the "Opportunities" page of the inBDPA project. It allows users to view, create, edit, and delete opportunities. The page includes a list of opportunities, a create opportunity button (only visible to staff and administrators), and modals for creating and editing opportunities. The code fetches opportunities from the server and dynamically loads more when the user reaches the bottom of the page. The code also handles form submissions for creating and editing opportunities. It uses Next.js, React, and various libraries for components and functionality. The code also includes server-side authentication and session management.
 import Head from 'next/head';
 import Navbar from '@/components/navbar';
 import { useState, useEffect, useRef } from 'react';

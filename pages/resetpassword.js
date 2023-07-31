@@ -1,3 +1,5 @@
+// pages/resetpassword.js
+// This code is written to handle the functionality of resetting a user's password. It is a page component in the inBDPA project. When the user submits the form, it makes a POST request to the "/api/auth/signup" endpoint with the user's new password, email, and rememberMe option. If the request is successful, it redirects the user to the home page. If there is an error, it displays an error message to the user. The page also includes a form for the user to enter their new password.
 "use client";
 import Head from 'next/head'
 import { useState } from 'react';

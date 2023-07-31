@@ -1,3 +1,5 @@
+// components/UserInfo.js
+// This code is used to render a component called "UserInfo" that allows a user to view and edit information about themselves. It uses state variables to keep track of the user's information and the current mode (view or edit). It also includes functions for creating, updating, and deleting items in the user's information. The code includes client-side validation to ensure that the user enters valid information before saving the changes. The component also includes a modal for editing the information and handles the API request to update the user's profile.
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import _ from "lodash";

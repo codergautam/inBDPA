@@ -1,3 +1,17 @@
+// components/UserCreation.js
+// This file contains the code for a component called "UserCreation". 
+// 
+// This component is used to create a new user by filling out a form. 
+// 
+// The component uses React's useState, useRef, and useEffect hooks to manage state and handle form submission. 
+// 
+// The component displays a form to collect information such as username, email, password, and user type. 
+// 
+// The form submission is handled by the handleSubmit function, which sends a POST request to the "/api/auth/signup" endpoint with the form data. 
+// 
+// If the user creation is successful, the component displays a success message and resets the form. 
+// 
+// If there is an error during user creation, the component displays an error message.
 import { useState, useRef, useEffect } from "react";
 
 export default function UserCreation() {

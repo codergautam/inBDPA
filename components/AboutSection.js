@@ -1,3 +1,5 @@
+// components/AboutSection.js
+// This component is responsible for rendering and editing the "About" section of a user's profile. It allows the user to edit their bio and save the changes. The component also includes functionality for generating or improving the bio using AI. The user can click on the "Edit" button to enable editing mode, where they can type and modify their bio. When they click the "Save" button, the changes are saved and the editing mode is turned off. The component also includes a button for generating or improving the bio with AI. Clicking this button opens a modal where the user can enter a prompt for the AI, and upon submission, the AI generates a new bio or improves the existing one. The component displays the current bio of the user and provides an option to add an about section if one does not exist already. Only the user and authorized entities can edit the about section.
 import axios from "axios";
 import { useState } from "react";
 

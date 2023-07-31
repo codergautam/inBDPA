@@ -1,3 +1,5 @@
+// utils/neo4j.mjs
+// This code is responsible for interacting with a Neo4j database to perform various operations on users and their connections. It includes functions to check if a user exists, fetch connections of a user up to a certain depth, get connection suggestions for a user, delete a user and their connections, update a user's connections, create a new user and their connections, and find the depth of connection between two users. The code uses the neo4j-driver library to connect to the Neo4j database server and execute Cypher queries to retrieve and manipulate data. The code also uses environment variables to store sensitive information like the URI, username, and password for the database connection.
 import neo4j from 'neo4j-driver';
 import { config } from 'dotenv';
 config();

@@ -1,3 +1,17 @@
+// components/LinkChanger.js
+// This file contains a React component called "LinkChanger" that is responsible for allowing users to change their custom URL. 
+// 
+// The component receives a "link" prop which represents the current custom URL of the user. 
+// 
+// The component uses the useState hook to manage the state of several variables including "newLink" (which holds the new custom URL value), "changeLinkError" (which holds any error message that may occur during the URL change process), "isEditing" (a boolean flag to determine if the user is currently editing their custom URL), and "isSaving" (a boolean flag to indicate if the URL change is in progress). 
+// 
+// The component renders a button that allows the user to initiate the URL change process by setting the "isEditing" state to true. 
+// 
+// When the user is in editing mode, the component renders an input field where the user can enter the new custom URL, along with two buttons to save or cancel the changes. 
+// 
+// If an error occurs during the URL change process, the error message is displayed. 
+// 
+// When the user cancels the URL change, the component resets the state values to their original values.
 import React, { useState } from 'react';
 
 const LinkChanger = ({ link }) => {

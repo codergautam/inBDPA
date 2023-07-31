@@ -1,3 +1,5 @@
+// pages/api/admin/impersonateUser.js
+// This code is written to handle the API route for impersonating a user by an admin. It checks if the current user is an admin, and if not, it returns an unauthorized error. It then gets the user ID and admin information from the request body and session. It retrieves the user's profile link and logs it, along with the user ID, admin ID, admin link, and user object. If the user retrieval is successful, it stores the user information in the session and returns a success response. If not, it returns a failure response.
 import { withIronSessionApiRoute } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
 import { getUser } from "@/utils/api";

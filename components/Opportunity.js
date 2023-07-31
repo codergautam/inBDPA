@@ -1,3 +1,13 @@
+// components/Opportunity.js
+// // This file contains the Opportunity component which is responsible for rendering an individual opportunity on the Opportunities page.
+// // It takes in various props such as opportunity, selected, i, canDelete, user, deleteOpportunity, setEditingOpportunity, setTitle, and setValue.
+// // The component displays the title of the opportunity, its creation time in a relative format, and the number of views and active viewers.
+// // If the user is the creator of the opportunity, it also displays buttons for deleting and editing the opportunity.
+// // The component uses the msToTime function to convert the duration of the opportunity since its creation into a human-readable format.
+// // The updateInfo function is used to fetch additional information about the opportunity from the server, such as the number of views and active viewers.
+// // The useEffect hook is commented out, but it can be used to update the views and active state of the opportunity whenever it changes.
+// // The component also includes a Link component from the next/link package to link to the individual opportunity page.
+// // The Opportunity component is exported as the default export of this module.
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenNib, faPenToSquare, faTrash } from "@fortawesome/free-solid-svg-icons";

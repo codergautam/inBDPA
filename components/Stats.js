@@ -1,3 +1,5 @@
+// components/Stats.js
+// This file contains the code for the Stats component. The Stats component is responsible for fetching data from the "/api/info" endpoint and displaying various statistics about the platform. It makes use of the useState, useEffect, useRef, and fetch functions from React. The component also includes a StatItem component that is used to display individual statistics. The component fetches data from the "/api/info" endpoint and updates the state variables with the fetched data. It also sets up an interval to fetch data every 30 seconds. The fetched data is then displayed using the StatItem component.
 import { useEffect, useRef, useState } from "react";
 
 async function getInfoData() {

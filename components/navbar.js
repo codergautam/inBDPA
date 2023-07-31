@@ -1,3 +1,17 @@
+// components/navbar.js
+// This code is for a navbar component in the inBDPA project. The navbar is used to navigate between different pages and perform actions such as searching and logging out. It is implemented using React and Next.js.
+// 
+// The code uses the useState and useEffect hooks from React to manage the state of the navbar. It also imports the Link component from Next.js for navigation and the useRouter hook from Next.js for accessing the current route.
+// 
+// The Navbar component takes two props, user and queryText. The user prop is used to check if the user is logged in and display different navigation options accordingly. The queryText prop is used to pre-populate the search input field with a query string.
+// 
+// The code handles leaving impersonation, searching, and key presses. When the user clicks the "Leave Impersonation" button, the leaveImpersonation function is called, which makes an API request to the server to stop impersonating the user and redirects to the homepage. The handleSearch function is called when the user clicks the search button or presses enter in the search input field, which redirects to the search page with the query string as a parameter. The handleKeyPress function is called when a key is pressed in the search input field, and if the key is the enter key, the handleSearch function is called.
+// 
+// The code renders the navbar with different navigation options based on the user's login status. If the user is logged in, it displays links to the homepage, opportunities page, logout page, and the user's profile page. If the user is not logged in, it displays links to the homepage, login page, and signup page.
+// 
+// The code also renders a mobile version of the navbar when the screen size is small. The mobile navbar is hidden by default and can be toggled by clicking on a hamburger menu icon. It displays the same navigation options as the desktop navbar in a vertical layout.
+// 
+// Overall, this code is responsible for rendering a responsive navbar with different navigation options based on the user's login status and handling actions such as leaving impersonation and searching.
 /* eslint-disable @next/next/no-img-element */
 "use client";
 

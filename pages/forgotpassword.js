@@ -1,3 +1,9 @@
+// pages/forgotpassword.js
+// This is the code for the Forgot Password page of the inBDPA project. It is responsible for rendering the UI of the forgot password page and handling user input for sending a password reset link. The page includes a form where the user can enter their email. When the form is submitted, an API request is made to the server to send a password reset link to the provided email address. If there is an error during the submission process, an error message is displayed to the user.
+// 
+// The code uses the useState hook from React to manage the form inputs and error state. It also imports the withIronSessionSsr function from the iron-session/next library to handle session authentication. The getServerSideProps function is used to redirect authenticated users to the home page.
+// 
+// Overall, this code handles the rendering and submission logic for the forgot password page of the inBDPA project.
 
 "use client";
 import Head from 'next/head'
