@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import ErrorComponent from "pages/auth/ErrorComponent.js";
 
 export default function Captcha({
@@ -12,6 +12,7 @@ export default function Captcha({
   const [userInput, setUserInput] = useState("");
   const [validationStatus, setValidationStatus] = useState("");
   const [error, setError] = useState("");
+  const timeoutRef = useRef()
 
   useEffect(() => {
     // if (solved === false) {
@@ -75,7 +76,7 @@ export default function Captcha({
       // -----------
       setSolved(false);
       setSolvedState(false);
-      setValidationStatus("invalid");
+      // setValidationStatus("invalid");
     } else {
       return;
     }
@@ -88,8 +89,11 @@ export default function Captcha({
       setValidationStatus("valid");
       submitForm(null, true);
     } else {
-      createCaptcha();
+      createCaptcha()
       setValidationStatus("invalid");
+      timeoutRef.current = setTimeout(()=>{
+        setValidationStatus("")
+      }, 2500)
     }
   }
 
@@ -127,16 +131,16 @@ export default function Captcha({
               Submit →
             </button>
           </div>
-          {validationStatus === "invalid" && (
+          {validationStatus === "invalid" ? 
             <ErrorComponent
-              errorInComponent={"Invalid Captcha, try again"}
+              error={"Invalid Captcha, try again"}
               side="bottom"
               color="red"
               blocked={false}
               setError={setError}
               attempterror={false}
-            />
-          )}
+            /> : <></>
+          }
         </>
       )}
       {solved && (
