@@ -191,13 +191,13 @@ export default function UserSearch() {
     }
 
     return (
-        <div className="mt-8 mb-8 flex flex-col w-5/6 md:w-3/4 xl:w-3/5 text-center bg-gray-100 dark:bg-gray-900 p-8 rounded-lg shadow-md">
+        <div className="mt-8 mb-8 flex flex-col w-5/6 md:w-3/4 xl:w-3/5 text-center border-none dark:bg-gray-900 p-8 rounded-lg dark:shadow-xl">
           <p className="text-3xl lg:text-4xl text-gray-700 dark:text-white font-bold">Modify a user</p>
           <label className="text-gray-500 dark:text-gray-300 text-xl mb-4">Username:</label>
           <input value={query} onChange={(e)=>{
               setQuery(e.target.value)
               checkForUser(e.target.value)
-              }} className="bg-transparent border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white" type="text" />
+              }} className="bg-transparent border-b-4 text-black border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white" type="text" />
           <div className="flex flex-wrap justify-center mt-4">
     {suggestions.filter((n)=>n!=query).map((suggestion, index) => (
         <button
@@ -206,7 +206,7 @@ export default function UserSearch() {
                 checkForUser(suggestion)
             }}
             key={index}
-            className="m-2 px-4 py-2 text-sm font-bold text-center text-gray-800 bg-gray-200 border border-gray-300 rounded-full cursor-pointer hover:bg-gray-300 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600"
+            className="m-2 px-4 py-2 text-sm font-bold text-center text-gray-800 bg-gray-200 dark:border border-gray-300 rounded-full cursor-pointer hover:bg-gray-300 dark:text-gray-200 dark:bg-gray-700 dark:border-gray-600 dark:hover:bg-gray-600"
         >
             {suggestion}
         </button>
@@ -224,26 +224,26 @@ export default function UserSearch() {
               <p className="text-xl mt-2">
                   {outputUser.email}
               </p>
-              <p className="text-xl mt-2">
-                  <span className="text-gray-500 dark:text-gray-400">Type:</span> {outputUser.type}
+              <p className="text-xl mt-2 font-bold">
+                  <span className="text-gray-500 font-normal dark:text-gray-400">Type:</span> {outputUser.type}
               </p>
-              <p className="text-xl mt-2">
-                  <span className="text-gray-500 dark:text-gray-400">Total Views:</span> {outputUser.views}
+              <p className="text-xl mt-2 font-bold">
+                  <span className="text-gray-500 font-normal dark:text-gray-400">Total Views:</span> {outputUser.views}
               </p>
               <div className="flex flex-col mt-4">
                   {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-gray-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                      Promote to <span className="text-blue-600 dark:text-blue-300">{nextPosition}</span>
+                      Promote to <span className="text-gray-300 dark:text-blue-300">{nextPosition}</span>
                   </button> : <></>}
                   {/* Administrators can not demote other admins!!!! */}
                   {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-gray-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                      Demote to <span className="text-red-500 dark:text-red-300">{previousPosition}</span>
+                      Demote to <span className="text-rose-400 font-bold dark:text-red-500">{previousPosition}</span>
                   </button> : <></>}
                   {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                          Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
+                          Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-300 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
                       </button>: <></>}
 
                   {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                          Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-gray-700 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
+                          Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-gray-300 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
                       </button>: <></>}
               </div>
           </div> : <></>}

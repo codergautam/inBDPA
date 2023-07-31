@@ -75,8 +75,8 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
         {msToTime(Date.now() - opportunity.createdAt)} ago
       </p>
 
-      <p className="text-sm bg-gray-300 dark:bg-gray-600 dark:text-gray-300 w-fit px-1 mt-1 rounded-xl">Views: {opportunity.views}</p>
-      <p className="text-sm bg-gray-300 dark:bg-gray-600 dark:text-gray-300 w-fit px-1 mt-1 rounded-xl">
+      <p className="text-sm py-1 bg-gray-300 dark:bg-gray-600 dark:text-gray-300 w-fit px-2 mt-1 rounded-xl">Views: {opportunity.views}</p>
+      <p className="text-sm py-1 bg-gray-300 dark:bg-gray-600 dark:text-gray-300 w-fit px-2 mt-1 rounded-xl">
         Active Viewers: {opportunity.active}
       </p>
       </Link>

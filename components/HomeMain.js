@@ -94,7 +94,7 @@ export default function Main({count}) {
         <div className="flex justify-center">
   <Link
     data-aos="fade-up"
-    className="inline-flex items-center py-3 tracking-tighter text-white transition duration-500 ease-in-out transform bg-transparent bg-gradient-to-r from-blue-500 to-blue-800 px-14 text-md md:mt-0 focus:shadow-outline hover:bg-blue-700 hover:from-blue-600 hover:to-blue-900"
+    className="inline-flex rounded items-center py-3 tracking-tighter text-white transition duration-500 ease-in-out transform bg-transparent bg-gradient-to-r from-blue-500 to-blue-800 px-14 text-md md:mt-0 focus:shadow-outline hover:bg-blue-700 hover:from-blue-600 hover:to-blue-900"
     href="/auth/signup"
   >
     <span className="text-lg">Get Started &rarr;</span>
@@ -105,7 +105,7 @@ export default function Main({count}) {
       <div className="items-center mx-auto w-1/2">
       <Tilt className="Tilt" tiltMaxAngleX="5" tiltMaxAngleY="5">
   <img
-    className=" border shadow-md g327 w-full"
+    className=" border rounded shadow-md g327 w-full"
     alt="Placeholder Image"
     src="/home.png"
   />

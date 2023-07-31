@@ -53,11 +53,11 @@ export default function Stats() {
 
 function StatItem({ label, value }) {
   return (
-    <div className="lg:w-1/4 text-center m-4 grow flex flex-col items-center justify-center bg-gray-100 dark:bg-gray-900 rounded-lg shadow-md p-4 transition-all duration-300 transform hover:scale-105">
-      <p className="text-center font-semibold text-green-500 text-md lg:text-lg xl:text-xl mb-2">
-        {label}
+    <div className="lg:w-1/4 text-center m-4 grow flex flex-col items-center justify-center dark:bg-gray-900 rounded-lg shadow-none bg-white border-2 dark:border-none dark:shadow-md p-4 transition-all duration-300 transform hover:scale-105">
+      <p className="text-center font-semibold text-black dark:font-semibold dark:text-green-500 text-md lg:text-lg xl:text-xl mb-2">
+        {label}:
       </p>
-      <p className="text-center font-bold text-xl sm:text-2xl lg:text-2xl text-blacdk dark:text-white">
+      <p className="text-center font-bold text-xl sm:text-2xl lg:text-2xl text-black dark:text-white">
         {numberWithCommas(value)}
       </p>
     </div>

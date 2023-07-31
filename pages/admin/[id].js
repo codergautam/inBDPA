@@ -58,8 +58,8 @@ export default function Page({ user }) {
       <Navbar user={user} />
       <main className="flex flex-col items-center justify-center flex-grow pt-24 w-full">
         <div className="flex flex-col items-center justify-center flex-grow w-full">
-          <div className="text-blue-600 mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-2 text-center font-bold hover:-translate-y-2 transition duration-300 ease-in-out ">
-            Admin Dashboard <hr />
+          <div className="text-black border-b-8 border-gray-200 dark:border-gray-700 dark:text-blue-600 mb-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-2 text-center font-bold hover:-translate-y-2 transition duration-300 ease-in-out ">
+            Admin Dashboard
           </div>
           <Stats />
           <UserSearch />
