@@ -69,7 +69,7 @@ export default function Navbar({ user, queryText = "" }) {
             <path d="M 3 8 A 2.0002 2.0002 0 1 0 3 12 L 47 12 A 2.0002 2.0002 0 1 0 47 8 L 3 8 z M 3 23 A 2.0002 2.0002 0 1 0 3 27 L 47 27 A 2.0002 2.0002 0 1 0 47 23 L 3 23 z M 3 38 A 2.0002 2.0002 0 1 0 3 42 L 47 42 A 2.0002 2.0002 0 1 0 47 38 L 3 38 z"></path>
           </svg>{" "}
           
-        </div><div className="relative w-full md:w-72 lg:w-96 hidden md:inline">
+        </div><div className="relative w-full md:w-72 lg:w-96 h-10 hidden md:inline">
             {user && (
               <>
                 <input
@@ -77,8 +77,8 @@ export default function Navbar({ user, queryText = "" }) {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder="Search"
-                  className="w-full border-1 px-3 py-2 text-md sm:text-lg xl:text-xl font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-10"
+                  placeholder="Search for users, opporunities, etc."
+                  className="w-full h-10 border-1 border-gray-400 px-3 py-2 pl-5 text-sm sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-400 transition duration-300 ease-in-out rounded-full "
                 />
                 <div className="hidden top-0 left-0 ml-3 mt-3">
                   <FontAwesomeIcon
@@ -89,7 +89,7 @@ export default function Navbar({ user, queryText = "" }) {
                 {/* ... Search Button ... */}
                 <button
                   onClick={handleSearch}
-                  className="absolute top-0 right-0 h-full px-4 py-2 text-white bg-blue-500 hover:bg-blue-600 rounded-full focus:outline-none"
+                  className="absolute top-0 right-0 h-full px-4 py-2 text-gray-50 bg-green-600 hover:bg-green-700 rounded-full focus:outline-none"
                 >
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
@@ -271,8 +271,8 @@ export default function Navbar({ user, queryText = "" }) {
                 type="text"
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search"
-                className="w-min border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-300 transition duration-300 ease-in-out rounded-full pl-7"
+                placeholder="Search for users, opporunities, etc."
+                className="w-min border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-300 transition duration-300 ease-in-out rounded-full pl-7"
               />
               <div className="w-min absolute top-0 left-0 ml-16 mt-1">
                 <FontAwesomeIcon
