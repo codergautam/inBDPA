@@ -49,6 +49,7 @@ export default function LoggedInHome({ user }) {
   const [feedData, setFeedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [lastItemId, setLastItemId] = useState(null);
+  const [connectionLabel, setConnectionLabel] = useState("Connect")
 
   useEffect(() => {
     AOS.init({
@@ -152,23 +153,26 @@ export default function LoggedInHome({ user }) {
                         <button
                     className="bg-blue-500 my-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={async (e) => {
+                      console.log(`Inner: ${e.target.value}`)
+                      e.preventDefault()
                       // Indicate that a connection/disconnection operation is happening
-                      if (e.target.inn == "Connect")
+                      if (connectionLabel == "Connect")
                         setConnectionLabel("Connecting...");
                       else if (connectionLabel == "Disconnect")
                         setConnectionLabel("Disconnecting...");
                       else return;
-
+                      console.log("User: ", item)
                       let data = await fetch("/api/toggleConnection", {
                         method: "POST",
                         body: JSON.stringify({
-                          user_id: requestedUser.user_id,
+                          user_id: item.user_id,
                         }),
                       });
                       data = await data.json();
+                      console.log("Data: ", data)
                       if (data.success) {
-                        setConnections(() => data.connections);
-                        setDepth(() => data.newDepth);
+                        // setConnections(() => data.connections);
+                        // setDepth(() => data.newDepth);
                         // Indicate that the operation is complete
                         setConnectionLabel(
                           data.connections[0]?.includes(user?.id)
@@ -185,7 +189,7 @@ export default function LoggedInHome({ user }) {
                       }
                     }}
                   >
-                    Connect
+                    {connectionLabel}
                   </button>
                         ): null}
                       <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-all text-clip w-full">{item.sections.about.length > 200 ? item.sections.about.substring(0,200)+"..." : item.sections.about}</p>
