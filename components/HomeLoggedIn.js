@@ -135,7 +135,7 @@ export default function LoggedInHome({ user }) {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center md:justify-center">
           {/* Scrolling Feed */}
           <div className="lg:col-span-2">
-            <h1>Your Feed</h1>
+            <h1 className="mb-2">Your Feed</h1>
 
             {feedData.map((item, index) => (
               <div
@@ -144,13 +144,13 @@ export default function LoggedInHome({ user }) {
               >
                 {item.type === "user" && (
                   <Link href={`/profile/${item.link}`} passHref>
-                    <div className="p-6 flex flex-col items-start justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out">
+                    <div className="p-6 flex rounded-lg flex-col items-start justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out">
                       <img src={item.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${item.hashedEmail}?d=identicon` : `/api/public/pfps/${item.pfp}`} alt={item.username} className="w-10 h-10 rounded-full mr-4" />
                       <div>
                         <h2 className="text-lg font-semibold">{item.username}</h2>
                         {!item.isConnected ? (
                         <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    className="bg-blue-500 my-2 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                     onClick={async (e) => {
                       // Indicate that a connection/disconnection operation is happening
                       if (e.target.inn == "Connect")
@@ -203,7 +203,7 @@ export default function LoggedInHome({ user }) {
                 )}
                 {item.type === "opportunity" && (
                   <Link href={`/opportunity/${item.opportunity_id}`} passHref>
-                    <div className="p-6 flex flex-col items-start justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out w-full break-words">
+                    <div className="p-6 flex flex-col items-start rounded justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out w-full break-words">
                       <h2 className="text-xl font-semibold mb-1 w-full break-words">{item.title.length > 50 ? item.title.substring(0,50)+"..." : item.title}</h2>
                       <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-words w-full">{item.content.length > 200 ? item.content.substring(0,200)+"..." : item.content}</p>
                       <div className="flex flex-row gap-2">
@@ -225,7 +225,7 @@ export default function LoggedInHome({ user }) {
           </div>}
           </div>
           {/* Sidebar */}
-         <aside className="lg:block lg:col-span-1 hidden fixed top-1/4 right-0 w-1/4 mr-9">
+         <aside className="lg:block lg:col-span-1 hidden fixed top-1/2 right-0 w-1/4 mr-9">
             {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
             <div className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>

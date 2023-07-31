@@ -192,7 +192,7 @@ useEffect(() => {
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-gray-600 dark:text-gray-300 text-center">Opportunities</h2>
         {
           message ?
-          <div className="text-black mx-auto font-bold min-w-max w-min md:text-xl sm:text-lg text-base dark:text-green-500">
+          <div className="text-black mx-auto font-semibold min-w-max w-min md:text-xl sm:text-lg text-base dark:text-green-500">
             {message}
           </div>
           : 
