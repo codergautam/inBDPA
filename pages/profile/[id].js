@@ -111,7 +111,7 @@ export default function Page({
   const sections = ["education", "volunteering", "skills", "experience"];
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col bg-gray-50 dark:bg-gray-900">
       <Head>
         <link rel="icon" href="/favicon.ico" />
         {requestedUser ? (

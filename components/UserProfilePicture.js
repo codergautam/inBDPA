@@ -112,17 +112,38 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
         <img className="absolute p-2 bg-white dark:bg-gray-800 rounded-full h-28 w-28 md:w-36 md:h-36 lg:h-48 lg:w-48 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out" src={imageSrc} alt="User Profile" />
       </div>
 
+
       {isOpen && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-black bg-opacity-50 z-50">
           <div className="relative bg-white dark:bg-gray-800 p-4 rounded-md max-w-lg mx-auto">
-            <button className="absolute top-2 right-2 bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-2 justify-center rounded-full" onClick={handleClose} style={{zIndex: 10}}>
-              <svg xmlns="http://www.w3.org/2000/svg" className="w-4" viewBox="0 0 23 20" fill="currentColor" style={{zIndex: 50}}>
-                <path
-                  fillRule="evenodd"
-                  d="M13.414 10l4.293-4.293a1 1 0 0 0-1.414-1.414L12 8.586 7.707 4.293a1 1 0 0 0-1.414 1.414L10.586 10l-4.293 4.293a1 1 0 1 0 1.414 1.414L12 11.414l4.293 4.293a1 1 0 1 0 1.414-1.414L13.414 10z"
-                  clipRule="evenodd"
-                />
-              </svg>
+            <button className="absolute top-2 right-2" onClick={handleClose} style={{zIndex: 10}}>
+            <svg
+                  className="fill-current text-red-500 hover:text-red-400 w-6 h-6 stroke-2"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                  <g
+                    id="SVGRepo_tracerCarrier"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  ></g>
+                  <g id="SVGRepo_iconCarrier">
+                    {" "}
+                    <path
+                      className="fill-current stroke-red-600"
+                      d="M7 17L16.8995 7.10051"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>{" "}
+                    <path
+                      className="fill-current stroke-red-600"
+                      d="M7 7.00001L16.8995 16.8995"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></path>
+                  </g>
+                </svg>
 
             </button>
 

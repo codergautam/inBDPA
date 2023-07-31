@@ -41,6 +41,7 @@ const ConnectionList = ({
           const startIndex = (currentPage - 1) * 5;
           const endIndex = startIndex + 5;
           const newUserList = allUserList.slice(startIndex, endIndex);
+
           setUserList((prev) => [...prev, ...newUserList]);
           setTotalConnections(allUserList.length);
           if (endIndex >= allUserList.length) {
@@ -111,14 +112,20 @@ const ConnectionList = ({
                   key={i}
                 >
                   <svg
-                    className={user.yourDepth == 1 ? `h-10 w-10 mr-2` : `h-6 w-6 mr-2`}
+                    className={
+                      user.yourDepth == 1 ? `h-10 w-10 mr-2` : `h-6 w-6 mr-2`
+                    }
                     viewBox="0 0 24.00 24.00"
                     fill="none"
                     xmlns="http://www.w3.org/2000/svg"
                     transform="matrix(1, 0, 0, -1, 0, 0)rotate(90)"
                   >
                     <path
-                      className={user.yourDepth == 1 ? `stroke-green-500 stroke-2` : `stroke-blue-600 stroke-2`}
+                      className={
+                        user.yourDepth == 1
+                          ? `stroke-green-500 stroke-2`
+                          : `stroke-blue-600 stroke-2`
+                      }
                       d="M20 18L13.6 18C10.5072 18 8 15.4928 8 12.4L8 6"
                       stroke-linecap="round"
                       stroke-linejoin="round"
@@ -144,34 +151,54 @@ const ConnectionList = ({
                     onClick={() =>
                       (window.location.href = `/profile/${user.link}`)
                     }
-                    className={user.yourDepth == 1 ? `text-white text-lg font-semibold flex flex-col items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 p-4 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full` : user.yourDepth == 2 ? `text-white hover:text-black font-semibold flex flex-col items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 p-3 mx-auto duration-100 ease-in-out transition w-full` : `hover:text-white text-gray-300 flex flex-col items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 p-3 py-2 mx-auto duration-100 ease-in-out transition w-full`}
+                    className={
+                      user.yourDepth == 1
+                        ? `text-white text-lg font-semibold flex flex-row items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 p-4 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full`
+                        : user.yourDepth == 2
+                        ? `text-white hover:text-black font-semibold flex flex-row items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 p-3 mx-auto duration-100 ease-in-out transition w-full`
+                        : `hover:text-white text-gray-300 flex flex-row items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 p-3 py-2 mx-auto duration-100 ease-in-out transition w-full`
+                    }
                   >
-                    <p>
-                      {user.username}
-                    </p>
+                    <img
+                      src={
+                        user.pfp === "gravatar"
+                          ? user.gravatarUrl
+                          : `/api/public/pfps/${user.pfp}`
+                      }
+                      className="w-16 h-16 rounded-full mr-3"
+                    />
+                    <div>
+                      <p>{user.username}</p>
 
-                    {/* show connection depth, stored in user.yourDepth and user.theirDepth */}
-                    {user.yourDepth ? (
-                      <p className={user.yourDepth == 1 ? `text-gray-500 dark:text-blue-300 text-xs italic` : `text-gray-100 dark:text-gray-400 text-xs italic`}>
-                        {user.yourDepth == 1
-                          ? "1st"
-                          : user.yourDepth == 2
-                          ? "2nd"
-                          : "3rd"}{" "}
-                        degree
-                      </p>
-                    ) : null}
-                    {user.theirDepth ? (
-                      <p className="text-gray-500 dark:text-gray-300 text-xs">
-                        {theirName}&apos;s{" "}
-                        {user.theirDepth == 1
-                          ? "1st"
-                          : user.theirDepth == 2
-                          ? "2nd"
-                          : "3rd"}{" "}
-                        degree
-                      </p>
-                    ) : null}
+                      {/* show connection depth, stored in user.yourDepth and user.theirDepth */}
+                      {user.yourDepth ? (
+                        <p
+                          className={
+                            user.yourDepth == 1
+                              ? `text-gray-500 dark:text-blue-300 text-xs italic`
+                              : `text-gray-100 dark:text-gray-400 text-xs italic`
+                          }
+                        >
+                          {user.yourDepth == 1
+                            ? "1st"
+                            : user.yourDepth == 2
+                            ? "2nd"
+                            : "3rd"}{" "}
+                          degree
+                        </p>
+                      ) : null}
+                      {user.theirDepth ? (
+                        <p className="text-gray-500 dark:text-gray-300 text-xs">
+                          {theirName}&apos;s{" "}
+                          {user.theirDepth == 1
+                            ? "1st"
+                            : user.theirDepth == 2
+                            ? "2nd"
+                            : "3rd"}{" "}
+                          degree
+                        </p>
+                      ) : null}
+                    </div>
                   </span>
                 </div>
               </>
@@ -182,7 +209,6 @@ const ConnectionList = ({
             <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
           </div>
         ) : null}
-
         <div className="flex gap-2">
           {loadMoreVisible && (
             <button
