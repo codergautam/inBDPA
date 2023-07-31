@@ -1,16 +1,16 @@
 // components/ConnectionList.js
 // This code is a React component called `ConnectionList`. It is used to display a list of connections and to handle the logic for fetching and displaying more connections.
-// 
+//
 // The component receives several props including `connections` (an array of connections), `clickable` (a boolean to indicate whether the connections are clickable), `user_id` (the user ID), `isYou` (a boolean to indicate if the user is the current user), and `theirName` (the name of the person whose connections are being displayed).
-// 
+//
 // The component initializes several state variables including `isModalOpen` (to track whether the modal is open), `userList` (an array to store the list of users), `error` (to store any error messages), `currentPage` (to track the current page of connections), `loadMoreVisible` (to indicate if the "Load More" button should be visible), `loading` (to indicate if the component is currently loading data), and `totalConnections` (to store the total number of connections).
-// 
+//
 // Inside the `useEffect` hook, the code fetches the list of mutual connections when the `isModalOpen` or `currentPage` changes. The fetched data is then used to update the `userList` and `totalConnections` state variables. If an error occurs, the `error` variable is set.
-// 
+//
 // The component includes functions like `openModal` (to open the modal), `closeModal` (to close the modal), and `loadMore` (to load more connections).
-// 
+//
 // The return statement contains the JSX for rendering the component. It includes elements like the connections count, a network graph modal, and a list of connections. The modal is conditionally rendered based on the `isModalOpen` variable. The list of connections is generated based on the `userList` state variable. Loading and error messages are also handled within the JSX.
-// 
+//
 // Overall, this component is responsible for fetching and displaying connections and providing functionality for interacting with the connections.
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -89,7 +89,7 @@ const ConnectionList = ({
         onClick={clickable ? openModal : null}
         className={`${clickable ? "cursor-pointer" : ""} ${
           connections[1].length == 0
-            ? "text-gray-700 text-xs semism:text-sm md:text-lg hover:text-gray-500"
+            ? "text-gray-300 text-xs semism:text-sm md:text-lg hover:text-gray-200"
             : "text-black dark:text-white hover:text-blue-500"
         } duration-300 ease-in-out transition`}
       >

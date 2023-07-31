@@ -87,7 +87,9 @@ export default function UserSearch() {
             if(users?.users) {
             setSuggestions(users.users.slice(0, 3).map(e=>e.username))
             }
-            let user = await fetch("/api/getUser", {
+            let user;
+            try {
+             user = await fetch("/api/getUser", {
                 next: {
                     revalidate: 2
                 },
@@ -100,7 +102,13 @@ export default function UserSearch() {
                 }),
                 credentials: "include"
             }).then((res) => res.json());
+        } catch (e) {
+            console.log(e);
+            setOutputUserStatus("Something went wrong.. Please try again shortly.");
+                setOutputUser(null);
+        }
 
+        if(user) {
             if (user.success) {
                 setOutputUserStatus("");
                 console.log("User:");
@@ -123,6 +131,7 @@ export default function UserSearch() {
                 setOutputUserStatus("No user found...");
                 setOutputUser(null);
             }
+        }
         }, 300); // Adjust the debounce delay as needed (e.g., 1000ms = 1 second).
     };
 
@@ -191,12 +200,18 @@ export default function UserSearch() {
         console.log(data)
         if(data.success) {
             setOutputUserStatus("Changed User to " + newPos)
-            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            promotionRef = setTimeout(async ()=>{
+                setOutputUserStatus("")
+
             await checkForUser(query, false)
+            }, 1000)
         } else {
-            setOutputUserStatus("Failed to change user type, ecountered error: " + data.error)
-            promotionRef = setTimeout(()=>{setOutputUserStatus("")}, 1000)
+            setOutputUserStatus( data.error ?? "Unexpected Error. Please try again shortly.")
+            promotionRef = setTimeout(async()=>{
             await checkForUser(query, false)
+
+                setOutputUserStatus("")
+            }, 5000)
         }
     }
 

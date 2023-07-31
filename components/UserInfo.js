@@ -331,6 +331,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                   : "mx-auto w-fit"
                               }
                             >
+                              { item.endedAt !== null ? (
                               <input
                                 type="date"
                                 className="w-fit border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 text-black dark:text-white"
@@ -348,6 +349,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                   )
                                 }
                               />
+                              ) : null}
                             </div>
                           </div>
                         </div>

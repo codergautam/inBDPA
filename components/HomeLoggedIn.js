@@ -28,6 +28,7 @@ import { faGears, faNetworkWired, faSearch, faShare, faShareNodes, faSuitcase } 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import md5 from "blueimp-md5";
+import msToTime from "@/utils/msToTime";
 const getGreeting = () => {
   const currentHour = new Date().getHours();
   if (currentHour < 12) {
@@ -38,36 +39,6 @@ const getGreeting = () => {
     return "Good evening";
   }
 };
-function msToTime(duration) {
-  const portions = [];
-    const msInDay = 1000 * 60 * 60 * 24;
-  const days = Math.trunc(duration / msInDay);
-  if (days > 0) {
-    portions.push(days + 'd');
-    duration = duration - (days * msInDay);
-  }
-
-  const msInHour = 1000 * 60 * 60;
-  const hours = Math.trunc(duration / msInHour);
-  if (hours > 0) {
-    portions.push(hours + 'h');
-    duration = duration - (hours * msInHour);
-  }
-
-  const msInMinute = 1000 * 60;
-  const minutes = Math.trunc(duration / msInMinute);
-  if (minutes > 0) {
-    portions.push(minutes + 'm');
-    duration = duration - (minutes * msInMinute);
-  }
-
-  const seconds = Math.trunc(duration / 1000);
-  if (seconds > 0) {
-    portions.push(seconds + 's');
-  }
-
-  return portions[0]
-}
 export default function HomeLoggedIn({ user }) {
   const [feedData, setFeedData] = useState([]);
   const [loading, setLoading] = useState(false);

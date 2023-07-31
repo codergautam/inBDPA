@@ -1,25 +1,25 @@
 // components/Captcha.js
-// This component is responsible for rendering and validating a captcha code. It includes a canvas element to display the generated captcha code and an input field for the user to enter the code. 
-// 
-// The component receives the following props: 
+// This component is responsible for rendering and validating a captcha code. It includes a canvas element to display the generated captcha code and an input field for the user to enter the code.
+//
+// The component receives the following props:
 // - setSolved: a function to set the solved state of the captcha
 // - solvedyesno: the initial solved state of the captcha
 // - setShowModal: a function to control the visibility of the modal dialog
 // - submitForm: a function to submit the form
-// 
+//
 // The component initializes the following state variables:
 // - captchaCode: the generated captcha code
 // - solved: the solved state of the captcha
 // - userInput: the user's input for the captcha code
 // - validationStatus: the status of the captcha validation (valid or invalid)
 // - error: an error message
-// 
-// The component uses the useEffect hook to generate a captcha code when the component mounts. It calls the createCaptcha function, which generates a random captcha code and updates the canvas element to display the code. 
-// 
-// The component also provides a validateCaptcha function, which checks if the user's input matches the generated captcha code. If the input is correct, it sets the solved state to true and calls the submitForm function. If the input is incorrect, it calls the createCaptcha function again and sets the validationStatus to "invalid". 
-// 
+//
+// The component uses the useEffect hook to generate a captcha code when the component mounts. It calls the createCaptcha function, which generates a random captcha code and updates the canvas element to display the code.
+//
+// The component also provides a validateCaptcha function, which checks if the user's input matches the generated captcha code. If the input is correct, it sets the solved state to true and calls the submitForm function. If the input is incorrect, it calls the createCaptcha function again and sets the validationStatus to "invalid".
+//
 // The component renders different elements based on the solved state. If the captcha is not solved, it displays the canvas, input field, and buttons for submitting or going back. If the captcha is solved, it displays a success message and a check mark icon.
-// 
+//
 // Finally, the component conditionally renders an ErrorComponent when the validationStatus is "invalid", displaying an error message.
 import { useEffect, useRef, useState } from "react";
 import ErrorComponent from "pages/auth/ErrorComponent.js";
@@ -120,12 +120,25 @@ export default function Captcha({
     }
   }
 
+  // Prevent enter closing modal
+  useEffect(() => {
+    const handleEnter = (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+      }
+    };
+    window.addEventListener("keydown", handleEnter);
+    return () => {
+      window.removeEventListener("keydown", handleEnter);
+    };
+  }, [userInput]);
+
   return (
     <>
       {!solved && (
         <>
           <canvas className="rounded mx-auto mb-4" id="captchaCanvas"></canvas>
-          
+
           <input
             type="text"
             placeholder="Enter Captcha"
@@ -155,7 +168,7 @@ export default function Captcha({
               Submit →
             </button>
           </div>
-          {validationStatus === "invalid" ? 
+          {validationStatus === "invalid" ?
             <ErrorComponent
               error={"Invalid Captcha, try again"}
               side="bottom"
