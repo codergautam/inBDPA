@@ -125,6 +125,7 @@ export default function Captcha({
       {!solved && (
         <>
           <canvas className="rounded mx-auto mb-4" id="captchaCanvas"></canvas>
+          
           <input
             type="text"
             placeholder="Enter Captcha"
