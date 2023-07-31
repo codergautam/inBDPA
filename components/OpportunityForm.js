@@ -86,7 +86,7 @@ function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle
       <button
         onClick={handleClose}
         className="
-          absolute top-2 right-2
+          absolute top-6 right-6
           bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded
         "
       >
@@ -96,7 +96,7 @@ function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle
       <button
       onClick={() => setAiModalOpen(true)}
       className="
-        bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mt-2  absolute top-2 left-2
+        bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded  absolute top-6 left-6
 
       "
     >
@@ -124,7 +124,7 @@ function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle
                 <input
                   type="text"
                   maxLength={100}
-                  className="shadow appearance-none mt-2 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  className="shadow appearance-none bg-transparent mt-2 border rounded w-full py-2 px-3 text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                   value={aiPrompt}
                   onChange={e => setAiPrompt(e.target.value)}
                 />
@@ -144,7 +144,7 @@ function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle
           </button>
           <button
             type="button"
-            className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
+            className="mt-2 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-100 dark:border-gray-600 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
             onClick={() => setAiModalOpen(false)}
           >
            Close
@@ -173,8 +173,8 @@ function OpportunityForm({ editingOpportunity, handleFormSubmit, title, setTitle
           type="text"
           maxLength={100}
           className='
-            mb-4 outline-none text-black border-b-2 w-full
-            px-3 py-2
+            mb-4 outline-none text-black bg-transparent dark:text-white border-b-2 w-full
+            py-2
             focus:border-blue-500
           '
         />

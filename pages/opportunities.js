@@ -28,6 +28,7 @@ export default function Page({ user }) {
   const [value, setValue] = useState("");
   const [opps, setOpps] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState(null)
   const lastOppRef = useRef(null);
   const [formSubmitting, setFormSubmitting] = useState(false);
 
@@ -134,7 +135,11 @@ useEffect(() => {
     }).then(res => res.json());
 
     if (data.success) {
-      router.reload();
+      setMessage("Successfully deleted opportunity")
+      setTimeout(()=>{
+        setMessage("")
+        router.push("/opportunities");
+      }, 1000)
     } else {
       alert("Failed to delete opportunity...");
     }
@@ -185,7 +190,14 @@ useEffect(() => {
 
       <main className="container px-5 py-24 mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-gray-600 dark:text-gray-300 text-center">Opportunities</h2>
-
+        {
+          message ?
+          <div className="text-black mx-auto font-bold min-w-max w-min md:text-xl sm:text-lg text-base dark:text-green-500">
+            {message}
+          </div>
+          : 
+          <></>
+        }
         {user.type === "staff" || user.type === "administrator" ? (
           <div className="flex justify-center">
             <button
