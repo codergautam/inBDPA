@@ -144,9 +144,9 @@ export default function SearchPage({ user, query="" }) {
               }
 
               return (
-                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700 border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
+                <Link href={`/profile/${result.link}`} key={index} className="flex flex-row md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700 border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
-                  <Link href={`/profile/${result.link}`}>
+
                     <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-8">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
@@ -179,8 +179,8 @@ export default function SearchPage({ user, query="" }) {
                       </p>
                       </div>
                     </div>
-                  </Link>
-                </div>
+
+                </Link>
               );
             }) : null}
             {!searchResults.error && searchResults.users.length > displayedUsers && (
