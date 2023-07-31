@@ -1,5 +1,3 @@
-// pages/search.js
-// This code is for the search page of the inBDPA project. It retrieves search results based on user input and displays them on the page. Users can search for users and opportunities. The code includes functionality for handling user input, sending requests to the search API, and updating the search results state. It also includes code for displaying the search results on the page, including loading more results and handling matches in the search query. The code uses React hooks and Next.js for server-side rendering.
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";

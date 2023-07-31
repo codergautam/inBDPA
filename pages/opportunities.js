@@ -190,7 +190,7 @@ useEffect(() => {
         <Navbar user={user} />
       </div>
 
-      <main className="container px-5 py-24 mx-auto">
+      <main className="container px-5 py-16 mx-auto">
         <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-gray-600 dark:text-gray-300 text-center">Opportunities</h2>
         {
           message ?

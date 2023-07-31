@@ -58,7 +58,7 @@ export default function Page({ user }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Navbar user={user} />
-      <main className="flex flex-col items-center justify-center flex-grow pt-24 w-full">
+      <main className="flex flex-col items-center justify-center flex-grow pt-16 w-full">
         <div className="flex flex-col items-center justify-center flex-grow w-full">
           <div className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-gray-600 dark:text-gray-300 text-center">
             Admin Dashboard

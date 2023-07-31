@@ -84,11 +84,12 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
       <p className="text-xs ml-1">
         {msToTime(Date.now() - opportunity.createdAt)} ago
       </p>
-
-      <p className="text-sm py-1 bg-gray-300 dark:bg-gray-800 dark:text-gray-300 w-fit px-2 mt-1 rounded-xl">Views: {opportunity.views}</p>
-      <p className="text-sm py-1 bg-gray-300 dark:bg-gray-800 dark:text-gray-300 w-fit px-2 mt-1 rounded-xl">
-        Active Viewers: {opportunity.active}
-      </p>
+<div className="flex flex-row">
+      <p className="text-sm py-1 bg-gray-300 dark:bg-gray-800 font-semibold dark:text-gray-50 w-fit px-2 mt-1 rounded-xl">
+        Views: {opportunity.views}</p>
+      <p className="text-sm py-1 ml-1 bg-gray-300 dark:bg-gray-800 font-semibold dark:text-gray-50 w-fit px-2 mt-1 rounded-xl">
+        Active Viewers: {opportunity.active}</p>
+        </div>
       </Link>
 
       {user.id === opportunity.creator_id ? (

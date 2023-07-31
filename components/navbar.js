@@ -92,7 +92,7 @@ export default function Navbar({ user, queryText = "" }) {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder="Search for users, opporunities, etc."
+                  placeholder="Search for users, opportunities, etc."
                   className="w-full h-10 border-1 border-gray-400 px-3 py-2 pl-5 text-sm sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-400 transition duration-300 ease-in-out rounded-full "
                 />
                 <div className="hidden top-0 left-0 ml-3 mt-3">
