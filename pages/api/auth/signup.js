@@ -1,3 +1,12 @@
+// pages/api/auth/signup.js
+// This code sets up an API route for user registration in a Next.js application.
+// Upon receiving a POST request, it validates the provided 'email', 'password', and 'username'. It enforces certain rules for the validity of these fields (like checking if email has a valid domain and TLD, password length is more than 10, and username conforms to certain character limits and restrictions).
+// It encrypts the provided password using 'encryptPassword' utility function.
+// Once validations are passed and password is encrypted, it attempts to create a user using 'createUser' function with the validated and processed data. If user creation is successful and 'changeUser' is true, it stores the user details in the session and creates a user node with 'createUserNode' function.
+// The route handles specific errors related to email or username uniqueness.
+// Sensitive user details like 'salt' and 'key' are removed before sending the user data in the response.
+// This route uses 'withIronSessionApiRoute' middleware for session management with options provided by 'getIronOptions' function. The 'rememberMe' property from the request body controls the session persistence.
+
 import { authenticateUser, createUser } from "@/utils/api";
 import { encryptPassword } from "@/utils/encryptPassword";
 import { NextResponse } from "next/server";

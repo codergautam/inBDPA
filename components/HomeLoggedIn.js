@@ -114,7 +114,7 @@ export default function LoggedInHome({ user }) {
             <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
             <div className="flex items-center mb-4">
               <img
-                src={user.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}` : `/api/public/pfps/${user.pfp}`}
+                src={user.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${user.pfp}`}
                 alt={`${user.username} Profile`}
                 className="w-10 h-10 rounded-full mr-4"
               />
@@ -148,6 +148,46 @@ export default function LoggedInHome({ user }) {
                       <img src={item.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${item.hashedEmail}?d=identicon` : `/api/public/pfps/${item.pfp}`} alt={item.username} className="w-10 h-10 rounded-full mr-4" />
                       <div>
                         <h2 className="text-lg font-semibold">{item.username}</h2>
+                        {!item.isConnected ? (
+                        <button
+                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                    onClick={async (e) => {
+                      // Indicate that a connection/disconnection operation is happening
+                      if (e.target.inn == "Connect")
+                        setConnectionLabel("Connecting...");
+                      else if (connectionLabel == "Disconnect")
+                        setConnectionLabel("Disconnecting...");
+                      else return;
+
+                      let data = await fetch("/api/toggleConnection", {
+                        method: "POST",
+                        body: JSON.stringify({
+                          user_id: requestedUser.user_id,
+                        }),
+                      });
+                      data = await data.json();
+                      if (data.success) {
+                        setConnections(() => data.connections);
+                        setDepth(() => data.newDepth);
+                        // Indicate that the operation is complete
+                        setConnectionLabel(
+                          data.connections[0]?.includes(user?.id)
+                            ? "Disconnect"
+                            : "Connect"
+                        );
+                      } else {
+                        // If the operation fails, reset the button's label
+                        setConnectionLabel(
+                          connections[0]?.includes(user?.id)
+                            ? "Disconnect"
+                            : "Connect"
+                        );
+                      }
+                    }}
+                  >
+                    Connect
+                  </button>
+                        ): null}
                       <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-all text-clip w-full">{item.sections.about.length > 200 ? item.sections.about.substring(0,200)+"..." : item.sections.about}</p>
                       </div>
                       <div className="flex flex-row gap-2">
@@ -180,7 +220,9 @@ export default function LoggedInHome({ user }) {
                 )}
               </div>
             ))}
-            {loading && <div className="data-spinner">Loading more...</div>}
+            {loading && <div className="flex justify-center items-center">
+            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
+          </div>}
           </div>
           {/* Sidebar */}
          <aside className="lg:block lg:col-span-1 hidden fixed top-1/4 right-0 w-1/4 mr-9">
@@ -189,7 +231,7 @@ export default function LoggedInHome({ user }) {
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
               <div className="flex items-center mb-4">
                 <img
-                  src={user.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}` : `/api/public/pfps/${user.pfp}`}
+                  src={user.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${user.pfp}`}
                   alt={`${user.username} Profile`}
                   className="w-10 h-10 rounded-full mr-4"
                 />

@@ -1,3 +1,10 @@
+// pages/api/auth/login.js
+// This code creates an API route for user login in a Next.js application.
+// It validates the incoming request to ensure it's a POST request and contains username and password.
+// It then attempts to login the user with the provided credentials. If successful, it stores user information in the session.
+// It removes sensitive details from the user data before sending the response.
+// The route also leverages 'iron-session' for session management and has a 'rememberMe' functionality for controlling session persistence.
+
 import { authenticateUser, getUserByUsername, loginUser } from "@/utils/api";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";

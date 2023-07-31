@@ -1,3 +1,11 @@
+// pages/api/auth/reset.js
+// This code creates an API route for handling password reset in a Next.js application.
+// It first validates the incoming POST request to ensure it includes 'resetId', 'password', and 'confirmPassword'. It also checks for password length and whether the provided passwords match.
+// It then fetches the password reset link associated with the 'resetId' and checks if the link is still valid.
+// If valid, it attempts to change the user password using the 'changeUserPassword' function. If successful, the reset link is redeemed using 'redeemResetLink'.
+// Any errors or success messages are returned as the response.
+// The route uses 'iron-session' for session management with the configuration provided in 'ironOptions'.
+
 import { authenticateUser, changeUserPassword, createResetLink, getResetLink, getUserByUsername, loginUser, redeemResetLink } from "@/utils/api";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";

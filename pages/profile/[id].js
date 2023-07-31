@@ -259,39 +259,7 @@ export default function Page({
                 name={requestedUser.username}
               />
             ) : null}
-
-            {/* {user ? (
-              <div className="flex flex-col md:flex-row mt-4 w-full">
-
-                <div className="w-full p-4 border-gray-700 border-b group">
-                  <h2 className="text-base md:text-xl font-semibold text-black dark:text-white duration-300 ease-in-out transition mb-2">
-                    Education
-                  </h2>
-                  <UserInfo
-                    type="education"
-                    user={user}
-                    requestedUser={requestedUser}
-                    section="education"
-                  />
-                </div>
-              </div>
-            ) : null} */}
-
-            {/*
-        <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">Experience</h2>
-          <UserInfo type="experience" user={user} requestedUser={requestedUser} section="experience" />
-        </div>
-
-        <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2" section="skills" >Skills</h2>
-          <UserInfo type="skills" user={user} requestedUser={requestedUser} />
-        </div>
-
-        <div className="w-full bg-white dark:bg-gray-700 p-4 mt-4 rounded-md shadow">
-          <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-2" section="volunteering" >Volunteering</h2>
-          <UserInfo type="volunteering" user={user} requestedUser={requestedUser} />
-        </div> */}
+            
             {!user ? (
               <h1 className="text-red-600">
                 Log in to view more details

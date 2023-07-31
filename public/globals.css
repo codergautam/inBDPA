@@ -4,12 +4,28 @@
 @import url(//db.onlinewebfonts.com/c/e5c490a944bc2b2746f0c851501e46c7?family=AvenirNextW10-Bold);
 @import url("https://fonts.googleapis.com/css2?family=Inter&display=swap");
 
-
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
 }
+
+/* If the user prefers dark mode,
+we of course apply color-scheme: dark, as usual */
+@media (prefers-color-scheme: dark) {
+  html {
+    color-scheme: dark;
+  }
+}
+
+/* If the user prefers light mode,
+we still enforce color-scheme: dark, despite the user preference */
+@media (prefers-color-scheme: light) {
+  html {
+    color-scheme: dark;
+  }
+}
+
 
 @layer base {
   h1 {
@@ -41,14 +57,14 @@
     @apply list-disc ml-4;
   }
 }
-
+/*
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 
 body {
@@ -152,18 +168,18 @@ a {
 }
 
 /* Dark mode */
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) { */
   .gradient-bg {
     background: linear-gradient(160deg, #111827 0%, #076061 100%);
   }
-}
+/* } */
 
 /* Light mode */
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   .gradient-bg {
     background: linear-gradient(160deg, #f9fafb 0%, #ade6e0 100%);
   }
-}
+} */
 
 /* Smooth Scroll Animation */
 .react-scroll-link {
