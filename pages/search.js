@@ -145,7 +145,7 @@ export default function SearchPage({ user, query="" }) {
                 <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700 border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
                     <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
                   <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1">
+                    <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-8">
                       <h2 className="text-xl font-semibold mb-2">
                         {match && match.field === "username" ? (
                           <span>
@@ -168,10 +168,14 @@ export default function SearchPage({ user, query="" }) {
                           </span>
                         ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400">
-                        Type: {result.type}<br />
-                        Views: {result.views}<br />
+                      <div className="flex flex-col items-center">
+                      <p className="text-sm font-semibold text-gray-600 dark:text-gray-50 bg-gray-300 dark:bg-gray-800 w-fit px-2 mt-1 rounded-xl">
+                        Type: {result.type}
+                        </p>
+                        <p className="text-sm font-semibold text-gray-600 dark:text-gray-50 bg-gray-300 dark:bg-gray-800 w-fit px-2 mt-1 rounded-xl">
+                        Views: {result.views}
                       </p>
+                      </div>
                     </div>
                   </Link>
                 </div>
@@ -260,7 +264,7 @@ export default function SearchPage({ user, query="" }) {
                           </span>
                         ) : result.content.length > 80 ? result.content.substring(0, 60) + "..." : result.content}
                       </p>
-                      <p className="text-gray-600 dark:text-gray-400">
+                      <p className="text-sm font-semibold text-gray-600 dark:text-gray-50 bg-gray-300 dark:bg-gray-800 w-fit px-2 mt-1 rounded-xl">
                         Views: {result.views}<br />
                       </p>
                     </div>
