@@ -495,9 +495,6 @@ async function _sendRequest(url, method, body = null) {
 
 
     try {
-      if(Math.random() < 0.1) {
-        throw new Error("Api random error")
-      }
       const response = await fetch(url, {
         method,
         headers,
