@@ -112,7 +112,7 @@ const ConnectionList = ({
           onClick={closeModal}
         >
           <svg
-            className="fill-current text-red-500 hover:text-red-400 darkhover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
+            className="fill-current text-red-500 hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-white dark:bg-black"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
