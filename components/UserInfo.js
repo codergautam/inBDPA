@@ -426,7 +426,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                   </button>
                 )}
                 <button
-                  className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 rounded-md duration-200 ease-in-out transition"
+                  className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
                   onClick={saveChanges}
                 >
                   Save

@@ -269,7 +269,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
 
               {editable && (
                 <button
-                  className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 rounded-md duration-200 ease-in-out transition mt-4"
+                  className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition mt-4"
                   onClick={handleSave}
                 >
                   {saving ? "Saving Changes.." : "Save Changes"}

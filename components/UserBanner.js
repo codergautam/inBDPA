@@ -92,7 +92,7 @@ const UserBanner = ({ editable, banner }) => {
         <div className="mt-2 mx-auto text-center w-min min-w-max mb-4 space-x-2">
           <button
             htmlFor="banner-upload"
-            className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 rounded-md duration-200 ease-in-out transition"
+            className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
           >
             {banner ? "Change Banner" : "Add Banner"}
           </button>
@@ -105,7 +105,7 @@ const UserBanner = ({ editable, banner }) => {
           />
           {banner ? (
             <button
-              className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 rounded-md duration-200 ease-in-out transition"
+              className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 rounded-md duration-200 ease-in-out transition"
               onClick={handleBannerRemove}
               disabled={uploading}
             >
