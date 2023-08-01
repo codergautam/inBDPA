@@ -188,7 +188,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
     <div className="container mx-auto">
       <div className={`flex items-center justify-center mx-auto pb-5`}>
         <button
-          className="text-gray-600 dark:text-gray-500 font-bold hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
+          className="text-gray-800 dark:text-gray-300 font-bold hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
           onClick={() => {
             toggleMode();
             createItem();

@@ -58,7 +58,7 @@ const LinkChanger = ({ link }) => {
     <div className="space-y-2 flex flex-col">
       {!isEditing && (
         <button
-          className="text-gray-300 text-xs sm:text-xl hover:text-black dark:hover:text-white font-bold py-2 px-4 border-gray-500 hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white border-b-2 pb-2 delay-75 duration-500 transition ease-in-out"
+          className="text-gray-800 dark:text-gray-200 text-xs sm:text-xl hover:text-black dark:hover:text-white font-bold py-2 px-4 border-gray-500 hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white border-b-2 pb-2 delay-75 duration-500 transition ease-in-out"
           onClick={handleEdit}
         >
           Change Custom URL
