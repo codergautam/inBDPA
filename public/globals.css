@@ -22,7 +22,7 @@ we of course apply color-scheme: dark, as usual */
 we still enforce color-scheme: dark, despite the user preference */
 @media (prefers-color-scheme: light) {
   html {
-    color-scheme: dark;
+    color-scheme: light;
   }
 }
 
@@ -57,14 +57,14 @@ we still enforce color-scheme: dark, despite the user preference */
     @apply list-disc ml-4;
   }
 }
-/*
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-} */
+}
 
 
 body {
@@ -175,11 +175,11 @@ a {
 /* } */
 
 /* Light mode */
-/* @media (prefers-color-scheme: light) {
+@media (prefers-color-scheme: light) {
   .gradient-bg {
     background: linear-gradient(160deg, #f9fafb 0%, #ade6e0 100%);
   }
-} */
+}
 
 /* Smooth Scroll Animation */
 .react-scroll-link {
