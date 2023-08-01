@@ -240,7 +240,8 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
             mode === "view" ? "hidden" : ""
           } bg-white dark:bg-gray-800 max-w-2xl max-h-full mx-auto mt-12`}
           ariaHideApp={false} // Added to prevent the warning about appElement not being defined
-        ><button
+        >
+          <button
                 className="sticky w-full"
                 onClick={() => {
                   setEditorItems(_.cloneDeep(liveItems));
