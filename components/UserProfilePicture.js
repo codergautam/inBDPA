@@ -184,7 +184,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
                       onChange={handleOptionChange}
                       className="mr-2"
                     />
-                    <label htmlFor="gravatar" className="text-lg">
+                    <label htmlFor="gravatar" className="text-lg text-black dark:text-white">
                       Use Gravatar
                     </label>
                   </div>
@@ -199,7 +199,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
                       onChange={handleOptionChange}
                       className="mr-2"
                     />
-                    <label htmlFor="upload" className="text-lg">
+                    <label htmlFor="upload" className="text-lg text-black dark:text-white">
                       Upload Image
                     </label>
                   </div>
@@ -210,7 +210,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
-                        className="py-2 px-4 border border-gray-400 rounded-md cursor-pointer"
+                        className="py-2 px-4 border border-gray-400 rounded-md cursor-pointer text-black dark:text-white"
                       />
                     </div>
                   )}

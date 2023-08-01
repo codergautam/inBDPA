@@ -89,7 +89,7 @@ const ConnectionList = ({
         onClick={clickable ? openModal : null}
         className={`${clickable ? "cursor-pointer" : ""} ${
           connections[1].length == 0
-            ? "text-gray-300 text-xs semism:text-sm md:text-lg hover:text-gray-200"
+            ? "text-black dark:text-gray-300 text-xs semism:text-sm md:text-lg dark:hover:text-gray-200"
             : "text-black dark:text-white hover:text-blue-500"
         } duration-300 ease-in-out transition`}
       >
@@ -137,7 +137,7 @@ const ConnectionList = ({
             </g>
           </svg>
         </button>
-        <h2 className="text-2xl font-bold mb-8">
+        <h2 className="text-black dark:text-white text-2xl font-bold mb-8">
           {totalConnections}
           {isYou ? "" : " mutual"} connections
         </h2>
@@ -198,10 +198,10 @@ const ConnectionList = ({
                     }
                     className={
                       user.yourDepth == 1
-                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        ? `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                         : user.yourDepth == 2
-                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white font-semibold italic flex-row cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 my-2 text-lg py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full`
-                        : `h-fit overflow-visible relative flex items-center gap-6 text-gray-300 font-normal hover:text-white flex-row cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 text-sm my-2 py-2 mx-auto dark:shadow-md duration-100 ease-in-out transition w-full`
+                        ? `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        : `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                     }
                   >
                     {i % 2 === 0 && (
@@ -227,7 +227,7 @@ const ConnectionList = ({
                             ? `text-md`
                             : user.yourDepth === 2
                             ? `text-md`
-                            : `text-sm`
+                            : `text-md`
                         }
                       >
                         {user.username}
@@ -238,8 +238,8 @@ const ConnectionList = ({
                         <p
                           className={
                             user.yourDepth == 1
-                              ? `text-gray-500 dark:text-blue-300 text-xs italic`
-                              : `text-gray-100 dark:text-gray-400 text-xs italic`
+                              ? `text-gray-800 dark:text-gray-400 text-xs italic`
+                              : `text-gray-800 dark:text-gray-400 text-xs italic`
                           }
                         >
                           {user.yourDepth == 1
@@ -251,14 +251,13 @@ const ConnectionList = ({
                         </p>
                       ) : null}
                       {user.theirDepth ? (
-                        <p className="text-gray-500 dark:text-gray-300 text-xs">
-                          {theirName}&apos;s
+                        <p className="text-gray-800 dark:text-gray-400 text-xs italic">
+                          {theirName}&apos;s{" "}
                           {user.theirDepth == 1
                             ? "1st"
                             : user.theirDepth == 2
                             ? "2nd"
-                            : "3rd"}{" "}
-                          degree
+                            : "3rd"}{" "}degree
                         </p>
                       ) : null}
                     </div>
