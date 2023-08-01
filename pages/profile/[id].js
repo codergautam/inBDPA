@@ -111,21 +111,39 @@ export default function Page({
   const sections = ["education", "volunteering", "skills", "experience"];
 
   return (
-    <div className="flex flex-col bg-gray-50 dark:bg-gray-900">
+    <div className="flex flex-col bg-gray-50 dark:bg-gray-900 min-h-screen h-full">
       <Head>
         <link rel="icon" href="/favicon.ico" />
         {requestedUser ? (
           <>
-    <title>{requestedUser?.username+"'s Profile - inBDPA"}</title>
-    <meta name="description" content={requestedUser?.sections?.about} />
-    <meta name="viewport" content="initial-scale=1.0, width=device-width" />
-    <meta property="og:title" content={`${requestedUser?.username}'s Profile`} />
-    <meta property="og:description" content={requestedUser?.sections?.about} />
-    <meta property="og:image" content={(!requestedUser?.pfp) || (requestedUser?.pfp === "gravatar") ? `https://www.gravatar.com/avatar/${requestedUser?.hashedEmail}?s=256` : '/api/public/pfps/'+requestedUser?.pfp} />
-    <meta property="og:type" content="profile" />
-    <link rel="icon" href="/favicon.ico" />
-    </>
-        ) : <title>Profile Not Found - inBDPA</title>}
+            <title>{requestedUser?.username + "'s Profile - inBDPA"}</title>
+            <meta name="description" content={requestedUser?.sections?.about} />
+            <meta
+              name="viewport"
+              content="initial-scale=1.0, width=device-width"
+            />
+            <meta
+              property="og:title"
+              content={`${requestedUser?.username}'s Profile`}
+            />
+            <meta
+              property="og:description"
+              content={requestedUser?.sections?.about}
+            />
+            <meta
+              property="og:image"
+              content={
+                !requestedUser?.pfp || requestedUser?.pfp === "gravatar"
+                  ? `https://www.gravatar.com/avatar/${requestedUser?.hashedEmail}?s=256`
+                  : "/api/public/pfps/" + requestedUser?.pfp
+              }
+            />
+            <meta property="og:type" content="profile" />
+            <link rel="icon" href="/favicon.ico" />
+          </>
+        ) : (
+          <title>Profile Not Found - inBDPA</title>
+        )}
       </Head>
       <div className="w-full">
         <Navbar user={user} />
@@ -138,64 +156,66 @@ export default function Page({
       <main className="flex flex-col mt-4 mb-12 pb-4 relative items-center justify-center bg-white border-gray-300 dark:bg-gray-800 border dark:border-gray-700 rounded w-11/12 md:w-2/3 mx-auto flex-1 px-4 md:px-20 text-center">
         {requestedUser ? (
           <>
-          <div className="flex flex-col md:flex-row md:gap-6 w-full">
-          <div className="hidden md:flex flex-col md:w-1/3 p-4">
-            { user ? (
-              <>
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                    Statistics
-                  </h2>
-                  <UserStats
-                    views={requestedUser.views}
-                    activeSessions={activeSess}
-                    connectionStatus={
-                      depth > 0
-                        ? addSuffix(depth) + " connection"
-                        : "Not Connected"
-                    }
-                    editable={editable}
-                  />
+            <div className="flex flex-col md:flex-row md:gap-6 w-full">
+              <div className="hidden md:flex flex-col md:w-1/3 p-4">
+                {user ? (
+                  <>
+                    <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
+                      Statistics
+                    </h2>
+                    <UserStats
+                      views={requestedUser.views}
+                      activeSessions={activeSess}
+                      connectionStatus={
+                        depth > 0
+                          ? addSuffix(depth) + " connection"
+                          : "Not Connected"
+                      }
+                      editable={editable}
+                    />
                   </>
-            ): null}
-          </div>
-                <div className="md:w-1/3">
-                  <UserProfilePicture
-                    editable={editable}
-                    hashedEmail={requestedUser?.hashedEmail}
-                    pfp={pfp}
-                  />
-                </div>
-          <div className="flex md:hidden flex-col w-full mx-auto">
-                  {user? (
-                    <>
-                  <h2 className="text-xs sm:text-lg md:text-xl text-center font-bold text-gray-900 dark:text-white mb-2 w-full">
-                    Profile Statistics
-                  </h2>
-                  <UserStats
-                    views={requestedUser.views}
-                    activeSessions={activeSess}
-                    connectionStatus={
-                      depth > 0
-                        ? addSuffix(depth) + " connection"
-                        : "Not Connected"
-                    }
-                    editable={editable}
-                  />
+                ) : null}
+              </div>
+              <div className="md:w-1/3">
+                <UserProfilePicture
+                  editable={editable}
+                  hashedEmail={requestedUser?.hashedEmail}
+                  pfp={pfp}
+                />
+              </div>
+              <div className="flex md:hidden flex-col w-full mx-auto">
+                {user ? (
+                  <>
+                    <h2 className="text-xs sm:text-lg md:text-xl text-center font-bold text-gray-900 dark:text-white mb-2 w-full">
+                      Profile Statistics
+                    </h2>
+                    <UserStats
+                      views={requestedUser.views}
+                      activeSessions={activeSess}
+                      connectionStatus={
+                        depth > 0
+                          ? addSuffix(depth) + " connection"
+                          : "Not Connected"
+                      }
+                      editable={editable}
+                    />
                   </>
-): null}
-                </div>
-                <div className="w-full md:w-1/3">
-                  <p className=" mt-4 font-bold text-black dark:text-white text-xs sm:text-lg md:text-xl">Network</p>
-                      <ConnectionList
-                    connections={connections}
-                    clickable={!!user}
-                    user_id={requestedUser.user_id}
-                    isYou={user?.id == requestedUser.user_id}
-                    depth={depth}
-                    theirName={requestedUser.username}
-                  />
-                </div>
-          </div>
+                ) : null}
+              </div>
+              <div className="w-full md:w-1/3">
+                <p className=" mt-4 font-bold text-black dark:text-white text-xs sm:text-lg md:text-xl">
+                  Network
+                </p>
+                <ConnectionList
+                  connections={connections}
+                  clickable={!!user}
+                  user_id={requestedUser.user_id}
+                  isYou={user?.id == requestedUser.user_id}
+                  depth={depth}
+                  theirName={requestedUser.username}
+                />
+              </div>
+            </div>
             <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5 w-full">
               {requestedUser.username}
             </h1>
@@ -259,12 +279,10 @@ export default function Page({
                 name={requestedUser.username}
               />
             ) : null}
-            
+
             {!user ? (
-              <h1 className="text-red-600">
-                Log in to view more details
-              </h1>
-            ): null}
+              <h1 className="text-red-600">Log in to view more details</h1>
+            ) : null}
             {user
               ? sections
                   .filter(
@@ -405,7 +423,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       email: null,
       hashedEmail: getGravatarHash(requestedUser.email),
     };
-
 
   return {
     props: {
