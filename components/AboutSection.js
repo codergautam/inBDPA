@@ -152,7 +152,7 @@ const AboutSection = ({
 
                       <input
                         type="text"
-                        className="shadow appearance-none mt-2 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none mt-2 border rounded w-full py-2 px-3 text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                         value={aiPrompt}
                         onChange={(e) => setAiPrompt(e.target.value)}
                       />
