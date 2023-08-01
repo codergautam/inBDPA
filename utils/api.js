@@ -602,12 +602,14 @@ export async function countSessionsForUser(userId) {
 
 export async function countSessionsForOpportunity(opportunityId) {
   const minutes = 20/60 //Yeah, 1 min refresh
-  let opp = await Opportunity.find({opportunity_id: opportunityId})
-
+  let opp = await Opportunity.findOne({opportunity_id: opportunityId})
+  console.log(Date.now() - new Date(opp.lastUpdatedActive).getTime(), Math.pow(10, 3) * minutes * 60)
   //Check for if the activeSessions prop actually exists and then whether is a valid time range
-  if(opp?.activeSessions && ((new Date()).getTime() - (new Date(opp.lastUpdatedActive)).getTime()) < (Math.pow(10, 3) * minutes)) {
+  if(Number.isInteger(opp?.activeSessions) && (Date.now() - new Date(opp.lastUpdatedActive).getTime()) < (Math.pow(10, 3) * minutes * 60)) {
+    console.log("Using cached")
     return { active: opp.activeSessions }
   }
+  console.log("Falling back to api")
 
   //Fallback
   const url = `${BASE_URL}/sessions/count-for/opportunity/${opportunityId}`;
@@ -618,9 +620,13 @@ export async function countSessionsForOpportunity(opportunityId) {
   await Opportunity.updateOne({opportunity_id: opportunityId}, {
     $set: {
       activeSessions: req.active,
-      lastUpdatedActive: (new Date())
+      lastUpdatedActive: Date.now()
     }
   })
+
+  // Refetch and make sure its set
+  opp = await Opportunity.findOne({opportunity_id: opportunityId})
+  console.log("Active sessions:", opp.lastUpdatedActive, Date.now())
 
   //Return original request
   return req
