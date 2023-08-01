@@ -100,14 +100,14 @@ export default function HomeLoggedIn({ user }) {
   }, [lastItemId, loading]);
 
   return (
-    <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 v-screen flex-grow">
-      <div className="container px-5 pb-24 mx-auto">
+    <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
+      <div className="pb-24 w-screen">
         <center>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-16 font-bold mb-12 text-gray-600 dark:text-gray-300 text-center">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-16 font-bold mb-12 text-gray-600 dark:text-gray-300 text-center w-screen">
             {getGreeting()}, {user.username}
           </h1>
         </center>
-        <div className="lg:hidden mb-8">
+        <div className="lg:hidden px-4 w-screen">
           <aside className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-8 mx-8">
             <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
             <div className="flex items-center mb-4">
@@ -134,7 +134,7 @@ export default function HomeLoggedIn({ user }) {
           </aside>
         </div>
 
-        <div className="lg:flex gap-6 md:justify-center">
+        <div className="lg:flex md:justify-center">
           {/* Scrolling Feed */}
           <div className="lg:w-3/4 mr-auto">
             <h1 className="mb-2">Your Feed</h1>
@@ -251,10 +251,9 @@ export default function HomeLoggedIn({ user }) {
             )}
           </div>
           {/* Sidebar */}
-          <div className="lg:w-1/4 lg:flex hidden relative">
-            <div>
+          <div className="lg:flex hidden w-full justify-center">
               {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
-              <div className="bg-gray-200 fixed pt-4 pb-14 top-1/2 -translate-y-1/2 right-10  dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
+              <div className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-lg md:min-w-fit w-1/5 h-fit mx-auto fixed">
                 <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
                 <div className="flex items-center">
                   <img
@@ -276,33 +275,32 @@ export default function HomeLoggedIn({ user }) {
                   </div>
                 </div>
                 {/* <div className="break-words">
-                {JSON.stringify(user)}
-              </div> */}
-                <p className="text-gray-600 dark:text-gray-400 mb-2">
+                      {JSON.stringify(user)}
+                    </div> */}
+                <p className="text-gray-600 dark:text-gray-400 mb-5">
                   {user.bio}
                 </p>
                 <div className="space-y-4">
                   <Link
                     href={`/profile/${user.link}`}
-                    className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                    className="px-4 py-1.5 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition text-center block"
                   >
                     View Profile
                   </Link>
                   <Link
                     href={`/opportunities`}
-                    className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                    className="px-4 py-1.5 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition text-center block"
                   >
                     View Opportunities
                   </Link>
                   <Link
                     href={`/search`}
-                    className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                    className="px-4 py-1.5 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition text-center block"
                   >
                     Search our Site
                   </Link>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>
