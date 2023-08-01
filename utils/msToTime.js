@@ -26,5 +26,5 @@ export default function msToTime(duration) {
     portions.push(seconds + 's');
   }
 
-  return portions.join(' ');
+  return portions[0]
 }

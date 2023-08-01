@@ -217,7 +217,7 @@ export default function HomeLoggedIn({ user }) {
           <div className="lg:w-1/4 lg:flex hidden relative">
          <div>
             {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
-            <div className="bg-gray-200 fixed pt-4 pb-14 right-10  dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
+            <div className="bg-gray-200 fixed pt-4 pb-14 top-1/2 -translate-y-1/2 right-10  dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
               <div className="flex items-center">
                 <img
