@@ -71,7 +71,7 @@ export default function UserCreation() {
   };
 
   return (
-    <div className="mt-8 mb-8 m-4 flex flex-col sm:w-4/5 lg:w-1/2 xl:w-1/2 mx-auto text-center bg-white dark:bg-gray-700 p-8 rounded-lg border dark:border-none dark:shadow-xl">
+    <div className="mt-8 mb-8 m-4 flex flex-col sm:w-4/5 lg:w-1/2 xl:w-1/2 mx-auto text-center bg-white dark:bg-gray-700 p-8 rounded-lg dark:border-none dark:shadow-xl">
       {showStatus && (
         <p className={`text-2xl font-bold mb-4 ${error ? "text-red-500" : "text-green-500"}`}>
           {status}
@@ -80,7 +80,7 @@ export default function UserCreation() {
       <center>
       <p
         onClick={() => setShowingForm(!showingForm)}
-        className={`text-xl cursor-pointer text-black dark:text-white dark:bg-gray-800 w-1/2 rounded-md px-2 font-bold ${showingForm ? "text-rose-400 dark:text-red-500" : ""}`}
+        className={`text-xl cursor-pointer text-white w-min min-w-max px-4 bg-blue-500 hover:bg-blue-600 mb-2 py-2  transition duration-300 ease-in-out dark:hover:bg-gray-800 dark:bg-gray-800 rounded-md font-bold ${showingForm ? "bg-red-500 hover:bg-red-600  dark:text-red-500" : ""}`}
       >
         {!showingForm ? "Create a new user" : "Close this form"}
       </p>

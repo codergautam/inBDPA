@@ -364,7 +364,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                             }
                           }}
                           type="checkbox"
-                          className="mr-1 accent-black"
+                          className="mr-1 accent-blue-600"
                           checked={item.endedAt === null}
                         />
                         <span className="text-gray-600 dark:text-white">
