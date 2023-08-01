@@ -11,6 +11,8 @@ import { useEffect, useState } from "react";
 import React from "react";
 // const Captcha = dynamic(() => import('../captchatry2'), { ssr: false })
 import Captcha from "@/components/Captcha";
+import tlds from "tlds";
+
 
 export default function Signup() {
   const [name, setName] = useState("");
@@ -83,7 +85,7 @@ export default function Signup() {
     submityesno,
   ]);
 
-  const submitForm = (event, fromCaptcha=false) => {
+  const submitForm = (event, fromCaptcha = false) => {
     if (!areAllFieldsFilled() && !captchaSolved) {
       setSuccess(null);
       setError("Please solve the captcha.");
@@ -103,20 +105,20 @@ export default function Signup() {
     } else if (areAllFieldsFilled() && !captchaSolved) {
       setSuccess(null);
       <ErrorComponent
-      error={"Please fill out all fields."}
-      side="bottom"
-      color="red"
-      blocked={false}
-      setError={setError}
-      attempterror={false}
-    />
+        error={"Please fill out all fields."}
+        side="bottom"
+        color="red"
+        blocked={false}
+        setError={setError}
+        attempterror={false}
+      />;
       setSubmitYesNo(false);
     } else {
       setSuccess(null);
       setError("Please fill out all fields.");
       setSubmitYesNo(false);
     }
-    if(event) event?.preventDefault();
+    if (event) event?.preventDefault();
     setBtnText("Signing up...");
     fetch("/api/auth/signup", {
       method: "POST",
@@ -150,15 +152,14 @@ export default function Signup() {
         setSuccess(null);
         setError("An error occurred while signing up.");
       });
-  }
+  };
 
   return (
     <>
       <section className="bg-gray-50 dark:bg-gray-900 h-full">
-                <div className=" z-40 fixed w-screen md:static md:h-0">
+        <div className=" z-40 fixed w-screen md:static md:h-0">
           <Navbar />
         </div>
-
 
         <Head>
           <title>Signup | inBDPA</title>
@@ -170,10 +171,7 @@ export default function Signup() {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Create an account
               </h1>
-              <form
-                className="space-y-1 "
-                onSubmit={submitForm}
-              >
+              <form className="space-y-1 " onSubmit={submitForm}>
                 <div>
                   <label
                     htmlFor="name"

@@ -12,7 +12,7 @@ import { encryptPassword } from "@/utils/encryptPassword";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { createUser as createUserNode } from "@/utils/neo4j.mjs";
-import tlds from "tlds";
+// import tlds from "tlds";
 
 import { getIronOptions } from "@/utils/ironConfig";
  async function handler(req, res) {
@@ -31,10 +31,10 @@ import { getIronOptions } from "@/utils/ironConfig";
   if(!domain.includes(".")) {
     return res.send({ error: "Invalid email" });
   }
-  let tld = domain.split(".")[1];
-  if(!tlds.includes(tld)) {
-    return res.send({ error: "Invalid email" });
-  }
+  // let tld = domain.split(".")[1];
+  // if(!tlds.includes(tld)) {
+  //   return res.send({ error: "Invalid email" });
+  // }
   // Validate password
   if(password.length <= 10) {
     return res.send({ error: "Password must be at least 11 characters" });
