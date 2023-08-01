@@ -96,7 +96,6 @@ const handleRouteChangeStart = async (url, first=false) => {
   if(first) url = prevPath;
 
   //Dont change if going to same page
-  if(!first && (url == prevPath)) return console.log("Going to same page");
 
   if(!first && sessionIdRef.current) {
     // End old session
