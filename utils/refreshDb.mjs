@@ -243,7 +243,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   let after = undefined;
   while(!stop) {
   let d = await getUsers(after, lastUpdated);
-  console.log("Fetched", d.users.length, "users");
+  // console.log("Fetched", d.users.length, "users");
   if(!d) {
     latestUsers = [];
     break;
@@ -287,7 +287,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     n++;
     let user = await Profile.findOne({ user_id: latestUser.user_id });
     let existsNeo4j = await userExists(latestUser.user_id);
-    console.log("Processing "+n+"/"+latestUsers.length)
+    // console.log("Processing "+n+"/"+latestUsers.length)
     if(!user) {
       // CREATE NEW USER
 
@@ -324,7 +324,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       console.log("Error while trying to create user in neo4j", latestUser.user_id, latestUser.username);
     }
     } else {
-      console.log("Updating user", latestUser.user_id, latestUser.username);
+      // console.log("Updating user", latestUser.user_id, latestUser.username);
 
       let connections;
       try {
