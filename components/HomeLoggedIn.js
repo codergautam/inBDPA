@@ -111,7 +111,7 @@ export default function HomeLoggedIn({ user }) {
           </h1>
         </center>
         <div className="lg:hidden mb-8">
-          <aside className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-8 mx-8">
+          <aside className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg dark:shadow-lg mb-8 mx-8">
             <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
             <div className="flex items-center mb-4">
               <img
@@ -145,7 +145,7 @@ export default function HomeLoggedIn({ user }) {
               {feedData.map((item, index) => (
                 <div
                   key={index}
-                  className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700"
+                  className="rounded-lg dark:shadow-lg bg-gray-200 hover:-translate-y-1 dark:bg-gray-700 transition duration-300 ease-in-out"
                 >
                   {item.type === "user" && <UserFeedCard item={item} />}
                   {item.type === "opportunity" && (
@@ -193,19 +193,19 @@ export default function HomeLoggedIn({ user }) {
               <div className="space-y-4">
                 <Link
                   href={`/profile/${user.link}`}
-                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                  className="block px-4 py-2 bg-blue-500 hover:bg-blue-700 dark:bg-gray-800 text-white rounded-lg dark:hover:bg-gray-900 transition-colors duration-200"
                 >
                   View Profile
                 </Link>
                 <Link
                   href={`/opportunities`}
-                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                  className="block px-4 py-2 bg-blue-500 hover:bg-blue-700 dark:bg-gray-800 text-white rounded-lg dark:hover:bg-gray-900 transition-colors duration-200"
                 >
                   View Opportunities
                 </Link>
                 <Link
                   href={`/search`}
-                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                  className="block px-4 py-2 bg-blue-500 hover:bg-blue-700 dark:bg-gray-800 text-white rounded-lg dark:hover:bg-gray-900 transition-colors duration-200"
                 >
                   Search our Site
                 </Link>

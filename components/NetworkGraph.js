@@ -215,6 +215,7 @@ function NetworkGraphModal({ user }) {
         <input
           type="checkbox"
           id="full"
+          className="accent-blue-600"
           checked={isFullMode}
           onChange={() => setIsFullMode(!isFullMode)}
         />

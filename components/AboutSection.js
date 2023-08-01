@@ -112,7 +112,7 @@ const AboutSection = ({
       {editing ? (
         <div>
           <textarea
-            className="w-full text-xs md:text-base break-words h-20 p-2 mb-2 rounded-md resize-none dark:bg-black dark:text-white"
+            className="w-full text-black text-xs md:text-base break-words h-20 p-2 mb-2 rounded-md resize-none dark:bg-black dark:text-white"
             value={newAbout}
             maxLength={1000}
             onChange={handleChange}
