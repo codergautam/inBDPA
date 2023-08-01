@@ -90,7 +90,7 @@ const ConnectionList = ({
         className={`${clickable ? "cursor-pointer" : ""} ${
           connections[1].length == 0
             ? "text-gray-300 text-xs semism:text-sm md:text-lg hover:text-gray-200"
-            : "text-black dark:text-white hover:text-blue-500"
+            : "text-black dark:text-white dark:hover:text-blue-500"
         } duration-300 ease-in-out transition`}
       >
         <span className="font-bold">{connections[1].length}</span> connections
@@ -111,7 +111,7 @@ const ConnectionList = ({
           onClick={closeModal}
         >
           <svg
-            className="fill-current text-red-500 hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
+            className="fill-current text-red-500 dark:hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
@@ -137,10 +137,13 @@ const ConnectionList = ({
             </g>
           </svg>
         </button>
-        <h2 className="text-2xl font-bold mb-8">
+        <h2 className="text-2xl font-bold">
           {totalConnections}
           {isYou ? "" : " mutual"} connections
         </h2>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
+          Up to 3rd degree
+        </p>
         {error ? <p className="text-red-500">{error}</p> : null}
 
         {userList
@@ -198,10 +201,10 @@ const ConnectionList = ({
                     }
                     className={
                       user.yourDepth == 1
-                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 dark:hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                         : user.yourDepth == 2
-                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white font-semibold italic flex-row cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 my-2 text-lg py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full`
-                        : `h-fit overflow-visible relative flex items-center gap-6 text-gray-300 font-normal hover:text-white flex-row cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 text-sm my-2 py-2 mx-auto dark:shadow-md duration-100 ease-in-out transition w-full`
+                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white font-semibold italic flex-row cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 my-2 text-lg py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full`
+                        : `h-fit overflow-visible relative flex items-center gap-6 text-gray-300 font-normal dark:hover:text-white flex-row cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 text-sm my-2 py-2 mx-auto dark:shadow-md duration-100 ease-in-out transition w-full`
                     }
                   >
                     {i % 2 === 0 && (
@@ -252,7 +255,7 @@ const ConnectionList = ({
                       ) : null}
                       {user.theirDepth ? (
                         <p className="text-gray-500 dark:text-gray-300 text-xs">
-                          {theirName}&apos;s
+                          {theirName}&apos;s {" "}
                           {user.theirDepth == 1
                             ? "1st"
                             : user.theirDepth == 2
