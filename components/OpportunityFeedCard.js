@@ -1,3 +1,15 @@
+// components/OpportunityFeedCard.js
+// This file contains the code for the OpportunityFeedCard component. 
+// 
+// The component takes in an "item" prop and displays an opportunity card with the relevant information.
+// 
+// The component is wrapped in a Link component from Next.js, which allows the card to link to the opportunity details page.
+// 
+// The card includes the opportunity title, content, and additional information such as the time since it was posted, the number of views, and the number of active viewers if applicable.
+// 
+// The component uses the msToTime utility function to convert the creation time of the opportunity into a readable format.
+// 
+// The card is styled using Tailwind CSS classes to achieve the desired layout and appearance.
 import Link from "next/link"
 import msToTime from "@/utils/msToTime"
 

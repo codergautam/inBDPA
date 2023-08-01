@@ -1,3 +1,11 @@
+// components/UserFeedCard.js
+// This code is responsible for rendering a user feed card component. It imports necessary modules and components, such as Link from "next/link" and msToTime from "@/utils/msToTime". The UserFeedCard component takes in an item prop, which contains data for each user feed card.
+// 
+// The component renders a Link component that links to the user's profile page. The user's profile picture, username, and a brief about section are displayed. If the user is not connected, a "Connect" button is shown. Clicking on the button triggers a connection/disconnection operation, which sends a POST request to the server. If the operation is successful, the user is redirected to the profile page. If the operation fails, an alert is shown.
+// 
+// Below the profile information, the component displays when the user joined and the number of views they have.
+// 
+// Overall, this code handles the rendering of a user feed card, including user profile information and interaction with the "Connect" button.
 import Link from "next/link"
 import msToTime from "@/utils/msToTime";
 import { useRouter } from "next/router";
