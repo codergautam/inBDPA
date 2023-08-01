@@ -12,7 +12,7 @@
 // If an error occurs during the URL change process, the error message is displayed.
 //
 // When the user cancels the URL change, the component resets the state values to their original values.
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const LinkChanger = ({ link }) => {
   const [newLink, setNewLink] = useState(link);
@@ -24,8 +24,8 @@ const LinkChanger = ({ link }) => {
     try {
       setIsSaving(true);
 
-      let response = await fetch('/api/changeLink', {
-        method: 'POST',
+      let response = await fetch("/api/changeLink", {
+        method: "POST",
         body: JSON.stringify({ newLink }),
       });
       response = await response.json();
@@ -38,7 +38,7 @@ const LinkChanger = ({ link }) => {
       }
     } catch (error) {
       console.log(error);
-      setChangeLinkError('Error changing user link');
+      setChangeLinkError("Error changing user link");
     } finally {
       setIsSaving(false);
     }
@@ -55,9 +55,12 @@ const LinkChanger = ({ link }) => {
   };
 
   return (
-    <div>
+    <div className="space-y-2 flex flex-col">
       {!isEditing && (
-        <button className="text-gray-300 text-xs sm:text-xl hover:text-black dark:hover:text-white font-bold py-2 px-4 border-gray-500 hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white border-b-2 pb-2 delay-75 duration-500 transition ease-in-out" onClick={handleEdit}>
+        <button
+          className="text-gray-300 text-xs sm:text-xl hover:text-black dark:hover:text-white font-bold py-2 px-4 border-gray-500 hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white border-b-2 pb-2 delay-75 duration-500 transition ease-in-out"
+          onClick={handleEdit}
+        >
           Change Custom URL
         </button>
       )}
@@ -74,21 +77,21 @@ const LinkChanger = ({ link }) => {
             className="border border-gray-300 rounded-md px-2 py-1 mt-2 dark:bg-black dark:text-white"
             maxLength={10}
           />
-
+<div className="space-x-2">
           <button
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
+            className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 rounded-md duration-200 ease-in-out transition"
             onClick={handleChangeLink}
             disabled={isSaving}
           >
-            {isSaving ? 'Saving...' : 'Save'}
+            {isSaving ? "Saving..." : "Save"}
           </button>
           <button
-            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2 ml-2"
+            className="px-4 py-2 text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 rounded-md duration-200 ease-in-out transition"
             onClick={handleCancel}
             disabled={isSaving}
           >
             Cancel
-          </button>
+          </button></div>
         </>
       )}
     </div>
