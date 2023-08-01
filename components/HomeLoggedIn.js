@@ -141,7 +141,7 @@ export default function HomeLoggedIn({ user }) {
           {/* Scrolling Feed */}
           <div className="lg:w-3/4 mr-auto flex-grow">
             <h1 className="mb-2 text-center">Your Feed</h1>
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-8 pr-6 lg:pr-0">
               {feedData.map((item, index) => (
                 <div
                   key={index}

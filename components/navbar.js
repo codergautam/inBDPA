@@ -85,13 +85,13 @@ export default function Navbar({ user, queryText = "" }) {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder="Search for users, opportunities, etc."
-                  className="w-full outline-none h-10 border-none px-3 py-2 pl-5 text-sm sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-400 transition duration-300 ease-in-out rounded-full "
+                  placeholder="Search our site"
+                  className="w-full outline-none h-10 px-3 py-2 pl-5 text-sm sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-400 transition duration-300 ease-in-out rounded-full "
                 />
-                <div className="hidden top-0 left-0 ml-3 mt-3">
+                <div className="hidden top-0 left-0 ml-3 mt-3 ">
                   <FontAwesomeIcon
                     icon={faSearch}
-                    className="text-gray-400 dark:text-white"
+                    className="text-gray-400 dark:text-white "
                   />
                 </div>
                 {/* ... Search Button ... */}
@@ -101,9 +101,9 @@ export default function Navbar({ user, queryText = "" }) {
                 >
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
-                
+
               </>
-              
+
             )}
         </div>
         </div>
@@ -296,7 +296,7 @@ export default function Navbar({ user, queryText = "" }) {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder="Search for users, opportunities, etc."
+                  placeholder="Search our site"
                   className="w-full outline-none h-10 border-none px-3 py-2 pl-5 text-sm sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-400 transition duration-300 ease-in-out rounded-full "
                 />
                 <div className="hidden top-0 left-0 ml-3 mt-3">
@@ -312,9 +312,9 @@ export default function Navbar({ user, queryText = "" }) {
                 >
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
-                
+
               </>
-              
+
             )}
         </div>
       </div>

@@ -28,14 +28,14 @@ export default function OpportunityFeedCard({ item }) {
             : item.content}
         </p>
         <div className="flex flex-row gap-2">
-          <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+          <span className="inline-flex bg-gray-300 border rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
             {`Posted ${msToTime(Date.now() - item.createdAt)} ago`}
           </span>
-          <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+          <span className="inline-flex bg-gray-300 border rounded-full  px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
             {`${item.views} views`}
           </span>
           {item.activeSessions ? (
-            <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+            <span className="inline-flex bg-gray-300 border rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
               {`${item.activeSessions} active viewers`}
             </span>
           ) : (
