@@ -16,6 +16,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import NetworkGraphModal from "./NetworkGraph";
+import user from "@/pages/api/user";
 
 const ConnectionList = ({
   connections,
