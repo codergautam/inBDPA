@@ -90,12 +90,12 @@ const UserBanner = ({ editable, banner }) => {
     <div className={`${banner ? "mb-0" : "mb-20"} user-banner my-2`}>
       {editable ? (
         <div className="mt-2 mx-auto text-center w-min min-w-max mb-4 space-x-2">
-          <button
+          <label
             htmlFor="banner-upload"
-            className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
+            className="px-4 py-2 text-white cursor-pointer bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
           >
             {banner ? "Change Banner" : "Add Banner"}
-          </button>
+          </label>
           <input
             type="file"
             id="banner-upload"

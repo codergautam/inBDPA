@@ -107,7 +107,6 @@ function NetworkGraphModal({ user }) {
             size: 14,
             face: "arial",
             background: "white",
-            zIndex: 1000,
           },
         },
         interaction: {

@@ -25,6 +25,15 @@ const AboutSection = ({
     setEditing(true);
   };
 
+  const formatAbout = (content) => {
+    if (!content) return "";
+    // If there are multiple consectutive newlines, replace them with a single newline
+    content = content.replace(/\n\n+/g, "\n\n");
+
+    return content.replace(/\n/g, "\n");
+  };
+
+
   const handleSaveClick = () => {
     setSaving(true);
     onSave(newAbout, setRequestedUser)
@@ -152,7 +161,7 @@ const AboutSection = ({
 
                       <input
                         type="text"
-                        className="shadow appearance-none mt-2 border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                        className="shadow appearance-none mt-2 border rounded w-full py-2 px-3 text-gray-700 dark:text-white leading-tight focus:outline-none focus:shadow-outline"
                         value={aiPrompt}
                         onChange={(e) => setAiPrompt(e.target.value)}
                       />
@@ -254,21 +263,24 @@ const AboutSection = ({
       ) : (
         <div>
           {about ? (
-            <p className="text-gray-900 text-xs md:text-base dark:text-white mb-4 break-words">
-              {about}
+            <p className="text-gray-900 text-xs md:text-base dark:text-white mb-4 break-words" style={{ whiteSpace: "pre-wrap" }}>
+              {formatAbout(about).split("\n").map((line, i) => (
+                <span key={i}>
+                  {line}
+                  <br />
+                </span>
+              ))}
             </p>
-          ) : (
-            <p className="text-gray-500 dark:text-gray-400 mb-4">
-              Add an about section
-            </p>
-          )}
+          ) : null}
           {editable ? (
             <div className="flex justify-end">
               <button
-                className="px-4 py-2 mx-auto text-gray-500 font-bold hover:text-black dark:hover:text-white pb-2 border-b border-gray-700  hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white duration-300 ease-in-out transition"
+                className="px-4 py-2 mx-auto text-gray-800 dark:text-gray-300 font-bold hover:text-black dark:hover:text-white pb-2 border-b border-gray-700  hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white duration-300 ease-in-out transition"
                 onClick={handleEditClick}
               >
-                Edit
+                {
+                  about ? "Edit" : "Add"
+                }
               </button>
             </div>
           ) : null}

@@ -31,7 +31,7 @@ function Error({ statusCode, user }) {
         <p className="text-4xl text-gray-800 dark:text-white text-center font-bold mb-8">
           {statusCode
             ? <>
-            We couldn't find that <br/> An error ${statusCode} occurred on server
+            We couldn't find that <br/> An error {statusCode} occurred on server
             </>
             : 'An error occurred on client'}
         </p>
