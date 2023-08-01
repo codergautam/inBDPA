@@ -28,9 +28,11 @@ function Error({ statusCode, user }) {
         <Navbar user={user} />
       </div>
       <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-800">
-        <p className="text-4xl text-gray-800 dark:text-white font-bold mb-8">
+        <p className="text-4xl text-gray-800 dark:text-white text-center font-bold mb-8">
           {statusCode
-            ? `An error ${statusCode} occurred on server`
+            ? <>
+            We couldn't find that <br/> An error ${statusCode} occurred on server
+            </>
             : 'An error occurred on client'}
         </p>
         <Link href="/" className="text-lg text-gray-800 dark:text-white font-semibold py-2 px-6 bg-blue-500 hover:bg-blue-600 rounded transition duration-200 ease-in-out">

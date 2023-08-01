@@ -106,12 +106,12 @@ export default function HomeLoggedIn({ user }) {
     <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 v-screen flex-grow">
       <div className="pl-5 pb-24 mx-auto w-full">
         <center>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-16 font-bold mb-12 text-gray-600 dark:text-gray-300 text-left pr-5">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-16 font-bold mb-12 text-gray-600 dark:text-gray-300 text-center pr-5">
             {getGreeting()}, {user.username}
           </h1>
         </center>
         <div className="lg:hidden mb-8">
-          <aside className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-8 mx-8">
+          <aside className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg dark:shadow-lg mb-8 mx-8">
             <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
             <div className="flex items-center mb-4">
               <img
@@ -141,11 +141,11 @@ export default function HomeLoggedIn({ user }) {
           {/* Scrolling Feed */}
           <div className="lg:w-3/4 mr-auto flex-grow">
             <h1 className="mb-2 text-center">Your Feed</h1>
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-8 pr-6 lg:pr-0">
               {feedData.map((item, index) => (
                 <div
                   key={index}
-                  className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700"
+                  className="rounded-lg dark:shadow-lg bg-gray-200 hover:-translate-y-1 dark:bg-gray-700 transition duration-300 ease-in-out"
                 >
                   {item.type === "user" && <UserFeedCard item={item} />}
                   {item.type === "opportunity" && (
@@ -193,19 +193,19 @@ export default function HomeLoggedIn({ user }) {
               <div className="space-y-4">
                 <Link
                   href={`/profile/${user.link}`}
-                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                  className="block px-4 py-2 bg-blue-500 hover:bg-blue-700 dark:bg-gray-800 text-white rounded-lg dark:hover:bg-gray-900 transition-colors duration-200"
                 >
                   View Profile
                 </Link>
                 <Link
                   href={`/opportunities`}
-                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                  className="block px-4 py-2 bg-blue-500 hover:bg-blue-700 dark:bg-gray-800 text-white rounded-lg dark:hover:bg-gray-900 transition-colors duration-200"
                 >
                   View Opportunities
                 </Link>
                 <Link
                   href={`/search`}
-                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                  className="block px-4 py-2 bg-blue-500 hover:bg-blue-700 dark:bg-gray-800 text-white rounded-lg dark:hover:bg-gray-900 transition-colors duration-200"
                 >
                   Search our Site
                 </Link>

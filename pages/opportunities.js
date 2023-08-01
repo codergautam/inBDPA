@@ -98,7 +98,6 @@ useEffect(() => {
       alert("Please fill out all fields!");
       return;
     }
-    console.log(title, value);
     setFormSubmitting(true);
 
     let data = await fetch("/api/opportunities/createOpportunity", {

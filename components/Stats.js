@@ -20,14 +20,12 @@ export default function Stats() {
   const intervalRef = useRef();
 
   async function dostuff() {
-    console.log("Doing stuff");
     // setUsers("...");
     // setTotalViews("...");
     // setSessions("...");
     // setOpportunities("...");
     let data = await getInfoData();
     if (data.success) {
-      console.log();
       setUsers(data.info.users);
       setTotalViews(data.info.views);
       setSessions(data.info.sessions);

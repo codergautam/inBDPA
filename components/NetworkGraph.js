@@ -85,9 +85,7 @@ function NetworkGraphModal({ user }) {
           return true;
         })
         .filter((a) => a.from !== a.to);
-      console.log("links", links);
 
-      console.log("links", links);
       var edges = new DataSet(links);
 
       // create a network
@@ -217,6 +215,7 @@ function NetworkGraphModal({ user }) {
         <input
           type="checkbox"
           id="full"
+          className="accent-blue-600"
           checked={isFullMode}
           onChange={() => setIsFullMode(!isFullMode)}
         />

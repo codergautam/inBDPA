@@ -1,3 +1,5 @@
+// utils/msToTime.js
+// This code converts milliseconds to a human-readable format of days, hours, minutes, and seconds. The function takes in a duration in milliseconds and iterates through each time portion, subtracting the corresponding milliseconds from the duration. It then pushes the formatted time portion (e.g., '1d', '2h', '30m') into an array called portions. Finally, it returns the first element of the portions array.
 export default function msToTime(duration) {
   const portions = [];
     const msInDay = 1000 * 60 * 60 * 24;

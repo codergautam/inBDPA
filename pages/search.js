@@ -1,3 +1,5 @@
+// pages/search.js
+// This file is the SearchPage component which is responsible for rendering the search page UI and functionality. It receives the user object and query as props. It uses React hooks such as useState and useEffect for managing state and side effects. It also imports components like Navbar and Head from Next.js. The component consists of a search bar, search results for users and opportunities, and pagination for displaying more results. It makes a POST request to the /api/search endpoint to retrieve search results based on the query. The search results are displayed in a list with relevant information such as profile pictures, usernames, and descriptions. It also handles loading states and debounce logic to optimize the search experience. Finally, it uses withIronSessionSsr higher-order function from the iron-session/next package to secure the server-side rendering of the search page with session authentication.
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Navbar from "@/components/navbar";

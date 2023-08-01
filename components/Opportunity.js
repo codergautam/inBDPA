@@ -25,7 +25,6 @@ async function updateInfo(opportunity_id) {
       opportunity_id,
     }),
   }).then((res) => res.json());
-  console.log(data);
   if (data.opportunity) {
     return { views: data.opportunity.views, active: data.opportunity.active };
   } else {
@@ -33,9 +32,6 @@ async function updateInfo(opportunity_id) {
   }
 }
 const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportunity, setEditingOpportunity, setTitle, setValue }) => {
-  useEffect(()=>{
-    console.log("Opp: ", opportunity)
-  }, [])
 //   useEffect(() => {
 //     // Update info
 //     const fetchData = async () => {
@@ -48,10 +44,10 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
 //   }, [opportunity.opportunity_id]);
 
   return (
-
-    <div className="p-4 mb-4 bg-gray-200 dark:bg-gray-700 text-gray-600 dark:text-gray-400  hover:bg-gray-300 dark:hover:bg-gray-600 rounded-md shadow-xl cursor-pointer transition duration-200 ease-in-out content-normal">
-
     <Link href={`/opportunity/${opportunity.opportunity_id}`}>
+
+    <div className="p-4 mb-4 bg-gray-200 shadow-none hover:-translate-y-1 dark:bg-gray-700 text-gray-600 dark:text-gray-400  dark:hover:bg-gray-600 rounded-md dark:shadow-xl cursor-pointer transition duration-200 ease-in-out content-normal">
+
 
       <p className="text-xl font-semibold overflow-hidden dark:text-gray-300">{opportunity.title}</p>
       <p className="text-xs ml-1">
@@ -63,7 +59,6 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
       <p className="text-sm py-1 ml-1 bg-gray-300 dark:bg-gray-800 font-semibold dark:text-gray-50 w-fit px-2 mt-1 rounded-xl">
         Active Viewers: {opportunity.active}</p>
         </div>
-      </Link>
 
       {user.id === opportunity.creator_id ? (
                 <div className='flex space-x-2 justify-end mt-4'>
@@ -78,7 +73,6 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
                     onClick={() => {
                       setEditingOpportunity(opportunity);
                       setTitle(opportunity.title);
-                      console.log(opportunity);
                       setValue(opportunity.content);
                     }}
                     className="bg-orange-600 hover:bg-orange-500 text-orange-50 font-bold py-2 px-4 rounded-md transition-all ease-in-out"
@@ -89,6 +83,7 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
                 </div>
               ) : null}
     </div>
+      </Link>
   );
 };
 

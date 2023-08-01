@@ -71,7 +71,6 @@ export default function UserSearch() {
 
         // Create a new debounce timer
         debounceTimer.current = setTimeout(async () => {
-            console.log(value);
             let users = await fetch("/api/search", {
                 headers: {
                     "Content-Type": "application/json",
@@ -111,19 +110,15 @@ export default function UserSearch() {
         if(user) {
             if (user.success) {
                 setOutputUserStatus("");
-                console.log("User:");
-                console.log(user.user);
                 setOutputUser(user.user);
 
                 if (user.user) {
                     if (user.user.type !== "administrator") {
                         let newPos = listOfTypes[listOfTypes.indexOf(user.user.type) + 1];
-                        console.log(`New Position: ${newPos}`);
                         setNextPosition(newPos);
                     }
                     if (user.user.type !== "inner") {
                         let newPos = listOfTypes[listOfTypes.indexOf(user.user.type) - 1];
-                        console.log(`Previous Position: ${newPos}`);
                         setPreviousPosition(newPos);
                     }
                 }
@@ -196,8 +191,6 @@ export default function UserSearch() {
                 type: newPos
             })
         }).then(res => res.json());
-        console.log("Data:")
-        console.log(data)
         if(data.success) {
             setOutputUserStatus("Changed User to " + newPos)
             promotionRef = setTimeout(async ()=>{
@@ -256,19 +249,19 @@ export default function UserSearch() {
                   <span className="text-gray-500 font-normal dark:text-gray-400">Total Views:</span> {outputUser.views}
               </p>
               <div className="flex flex-col mt-4">
-                  {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-gray-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                      Promote to <span className="text-gray-300 dark:text-blue-300">{nextPosition}</span>
+                  {outputUser.type != "administrator" ? <button onClick={()=>changeUserType(outputUser.user_id, nextPosition)} className="bg-blue-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                      Promote to <span className="text-blue-200 dark:text-blue-300">{nextPosition}</span>
                   </button> : <></>}
                   {/* Administrators can not demote other admins!!!! */}
-                  {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-gray-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                      Demote to <span className="text-rose-400 font-bold dark:text-red-500">{previousPosition}</span>
+                  {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-red-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                      Demote to <span className="text-rose-200 font-bold dark:text-red-500">{previousPosition}</span>
                   </button> : <></>}
-                  {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                          Impersonate <FontAwesomeIcon className="my-auto ml-2 text-gray-300 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
+                  {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-yellow-500 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                          Impersonate <FontAwesomeIcon className="my-auto ml-2 text-yellow-200 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
                       </button>: <></>}
 
-                  {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-gray-500 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                          Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-gray-300 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
+                  {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-rose-600 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                          Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-rose-300 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
                       </button>: <></>}
               </div>
           </div> : <></>}
