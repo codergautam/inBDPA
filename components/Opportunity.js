@@ -25,7 +25,6 @@ async function updateInfo(opportunity_id) {
       opportunity_id,
     }),
   }).then((res) => res.json());
-  console.log(data);
   if (data.opportunity) {
     return { views: data.opportunity.views, active: data.opportunity.active };
   } else {
@@ -33,7 +32,6 @@ async function updateInfo(opportunity_id) {
   }
 }
 const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportunity, setEditingOpportunity, setTitle, setValue }) => {
-
 //   useEffect(() => {
 //     // Update info
 //     const fetchData = async () => {
@@ -76,7 +74,6 @@ const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportun
                     onClick={() => {
                       setEditingOpportunity(opportunity);
                       setTitle(opportunity.title);
-                      console.log(opportunity);
                       setValue(opportunity.content);
                     }}
                     className="bg-orange-600 hover:bg-orange-500 text-orange-50 font-bold py-2 px-4 rounded-md transition-all ease-in-out"

@@ -1,14 +1,14 @@
 // pages/api/changeLink.js
-// This code is responsible for handling the API route for changing the user's profile link. 
-// 
-// It checks if the request method is POST and if the user is authenticated. 
-// 
-// It then parses the request body and checks if the new link provided is alphanumeric. 
-// 
-// If it is, it trims it to 10 characters and checks if it is already taken. 
-// 
-// If it is not taken, it updates the user's profile link in the database, updates the user's session, and returns a success message with the new link. 
-// 
+// This code is responsible for handling the API route for changing the user's profile link.
+//
+// It checks if the request method is POST and if the user is authenticated.
+//
+// It then parses the request body and checks if the new link provided is alphanumeric.
+//
+// If it is, it trims it to 10 characters and checks if it is already taken.
+//
+// If it is not taken, it updates the user's profile link in the database, updates the user's session, and returns a success message with the new link.
+//
 // If there is any error during this process, it returns an appropriate error message.
 import { withIronSessionApiRoute } from "iron-session/next"
 import { ironOptions } from "@/utils/ironConfig"
@@ -45,9 +45,7 @@ async function handler(req, res) {
 
     // Make sure its not already taken
     let user = await getUserFromProfileId(newLink);
-    console.log("User", user);
     if(user.success) {
-      console.log("User", user.user.user_id, "already has link", req.session.user.id);
       res.status(400).json({ error: user.user.user_id === req.session.user.id ? "You already have this link!": "Link already taken" });
       return;
     }

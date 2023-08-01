@@ -11,7 +11,6 @@ async function handler(req, res) {
         return;
     }
 
-    console.log("Renew session", JSON.parse(req.body).sessionId);
     let data = await renewSession(JSON.parse(req.body).sessionId);
 
     res.json(data);

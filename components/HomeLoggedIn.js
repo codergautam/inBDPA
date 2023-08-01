@@ -22,12 +22,15 @@
 //
 // Lastly, the component includes a loading spinner when new feed data is being fetched.
 import React, { useEffect, useState } from "react";
-import AOS from 'aos';
-import 'aos/dist/aos.css';
+import AOS from "aos";
+import "aos/dist/aos.css";
 import Link from "next/link";
 import md5 from "blueimp-md5";
 import msToTime from "@/utils/msToTime";
 import { useRouter } from "next/router";
+import UserFeedCard from "./UserFeedCard";
+import OpportunityFeedCard from "./OpportunityFeedCard";
+
 const getGreeting = () => {
   const currentHour = new Date().getHours();
   if (currentHour < 12) {
@@ -39,11 +42,11 @@ const getGreeting = () => {
   }
 };
 export default function HomeLoggedIn({ user }) {
-  const router = useRouter()
+  const router = useRouter();
   const [feedData, setFeedData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [lastItemId, setLastItemId] = useState(null);
-  const [connectionLabel, setConnectionLabel] = useState("Connect")
+  const [connectionLabel, setConnectionLabel] = useState("Connect");
 
   useEffect(() => {
     AOS.init({
@@ -68,7 +71,10 @@ export default function HomeLoggedIn({ user }) {
         body: JSON.stringify({ last: lastItemId }),
       });
       const data = await response.json();
-      setLastItemId(data.items[data.items.length-1]?.opportunity_id ?? data.items[data.items.length-1]?.user_id);
+      setLastItemId(
+        data.items[data.items.length - 1]?.opportunity_id ??
+          data.items[data.items.length - 1]?.user_id
+      );
       setFeedData((prevData) => [...prevData, ...data.items]);
       setLoading(false);
     } catch (error) {
@@ -98,26 +104,30 @@ export default function HomeLoggedIn({ user }) {
 
   return (
     <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 v-screen flex-grow">
-
-      <div className="container px-5 pb-24 mx-auto">
-      <center>
-      <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-16 font-bold mb-12 text-gray-600 dark:text-gray-300 text-center">{getGreeting()}, {user.username}</h1>
-
+      <div className="pl-5 pb-24 mx-auto w-full">
+        <center>
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-16 font-bold mb-12 text-gray-600 dark:text-gray-300 text-center pr-5">
+            {getGreeting()}, {user.username}
+          </h1>
         </center>
         <div className="lg:hidden mb-8">
           <aside className="bg-gray-200 dark:bg-gray-700 p-4 rounded-lg shadow-lg mb-8 mx-8">
             <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
             <div className="flex items-center mb-4">
               <img
-                src={user.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${user.pfp}`}
+                src={
+                  user.pfp === "gravatar"
+                    ? `https://www.gravatar.com/avatar/${md5(
+                        user.email.trim().toLowerCase()
+                      )}?d=identicon`
+                    : `/api/public/pfps/${user.pfp}`
+                }
                 alt={`${user.username} Profile`}
                 className="w-10 h-10 rounded-full mr-4"
               />
               <div>
                 <h2 className="text-lg font-semibold">{user.username}</h2>
-                <p className="text-gray-600 dark:text-gray-400">
-                  {user.type}
-                </p>
+                <p className="text-gray-600 dark:text-gray-400">{user.type}</p>
               </div>
             </div>
             <p className="text-gray-600 dark:text-gray-400 mb-2">{user.bio}</p>
@@ -127,101 +137,43 @@ export default function HomeLoggedIn({ user }) {
           </aside>
         </div>
 
-        <div className="lg:flex gap-6 md:justify-center">
+        <div className="lg:flex md:justify-center">
           {/* Scrolling Feed */}
-          <div className="lg:w-3/4 mr-auto">
-          <h1 className="mb-2">Your Feed</h1>
-          <div className="flex flex-col space-y-8">
-            {feedData.map((item, index) => (
-              <div
-                key={index}
-                className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700"
-              >
-                {item.type === "user" && (
-                  <Link href={`/profile/${item.link}`} passHref>
-                    <div className="p-6 flex rounded-lg flex-col items-start justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out">
-                      <img src={item.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${item.hashedEmail}?d=identicon` : `/api/public/pfps/${item.pfp}`} alt={item.username} className="w-10 h-10 rounded-full mr-4" />
-                      <div className="">
-                        <div className="flex align-baseline mb-2">
-                        <h2 className="text-lg font-semibold">{item.username}</h2>
-                        {!item.isConnected ? (
-                        <button
-                    className="bg-blue-500 ml-2 mb-auto hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                    onClick={async (e) => {
-                      console.log(`Inner: ${e.target.value}`)
-                      e.preventDefault()
-                      // Indicate that a connection/disconnection operation is happening
-                      e.target.innerHTML = "Connecting..."
-                      console.log("User: ", item)
-                      let data = await fetch("/api/toggleConnection", {
-                        method: "POST",
-                        body: JSON.stringify({
-                          user_id: item.user_id,
-                        }),
-                      });
-                      data = await data.json();
-                      console.log("Data: ", data)
-                      if (data.success) {
-                        // setConnections(() => data.connections);
-                        // setDepth(() => data.newDepth);
-                        // Indicate that the operation is complete
-                        router.push(`/profile/${item.link}`)
-                      } else {
-                        alert("Failed to connect")
-                        e.target.innerHTML = "Connect"
-                      }
-                    }}
-                  >
-                    Connect
-                  </button>
-                        ): null}
-                        </div>
-                      <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-all text-clip w-full">{item.sections.about.length > 200 ? item.sections.about.substring(0,200)+"..." : item.sections.about}</p>
-                      </div>
-                      <div className="flex flex-row gap-2">
-  <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-    {`Joined ${msToTime(Date.now() - item.createdAt)} ago`}
-  </span>
-  <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-    {`${item.views} views`}
-  </span>
-</div>
-                    </div>
-                  </Link>
-                )}
-                {item.type === "opportunity" && (
-                  <Link href={`/opportunity/${item.opportunity_id}`} passHref>
-                    <div className="p-6 flex flex-col items-start rounded justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out w-full break-words">
-                      <h2 className="text-xl font-semibold mb-1 w-full break-words">{item.title.length > 50 ? item.title.substring(0,50)+"..." : item.title}</h2>
-                      <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-words w-full">{item.content.length > 200 ? item.content.substring(0,200)+"..." : item.content}</p>
-                      <div className="flex flex-row gap-2">
-  <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-    {`Posted ${msToTime(Date.now() - item.createdAt)} ago`}
-  </span>
-  <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-    {`${item.views} views`}
-  </span>
-</div>
-
-                    </div>
-                  </Link>
-                )}
+          <div className="lg:w-3/4 mr-auto flex-grow">
+            <h1 className="mb-2 text-center">Your Feed</h1>
+            <div className="flex flex-col space-y-8 pr-6 lg:pr-0">
+              {feedData.map((item, index) => (
+                <div
+                  key={index}
+                  className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700"
+                >
+                  {item.type === "user" && <UserFeedCard item={item} />}
+                  {item.type === "opportunity" && (
+                    <OpportunityFeedCard item={item} />
+                  )}
+                </div>
+              ))}
+            </div>
+            {loading && (
+              <div className="flex justify-center items-center">
+                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
               </div>
-            ))}
-          </div>
-            {loading && <div className="flex justify-center items-center">
-            <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
-          </div>}
+            )}
           </div>
           {/* Sidebar */}
-          <div className="lg:w-1/4 lg:flex hidden relative">
-         <div>
+          <div className="lg:w-1/4 lg:flex hidden justify-center h-screen">
             {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
-            <div className="bg-gray-200 fixed pt-4 pb-14 top-1/2 -translate-y-1/2 right-10  dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
+            <div className="bg-gray-200 fixed pt-4 pb-8 dark:bg-gray-700 w-1/5 min-w-fit p-4 rounded-lg h-fit shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
               <div className="flex items-center">
                 <img
-                  src={user.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${user.pfp}`}
+                  src={
+                    user.pfp === "gravatar"
+                      ? `https://www.gravatar.com/avatar/${md5(
+                          user.email.trim().toLowerCase()
+                        )}?d=identicon`
+                      : `/api/public/pfps/${user.pfp}`
+                  }
                   alt={`${user.username} Profile`}
                   className="w-10 h-10 rounded-full mr-4"
                 />
@@ -235,20 +187,30 @@ export default function HomeLoggedIn({ user }) {
               {/* <div className="break-words">
                 {JSON.stringify(user)}
               </div> */}
-              <p className="text-gray-600 dark:text-gray-400 mb-2">{user.bio}</p>
+              <p className="text-gray-600 dark:text-gray-400 mb-2">
+                {user.bio}
+              </p>
               <div className="space-y-4">
-  <Link href={`/profile/${user.link}`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
-      View Profile
-  </Link>
-  <Link href={`/opportunities`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
-      View Opportunities
-  </Link>
-  <Link href={`/search`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
-      Search our Site
-  </Link>
-</div>
+                <Link
+                  href={`/profile/${user.link}`}
+                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                >
+                  View Profile
+                </Link>
+                <Link
+                  href={`/opportunities`}
+                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                >
+                  View Opportunities
+                </Link>
+                <Link
+                  href={`/search`}
+                  className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200"
+                >
+                  Search our Site
+                </Link>
+              </div>
             </div>
-          </div>
           </div>
         </div>
       </div>

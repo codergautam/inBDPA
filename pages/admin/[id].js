@@ -34,13 +34,10 @@ export const getServerSideProps = withIronSessionSsr(async function ({
 ironOptions);
 
 export default function Page({ user }) {
-  console.log("User:");
-  console.log(user);
 
   const handleSubmit = () => {};
 
   const increaseSessions = () => {
-    console.log("Increasing session count");
     info.sessions++;
   };
 

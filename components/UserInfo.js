@@ -142,7 +142,6 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
       }
     } else {
       for (const item of items2) {
-        console.log(item);
         if (item.trim().length === 0) {
           alert("Please fill out all the skills.");
           return;
@@ -249,7 +248,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
             }}
           >
             <svg
-              className="fill-current text-red-500 hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
+              className="fill-current text-red-500 hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-white dark:bg-black"
               viewBox="0 0 24 24"
               xmlns="http://www.w3.org/2000/svg"
             >
@@ -426,7 +425,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                   </button>
                 )}
                 <button
-                  className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 rounded-md duration-200 ease-in-out transition"
+                  className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
                   onClick={saveChanges}
                 >
                   Save

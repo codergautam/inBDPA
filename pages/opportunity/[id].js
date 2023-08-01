@@ -25,7 +25,6 @@ const limiter = rateLimit({
 })
 
 async function updateInfo(opportunity_id) {
-    console.log("Updating")
     let data = await fetch("/api/opportunities/getOpportunity", {
         method: "POST",
         headers: {
@@ -35,7 +34,6 @@ async function updateInfo(opportunity_id) {
             opportunity_id
         })
     }).then(res => res.json())
-    console.log(data)
     if(data.opportunity) {
         return {views: data.opportunity.views, active: data.opportunity.active}
     } else {
@@ -60,8 +58,8 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     useEffect(()=>{
       if(!opportunity || opportunity.error) return;
         refreshRef.current = setInterval(async ()=> {
-            setViews("...")
-            setActive("...")
+            // setViews("...")
+            // setActive("...")
             let { views, active } = await updateInfo(opportunity.opportunity_id)
             setViews(views)
             setActive(active)
@@ -227,8 +225,8 @@ export const getServerSideProps = withIronSessionSsr(async ({
     // }
     if(increase) {
     try {
-        await incrementOpportunityViews(params.id)
-        await increaseOpportunityViewCountMongo(params.id)
+         incrementOpportunityViews(params.id)
+         increaseOpportunityViewCountMongo(params.id)
     } catch (error) {
         console.log(`Error incrementing views on Opportity ${params.id}: ${error} `)
     }

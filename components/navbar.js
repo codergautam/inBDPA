@@ -50,8 +50,10 @@ export default function Navbar({ user, queryText = "" }) {
 
   return (
     <>
-      <div className="flex flex-col md:flex-row items-center justify-between w-full bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
-        <div className="md:flex-none flex flex-row justify-between md:justify-normal w-full md:w-fit h-min items-center">
+      <div className="flex md:flex-row items-center justify-between w-full bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
+        <div className="flex gap-2">
+        <div className="md:flex-none flex flex-row justify-between md:justify-normal md:w-fit h-min items-center">
+
           <div className="w-fit">
             <Link href="/" className="w-fit">
               <Image
@@ -72,19 +74,10 @@ export default function Navbar({ user, queryText = "" }) {
               />
             </Link>
           </div>
-          <svg
-            className="md:hidden inline h-min w-10 fill-current dark:text-white text-black"
-            xmlns="http://www.w3.org/2000/svg"
-            width="50"
-            height="50"
-            viewBox="0 0 50 50"
-            onClick={() => setNavHidden(!navhidden)}
-          >
-            <path d="M 3 8 A 2.0002 2.0002 0 1 0 3 12 L 47 12 A 2.0002 2.0002 0 1 0 47 8 L 3 8 z M 3 23 A 2.0002 2.0002 0 1 0 3 27 L 47 27 A 2.0002 2.0002 0 1 0 47 23 L 3 23 z M 3 38 A 2.0002 2.0002 0 1 0 3 42 L 47 42 A 2.0002 2.0002 0 1 0 47 38 L 3 38 z"></path>
-          </svg>{" "}
 
         </div>
-        <div className="relative w-full md:w-72 lg:w-96 h-10 hidden md:inline">
+        {/* Input bar */}
+        <div className=" relative w-full md:w-72 lg:w-96 h-10 hidden md:flex">
             {user && (
               <>
                 <input
@@ -92,25 +85,28 @@ export default function Navbar({ user, queryText = "" }) {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyPress}
-                  placeholder="Search for users, opportunities, etc."
-                  className="w-full h-10 border px-3 py-2 pl-5 text-sm sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-400 transition duration-300 ease-in-out rounded-full "
+                  placeholder="Search our site"
+                  className="w-full outline-none h-10 px-3 py-2 pl-5 text-sm sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-200 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-400 transition duration-300 ease-in-out rounded-full "
                 />
-                <div className="hidden top-0 left-0 ml-3 mt-3">
+                <div className="hidden top-0 left-0 ml-3 mt-3 ">
                   <FontAwesomeIcon
                     icon={faSearch}
-                    className="text-gray-400 dark:text-white"
+                    className="text-gray-400 dark:text-white "
                   />
                 </div>
                 {/* ... Search Button ... */}
                 <button
                   onClick={handleSearch}
-                  className="absolute top-0 right-0 h-full px-4 py-2 text-gray-50 bg-green-600 hover:bg-green-700 rounded-full focus:outline-none focus:ring-2 focus:ring-green-400 dark:focus:ring-green-400"
+                  className="absolute top-0 right-0 h-full px-4 py-2 text-gray-50 bg-blue-600 hover:bg-blue-700 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-400"
                 >
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
+
               </>
+
             )}
-          </div>
+        </div>
+        </div>
         <div className="hidden md:flex items-end h-min flex-row rounded-b-lg bg-gray-50 dark:bg-gray-900 md:place place-items-center">
           {user && user.impersonating && (
             <>
@@ -188,6 +184,19 @@ export default function Navbar({ user, queryText = "" }) {
             </>
           )}
         </div>
+        <div className="flex md:hidden">
+          <FontAwesomeIcon onClick={()=>setNavHidden(!navhidden)} className="w-auto text-black dark:text-white h-44 md:hidden flex cursor-pointer" icon={faBars}></FontAwesomeIcon>
+        </div>
+        {/* <svg
+            className="md:hidden h-min w-10 fill-current dark:text-white text-black"
+            xmlns="http://www.w3.org/2000/svg"
+            width="50"
+            height="50"
+            viewBox="0 0 50 50"
+            onClick={() => setNavHidden(!navhidden)}
+          >
+            <path d="M 3 8 A 2.0002 2.0002 0 1 0 3 12 L 47 12 A 2.0002 2.0002 0 1 0 47 8 L 3 8 z M 3 23 A 2.0002 2.0002 0 1 0 3 27 L 47 27 A 2.0002 2.0002 0 1 0 47 23 L 3 23 z M 3 38 A 2.0002 2.0002 0 1 0 3 42 L 47 42 A 2.0002 2.0002 0 1 0 47 38 L 3 38 z"></path>
+          </svg>{" "} */}
       </div>
       {/* <div
         className={
@@ -200,7 +209,7 @@ export default function Navbar({ user, queryText = "" }) {
       <div
         className={
           navhidden
-            ? "items-center w-fit flex flex-col gap-y-1 pr-3 pl-3 place-self-end pb-6 pt-6 rounded-b-lg bg-gray-50 dark:bg-gray-900 md:hidden mt-16 absolute z-20 border-t-0 border right-0 top-0"
+            ? "items-center w-full flex flex-col gap-y-1 pr-3 pl-3 place-self-end pb-6 pt-6 rounded-b-lg bg-gray-50 dark:bg-gray-900 md:hidden mt-16 absolute z-20 border-t-0 right-0 top-0"
             : "hidden"
         }
       >
@@ -279,25 +288,34 @@ export default function Navbar({ user, queryText = "" }) {
             </Link>
           </>
         )}
-        <div className="relative w-min">
-          {user ? (
-            <>
-              <input
-                type="text"
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search for users, opporunities, etc."
-                className="w-min border-1 px-2 py-1 text-md sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-50 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500 dark:focus:ring-gray-300 transition duration-300 ease-in-out rounded-full pl-7"
-              />
-              <div className="w-min absolute top-0 left-0 ml-16 mt-1">
-                <FontAwesomeIcon
-                  icon={faSearch}
-                  onClick={handleSearch}
-                  className="text-gray-400 dark:text-white cursor-pointer"
+        <div className=" relative h-10 mt-2 w-1/2 md:flex">
+            {user && (
+              <>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Search our site"
+                  className="w-full outline-none h-10 border-none px-3 py-2 pl-5 text-sm sm:text-md xl:text-lg font-medium text-gray-700 dark:text-white bg-gray-100 dark:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400 dark:focus:ring-gray-400 transition duration-300 ease-in-out rounded-full "
                 />
-              </div>
-            </>
-          ) : null}
+                <div className="hidden top-0 left-0 ml-3 mt-3">
+                  <FontAwesomeIcon
+                    icon={faSearch}
+                    className="text-gray-400 dark:text-white"
+                  />
+                </div>
+                {/* ... Search Button ... */}
+                <button
+                  onClick={handleSearch}
+                  className="absolute top-0 right-0 h-full px-4 py-2 text-gray-50 bg-blue-600 hover:bg-blue-700 rounded-full focus:outline-none focus:ring-2 focus:ring-blue-400 dark:focus:ring-blue-400"
+                >
+                  <FontAwesomeIcon icon={faSearch} />
+                </button>
+
+              </>
+
+            )}
         </div>
       </div>
     </>

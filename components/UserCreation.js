@@ -52,9 +52,6 @@ export default function UserCreation() {
       credentials: "include",
     }).then((res) => res.json());
 
-    console.log("Response from Form:");
-    console.log(res);
-
     if (res.success) {
       setError(false);
       setStatus(`Successfully created new ${type} user.`);

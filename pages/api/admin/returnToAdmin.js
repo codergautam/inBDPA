@@ -1,12 +1,12 @@
 // pages/api/admin/returnToAdmin.js
-// This code is a handler function for the "/api/admin/returnToAdmin" route. It protects the route from non-admin users and allows an admin user to return to their dashboard. 
-// 
-// The handler function checks if the current user is impersonating a different user. If not, it returns an "Unauthorized" error. 
-// 
-// If the user is impersonating, it retrieves the adminId and adminLink from the session. It then calls the getUser function to fetch the user details using the adminId. 
-// 
-// If the getUser function is successful, the user details are stored in the session and the session is saved. Finally, the function returns a success response. 
-// 
+// This code is a handler function for the "/api/admin/returnToAdmin" route. It protects the route from non-admin users and allows an admin user to return to their dashboard.
+//
+// The handler function checks if the current user is impersonating a different user. If not, it returns an "Unauthorized" error.
+//
+// If the user is impersonating, it retrieves the adminId and adminLink from the session. It then calls the getUser function to fetch the user details using the adminId.
+//
+// If the getUser function is successful, the user details are stored in the session and the session is saved. Finally, the function returns a success response.
+//
 // If the getUser function fails, the function returns a failure response.
 import { withIronSessionApiRoute } from "iron-session/next";
 import { ironOptions } from "@/utils/ironConfig";
@@ -27,7 +27,6 @@ async function handler(req, res) {
     // store in session
     if(user.success) {
         req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: adminLink, salt: user.user.salt, key: user.user.key};
-        console.log(req.session.user);
         await req.session.save();
         return res.json({success: true})
     } else {

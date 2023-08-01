@@ -37,17 +37,14 @@ const handleAboutSave = (newAbout, setRequestedUser) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (!data.success) {
           alert(data.error ?? "Unexpected Error saving about");
           reject();
         } else {
-          console.log(setRequestedUser);
           setRequestedUser((prev) => ({
             ...prev,
             sections: { ...prev.sections, about: newAbout },
           }));
-          console.log("New about: ", newAbout);
           resolve(newAbout);
         }
       })
@@ -111,7 +108,7 @@ export default function Page({
   const sections = ["education", "volunteering", "skills", "experience"];
 
   return (
-    <div className="flex flex-col bg-gray-50 dark:bg-gray-900 min-h-screen h-full">
+    <div className="flex flex-col bg-gray-50 dark:bg-gray-800 min-h-screen h-full">
       <Head>
         <link rel="icon" href="/favicon.ico" />
         {requestedUser ? (
@@ -387,9 +384,8 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     //   }
     if (view) {
       try {
-        console.log("Incrementing");
-        await incrementUserViews(requestedUser?.user_id);
-        await increaseViewCountMongo(requestedUser?.user_id);
+        incrementUserViews(requestedUser?.user_id);
+        increaseViewCountMongo(requestedUser?.user_id);
       } catch (e) {
         console.log(e);
       }
