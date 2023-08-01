@@ -139,7 +139,7 @@ export default function HomeLoggedIn({ user }) {
 
         <div className="lg:flex md:justify-center">
           {/* Scrolling Feed */}
-          <div className="lg:w-3/4 mr-auto">
+          <div className="lg:w-3/4 mr-auto flex-grow">
             <h1 className="mb-2 text-center">Your Feed</h1>
             <div className="flex flex-col space-y-8">
               {feedData.map((item, index) => (
@@ -161,7 +161,7 @@ export default function HomeLoggedIn({ user }) {
             )}
           </div>
           {/* Sidebar */}
-          <div className="lg:w-full lg:flex hidden justify-center h-screen">
+          <div className="lg:w-1/4 lg:flex hidden justify-center h-screen">
             {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
             <div className="bg-gray-200 fixed pt-4 pb-8 dark:bg-gray-700 w-1/5 min-w-fit p-4 rounded-lg h-fit shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
