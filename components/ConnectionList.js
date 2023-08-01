@@ -200,8 +200,8 @@ const ConnectionList = ({
                       user.yourDepth == 1
                         ? `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                         : user.yourDepth == 2
-                        ? `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
-                        : `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        ? `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-600 hover:bg-gray-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        : `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-600 hover:bg-gray-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                     }
                   >
                     {i % 2 === 0 && (
