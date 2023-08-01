@@ -90,7 +90,7 @@ const ConnectionList = ({
         className={`${clickable ? "cursor-pointer" : ""} ${
           connections[1].length == 0
             ? "text-gray-300 text-xs semism:text-sm md:text-lg hover:text-gray-200"
-            : "text-black dark:text-white hover:text-blue-500"
+            : "text-black dark:text-white dark:hover:text-blue-500"
         } duration-300 ease-in-out transition`}
       >
         <span className="font-bold">{connections[1].length}</span> connections
@@ -101,15 +101,49 @@ const ConnectionList = ({
 
       <Modal
         isOpen={isModalOpen}
-        overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
-        className="border border-gray-200 p-4 bg-white dark:bg-gray-900 max-w-2xl mx-auto mt-12 h-4/5 overflow-y-auto w-1/4"
+        overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 "
+        className="border border-gray-200 p-4 bg-white dark:bg-gray-900 max-w-2xl mx-auto mt-12 h-4/5 w-3/4 lg:w-1/4 overflow-y-scroll pb-3"
         onRequestClose={closeModal}
         ariaHideApp={false} // Added to prevent the warning about appElement not being defined
       >
-        <h2 className="text-2xl font-bold mb-8">
+        <button
+          className="sticky w-full top-0 right-0 left-0"
+          onClick={closeModal}
+        >
+          <svg
+            className="fill-current text-red-500 dark:hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                className="fill-current stroke-red-600"
+                d="M7 17L16.8995 7.10051"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+              <path
+                className="fill-current stroke-red-600"
+                d="M7 7.00001L16.8995 16.8995"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></path>
+            </g>
+          </svg>
+        </button>
+        <h2 className="text-2xl font-bold">
           {totalConnections}
-          {isYou ? "" : " mutual"} connections (1st to 3rd)
+          {isYou ? "" : " mutual"} connections
         </h2>
+        <p className="text-gray-500 dark:text-gray-400 text-sm mb-4">
+          Up to 3rd degree
+        </p>
         {error ? <p className="text-red-500">{error}</p> : null}
 
         {userList
@@ -117,15 +151,15 @@ const ConnectionList = ({
               <>
                 <div
                   className={
-                    user.yourDepth == 1
-                      ? `w-full flex items-center py-2 px-2`
-                      : user.yourDepth == 2
-                      ? `md:w-5/6 flex items-center py-2 px-2 ml-auto`
-                      : `w-2/3 flex items-center py-2 px-2 ml-auto`
+                    // user.yourDepth == 1
+                    `w-full flex items-center py-2 px-2`
+                    // : user.yourDepth == 2
+                    // ? `md:w-5/6 flex items-center py-2 px-2 ml-auto`
+                    // : `w-2/3 flex items-center py-2 px-2 ml-auto`
                   }
                   key={i}
                 >
-                  <svg
+                  {/* <svg
                     className={
                       user.yourDepth == 1 ? `h-10 w-10 mr-2` : `h-6 w-6 mr-2`
                     }
@@ -160,29 +194,47 @@ const ConnectionList = ({
                         ></path>
                       </>
                     )}
-                  </svg>
+                  </svg> */}
                   <span
                     onClick={() =>
                       (window.location.href = `/profile/${user.link}`)
                     }
                     className={
                       user.yourDepth == 1
-                        ? `text-white text-lg font-semibold flex flex-row items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 hover:bg-blue-700 p-4 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full`
+                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-blue-600 dark:hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                         : user.yourDepth == 2
-                        ? `text-white hover:text-black font-semibold flex flex-row items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 p-3 mx-auto duration-100 ease-in-out transition w-full`
-                        : `hover:text-white text-gray-300 flex flex-row items-center cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-600 p-3 py-2 mx-auto duration-100 ease-in-out transition w-full`
+                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white font-semibold italic flex-row cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 my-2 text-lg py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full`
+                        : `h-fit overflow-visible relative flex items-center gap-6 text-gray-300 font-normal dark:hover:text-white flex-row cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 text-sm my-2 py-2 mx-auto dark:shadow-md duration-100 ease-in-out transition w-full`
                     }
                   >
-                    <img
-                      src={
-                        user.pfp === "gravatar"
-                          ? user.gravatarUrl
-                          : `/api/public/pfps/${user.pfp}`
+                    {i % 2 === 0 && (
+                      <img
+                        src={
+                          user.pfp === "gravatar"
+                            ? user.gravatarUrl
+                            : `/api/public/pfps/${user.pfp}`
+                        }
+                        className={`w-20 h-20 rounded-full mr-3 absolute -left-4`}
+                      />
+                    )}
+                    <div
+                      className={
+                        user.yourDepth === 1
+                          ? `mx-auto flex flex-col`
+                          : `mx-auto flex flex-col`
                       }
-                      className="w-16 h-16 rounded-full mr-3"
-                    />
-                    <div>
-                      <p>{user.username}</p>
+                    >
+                      <p
+                        className={
+                          user.yourDepth === 1
+                            ? `text-md`
+                            : user.yourDepth === 2
+                            ? `text-md`
+                            : `text-sm`
+                        }
+                      >
+                        {user.username}
+                      </p>
 
                       {/* show connection depth, stored in user.yourDepth and user.theirDepth */}
                       {user.yourDepth ? (
@@ -203,7 +255,7 @@ const ConnectionList = ({
                       ) : null}
                       {user.theirDepth ? (
                         <p className="text-gray-500 dark:text-gray-300 text-xs">
-                          {theirName}&apos;s{" "}
+                          {theirName}&apos;s {" "}
                           {user.theirDepth == 1
                             ? "1st"
                             : user.theirDepth == 2
@@ -213,6 +265,16 @@ const ConnectionList = ({
                         </p>
                       ) : null}
                     </div>
+                    {!(i % 2 === 0) && (
+                      <img
+                        src={
+                          user.pfp === "gravatar"
+                            ? user.gravatarUrl
+                            : `/api/public/pfps/${user.pfp}`
+                        }
+                        className={`w-20 h-20 rounded-full ml-3 absolute -right-4`}
+                      />
+                    )}
                   </span>
                 </div>
               </>
@@ -232,13 +294,6 @@ const ConnectionList = ({
               Load More
             </button>
           )}
-
-          <button
-            className="bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 px-4 py-2 rounded-lg mt-4"
-            onClick={closeModal}
-          >
-            Close
-          </button>
         </div>
       </Modal>
     </div>
