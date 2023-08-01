@@ -14,7 +14,7 @@ export default function UserFeedCard({ item }) {
   const router = useRouter();
   return (
     <Link href={`/profile/${item.link}`} passHref>
-      <div className="p-6 flex rounded-lg flex-col items-start justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out">
+      <div className="p-6 flex rounded-lg flex-col items-start justify-start">
         <img
           src={
             item.pfp === "gravatar"
