@@ -74,7 +74,7 @@ const LinkChanger = ({ link }) => {
             placeholder="Enter new link"
             value={newLink}
             onChange={(e) => setNewLink(e.target.value)}
-            className="border border-gray-300 rounded-md px-2 py-1 mt-2 dark:bg-black dark:text-white"
+            className="border text-black border-gray-300 rounded-md px-2 py-1 mt-2 dark:bg-black dark:text-white"
             maxLength={10}
           />
 <div className="space-x-2">
