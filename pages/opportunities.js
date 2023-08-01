@@ -203,7 +203,7 @@ useEffect(() => {
         {user.type === "staff" || user.type === "administrator" ? (
           <div className="flex justify-center">
             <button
-              className="bg-blue-500 text-white font-bold py-2 px-4 rounded mt-2 hover:bg-blue-700 transition duration-300 ease-in-out mb-8"
+              className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition mb-8"
               onClick={() => setCreatingOpportunity(true)}
             >
               Create Opportunity
