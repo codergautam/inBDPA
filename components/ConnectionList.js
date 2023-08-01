@@ -102,7 +102,7 @@ const ConnectionList = ({
       <Modal
         isOpen={isModalOpen}
         overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 "
-        className="border border-gray-200 p-4 bg-white dark:bg-gray-900 max-w-2xl mx-auto mt-12 h-4/5 w-3/4 lg:w-1/4 overflow-y-scroll pb-3"
+        className="border border-gray-200 p-4 bg-white dark:bg-gray-900 max-w-2xl mx-auto mt-12 h-4/5 w-full sm:w-3/4 md:w-1/2 lg:2/5 xl:w-1/4 overflow-y-scroll pb-3"
         onRequestClose={closeModal}
         ariaHideApp={false} // Added to prevent the warning about appElement not being defined
       >
@@ -111,7 +111,7 @@ const ConnectionList = ({
           onClick={closeModal}
         >
           <svg
-            className="fill-current text-red-500 hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
+            className="fill-current text-red-500 hover:text-red-400 darkhover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
             viewBox="0 0 24 24"
             xmlns="http://www.w3.org/2000/svg"
           >
