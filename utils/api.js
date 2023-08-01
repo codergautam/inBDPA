@@ -1,3 +1,8 @@
+// utils/api.js
+// This handles our app's connection to the HSCC API and MongoDB.
+// It exports helper functions used by throughout the app to interact with the API and MongoDB.
+// It also exports the sendRequest function, which is used to make API requests.
+
 // Import the necessary modules
 import fetch from 'node-fetch';
 import { convertHexToBuffer, deriveKeyFromPassword } from './encryptPassword';
@@ -5,12 +10,12 @@ import mongoose from 'mongoose';
 import generateRandomId from './generateRandomProfileId';
 import { config } from 'dotenv';
 import md5 from 'blueimp-md5';
+import msToTime from './msToTime';
 config();
+
 // Define the base URL of the API
 const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 const MONGO_URI = process.env.MONGO_URI;
-
-
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -21,6 +26,7 @@ mongoose.connect(MONGO_URI, {
   console.log(err);
 });
 
+// Define MongoDb schemas
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
@@ -468,7 +474,7 @@ async function processQueue() {
       const data = await _sendRequest(req.url, req.method, req.body);
       req.resolve(data); // Resolve the Promise
     } catch (error) {
-      req.reject(error); // Reject the Promise
+      req.resolve(error); // Reject the Promise
     }
     processQueue(); // Try to process the next request in the queue
   } else {
@@ -487,9 +493,7 @@ async function _sendRequest(url, method, body = null) {
     delete headers['Content-Type'];
   }
 
-  if(simulateError && Math.random() < 0.5) {
-    return { success: false, error: "Simulated error" }
-  } else {
+
     try {
       const response = await fetch(url, {
         method,
@@ -497,12 +501,21 @@ async function _sendRequest(url, method, body = null) {
         body: body ? JSON.stringify(body) : null
       });
       const data = await response.json();
+      if(!response.ok) {
+        switch (response.status) {
+          case 400:
+            return { success: false, error: "Bad request" }
+          case 429:
+            return {success: false, error: data.retryAfter ? "Too many requests. Please try again in "+msToTime(data.retryAfter) : "Too many requests. Please try again shortly."}
+          case 555:
+            return { success: false, error: "Something went wrong. Please try again shortly." }
+        }
+      }
       return data;
     } catch (error) {
-      console.error(error);
-      throw new Error('An error occurred while making the API request');
+      return {success: false, error: "Something went wrong. Please try again shortly."}
+      // throw new Error('An error occurred while making the API request');
     }
-  }
 }
 
 export async function updateUserTypeInMongo(id, type) {
@@ -515,7 +528,6 @@ export async function updateUserTypeInMongo(id, type) {
 }
 
 // Define the API functions
-
 async function addUserNameToSchema() {
   let profiles = await Profile.find();
   console.log("Profiles:", profiles.slice(0,3))
@@ -865,8 +877,9 @@ console.log(user, user.success);
       return { success: false, error: user.error.includes("No user found") ? "Could not find any user with that username or email" : user.error}
     }
     user = await getUser(user.user_id);
+    console.log(user)
     if(!user.success) {
-      return { success: false, error: user.error}
+      return { success: false, error: user.error ?? "Something went wrong. Please try again shortly."}
     }
     console.log("User: ", user);
   }

@@ -1,3 +1,5 @@
+// pages/auth/signup.js
+// This script is responsible for handling the signup functionality of the application. It contains form inputs for the user to enter their name, email, and password. It also includes a captcha component to verify that the user is not a bot. The script checks if all required fields are filled and validates the input for each field. It also updates the button text based on the state of the form inputs and captcha. Once the form is submitted, it sends a POST request to the server to create a new user. If successful, it redirects the user to the home page. If there are any errors, it displays an error message.
 "use client";
 import Head from "next/head";
 import Link from "next/link";

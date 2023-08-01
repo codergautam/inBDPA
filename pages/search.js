@@ -66,7 +66,7 @@ export default function SearchPage({ user, query="" }) {
       </Head>
       <Navbar user={user} />
       <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 w-screen flex-grow">
-        <div className="container px-5 py-24 mx-auto">
+        <div className="container px-5 py-16 mx-auto">
           <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-12 text-center">
             Search:
           </h1>
@@ -142,43 +142,53 @@ export default function SearchPage({ user, query="" }) {
               }
 
               return (
-                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700 border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
-                    <img src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp} alt="Profile picture" className="flex-row self-center rounded-full my-2 ml-2 w-24 h-24" />
-                  <Link href={`/profile/${result.link}`}>
-                    <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-8">
-                      <h2 className="text-xl font-semibold mb-2">
-                        {match && match.field === "username" ? (
-                          <span>
-                            {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
-                              {matched}
-                            </span>
-                            {afterMatch}
-                          </span>
-                        ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
-                      </h2>
-                      <p className="text-gray-600 dark:text-gray-400 flex-col md:flex-row ml-2 mr-2">
-                        {match && match.field === "about" ? (
-                          <span>
-                            {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
-                              {matched}
-                            </span>
-                            {afterMatch}
-                          </span>
-                        ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
-                      </p>
-                      <div className="flex flex-col items-center">
-                      <p className="text-sm font-semibold text-gray-600 dark:text-gray-50 bg-gray-300 dark:bg-gray-800 w-fit px-2 mt-1 rounded-xl">
-                        Type: {result.type}
-                        </p>
-                        <p className="text-sm font-semibold text-gray-600 dark:text-gray-50 bg-gray-300 dark:bg-gray-800 w-fit px-2 mt-1 rounded-xl">
-                        Views: {result.views}
-                      </p>
-                      </div>
-                    </div>
-                  </Link>
-                </div>
+                <Link href={`/profile/${result.link}`} key={index} className="flex flex-col bg-gray-200 dark:bg-gray-700 border-b-2 border-gray-300 dark:border-gray-800 w-2/3 mx-auto p-4 rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600">
+  <div className="flex flex-row items-center space-x-4 mb-4">
+    <img
+      src={result.pfp === "gravatar" ? result.gravatarUrl : "/api/public/pfps/" + result.pfp}
+      alt="Profile picture"
+      className="rounded-full w-24 h-24"
+    />
+
+    <div>
+      <h2 className="text-xl font-semibold">
+        {match && match.field === "username" ? (
+          <span>
+            {beforeMatch}
+            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
+              {matched}
+            </span>
+            {afterMatch}
+          </span>
+        ) : result.username.length > 80 ? result.username.substring(0, 80) + "..." : result.username}
+      </h2>
+
+      <p className="text-gray-600 dark:text-gray-400">
+        {match && match.field === "about" ? (
+          <span>
+            {beforeMatch}
+            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
+              {matched}
+            </span>
+            {afterMatch}
+          </span>
+        ) : result?.sections?.about && result.sections.about.length > 80 ? result.sections.about.substring(0, 80) + "..." : result?.sections?.about}
+      </p>
+    </div>
+  </div>
+
+  <div className="flex space-x-2">
+  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-50">
+    Type: {result.type}
+  </span>
+  <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-50">
+    Views: {result.views}
+  </span>
+</div>
+
+
+</Link>
+
               );
             }) : null}
             {!searchResults.error && searchResults.users.length > displayedUsers && (
@@ -239,37 +249,42 @@ export default function SearchPage({ user, query="" }) {
                 }
               }
               return (
-                <div key={index} className="flex flex-col md:flex-row text-center content-center rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600  bg-gray-200 dark:bg-gray-700  border-b-2 border-gray-300 dark:border-gray-800 w-2/3  md:text-base text-sm">
-                  <Link href={`/opportunity/${result.opportunity_id}`}>
-                  <div className="p-6 flex md:flex-row items-center content-center h-full flex-col ml-1">
-                      <h2 className="text-xl font-semibold mb-2">
-                        {match && match.field === "title" ? (
-                          <span>
-                            {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900 ">
-                              {matched}
-                            </span>
-                            {afterMatch}
-                          </span>
-                        ) : result.title.length > 80 ? result.title.substring(0, 80) + "..." : result.title}
-                      </h2>
-                      <p className="text-gray-600 dark:text-gray-400 flex-col md:flex-row mx-4">
-                        {match && match.field === "content" ? (
-                          <span>
-                            {beforeMatch}
-                            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
-                              {matched}
-                            </span>
-                            {afterMatch}
-                          </span>
-                        ) : result.content.length > 80 ? result.content.substring(0, 60) + "..." : result.content}
-                      </p>
-                      <p className="text-sm font-semibold text-gray-600 dark:text-gray-50 bg-gray-300 dark:bg-gray-800 w-fit px-2 mt-1 rounded-xl">
-                        Views: {result.views}<br />
-                      </p>
-                    </div>
-                  </Link>
-                </div>
+                <div key={index} className="flex flex-col bg-gray-200 dark:bg-gray-700 border-b-2 border-gray-300 dark:border-gray-800 w-2/3 mx-auto p-4 rounded-lg overflow-hidden hover:bg-gray-300 dark:hover:bg-gray-600">
+  <Link href={`/opportunity/${result.opportunity_id}`}>
+    <div className="flex flex-col space-y-4">
+      <h2 className="text-xl font-semibold">
+        {match && match.field === "title" ? (
+          <span>
+            {beforeMatch}
+            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
+              {matched}
+            </span>
+            {afterMatch}
+          </span>
+        ) : result.title.length > 80 ? result.title.substring(0, 80) + "..." : result.title}
+      </h2>
+
+      <p className="text-gray-600 dark:text-gray-400">
+        {match && match.field === "content" ? (
+          <span>
+            {beforeMatch}
+            <span className="bg-yellow-300 dark:bg-yellow-500 dark:text-gray-900">
+              {matched}
+            </span>
+            {afterMatch}
+          </span>
+        ) : result.content.length > 80 ? result.content.substring(0, 60) + "..." : result.content}
+      </p>
+    </div>
+  </Link>
+
+  <div className="mt-auto">
+    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-50">
+      Views: {result.views}
+    </span>
+  </div>
+</div>
+
 
               );
             }) : (

@@ -1,3 +1,5 @@
+// components/AboutSection.js
+// This component is responsible for rendering and editing the "About" section of a user's profile. It allows the user to edit their bio and save the changes. The component also includes functionality for generating or improving the bio using AI. The user can click on the "Edit" button to enable editing mode, where they can type and modify their bio. When they click the "Save" button, the changes are saved and the editing mode is turned off. The component also includes a button for generating or improving the bio with AI. Clicking this button opens a modal where the user can enter a prompt for the AI, and upon submission, the AI generates a new bio or improves the existing one. The component displays the current bio of the user and provides an option to add an about section if one does not exist already. Only the user and authorized entities can edit the about section.
 import axios from "axios";
 import { useState } from "react";
 
@@ -103,7 +105,7 @@ const AboutSection = ({
   };
 
   return (
-    <div className="w-full p-4 group mt-4 rounded-md border-2 border-gray-700 shadow-xl">
+    <div className="w-full p-4 group mt-4 rounded-md border-2 dark:bg-gray-800 border-gray-700 shadow-xl">
       <h2 className="text-base md:text-xl font-semibold text-black dark:text-white mb-2 duration-300 ease-in-out transition">
         About
       </h2>
@@ -263,7 +265,7 @@ const AboutSection = ({
           {editable ? (
             <div className="flex justify-end">
               <button
-                className="px-4 py-2 mx-auto text-gray-700 hover:text-black dark:hover:text-white pb-2 border-b border-gray-700  hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white duration-300 ease-in-out transition"
+                className="px-4 py-2 mx-auto text-gray-500 font-bold hover:text-black dark:hover:text-white pb-2 border-b border-gray-700  hover:-translate-y-1 dark:hover:translate-y-0 hover:border-black dark:hover:border-white duration-300 ease-in-out transition"
                 onClick={handleEditClick}
               >
                 Edit

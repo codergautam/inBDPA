@@ -1,3 +1,15 @@
+// pages/auth/ErrorComponent.js
+// This code is a React component for displaying an error message. The component receives several props, including the side of the screen where the error message should appear, the color of the message (green or red), whether the message is blocked or not, the error message itself, a function to set the error, and a boolean flag indicating if it is an attempt/error. 
+// 
+// The component uses the useState and useEffect hooks from React to manage the visibility of the error message. It also uses the useRef hook to store the timerId of the setTimeout function used to hide the error message after a certain time. 
+// 
+// The useEffect hook is used to handle changes to the error prop. It resets the visibility state, clears the previous timer if one exists, and sets the error if the attempterror flag is false. If the error prop is not null, it sets the visibility to true and starts a new timer to hide the message after 20 seconds. 
+// 
+// The handleCancelButtonClick function is called when the user clicks on the cancel button. It hides the error message and clears the error if the attempterror flag is false.
+// 
+// The return statement renders the error message component conditionally based on the visibility state and the props provided. The component has different styles based on the side and color props. It also includes an icon and a cancel button to dismiss the error message.
+// 
+// Overall, this code is a reusable component for displaying error messages in a React application. It handles the visibility and timing of the error message and provides options for customizing the appearance and behavior of the component.
 import React, { useState, useEffect, useRef } from "react";
 
 const ErrorComponent = ({

@@ -1,3 +1,13 @@
+// components/UserBanner.js
+// This code is a functional component called `UserBanner` that displays a user banner image and allows for editing and uploading of the image. It takes two props, `editable` which determines if the banner is editable or not, and `banner` which is the filename of the current banner image.
+// 
+// The component uses the React `useState` hook to manage the state of `selectedFile`, `uploading`, and `noImage`. It also uses the `useEffect` hook to call `imageRefCb` when the component mounts.
+// 
+// There are several functions defined within the component. `imageRefCb` is a callback function that sets the reference to the image element and checks if the image is complete. `handleBannerUpload` is an asynchronous function that uploads the selected file to the server. `handleBannerRemove` is an asynchronous function that removes the banner image from the server. `handleFileSelect` is a function that handles when a file is selected for upload.
+// 
+// The component renders a div container with a conditional class based on if there is a banner or not. If `editable` is true, it renders buttons for changing or removing the banner. If `banner` exists, it renders the image element with the appropriate source and event listeners.
+// 
+// Overall, this component is responsible for rendering and managing user banners, including the ability to edit and upload new banners.
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 

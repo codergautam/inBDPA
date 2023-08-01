@@ -1,3 +1,5 @@
+// pages/newindex.js
+// This code is the main page for the inBDPA project. It renders the homepage with the navbar and main content. It also fetches the user count from the server and passes it as a prop to the Main component.
 import Head from "next/head";
 import Navbar from "@/components/navbar";
 import Main from "@/components/HomeMain";

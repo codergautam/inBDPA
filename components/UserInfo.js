@@ -1,3 +1,5 @@
+// components/UserInfo.js
+// This code is used to render a component called "UserInfo" that allows a user to view and edit information about themselves. It uses state variables to keep track of the user's information and the current mode (view or edit). It also includes functions for creating, updating, and deleting items in the user's information. The code includes client-side validation to ensure that the user enters valid information before saving the changes. The component also includes a modal for editing the information and handles the API request to update the user's profile.
 import React, { useEffect, useState } from "react";
 import Modal from "react-modal";
 import _ from "lodash";
@@ -187,7 +189,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
     <div className="container mx-auto">
       <div className={`flex items-center justify-center mx-auto pb-5`}>
         <button
-          className="text-gray-600 dark:text-gray-700 font-bold hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
+          className="text-gray-600 dark:text-gray-500 font-bold hover:text-black dark:hover:text-white border-b border-gray-700 hover:border-black hover:-translate-y-1 dark:hover:translate-y-0 dark:hover:border-white duration-300 ease-in-out"
           onClick={() => {
             toggleMode();
             createItem();
@@ -203,7 +205,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           {section !== "skills"
             ? liveItems.map((item, index) => (
                 <div
-                  className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition"
+                  className="w-3/4 rounded bg-gray-100 dark:bg-gray-800 p-4 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition"
                   key={index}
                 >
                   <h2 className="text-sm text-black dark:text-white md:text-lg font-bold mb-2 break-words">
@@ -223,7 +225,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
               ))
             : liveItems.map((item, index) => (
                 <div className="w-3/4 mx-auto" key={index}>
-                  <h2 className="text-sm md:text-lg text-black dark:text-white font-bold break-words rounded bg-gray-100 dark:bg-gray-700 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">
+                  <h2 className="text-sm md:text-lg text-black dark:text-white font-bold break-words rounded bg-gray-100 dark:bg-gray-800 px-4 py-2 mx-auto dark:shadow-xl hover:-translate-y-2 duration-300 ease-in-out transition">
                     {item}
                   </h2>
                 </div>
@@ -330,6 +332,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                   : "mx-auto w-fit"
                               }
                             >
+                              { item.endedAt !== null ? (
                               <input
                                 type="date"
                                 className="w-fit border mt-2 border-gray-600 bg-white dark:bg-gray-800 rounded px-2 py-1 text-black dark:text-white"
@@ -347,6 +350,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                   )
                                 }
                               />
+                              ) : null}
                             </div>
                           </div>
                         </div>

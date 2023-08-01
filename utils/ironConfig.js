@@ -1,3 +1,9 @@
+// utils/ironConfig.js
+// This file contains the configuration for Iron, a library used for encrypting and decrypting cookies. It exports the cookie name and password for the Iron configuration. 
+// 
+// The `ironOptions` object contains the cookie name, password, and cookie options. The `secure` option is set to `false` for development purposes. 
+// 
+// The `getIronOptions` function returns the Iron options based on the specified `rememberMe` parameter. If `rememberMe` is true, the cookie will be remembered for 30 days. Otherwise, it will be remembered for 3 hours. The `secure` option is also set to `false` for development purposes.
 export const cookieName = "doulai";
 export const cookiePassword = "MvNMDTwaVbRT5cbPQL6HgnxCCNRQXR5w";
 
