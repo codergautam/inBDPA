@@ -55,6 +55,8 @@ const opportunitySchema = new mongoose.Schema({
   views: Number,
   createdAt: Number,
   content: String,
+  activeSessions: Number,
+  lastUpdatedActive: Date
 });
 
 const Opportunity = mongoose.models.Opportunity ?? mongoose.model('Opportunity', opportunitySchema);
@@ -599,8 +601,29 @@ export async function countSessionsForUser(userId) {
 }
 
 export async function countSessionsForOpportunity(opportunityId) {
+  const minutes = 20/60 //Yeah, 1 min refresh
+  let opp = await Opportunity.find({opportunity_id: opportunityId})
+
+  //Check for if the activeSessions prop actually exists and then whether is a valid time range
+  if(opp?.activeSessions && ((new Date()).getTime() - (new Date(opp.lastUpdatedActive)).getTime()) < (Math.pow(10, 3) * minutes)) {
+    return { active: opp.activeSessions }
+  }
+
+  //Fallback
   const url = `${BASE_URL}/sessions/count-for/opportunity/${opportunityId}`;
-  return sendRequest(url, 'GET');
+  const req = await sendRequest(url, 'GET');
+
+
+  //Update Mongo
+  await Opportunity.updateOne({opportunity_id: opportunityId}, {
+    $set: {
+      activeSessions: req.active,
+      lastUpdatedActive: (new Date())
+    }
+  })
+
+  //Return original request
+  return req
 }
 
 // User Endpoints

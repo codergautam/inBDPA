@@ -14,6 +14,12 @@ export default function OpportunityFeedCard({item}) {
   <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
     {`${item.views} views`}
   </span>
+  {
+    item.activeSessions ?
+    <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+      {`${item.activeSessions} active viewers`}
+    </span> : <></>
+  }
 </div>
 
                     </div>
