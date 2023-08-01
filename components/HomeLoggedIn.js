@@ -24,11 +24,13 @@
 import React, { useEffect, useState } from "react";
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import { faGears, faNetworkWired, faSearch, faShare, faShareNodes, faSuitcase } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import md5 from "blueimp-md5";
+import msToTime from "@/utils/msToTime";
 import { useRouter } from "next/router";
+import UserFeedCard from "./UserFeedCard";
+import OpportunityFeedCard from "./OpportunityFeedCard";
+
 const getGreeting = () => {
   const currentHour = new Date().getHours();
   if (currentHour < 12) {
@@ -39,36 +41,6 @@ const getGreeting = () => {
     return "Good evening";
   }
 };
-function msToTime(duration) {
-  const portions = [];
-    const msInDay = 1000 * 60 * 60 * 24;
-  const days = Math.trunc(duration / msInDay);
-  if (days > 0) {
-    portions.push(days + 'd');
-    duration = duration - (days * msInDay);
-  }
-
-  const msInHour = 1000 * 60 * 60;
-  const hours = Math.trunc(duration / msInHour);
-  if (hours > 0) {
-    portions.push(hours + 'h');
-    duration = duration - (hours * msInHour);
-  }
-
-  const msInMinute = 1000 * 60;
-  const minutes = Math.trunc(duration / msInMinute);
-  if (minutes > 0) {
-    portions.push(minutes + 'm');
-    duration = duration - (minutes * msInMinute);
-  }
-
-  const seconds = Math.trunc(duration / 1000);
-  if (seconds > 0) {
-    portions.push(seconds + 's');
-  }
-
-  return portions[0]
-}
 export default function HomeLoggedIn({ user }) {
   const router = useRouter()
   const [feedData, setFeedData] = useState([]);
@@ -169,74 +141,10 @@ export default function HomeLoggedIn({ user }) {
                 className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700"
               >
                 {item.type === "user" && (
-                  <Link href={`/profile/${item.link}`} passHref>
-                    <div className="p-6 flex rounded-lg flex-col items-start justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out">
-                      <img src={item.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${item.hashedEmail}?d=identicon` : `/api/public/pfps/${item.pfp}`} alt={item.username} className="w-10 h-10 rounded-full mr-4" />
-                      <div className="">
-                        <div className="flex align-baseline mb-2">
-                        <h2 className="text-lg font-semibold">{item.username}</h2>
-                        {!item.isConnected ? (
-                        <button
-                    className="bg-blue-500 ml-2 mb-auto hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
-                    onClick={async (e) => {
-                      console.log(`Inner: ${e.target.value}`)
-                      e.preventDefault()
-                      // Indicate that a connection/disconnection operation is happening
-                      e.target.innerHTML = "Connecting..."
-                      console.log("User: ", item)
-                      let data = await fetch("/api/toggleConnection", {
-                        method: "POST",
-                        body: JSON.stringify({
-                          user_id: item.user_id,
-                        }),
-                      });
-                      data = await data.json();
-                      console.log("Data: ", data)
-                      if (data.success) {
-                        // setConnections(() => data.connections);
-                        // setDepth(() => data.newDepth);
-                        // Indicate that the operation is complete
-                        alert("Successfully connected")
-                        router.push(`/profile/${item.link}`)
-                      } else {
-                        alert("Failed to connect")
-                        e.target.innerHTML = "Connect"
-                      }
-                    }}
-                  >
-                    Connect
-                  </button>
-                        ): null}
-                        </div>
-                      <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-all text-clip w-full">{item.sections.about.length > 200 ? item.sections.about.substring(0,200)+"..." : item.sections.about}</p>
-                      </div>
-                      <div className="flex flex-row gap-2">
-  <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-    {`Joined ${msToTime(Date.now() - item.createdAt)} ago`}
-  </span>
-  <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-    {`${item.views} views`}
-  </span>
-</div>
-                    </div>
-                  </Link>
+                  <UserFeedCard item={item} />
                 )}
                 {item.type === "opportunity" && (
-                  <Link href={`/opportunity/${item.opportunity_id}`} passHref>
-                    <div className="p-6 flex flex-col items-start rounded justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out w-full break-words">
-                      <h2 className="text-xl font-semibold mb-1 w-full break-words">{item.title.length > 50 ? item.title.substring(0,50)+"..." : item.title}</h2>
-                      <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-words w-full">{item.content.length > 200 ? item.content.substring(0,200)+"..." : item.content}</p>
-                      <div className="flex flex-row gap-2">
-  <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-    {`Posted ${msToTime(Date.now() - item.createdAt)} ago`}
-  </span>
-  <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-    {`${item.views} views`}
-  </span>
-</div>
-
-                    </div>
-                  </Link>
+                  <OpportunityFeedCard item={item} />
                 )}
               </div>
             ))}
@@ -249,7 +157,7 @@ export default function HomeLoggedIn({ user }) {
           <div className="lg:w-1/4 lg:flex hidden relative">
          <div>
             {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
-            <div className="bg-gray-200 fixed pt-4 pb-14 right-10 top-1/2 dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
+            <div className="bg-gray-200 fixed pt-4 pb-14 top-1/2 -translate-y-1/4 right-10  dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
               <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
               <div className="flex items-center">
                 <img
@@ -264,23 +172,22 @@ export default function HomeLoggedIn({ user }) {
                   </p>
                 </div>
               </div>
-              <div className="mb-4">
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {user.email}
-                  </p>
-                  <p className="text-white">
-                    <span className="text-gray-600 dark:text-gray-400">/profile/</span>{user.link}
-                  </p>
-              </div>
               {/* <div className="break-words">
                 {JSON.stringify(user)}
               </div> */}
               <p className="text-gray-600 dark:text-gray-400 mb-2">{user.bio}</p>
-              <Link href={`/profile/${user.link}`} className="text-blue-500">
-                View Profile
-              </Link>
+              <div className="space-y-4">
+  <Link href={`/profile/${user.link}`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
+      View Profile
+  </Link>
+  <Link href={`/opportunities`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
+      View Opportunities
+  </Link>
+  <Link href={`/search`} className="block px-4 py-2 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors duration-200">
+      Search our Site
+  </Link>
+</div>
             </div>
-            {/* Add more links for other pages */}
           </div>
           </div>
         </div>

@@ -58,7 +58,7 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     let refreshRef = useRef()
 
     useEffect(()=>{
-      if(!opportunity) return;
+      if(!opportunity || opportunity.error) return;
         refreshRef.current = setInterval(async ()=> {
             setViews("...")
             setActive("...")
@@ -132,9 +132,9 @@ export default function Opportunity({user, opportunity, activeSessions}) {
     <Navbar user={user}></Navbar>
     </div>
 
-        {!opportunity ? (
+        {!opportunity || opportunity.error ? (
           <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-800">
-          <p className="text-4xl text-gray-800 dark:text-white font-bold mb-8">Opportunity not found</p>
+          <p className="text-4xl text-gray-800 dark:text-white font-bold mb-8">{opportunity?.error ?? "Opportunity not found"}</p>
           <Link
             href="/opportunities"
             className="text-lg text-gray-800 dark:text-white font-semibold py-2 px-6 bg-blue-500 hover:bg-blue-600 rounded transition duration-200 ease-in-out"
@@ -234,10 +234,11 @@ export const getServerSideProps = withIronSessionSsr(async ({
     }
   }
     let active = (await countSessionsForOpportunity(params.id)).active
-    let opportunity = (await getOpportunity(params.id)).opportunity;
-    if(opportunity) {
+    let opportunity = (await getOpportunity(params.id));
+   if(opportunity.success) {
+    opportunity = opportunity.opportunity;
     opportunity.contents = sanitize(opportunity.contents)
-    }
+   }
     // const window = new JSDOM('').window
     // const DOMPurify = createDOMPurify(window)
     // opportunity.contents = marked(opportunity.contents)

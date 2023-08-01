@@ -238,44 +238,44 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
           overlayClassName={`fixed inset-0 flex items-center justify-center bg-opacity-50 bg-black bg-opacity-50 `}
           className={`border border-gray-200 p-4 ${
             mode === "view" ? "hidden" : ""
-          } bg-white dark:bg-gray-800 max-w-2xl max-h-full mx-auto mt-12`}
+          } bg-white dark:bg-gray-900 max-w-2xl max-h-full mx-auto mt-12`}
           ariaHideApp={false} // Added to prevent the warning about appElement not being defined
         >
           <button
-                className="sticky w-full"
-                onClick={() => {
-                  setEditorItems(_.cloneDeep(liveItems));
-                  setMode("view");
-                }}
-              >
-                <svg
-                  className="fill-current text-red-500 hover:text-red-400 w-7 h-7 stroke-2 ml-auto"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
-                  <g id="SVGRepo_iconCarrier">
-                    {" "}
-                    <path
-                      className="fill-current stroke-red-600"
-                      d="M7 17L16.8995 7.10051"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>{" "}
-                    <path
-                      className="fill-current stroke-red-600"
-                      d="M7 7.00001L16.8995 16.8995"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                    ></path>
-                  </g>
-                </svg>
-              </button>
+            className="sticky w-full"
+            onClick={() => {
+              setEditorItems(_.cloneDeep(liveItems));
+              setMode("view");
+            }}
+          >
+            <svg
+              className="fill-current text-red-500 hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                {" "}
+                <path
+                  className="fill-current stroke-red-600"
+                  d="M7 17L16.8995 7.10051"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>{" "}
+                <path
+                  className="fill-current stroke-red-600"
+                  d="M7 7.00001L16.8995 16.8995"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></path>
+              </g>
+            </svg>
+          </button>
           <div className="overflow-auto" style={{ maxHeight: "80vh" }}>
             <div className="relative h-fit w-fit">
               <h1 className="text-center text-2xl font-bold pb-4">
@@ -287,13 +287,13 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
               <div>{createItem}</div>
               {editorItems.map((item, index) => (
                 <div
-                  className="w-3/4 rounded bg-gray-100 dark:bg-gray-700 p-4 mx-auto dark:shadow-xl duration-300 ease-in-out transition mb-4"
+                  className="w-3/4 rounded bg-gray-100 dark:bg-gray-800 p-4 mx-auto dark:shadow-xl duration-300 ease-in-out transition mb-4"
                   key={index}
                 >
                   {section !== "skills" ? (
                     <>
                       <input
-                        className="border dark:border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
+                        className="border dark:border-gray-600 bg-white dark:bg-gray-800 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                         placeholder="Title"
                         maxLength={100}
                         value={item.title}
@@ -306,7 +306,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                           From:
                           <input
                             type="date"
-                            className="w-fit border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 text-black dark:text-white"
+                            className="w-fit border mt-2 border-gray-600 bg-white dark:bg-gray-800 rounded px-2 py-1 text-black dark:text-white"
                             value={
                               item.startedAt
                                 ? item.startedAt.toISOString().substr(0, 10)
@@ -332,9 +332,10 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                   : "mx-auto w-fit"
                               }
                             >
+                              { item.endedAt !== null ? (
                               <input
                                 type="date"
-                                className="w-fit border mt-2 border-gray-300 bg-white dark:bg-gray-700 rounded px-2 py-1 text-black dark:text-white"
+                                className="w-fit border mt-2 border-gray-600 bg-white dark:bg-gray-800 rounded px-2 py-1 text-black dark:text-white"
                                 value={
                                   item.endedAt
                                     ? item.endedAt.toISOString().substr(0, 10)
@@ -349,6 +350,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                   )
                                 }
                               />
+                              ) : null}
                             </div>
                           </div>
                         </div>
@@ -366,10 +368,12 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                           className="mr-1 accent-black"
                           checked={item.endedAt === null}
                         />
-                        <span className="text-gray-600 dark:text-white">Ongoing</span>
+                        <span className="text-gray-600 dark:text-white">
+                          Ongoing
+                        </span>
                       </div>
                       <input
-                        className="border border-gray-300  bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
+                        className="border border-gray-600 bg-white dark:bg-gray-800 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                         placeholder="Location"
                         maxLength={MAX_LOCATION_LENGTH}
                         value={item.location}
@@ -378,7 +382,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                         }
                       />
                       <textarea
-                        className="border border-gray-300  bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
+                        className="border border-gray-600 bg-white dark:bg-gray-800 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                         placeholder="Description"
                         maxLength={MAX_DESCRIPTION_LENGTH}
                         value={item.description}
@@ -390,7 +394,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                     </>
                   ) : (
                     <input
-                      className="border border-gray-300 dark:border-gray-500 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
+                      className="border border-gray-600 dark:border-gray-500 bg-white dark:bg-gray-700 rounded px-2 py-1 mb-2 w-full text-black dark:text-white"
                       placeholder="Skill"
                       maxLength={30}
                       value={item}
@@ -428,7 +432,6 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                   Save
                 </button>
               </div>
-
             </div>
           </div>
         </Modal>
