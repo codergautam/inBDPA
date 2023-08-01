@@ -340,13 +340,13 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                     ? item.endedAt.toISOString().substr(0, 10)
                                     : ""
                                 }
-                                onChange={(event) =>
-                                  isValidDate(event.target.value) &&
-                                  updateItem(
-                                    index,
-                                    "endedAt",
-                                    new Date(event.target.value)
-                                  )
+                                  onChange={(event) =>
+                                    isValidDate(new Date(event.target.value)) &&
+                                    updateItem(
+                                      index,
+                                      "endedAt",
+                                      new Date(event.target.value)
+                                    )
                                 }
                               />
                               ) : null}
@@ -364,7 +364,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                             }
                           }}
                           type="checkbox"
-                          className="mr-1 accent-black"
+                          className="mr-1 accent-blue-600"
                           checked={item.endedAt === null}
                         />
                         <span className="text-gray-600 dark:text-white">

@@ -16,7 +16,7 @@ import msToTime from "@/utils/msToTime"
 export default function OpportunityFeedCard({ item }) {
   return (
     <Link href={`/opportunity/${item.opportunity_id}`} passHref>
-      <div className="p-6 flex flex-col items-start rounded justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out w-full break-words">
+      <div className="p-6 flex flex-col items-start rounded justify-startw-full break-words">
         <h2 className="text-xl font-semibold mb-1 w-full break-words">
           {item.title.length > 50
             ? item.title.substring(0, 50) + "..."
