@@ -85,9 +85,7 @@ function NetworkGraphModal({ user }) {
           return true;
         })
         .filter((a) => a.from !== a.to);
-      console.log("links", links);
 
-      console.log("links", links);
       var edges = new DataSet(links);
 
       // create a network

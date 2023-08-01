@@ -25,7 +25,6 @@ const limiter = rateLimit({
 })
 
 async function updateInfo(opportunity_id) {
-    console.log("Updating")
     let data = await fetch("/api/opportunities/getOpportunity", {
         method: "POST",
         headers: {
@@ -35,7 +34,6 @@ async function updateInfo(opportunity_id) {
             opportunity_id
         })
     }).then(res => res.json())
-    console.log(data)
     if(data.opportunity) {
         return {views: data.opportunity.views, active: data.opportunity.active}
     } else {

@@ -1,6 +1,6 @@
 // pages/api/getUser.js
 // This file is a part of the inBDPA project and is used to retrieve user data from the database. It checks if the user is authorized and then fetches the user's profile and data using API calls to the backend. It returns the user's data in JSON format if the profile is found, otherwise it returns a failure response.
-// 
+//
 // The code imports necessary dependencies and configurations from other files.
 // It defines a handler function that takes request and response objects as parameters.
 // It checks if the request body contains a username. If not, it returns an error response.
@@ -27,9 +27,7 @@ async function handler(req, res) {
     }
 
     let newProf = await findProfile(username)
-    console.log("Profile:", newProf)
     if(newProf) {
-        console.log("Sending req")
         let data = await getUser(username);
         data.user.link = newProf.link;
         return res.json({success: true, user: data.user})
