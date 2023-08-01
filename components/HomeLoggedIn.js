@@ -158,23 +158,6 @@ export default function HomeLoggedIn({ user }) {
           </div>
           {/* Sidebar */}
           <div className="lg:w-1/4 lg:flex hidden relative">
-<<<<<<< HEAD
-         <div>
-            {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
-            <div className="bg-gray-200 fixed pt-4 pb-14 top-1/2 -translate-y-1/4 right-10  dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
-              <h3 className="text-xl font-semibold mb-4">Your Profile</h3>
-              <div className="flex items-center">
-                <img
-                  src={user.pfp === "gravatar" ? `https://www.gravatar.com/avatar/${md5(user.email.trim().toLowerCase())}?d=identicon` : `/api/public/pfps/${user.pfp}`}
-                  alt={`${user.username} Profile`}
-                  className="w-10 h-10 rounded-full mr-4"
-                />
-                <div>
-                  <h2 className="text-lg font-semibold">{user.username}</h2>
-                  <p className="text-gray-600 dark:text-gray-400">
-                    {user.type}
-                  </p>
-=======
             <div>
               {/* Add the 'fixed' class and set width to 'w-1/4' or any desired width for the sidebar */}
               <div className="bg-gray-200 fixed pt-4 pb-14 top-1/2 -translate-y-1/2 right-10  dark:bg-gray-700 w-1/5 p-4 rounded-lg shadow-lg">
@@ -197,7 +180,6 @@ export default function HomeLoggedIn({ user }) {
                       {user.type}
                     </p>
                   </div>
->>>>>>> cf8a94cefcd8afd1c26a62e44fec81e8aea76737
                 </div>
                 {/* <div className="break-words">
                 {JSON.stringify(user)}
