@@ -1,24 +1,24 @@
 // utils/hscc/userEndpoints.js
-// This file contains functions for interacting with the user endpoints of the HSCC API. It includes functions for getting users, creating users, updating users, deleting users, and managing user connections. 
-// 
-// The `getUsers` function retrieves a list of users from the API. It accepts optional parameters for pagination, allowing you to specify a starting point and retrieve only updated users. 
-// 
-// The `createUser` function sends a POST request to create a new user. If the request is successful, it also generates a random profile ID for the user and calls the `createNewProfile` function to create a profile with the generated ID. 
-// 
-// The `getUser` function retrieves a specific user by their ID. 
-// 
-// The `getUserByUsername` function retrieves a specific user by their username. 
-// 
-// The `updateUser` function sends a PATCH request to update a user's information. 
-// 
-// The `deleteUser` function sends a DELETE request to delete a user. 
-// 
-// The `addConnection` function sends a POST request to add a connection between two users. 
-// 
-// The `removeConnection` function sends a DELETE request to remove a connection between two users. 
-// 
-// The `authenticateUser` function sends a POST request to authenticate a user with a given key. 
-// 
+// This file contains functions for interacting with the user endpoints of the HSCC API. It includes functions for getting users, creating users, updating users, deleting users, and managing user connections.
+//
+// The `getUsers` function retrieves a list of users from the API. It accepts optional parameters for pagination, allowing you to specify a starting point and retrieve only updated users.
+//
+// The `createUser` function sends a POST request to create a new user. If the request is successful, it also generates a random profile ID for the user and calls the `createNewProfile` function to create a profile with the generated ID.
+//
+// The `getUser` function retrieves a specific user by their ID.
+//
+// The `getUserByUsername` function retrieves a specific user by their username.
+//
+// The `updateUser` function sends a PATCH request to update a user's information.
+//
+// The `deleteUser` function sends a DELETE request to delete a user.
+//
+// The `addConnection` function sends a POST request to add a connection between two users.
+//
+// The `removeConnection` function sends a DELETE request to remove a connection between two users.
+//
+// The `authenticateUser` function sends a POST request to authenticate a user with a given key.
+//
 // The `getUserConnections` function retrieves a list of a user's connections. It accepts an optional parameter for pagination.
 import { createNewProfile } from "../api";
 import generateRandomId from "../generateRandomProfileId";
@@ -45,7 +45,6 @@ export async function createUser(user) {
 
   let res = await sendRequest(url, 'POST', user);
   if(res.success) {
-    console.log("Creating new profile");
     res.user.link = generateRandomId();
     await createNewProfile({ user_id: res.user.user_id, username: res.user.username, link: res.user.link,
       pfp: "gravatar", email: res.user.email, type: res.user.type });

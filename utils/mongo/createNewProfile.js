@@ -15,7 +15,6 @@ export default async function createNewProfile({ user_id, username, link, pfp, e
   try {
     // Attempt to save the new profile to the database
     const savedProfile = await newProfile.save();
-    console.log('Profile successfully saved: ', savedProfile);
     return false;
   } catch (error) {
    return false;

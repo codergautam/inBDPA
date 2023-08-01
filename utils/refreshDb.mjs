@@ -270,7 +270,6 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
         // Before removing user make sure they not in the api
         let userexistsInDb = await userExistsAPI(user.user_id);
         if(userexistsInDb || userexistsInDb.error) continue;
-        console.log("DELETING USER", user.user_id)
         await Profile.deleteOne({ user_id: user.user_id });
 
         try {

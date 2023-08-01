@@ -54,7 +54,6 @@ import { getIronOptions } from "@/utils/ironConfig";
     return res.send({ error: "Username cannot contain special characters" });
   }
   const { key, salt } = await encryptPassword(password);
-  console.log(`Key: ${key}, Length: ${key.length}`);
   let user = await createUser({
     username,
     email,
@@ -62,7 +61,6 @@ import { getIronOptions } from "@/utils/ironConfig";
     salt,
     type: type || "inner"
   });
-  console.log("User:", user)
   // store in session
   if(user.success && changeUser) {
     req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link, salt, key};
