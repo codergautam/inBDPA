@@ -56,7 +56,7 @@ export default function UserFeedCard({ item }) {
               </button>
             ) : null}
           </div>
-          <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-all text-clip w-full">
+          <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-words text-clip w-full">
             {item.sections.about.length > 200
               ? item.sections.about.substring(0, 200) + "..."
               : item.sections.about}

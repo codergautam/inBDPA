@@ -51,7 +51,7 @@ export default function Navbar({ user, queryText = "" }) {
   return (
     <>
       <div className="flex md:flex-row items-center justify-between w-full bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
-        <div className="flex gap-2">
+        <div className="flex gap-2 items-center">
         <div className="md:flex-none flex flex-row justify-between md:justify-normal md:w-fit h-min items-center">
 
           <div className="w-fit">
