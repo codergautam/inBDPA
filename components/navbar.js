@@ -51,7 +51,7 @@ export default function Navbar({ user, queryText = "" }) {
   return (
     <>
       <div className="flex flex-col md:flex-row items-center justify-between w-full bg-gray-50 dark:bg-gray-900 p-3 sm:py-4 md:p-4 lg:py-5 text-center">
-        <div className="md:flex-none flex flex-row justify-between md:justify-normal w-full md:w-fit h-min items-center">
+        <div className="md:flex-none flex flex-row md:justify-normal w-full md:w-fit h-min items-center">
           <div className="w-fit">
             <Link href="/" className="w-fit">
               <Image
@@ -84,7 +84,7 @@ export default function Navbar({ user, queryText = "" }) {
           </svg>{" "}
 
         </div>
-        <div className="relative w-full md:w-72 lg:w-96 h-10 hidden md:inline">
+        <div className=" relative w-full md:w-72 lg:w-96 h-10 hidden md:inline">
             {user && (
               <>
                 <input
@@ -108,7 +108,9 @@ export default function Navbar({ user, queryText = "" }) {
                 >
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
+                
               </>
+              
             )}
           </div>
         <div className="hidden md:flex items-end h-min flex-row rounded-b-lg bg-gray-50 dark:bg-gray-900 md:place place-items-center">
