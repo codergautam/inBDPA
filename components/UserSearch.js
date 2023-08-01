@@ -71,7 +71,6 @@ export default function UserSearch() {
 
         // Create a new debounce timer
         debounceTimer.current = setTimeout(async () => {
-            console.log(value);
             let users = await fetch("/api/search", {
                 headers: {
                     "Content-Type": "application/json",
@@ -111,19 +110,15 @@ export default function UserSearch() {
         if(user) {
             if (user.success) {
                 setOutputUserStatus("");
-                console.log("User:");
-                console.log(user.user);
                 setOutputUser(user.user);
 
                 if (user.user) {
                     if (user.user.type !== "administrator") {
                         let newPos = listOfTypes[listOfTypes.indexOf(user.user.type) + 1];
-                        console.log(`New Position: ${newPos}`);
                         setNextPosition(newPos);
                     }
                     if (user.user.type !== "inner") {
                         let newPos = listOfTypes[listOfTypes.indexOf(user.user.type) - 1];
-                        console.log(`Previous Position: ${newPos}`);
                         setPreviousPosition(newPos);
                     }
                 }
@@ -196,8 +191,6 @@ export default function UserSearch() {
                 type: newPos
             })
         }).then(res => res.json());
-        console.log("Data:")
-        console.log(data)
         if(data.success) {
             setOutputUserStatus("Changed User to " + newPos)
             promotionRef = setTimeout(async ()=>{

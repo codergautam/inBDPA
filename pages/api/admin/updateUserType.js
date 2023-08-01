@@ -30,13 +30,9 @@ export default withIronSessionApiRoute(handler, ironOptions);
   }
 
   const { userId, type } = req.body
-  console.log(`Username: ${userId}`)
-  console.log(`Type: ${type}`)
   if(type !== "inner" && type !== "staff" && type !== "administrator") res.json({success: false, error: "Invalid type"});
   let data = await updateUser(userId, {type: type});
   if(data.success) {
-  console.log("Data: ")
-  console.log(data)
   await updateUserTypeInMongo(userId, type)
   } else {
     console.log("Error: ")

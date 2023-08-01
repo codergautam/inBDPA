@@ -1,18 +1,18 @@
 // utils/misc/miscHelpers.js
-// This file contains various helper functions related to user authentication, profile management, and data updating. 
-// 
+// This file contains various helper functions related to user authentication, profile management, and data updating.
+//
 // The `refreshSession` function updates the refresh session token for a specific user profile.
-// 
+//
 // The `setForceLogout` function sets a force logout date for a specific user profile.
-// 
+//
 // The `changeUserPassword` function allows a user to change their password by updating it in both the API and MongoDB.
-// 
+//
 // The `incrementUserViews` function increments the view count for a specific user profile.
-// 
+//
 // The `incrementOpportunityViews` function increments the view count for a specific opportunity.
-// 
+//
 // The `loginUser` function handles user login by authenticating the user, generating a new profile if necessary, and returning the user information.
-// 
+//
 // Overall, these functions are important for managing user profiles, updating data, and handling user authentication in the inBDPA project.
 import { authenticateUser, createNewProfile, getProfileIdFromUserId, getUser, getUserByUsername, getUserFromEmail, updateOpportunity, updateUser } from "../api"
 import { convertHexToBuffer, deriveKeyFromPassword } from "../encryptPassword"
@@ -84,20 +84,16 @@ export async function incrementOpportunityViews(opportunityId) {
 }
 
 export async function loginUser(username, password) {
-  console.log("Logging in user", username);
 let user = await getUserByUsername(username);
-console.log(user, user.success);
   if(!user.success) {
     user = await getUserFromEmail(username);
     if(user.error) {
       return { success: false, error: user.error.includes("No user found") ? "Could not find any user with that username or email" : user.error}
     }
     user = await getUser(user.user_id);
-    console.log(user)
     if(!user.success) {
       return { success: false, error: user.error ?? "Something went wrong. Please try again shortly."}
     }
-    console.log("User: ", user);
   }
   const { salt } = user.user;
   const key = await deriveKeyFromPassword(password, convertHexToBuffer(salt));

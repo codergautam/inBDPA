@@ -106,7 +106,7 @@ export default function HomeLoggedIn({ user }) {
     <section className="text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-800 v-screen flex-grow">
       <div className="pl-5 pb-24 mx-auto w-full">
         <center>
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-16 font-bold mb-12 text-gray-600 dark:text-gray-300 text-left pr-5">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl pt-16 font-bold mb-12 text-gray-600 dark:text-gray-300 text-center pr-5">
             {getGreeting()}, {user.username}
           </h1>
         </center>
@@ -141,7 +141,7 @@ export default function HomeLoggedIn({ user }) {
           {/* Scrolling Feed */}
           <div className="lg:w-3/4 mr-auto flex-grow">
             <h1 className="mb-2 text-center">Your Feed</h1>
-            <div className="flex flex-col space-y-8">
+            <div className="flex flex-col space-y-8 pr-6 lg:pr-0">
               {feedData.map((item, index) => (
                 <div
                   key={index}

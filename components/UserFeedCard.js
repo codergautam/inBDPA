@@ -31,11 +31,9 @@ export default function UserFeedCard({ item }) {
               <button
                 className="bg-blue-500 ml-2 mb-auto hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
                 onClick={async (e) => {
-                  console.log(`Inner: ${e.target.value}`);
                   e.preventDefault();
                   // Indicate that a connection/disconnection operation is happening
                   e.target.innerHTML = "Connecting...";
-                  console.log("User: ", item);
                   let data = await fetch("/api/toggleConnection", {
                     method: "POST",
                     body: JSON.stringify({
@@ -43,7 +41,6 @@ export default function UserFeedCard({ item }) {
                     }),
                   });
                   data = await data.json();
-                  console.log("Data: ", data);
                   if (data.success) {
                     // setConnections(() => data.connections);
                     // setDepth(() => data.newDepth);
@@ -66,10 +63,10 @@ export default function UserFeedCard({ item }) {
           </p>
         </div>
         <div className="flex flex-row gap-2">
-          <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+          <span className="inline-flex bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
             {`Joined ${msToTime(Date.now() - item.createdAt)} ago`}
           </span>
-          <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
+          <span className="inline-flex bg-gray-300 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
             {`${item.views} views`}
           </span>
         </div>

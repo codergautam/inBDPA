@@ -41,16 +41,11 @@ const App = ({ Component, pageProps }) => {
 
   useEffect(() => {
     const checkStuff = async () => {
-      console.log("hello")
       // console.log(`Date: ${Date.now()}`)
       let data = await fetch("/api/admin/userUpdates").then(res => res.json())
       // console.log("Data for Forced Logout: ", data)
       let minutes = 1
       let d = (new Date(data.forceLogout))
-      console.log("pure: ", data.forceLogout)
-      console.log("Date for Logout: ", d)
-      console.log(`${minutes} Minute(s): `, (Math.pow(10, 3) * 60 * minutes))
-      console.log("Difference: ", (new Date()).getTime() - d.getTime())
       if(data.imp && data.leave) {
         alert("This user has been forced to logout, you're now returning to admin")
         router.reload()
@@ -97,12 +92,11 @@ const sessionIdRef = useRef(null);
 
 const handleRouteChangeStart = async (url, first=false) => {
   if(typeof first !== "boolean") first = false;
-  console.log("Changing..", url, first);
 
   if(first) url = prevPath;
 
   //Dont change if going to same page
-  if(!first && (url == prevPath)) return console.log("Going to same page");
+  if(!first && (url == prevPath)) return;
 
   if(!first && sessionIdRef.current) {
     // End old session
@@ -113,12 +107,11 @@ const handleRouteChangeStart = async (url, first=false) => {
       })
     });
     let endSessionData = await endSessionRes.json();
-    console.log("Ended session",endSessionData)
 
     // Clear the sessionId ref here to make sure it's null for the next route
     sessionIdRef.current = null;
   }
-  if(typeof url == "undefined" || !parseUrl(url)) return console.log("Invalid url",url, prevPath);
+  if(typeof url == "undefined" || !parseUrl(url)) return;
 
   // Make new session
   let makeSessionRes = await fetch('/api/makeSession', {
@@ -144,7 +137,6 @@ const handleRouteChangeStart = async (url, first=false) => {
       })
     }).then(res => res.json()).then(data => {
       if(data.success) {
-        console.log ("Renewed session", sessionIdRef.current);
       } else {
         console.log("Error renewing session", data);
       }
@@ -170,7 +162,6 @@ const handleRouteChangeStart = async (url, first=false) => {
     router.events.on("routeChangeComplete", handleRouteChangeComplete);
 
     window.onbeforeunload = () => {
-      console.log("Going to end session", sessionIdRef.current);
       if(sessionIdRef.current) {
         // End old session
         let endSessionRes = fetch('/api/endSession', {
@@ -181,7 +172,6 @@ const handleRouteChangeStart = async (url, first=false) => {
           keepalive: true
         });
         endSessionRes.then(res => res.json()).then(data => {
-          console.log(data);
         });
       }
       return;

@@ -1,5 +1,5 @@
 // pages/api/admin/userUpdates.js
-// This file contains the code for handling user updates in the admin interface. 
+// This file contains the code for handling user updates in the admin interface.
 // - The code imports functions for setting force logout, getting user details, and session handling from the utils/api module.
 // - It also imports the withIronSessionApiRoute function and ironOptions object from the iron-session/next and utils/ironConfig modules respectively.
 // - The code exports the default function with the IronSessionApiRoute handler and ironOptions as the options.
@@ -60,7 +60,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
         ///If they must be forced to logout but impersonation is occuring
         if((new Date()).getTime() - (new Date(user.forceLogout)).getTime() < (Math.pow(10, 3) * 60)) {
           if(req.session.user.impersonating) {
-            console.log("Impersonation going on")
 
             let adminId = req.session.user.adminId;
             let adminLink = req.session.user.adminLink
@@ -69,7 +68,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
             // store in session
             if(user.success) {
                 req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: adminLink, salt: user.user.salt, key: user.user.key};
-                console.log(req.session.user);
                 await req.session.save();
                 return res.json({success: true, leave: true, imp: true})
             } else {

@@ -19,15 +19,10 @@ async function handler(req, res) {
 
     let user = await getUser(userId);
     let userLink = await getProfileIdFromUserId(user.user.user_id);
-    console.log("Link: " + userLink)
-    console.log("User Id: " + userId)
-    console.log(`Admin Id: ${adminId}, Admin Link: ${adminLink}`)
-    console.log(user)
 
     // store in session
     if(user.success) {
         req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: userLink, salt: user.user.salt, key: user.user.key, impersonating: true, adminId: adminId, adminLink: adminLink};
-        console.log(req.session.user);
         await req.session.save();
         return res.json({success: true})
     } else {
