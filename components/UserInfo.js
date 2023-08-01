@@ -349,7 +349,7 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                     )
                                 }
                               />
-                              ) : null}
+                              ) : <></>}
                             </div>
                           </div>
                         </div>
