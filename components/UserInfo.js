@@ -340,13 +340,13 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
                                     ? item.endedAt.toISOString().substr(0, 10)
                                     : ""
                                 }
-                                onChange={(event) =>
-                                  isValidDate(event.target.value) &&
-                                  updateItem(
-                                    index,
-                                    "endedAt",
-                                    new Date(event.target.value)
-                                  )
+                                  onChange={(event) =>
+                                    isValidDate(new Date(event.target.value)) &&
+                                    updateItem(
+                                      index,
+                                      "endedAt",
+                                      new Date(event.target.value)
+                                    )
                                 }
                               />
                               ) : null}
