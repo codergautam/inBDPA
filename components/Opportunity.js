@@ -33,7 +33,9 @@ async function updateInfo(opportunity_id) {
   }
 }
 const Opportunity = ({ opportunity, selected, i, canDelete, user, deleteOpportunity, setEditingOpportunity, setTitle, setValue }) => {
-
+  useEffect(()=>{
+    console.log("Opp: ", opportunity)
+  }, [])
 //   useEffect(() => {
 //     // Update info
 //     const fetchData = async () => {

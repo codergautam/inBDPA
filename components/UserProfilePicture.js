@@ -11,8 +11,8 @@
 // - The modal allows the user to choose between using their Gravatar or uploading a custom image. If the user chooses to upload an image, they can select a file from their device and see a preview of the selected image.
 // - When the user saves their changes, the appropriate action is taken based on the chosen option. If the user chooses to use their Gravatar, a request is made to the server to set the profile picture as the user's Gravatar. If the user chooses to upload an image, the file is sent to the server along with the crop position and zoom level.
 // - The component also handles error states and displays any errors that occur during the image upload process.
-import React, { useState } from 'react';
-import Cropper from 'react-easy-crop'
+import React, { useState } from "react";
+import Cropper from "react-easy-crop";
 
 const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
@@ -143,7 +143,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
               style={{ zIndex: 10 }}
             >
               <svg
-                className="fill-current text-red-500 hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-black"
+                className="fill-current text-red-500 hover:text-red-400 w-7 h-7 p-1 stroke-2 ml-auto rounded-full bg-white dark:bg-black"
                 viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -184,7 +184,10 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
                       onChange={handleOptionChange}
                       className="mr-2"
                     />
-                    <label htmlFor="gravatar" className="text-lg">
+                    <label
+                      htmlFor="gravatar"
+                      className="text-lg text-black dark:text-white"
+                    >
                       Use Gravatar
                     </label>
                   </div>
@@ -199,7 +202,10 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
                       onChange={handleOptionChange}
                       className="mr-2"
                     />
-                    <label htmlFor="upload" className="text-lg">
+                    <label
+                      htmlFor="upload"
+                      className="text-lg text-black dark:text-white"
+                    >
                       Upload Image
                     </label>
                   </div>
@@ -210,7 +216,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
                         type="file"
                         accept="image/*"
                         onChange={handleImageChange}
-                        className="py-2 px-4 border border-gray-400 rounded-md cursor-pointer"
+                        className="py-2 px-4 border border-gray-400 rounded-md cursor-pointer text-black dark:text-white"
                       />
                     </div>
                   )}
@@ -263,7 +269,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
 
               {editable && (
                 <button
-                  className="bg-blue-500/50 hover:bg-blue-700/50 duration-300 ease-in-out transition text-white font-bold py-2 px-4 rounded-md mt-4"
+                  className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition mt-4"
                   onClick={handleSave}
                 >
                   {saving ? "Saving Changes.." : "Save Changes"}
