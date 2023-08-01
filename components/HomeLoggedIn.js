@@ -28,6 +28,9 @@ import Link from "next/link";
 import md5 from "blueimp-md5";
 import msToTime from "@/utils/msToTime";
 import { useRouter } from "next/router";
+import UserFeedCard from "./UserFeedCard";
+import OpportunityFeedCard from "./OpportunityFeedCard";
+
 const getGreeting = () => {
   const currentHour = new Date().getHours();
   if (currentHour < 12) {
@@ -137,116 +140,19 @@ export default function HomeLoggedIn({ user }) {
         <div className="lg:flex md:justify-center">
           {/* Scrolling Feed */}
           <div className="lg:w-3/4 mr-auto">
-            <h1 className="mb-2">Your Feed</h1>
-            <div className="flex flex-col space-y-8">
-              {feedData.map((item, index) => (
-                <div
-                  key={index}
-                  className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700"
-                >
-                  {item.type === "user" && (
-                    <Link href={`/profile/${item.link}`} passHref>
-                      <div className="p-6 flex rounded-lg flex-col items-start justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out">
-                        <img
-                          src={
-                            item.pfp === "gravatar"
-                              ? `https://www.gravatar.com/avatar/${item.hashedEmail}?d=identicon`
-                              : `/api/public/pfps/${item.pfp}`
-                          }
-                          alt={item.username}
-                          className="w-10 h-10 rounded-full mr-4"
-                        />
-                        <div className="">
-                          <div className="flex align-baseline mb-2 items-center">
-                            <h2 className="text-lg font-semibold">
-                              {item.username}
-                            </h2>
-                            {!item.isConnected ? (
-                              <button
-                                className="px-3 py-1.5 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition ml-2"
-                                onClick={async (e) => {
-                                  console.log(`Inner: ${e.target.value}`);
-                                  e.preventDefault();
-                                  // Indicate that a connection/disconnection operation is happening
-                                  e.target.innerHTML = "Connecting...";
-                                  console.log("User: ", item);
-                                  let data = await fetch(
-                                    "/api/toggleConnection",
-                                    {
-                                      method: "POST",
-                                      body: JSON.stringify({
-                                        user_id: item.user_id,
-                                      }),
-                                    }
-                                  );
-                                  data = await data.json();
-                                  console.log("Data: ", data);
-                                  if (data.success) {
-                                    // setConnections(() => data.connections);
-                                    // setDepth(() => data.newDepth);
-                                    // Indicate that the operation is complete
-                                    router.push(`/profile/${item.link}`);
-                                  } else {
-                                    alert("Failed to connect");
-                                    e.target.innerHTML = "Connect";
-                                  }
-                                }}
-                              >
-                                Connect
-                              </button>
-                            ) : null}
-                          </div>
-                          <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-all text-clip w-full">
-                            {item.sections.about.length > 200
-                              ? item.sections.about.substring(0, 200) + "..."
-                              : item.sections.about}
-                          </p>
-                        </div>
-                        <div className="flex flex-row gap-2">
-                          <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-                            {`Joined ${msToTime(
-                              Date.now() - item.createdAt
-                            )} ago`}
-                          </span>
-                          <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-                            {`${item.views} views`}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  )}
-                  {item.type === "opportunity" && (
-                    <Link href={`/opportunity/${item.opportunity_id}`} passHref>
-                      <div className="p-6 flex flex-col items-start rounded justify-start hover:bg-gray-300 dark:hover:bg-gray-600 transition duration-300 ease-in-out w-full break-words">
-                        <h2 className="text-xl font-semibold mb-1 w-full break-words">
-                          {item.title.length > 50
-                            ? item.title.substring(0, 50) + "..."
-                            : item.title}
-                        </h2>
-                        <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-words w-full">
-                          {item.content.length > 200
-                            ? item.content.substring(0, 200) + "..."
-                            : item.content}
-                        </p>
-                        <div className="flex flex-row gap-2">
-                          <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-                            {`Posted ${msToTime(
-                              Date.now() - item.createdAt
-                            )} ago`}
-                          </span>
-                          <span className="inline-flex bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 dark:bg-gray-800 dark:text-gray-200">
-                            {`${item.views} views`}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
-                  )}
-                </div>
-              ))}
-            </div>
-            {loading && (
-              <div className="flex justify-center items-center">
-                <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-b-2 border-gray-900 dark:border-white"></div>
+          <h1 className="mb-2">Your Feed</h1>
+          <div className="flex flex-col space-y-8">
+            {feedData.map((item, index) => (
+              <div
+                key={index}
+                className="rounded-lg shadow-lg bg-gray-200 dark:bg-gray-700"
+              >
+                {item.type === "user" && (
+                  <UserFeedCard item={item} />
+                )}
+                {item.type === "opportunity" && (
+                  <OpportunityFeedCard item={item} />
+                )}
               </div>
             )}
           </div>
@@ -273,6 +179,7 @@ export default function HomeLoggedIn({ user }) {
                       {user.type}
                     </p>
                   </div>
+>>>>>>> cf8a94cefcd8afd1c26a62e44fec81e8aea76737
                 </div>
                 {/* <div className="break-words">
                       {JSON.stringify(user)}
