@@ -1,12 +1,12 @@
 // utils/mongo/resetHelpers.js
 // This code file contains helper functions for managing reset links in MongoDB. The functions allow for creating, retrieving, and redeeming reset links.
-// 
+//
 // The `createResetLink` function takes an email as input, retrieves the user associated with that email, generates a random reset ID, and saves the reset link in the database. It returns a success message along with the reset ID if successful, or an error message if there was an issue.
-// 
+//
 // The `getResetLink` function takes a reset ID as input and retrieves the corresponding reset link from the database. If the reset link is found, it is returned. Otherwise, an error message is returned.
-// 
+//
 // The `redeemResetLink` function takes a reset ID as input and marks the corresponding reset link as used in the database. If the redemption is successful, a success message is returned. Otherwise, an error message is returned.
-// 
+//
 // Each function includes error handling and logs any errors that occur during the database operations.
 import generateRandomId from "../generateRandomProfileId";
 import getUserFromEmail from "./getUserFromEmail";
@@ -29,7 +29,6 @@ export async function createResetLink(email) {
   try {
     // Attempt to save the new profile to the database
     const savedReset = await newReset.save();
-    console.log('Reset successfully saved: ', savedReset);
     return { success: true, reset_id };
   } catch (error) {
     console.log('Error while trying to save reset: ', error);

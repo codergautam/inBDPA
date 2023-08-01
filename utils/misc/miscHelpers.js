@@ -33,7 +33,6 @@ export async function setForceLogout(userId, date) {
               new: true,
               upsert: true
             })
-            console.log("Updated profile by imposing")
             return {success:true}
     } catch (error) {
       console.log("error: " + error)
@@ -65,10 +64,8 @@ export async function changeUserPassword(user_id, password) {
           { key: keyString, salt: saltString }, // document to insert when nothing was found
           { new: true, upsert: true } // options
       );
-      console.log('User successfully updated: ', updatedUser);
       return {success: true};
   } catch (error) {
-      console.log('Error while trying to update user: ', error);
       return {success: false, error: "Unexpected Error"};
   }
 }
@@ -105,7 +102,6 @@ let user = await getUserByUsername(username);
       link = generateRandomId();
       await createNewProfile({ user_id: user.user.user_id, username: user.user.username, link });
     }
-    console.log("Link: ", link);
     user.user.link = link;
     user.user.key = key.keyString;
     return user;
