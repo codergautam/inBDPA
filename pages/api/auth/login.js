@@ -24,7 +24,6 @@ async function handler(req, res) {
 
   // store in session
   if (user.success) {
-    console.log("Successfully logged in")
     req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link, salt: user.user.salt, key: user.user.key};
     await req.session.save();
   } else {

@@ -33,19 +33,15 @@ async function handler(req, res) {
     let data;
     let connections = await fetchConnections(user_id, 1);
     let myConnections = await fetchConnections(user.id, 1);
-    console.log("Connections: ", connections);
     let newDepth = 0;
     let connected = !!connections.find(c => c == user.id);
-    console.log("Connected: ", connected);
     if(!connected) {
     data = await addConnection(user.id, user_id);
-    console.log("Data: ", data);
     if(data.success) {
       connections.push(user.id);
       myConnections.push(user_id);
 
       newDepth = 1;
-      console.log("new connections", connections)
       await updateUser(user_id, connections);
       await updateUser(user.id, myConnections);
       await updateUserMongo(user_id, {connections});

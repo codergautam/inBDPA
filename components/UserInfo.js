@@ -142,7 +142,6 @@ const MyComponent = ({ user, requestedUser, section, setRequestedUser }) => {
       }
     } else {
       for (const item of items2) {
-        console.log(item);
         if (item.trim().length === 0) {
           alert("Please fill out all the skills.");
           return;

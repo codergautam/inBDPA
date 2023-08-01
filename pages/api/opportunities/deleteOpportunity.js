@@ -28,19 +28,18 @@ export default withIronSessionApiRoute(handler, ironOptions);
     opp = await getOpportunity(opportunity_id)
   }
 
-  
+
   //Opportunity doesn't exist
   if(!opp) {
     return res.json({success: false, error: "No such opportunity"})
   }
-  
+
   if(creator_id != opp.creator_id) {
     return res.json({success: false, error: "Unauthorized"})
   }
-  
+
 
   const data = (await deleteOpportunity(opportunity_id));
-  console.log("Data: ", data)
   if(!data.success) {
     console.log("Error")
     return res.json({success: false, error: "Couldn't delete opportunity!"});

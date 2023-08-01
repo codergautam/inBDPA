@@ -37,17 +37,14 @@ const handleAboutSave = (newAbout, setRequestedUser) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (!data.success) {
           alert(data.error ?? "Unexpected Error saving about");
           reject();
         } else {
-          console.log(setRequestedUser);
           setRequestedUser((prev) => ({
             ...prev,
             sections: { ...prev.sections, about: newAbout },
           }));
-          console.log("New about: ", newAbout);
           resolve(newAbout);
         }
       })
@@ -387,7 +384,6 @@ export const getServerSideProps = withIronSessionSsr(async function ({
     //   }
     if (view) {
       try {
-        console.log("Incrementing");
         incrementUserViews(requestedUser?.user_id);
         increaseViewCountMongo(requestedUser?.user_id);
       } catch (e) {

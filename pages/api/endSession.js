@@ -14,6 +14,5 @@ async function handler(req, res) {
 
 
     let data = await deleteSession(JSON.parse(req.body).sessionId);
-    console.log("End session", data, JSON.parse(req.body).sessionId);
     res.json(data);
 }

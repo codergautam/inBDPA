@@ -30,11 +30,8 @@ async function handler(req, res) {
 
     let out = await createSession({ view, viewed_id });
     if(!out.success) {
-      console.log(out);
         res.status(500).json({ error: "Error creating session" });
         return;
     }
-    console.log("Created session", out);
-
     res.json(out);
 }
