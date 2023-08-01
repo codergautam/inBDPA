@@ -199,7 +199,7 @@ const ConnectionList = ({
                     }
                     className={
                       user.yourDepth == 1
-                        ? `h-fit overflow-visible relative flex items-center gap-6 text-white text-lg font-semibold cursor-pointer rounded-lg bg-blue-600 hover:bg-blue-700 dark:hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        ? `h-fit overflow-visible relative flex items-center gap-6 text-black text-lg font-semibold cursor-pointer rounded-lg bg-blue-400 dark:bg-blue-100 hover:bg-blue-200 dark:hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                         : user.yourDepth == 2
                         ? `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                         : `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
@@ -239,7 +239,7 @@ const ConnectionList = ({
                         <p
                           className={
                             user.yourDepth == 1
-                              ? `text-gray-400 text-xs italic`
+                              ? `text-gray-800 text-xs italic`
                               : `text-gray-800 dark:text-gray-400 text-xs italic`
                           }
                         >
