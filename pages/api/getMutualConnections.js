@@ -61,5 +61,8 @@ async function handler(req, res) {
     }
     return {...connection, yourDepth, theirDepth};
   }));
+  mutualConnections = mutualConnections.sort((a, b) => {
+    return a.yourDepth - b.yourDepth;
+  });
     res.json({success: true, connections: mutualConnections});
 }
