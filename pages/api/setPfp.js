@@ -1,6 +1,6 @@
 // pages/api/setPfp.js
-// This code is written to handle the API route for setting the user profile picture. 
-// 
+// This code is written to handle the API route for setting the user profile picture.
+//
 // - It imports the necessary dependencies and configurations.
 // - It defines the multer storage configuration for the uploaded images.
 // - It defines the multer upload configuration with file size limits and file type filtering.
@@ -131,7 +131,7 @@ function handler(req, res) {
           res.status(500).json({ error: 'Failed to process the image.' });
         } else {
           // Remove the original file
-          fs.unlinkSync(filePath);
+          // fs.unlinkSync(filePath);
 
           setUserPfp(req.session.user.id, `resized_${file.filename}`)
             .then(() => {
