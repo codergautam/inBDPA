@@ -18,6 +18,9 @@ export const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
 // Define the sendRequest function to make API requests
 const MAX_REQUESTS_RATE = 5;
 const TIME_WINDOW = 1000;
+const MAX_RETRY_ATTEMPTS = 3;
+const RETRY_DELAY = 100; // milliseconds
+const SIMULATE_ERROR = false;
 
 let queue = [];
 let lastRequestTime = Date.now();
@@ -31,29 +34,38 @@ export async function sendRequest(url, method, body = null) {
       method,
       body,
       resolve,
-      reject
+      reject,
+      retryAttempts: 0,
     });
     processQueue();
   });
 }
 
 async function processQueue() {
-  if(queue.length === 0) return;
+  if (queue.length === 0) return;
 
   const timeSinceLastRequest = Date.now() - lastRequestTime;
 
-  if(timeSinceLastRequest > TIME_WINDOW) {
+  if (timeSinceLastRequest > TIME_WINDOW) {
     currentRequestRate = 0;
     lastRequestTime = Date.now();
   }
 
-  if(currentRequestRate < MAX_REQUESTS_RATE) {
+  if (currentRequestRate < MAX_REQUESTS_RATE) {
     // Send a request
     const req = queue.shift();
     currentRequestRate++;
     try {
       const data = await _sendRequest(req.url, req.method, req.body);
-      req.resolve(data); // Resolve the Promise
+      if (data.retryAfter && req.retryAttempts < MAX_RETRY_ATTEMPTS) {
+        req.retryAttempts++;
+        setTimeout(() => {
+          queue.unshift(req); // Retry the request by adding it back to the front of the queue
+          processQueue();
+        }, RETRY_DELAY);
+      } else {
+        req.resolve(data); // Resolve the Promise
+      }
     } catch (error) {
       req.resolve(error); // Reject the Promise
     }
@@ -67,34 +79,44 @@ async function processQueue() {
 async function _sendRequest(url, method, body = null) {
   // Define the common headers for all requests
   let headers = {
-    'Authorization': 'bearer '+process.env.API_KEY,
+    'Authorization': 'bearer ' + process.env.API_KEY,
     'Content-Type': 'application/json'
   };
-  if(method.toLowerCase() === 'delete') {
+  if (method.toLowerCase() === 'delete') {
     delete headers['Content-Type'];
   }
 
-
-    try {
-      const response = await fetch(url, {
+  try {
+    let response;
+    if (!SIMULATE_ERROR || Math.random() < 0.5) {
+      response = await fetch(url, {
         method,
         headers,
         body: body ? JSON.stringify(body) : null
       });
-      const data = await response.json();
-      if(!response.ok) {
-        switch (response.status) {
-          case 400:
-            return { success: false, error: "Bad request" }
-          case 429:
-            return {success: false, error: data.retryAfter ? "Too many requests. Please try again in "+msToTime(data.retryAfter) : "Too many requests. Please try again shortly."}
-          case 555:
-            return { success: false, error: "Something went wrong. Please try again shortly." }
-        }
+    } else {
+      response = {
+        ok: false,
+        status: 555,
+        json: () => null
       }
-      return data;
-    } catch (error) {
-      return {success: false, error: "Something went wrong. Please try again shortly."}
-      // throw new Error('An error occurred while making the API request');
     }
+
+    const data = await response.json();
+    if (!response.ok) {
+      switch (response.status) {
+        case 400:
+          return { success: false, error: "Bad request" }
+        case 429:
+          return { success: false, error: data.retryAfter ? "Too many requests. Please try again in " + msToTime(data.retryAfter) : "Too many requests. Please try again shortly." }
+        case 500:
+        case 555:
+          return { success: false, error: "Something went wrong. Please try again shortly.", retryAfter: RETRY_DELAY };
+      }
+    }
+    return data;
+  } catch (error) {
+    console.log(error)
+    throw { success: false, error: "Something went wrong. Please try again shortly." };
+  }
 }
