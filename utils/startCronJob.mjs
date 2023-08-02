@@ -29,7 +29,7 @@ async function wait(ms) {
 // });
 
 async function doIt() {
-  await fetchDataAndSaveToDB(lastUpdated-2000);
+  await fetchDataAndSaveToDB(lastUpdated);
   counts++;
   lastUpdated = Date.now();
   if(counts >= countsUntilReset) {
