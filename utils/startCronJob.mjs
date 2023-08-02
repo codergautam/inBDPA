@@ -6,19 +6,38 @@ import { schedule } from 'node-cron';
 import fetchDataAndSaveToDB from './refreshDb.mjs';
 
 let lastUpdated = null;
-let countsUntilReset = 3;
+let countsUntilReset = 10;
 let counts = 0;
-fetchDataAndSaveToDB(lastUpdated).then(() => {
+async function wait(ms) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}
+// fetchDataAndSaveToDB(lastUpdated).then(async () => {
+//   counts++;
+//   lastUpdated = Date.now();
+//   if(counts >= countsUntilReset) {
+//     counts = 0;
+//     lastUpdated = null;
+//   }
+// // schedule('*/30 * * * * *', async () => {
+// //   console.log('Refreshing DB');
+// //   await fetchDataAndSaveToDB(lastUpdated);
+// //   lastUpdated = Date.now();
+// // });
+//   await wait(1000);
+// });
+
+async function doIt() {
+  await fetchDataAndSaveToDB(lastUpdated);
   counts++;
   lastUpdated = Date.now();
   if(counts >= countsUntilReset) {
     counts = 0;
     lastUpdated = null;
   }
-schedule('* * * * *', async () => {
-  console.log('Refreshing DB');
-  await fetchDataAndSaveToDB(lastUpdated);
-  lastUpdated = Date.now();
-});
-});
+  await wait(2000);
+  doIt();
+}
 
+doIt();

@@ -29,6 +29,7 @@ async function handler(req, res) {
     let newProf = await findProfile(username)
     if(newProf) {
         let data = await getUser(username);
+        console.log(data)
         data.user.link = newProf.link;
         return res.json({success: true, user: data.user})
     } else {

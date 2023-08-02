@@ -113,8 +113,10 @@ async function getUsers(after, updatedAfter) {
   if (after) {
     url += `?after=${after}`;
   }
-  if (updatedAfter) {
+  if (updatedAfter && after) {
     url += `&updatedAfter=${updatedAfter}`;
+  } else if(updatedAfter) {
+    url += `?updatedAfter=${updatedAfter}`;
   }
   return sendRequest(url, 'GET');
 }
@@ -225,9 +227,7 @@ export async function userExistsAPI(user_id) {
     if(data && data.success && data.user?.user_id) {
       return true
     } else {
-      if(!data || !data?.success) {
-        return {error: true}
-      }
+
       return false;
     }
   } catch (error) {
@@ -242,8 +242,9 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   let stop = false;
   let after = undefined;
   while(!stop) {
+    console.log("Fetching users after", after, lastUpdated);
   let d = await getUsers(after, lastUpdated);
-  // console.log("Fetched", d.users.length, "users");
+  console.log("Fetched", d.users.length, "users");
   if(!d) {
     latestUsers = [];
     break;
@@ -268,8 +269,11 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     for(let user of users) {
       if(!latestUsers.find(u => u.user_id === user.user_id)) {
         // Before removing user make sure they not in the api
+        console.log("Step 1")
         let userexistsInDb = await userExistsAPI(user.user_id);
+        console.log(userexistsInDb);
         if(userexistsInDb || userexistsInDb.error) continue;
+        console.log("Deleting user ", user.username)
         await Profile.deleteOne({ user_id: user.user_id });
 
         try {
@@ -281,103 +285,77 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
     }
   }
   let n = 0;
+  let users = await Profile.find({});
   for(let latestUser of latestUsers) {
     // CHECK IF USER EXISTS
-    n++;
-    let user = await Profile.findOne({ user_id: latestUser.user_id });
-    let existsNeo4j = await userExists(latestUser.user_id);
-    // console.log("Processing "+n+"/"+latestUsers.length)
+    // n++;
+    // let user = await Profile.findOne({ user_id: latestUser.user_id });
+    let user = users.find(u => u.user_id === latestUser.user_id);
+    // let existsNeo4j = await userExists(latestUser.user_id);
+    // // console.log("Processing "+n+"/"+latestUsers.length)
     if(!user) {
-      // CREATE NEW USER
+    //   // CREATE NEW USER
 
-      let userConnections;
-      try {
-       userConnections = await getAllUserConnections(latestUser.user_id);
-      } catch (error) {
-        userConnections = [];
-        console.log("Error while trying to fetch connections for user", latestUser.user_id, latestUser.username);
-      }
+    //   let userConnections;
+    //   try {
+    //    userConnections = await getAllUserConnections(latestUser.user_id);
+    //   } catch (error) {
+    //     userConnections = [];
+    //     console.log("Error while trying to fetch connections for user", latestUser.user_id, latestUser.username);
+    //   }
 
-      await createNewProfile({
-        user_id: latestUser.user_id,
-        username: latestUser.username,
-        link: generateRandomId(),
-        email: latestUser.email,
-        type: latestUser.type,
-        views: latestUser.views,
-        createdAt: latestUser.createdAt,
-        sections: latestUser.sections,
-        connections: userConnections,
-        pfp: 'gravatar'
-      });
+    //   await createNewProfile({
+    //     user_id: latestUser.user_id,
+    //     username: latestUser.username,
+    //     link: generateRandomId(),
+    //     email: latestUser.email,
+    //     type: latestUser.type,
+    //     views: latestUser.views,
+    //     createdAt: latestUser.createdAt,
+    //     sections: latestUser.sections,
+    //     connections: userConnections,
+    //     pfp: 'gravatar'
+    //   });
 
-      try {
-      if(!existsNeo4j) {
-        console.log("Creating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections)
-        await createUser(latestUser.user_id, userConnections);
-      } else {
-        console.log("Updating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections)
-        await updateUser(latestUser.user_id, userConnections);
-      }
-    } catch (error) {
-      console.log("Error while trying to create user in neo4j", latestUser.user_id, latestUser.username);
-    }
+    //   try {
+    //   if(!existsNeo4j) {
+    //     console.log("Creating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections)
+    //     await createUser(latestUser.user_id, userConnections);
+    //   } else {
+    //     console.log("Updating user in neo4j", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections)
+    //     await updateUser(latestUser.user_id, userConnections);
+    //   }
+    // } catch (error) {
+    //   console.log("Error while trying to create user in neo4j", latestUser.user_id, latestUser.username);
+    // }
     } else {
       // console.log("Updating user", latestUser.user_id, latestUser.username);
 
-      let connections;
-      try {
-       connections = await getAllUserConnections(latestUser.user_id);
-      } catch (error) {
-        connections = user.connections ?? [];
-      }
-      if(!user.link) user.link = generateRandomId();
-      user.email = latestUser.email;
-      user.type = latestUser.type;
-      user.views = latestUser.views;
-      user.createdAt = latestUser.createdAt;
-      user.sections = latestUser.sections;
-      user.connections = connections;
+      // let connections;
+      // try {
+      //  connections = await getAllUserConnections(latestUser.user_id);
+      // } catch (error) {
+      //   connections = user.connections ?? [];
+      // }
+      // if(!user.link) user.link = generateRandomId();
+      // user.email = latestUser.email;
+      // console.log(user.username, user.type, latestUser.type)
+      if(user.type!==latestUser.type) {
+
+        console.log("Fixed ",user.username,"'s type!!!")
+        user.type = latestUser.type;
       await user.save();
 
-      try {
-      if(!existsNeo4j) {
-        await createUser(latestUser.user_id, connections);
-      } else {
-        await updateUser(latestUser.user_id, connections);
       }
-    } catch (error) {
-      console.log("Error while trying to set/update user in neo4j", latestUser.user_id, latestUser.username);
-    }
+      // user.type = latestUser.type;
+      // user.views = latestUser.views;
+      // user.createdAt = latestUser.createdAt;
+      // user.sections = latestUser.sections;
+      // user.connections = connections;
+
     }
   }
 
   console.log("Done! Processed "+latestUsers.length+" users in "+(Date.now()-startTime)+"ms ✨");
-  startTime = Date.now();
-  // Process opportunities
-  console.log("Fetching opportunities from HSCC API...");
-  let latestOpportunities = await getAllOpportunities(lastUpdated);
-  if(latestOpportunities && latestOpportunities.length > 0) {
-  console.log("Updating database...", latestOpportunities.length, "opportunities");
-  startTime = Date.now();
-  for(let latestOpportunity of latestOpportunities) {
-    // Update opportunity in MongoDB
 
-    await updateOpportunityMongo(latestOpportunity.opportunity_id, latestOpportunity);
-  }
-
-  if(!lastUpdated) {
-    // Remove opportunities that were not updated
-    let opportunities = await Opportunity.find({});
-    for(let opportunity of opportunities) {
-      if(!latestOpportunities.find(o => o.opportunity_id === opportunity.opportunity_id)) {
-        console.log("Removing opportunity", opportunity.opportunity_id, opportunity.title);
-        await deleteOpportunityMongo(opportunity.opportunity_id);
-      }
-    }
-  }
-  console.log("Done! Processed "+latestOpportunities.length+" opportunities in "+(Date.now()-startTime)+"ms ✨");
-  } else {
-    console.log("No opportunities found to update");
-  }
 }
