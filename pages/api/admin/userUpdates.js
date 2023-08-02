@@ -12,7 +12,7 @@
 // - If the user's refreshSession flag is set, it updates the user's type in the session and sets shouldRefresh to true.
 // - If the user must be forced to logout but impersonation is occurring, it stores the administrator's user details in the session and returns a JSON response with the updated data.
 // - If the user exists, it returns a JSON response with the forceLogout value and shouldRefresh flag.
-import { setForceLogout, getUser, getUserFromMongo } from "@/utils/api";
+import { setForceLogout, getUser, getUserFromMongo, refreshSession } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 
 import { ironOptions } from "@/utils/ironConfig";
