@@ -10,6 +10,7 @@
 // Overall, this code provides a mechanism for making API requests to the inBDPA API while ensuring that the request rate is controlled.
 import fetch from 'node-fetch';
 import { config } from 'dotenv';
+import msToTime from '../msToTime';
 config()
 
 export const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
