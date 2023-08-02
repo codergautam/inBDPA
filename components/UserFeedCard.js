@@ -14,7 +14,7 @@ export default function UserFeedCard({ item }) {
   const router = useRouter();
   return (
     <Link href={`/profile/${item.link}`} passHref>
-      <div className="p-6 flex rounded-lg flex-col items-start justify-start">
+      <div className="p-6 flex rounded-lg flex-col items-start justify-start w-full">
         <img
           src={
             item.pfp === "gravatar"
@@ -24,7 +24,7 @@ export default function UserFeedCard({ item }) {
           alt={item.username}
           className="w-10 h-10 rounded-full mr-4"
         />
-        <div className="">
+        <div className="w-full">
           <div className="flex align-baseline mb-2 items-center">
             <h2 className="text-lg font-semibold">{item.username}</h2>
             {!item.isConnected ? (
@@ -56,7 +56,7 @@ export default function UserFeedCard({ item }) {
               </button>
             ) : null}
           </div>
-          <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-all text-clip w-full">
+          <p className="text-gray-600 dark:text-gray-400 mb-2 mr-8 break-words w-full">
             {item.sections.about.length > 200
               ? item.sections.about.substring(0, 200) + "..."
               : item.sections.about}
