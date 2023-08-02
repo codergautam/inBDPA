@@ -6,7 +6,7 @@ import { schedule } from 'node-cron';
 import fetchDataAndSaveToDB from './refreshDb.mjs';
 
 let lastUpdated = null;
-let countsUntilReset = 10;
+let countsUntilReset = 3;
 let counts = 0;
 async function wait(ms) {
   return new Promise((resolve) => {
@@ -36,7 +36,7 @@ async function doIt() {
     counts = 0;
     lastUpdated = null;
   }
-  await wait(2000);
+  await wait(3000);
   doIt();
 }
 
