@@ -22,7 +22,7 @@ import { setUserBanner, setUserPfp, getUserBanner, getUserPfp, getUserPfpAndBann
 import { increaseOpportunityViewCountMongo, increaseViewCountMongo } from './mongo/viewCountHelpers';
 import getUserFromMongo from './mongo/getUserFromMongo';
 import getManyUsersFast from './mongo/getManyUsersFast';
-import getProfileIdFromUserId from './mongo/getProfileIdFromUserid';
+import getProfileIdFromUserId from './mongo/getProfileIdFromUserId';
 
 // Misc Imports
 import { refreshSession, setForceLogout, changeUserPassword, incrementOpportunityViews, incrementUserViews, loginUser } from './misc/miscHelpers';
