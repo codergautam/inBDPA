@@ -79,7 +79,17 @@ const handleScroll = debounce(() => {
 }, 100);
 
 useEffect(() => {
-  loadOpportunities(true);
+  const loadInitialOpportunities = async () => {
+    await loadOpportunities(true);
+    // Check if the document height is less than or equal to the window height
+    console.log(document.documentElement.scrollHeight, window.innerHeight)
+    if (document.documentElement.scrollHeight <= window.innerHeight) {
+      // Load more opportunities as the screen is not filled
+      await loadOpportunities();
+    }
+  }
+  loadInitialOpportunities();
+
   window.addEventListener('scroll', () => {
     setLoading(true)
     handleScroll();
@@ -88,6 +98,7 @@ useEffect(() => {
     window.removeEventListener('scroll', handleScroll);
   };
 }, []);
+
 
 
 

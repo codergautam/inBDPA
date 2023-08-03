@@ -101,9 +101,11 @@ async function sendRequest(url, method, body = null) {
     });
     return response.data;
   } catch (error) {
+    console.log('Error while trying to send request: ', error);
     return false;
   }
 } catch (error) {
+  console.log("Error while trying to send request: ", error);
   return false;
 }
 }
@@ -113,8 +115,10 @@ async function getUsers(after, updatedAfter) {
   if (after) {
     url += `?after=${after}`;
   }
-  if (updatedAfter) {
+  if (updatedAfter && after) {
     url += `&updatedAfter=${updatedAfter}`;
+  } else  if(updatedAfter) {
+    url += `?updatedAfter=${updatedAfter}`
   }
   return sendRequest(url, 'GET');
 }
@@ -225,9 +229,10 @@ export async function userExistsAPI(user_id) {
     if(data && data.success && data.user?.user_id) {
       return true
     } else {
-      if(!data || !data?.success) {
-        return {error: true}
-      }
+      console.log(userExistsAPI(user_id))
+      // if(!data || !data?.success) {
+      //   return {error: true}
+      // }
       return false;
     }
   } catch (error) {
@@ -243,7 +248,8 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   let after = undefined;
   while(!stop) {
   let d = await getUsers(after, lastUpdated);
-  // console.log("Fetched", d.users.length, "users");
+  // console.log(d)
+  console.log("Fetched", d.users.length, "users");
   if(!d) {
     latestUsers = [];
     break;
@@ -259,7 +265,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   }
   // Reverse so that new users are first
   latestUsers.reverse()
-
+  console.log(latestUsers)
   console.log("Updating database...", latestUsers.length, "users");
   let startTime = Date.now();
   if(!lastUpdated) {
