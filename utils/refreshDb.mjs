@@ -244,6 +244,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   while(!stop) {
     console.log("Fetching users after", after, lastUpdated);
   let d = await getUsers(after, lastUpdated);
+  if(!d.users) break;
   console.log("Fetched", d.users.length, "users");
   if(!d) {
     latestUsers = [];
