@@ -110,14 +110,8 @@ export async function deleteUser(user_id) {
   const session = driver.session();
 
   try {
-    // First, delete all existing connections.
-    let query = 'MATCH (a:User {id: $user_id})-[r:CONNECTS_TO]->() DELETE r';
-    let params = { user_id };
-
-    await session.run(query, params);
-
     // Then, delete the user itself.
-    query = 'MATCH (a:User {id: $user_id}) DELETE a';
+    query = 'MATCH (a:User {id: $user_id}) DETACH DELETE a';
     await session.run(query, params);
 
   } catch (error) {
@@ -197,4 +191,3 @@ export async function findConnectionDepth(user_id1, user_id2) {
 
   return depth;
 }
-
