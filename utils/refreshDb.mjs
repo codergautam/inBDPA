@@ -242,8 +242,10 @@ export async function userExistsAPI(user_id) {
 }
 
 export default async function fetchDataAndSaveToDB(lastUpdated) {
+  try {
   console.log("Fetching data from HSCC API...");
   let latestUsers = [];
+  await userExists('0')
   let stop = false;
   let after = undefined;
   while(!stop) {
@@ -386,4 +388,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   } else {
     console.log("No opportunities found to update");
   }
+} catch (error) {
+  console.log("Error while trying to fetch data from HSCC API", error);
+}
 }
