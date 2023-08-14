@@ -239,6 +239,8 @@ export async function userExistsAPI(user_id) {
 export default async function fetchDataAndSaveToDB(lastUpdated) {
   try {
   console.log("Fetching data from HSCC API...");
+  // Prevent neo4j crash
+  await userExists('0')
   let latestUsers = [];
   let stop = false;
   let after = undefined;
