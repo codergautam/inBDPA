@@ -229,7 +229,7 @@ export async function userExistsAPI(user_id) {
     if(data && data.success && data.user?.user_id) {
       return true
     } else {
-      console.log(userExistsAPI(user_id))
+      // console.log(userExistsAPI(user_id))
       // if(!data || !data?.success) {
       //   return {error: true}
       // }
@@ -267,7 +267,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   }
   // Reverse so that new users are first
   latestUsers.reverse()
-  console.log(latestUsers)
+  // console.log(latestUsers)
   console.log("Updating database...", latestUsers.length, "users");
   let startTime = Date.now();
   if(!lastUpdated) {
@@ -278,6 +278,8 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
         // Before removing user make sure they not in the api
         let userexistsInDb = await userExistsAPI(user.user_id);
         if(userexistsInDb || userexistsInDb.error) continue;
+        console.log("Removing ", user.user_id, user.username,"from cache")
+
         await Profile.deleteOne({ user_id: user.user_id });
 
         try {
@@ -305,6 +307,8 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
         userConnections = [];
         console.log("Error while trying to fetch connections for user", latestUser.user_id, latestUser.username);
       }
+      console.log("Creating user", latestUser.user_id, latestUser.username, userConnections.length ?? userConnections, "in Mongo")
+
 
       await createNewProfile({
         user_id: latestUser.user_id,
@@ -331,7 +335,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       console.log("Error while trying to create user in neo4j", latestUser.user_id, latestUser.username);
     }
     } else {
-      // console.log("Updating user", latestUser.user_id, latestUser.username);
+      console.log("Updating user", latestUser.user_id, latestUser.username, user.connections.length);
 
       let connections;
       try {
@@ -350,8 +354,12 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
 
       try {
       if(!existsNeo4j) {
+      console.log("Creating user", latestUser.user_id, latestUser.username, connections.length, "in neo4j")
+
         await createUser(latestUser.user_id, connections);
       } else {
+      console.log("Updating user", latestUser.user_id, latestUser.username, connections.length, "in neo4j")
+
         await updateUser(latestUser.user_id, connections);
       }
     } catch (error) {
