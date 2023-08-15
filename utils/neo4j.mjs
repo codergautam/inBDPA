@@ -191,3 +191,15 @@ export async function findConnectionDepth(user_id1, user_id2) {
 
   return depth;
 }
+
+export async function deleteAllUsers() {
+  const session = driver.session();
+
+  try {
+    await session.run('MATCH (a:User) DETACH DELETE a');
+  } catch (error) {
+    console.error('Error deleting all users:', error);
+  } finally {
+    await session.close();
+  }
+}

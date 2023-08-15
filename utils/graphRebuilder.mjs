@@ -4,7 +4,7 @@
 import axios from 'axios';
 import {config } from 'dotenv';
 import mongoose from 'mongoose';
-import { createUser, deleteUser, updateUser, userExists } from './neo4j.mjs';
+import { createUser, deleteAllUsers, deleteUser, updateUser, userExists } from './neo4j.mjs';
 config();
 
 
@@ -241,10 +241,11 @@ export async function userExistsAPI(user_id) {
   }
 }
 
-export default async function fetchDataAndSaveToDB(lastUpdated) {
-  let usersMongo = await Profile.find();
-  usersMongo.forEach(async (user) => {
-    await createUser(user.user_id, user.connections)
-    console.log(user.username, user.user_id, user.connections)
-  });
+export default async function fetchDataAndSaveToDB() {
+  await deleteAllUsers();
+  // let usersMongo = await Profile.find();
+  // usersMongo.forEach(async (user) => {
+  //   await createUser(user.user_id, user.connections)
+  //   console.log(user.username, user.user_id, user.connections)
+  // });
 }
