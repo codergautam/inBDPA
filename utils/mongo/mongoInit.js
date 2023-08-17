@@ -68,6 +68,9 @@ const articleSchema = new mongoose.Schema({
   views: Number,
   createdAt: Number,
   content: String,
+  keywords: [String],
+  activeSessions: Number,
+  lastUpdatedActive: Date
 });
 const Article = mongoose.models.Article ?? mongoose.model('Article', articleSchema);
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);

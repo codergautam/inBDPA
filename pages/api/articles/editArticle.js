@@ -9,12 +9,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
  async function handler(req, res) {
 
-  if(req.session.user.type == "inner") {
-    return res.json({success: false, message: "smh, inners :(", error: "Unauthorized"})
-  }
-
-
-  const { article_id, title, contents } = req.body
+  const { article_id, title, contents, keywords } = req.body
   const user = req.session.user;
   if(!user) {
     return res.json({success: false, error: "Not logged in"});
@@ -38,9 +33,9 @@ export default withIronSessionApiRoute(handler, ironOptions);
     return res.json({success: false, error: "Unauthorized"})
   }
 
-  let data = await updateArticle(article_id, {title, contents});
+  let data = await updateArticle(article_id, {title, contents, keywords});
   if(data.success) {
-  await updateArticleMongo(article_id, {title, content: contents}, true);
+  await updateArticleMongo(article_id, {title, content: contents, keywords}, true);
   }
   res.json(data);
 }

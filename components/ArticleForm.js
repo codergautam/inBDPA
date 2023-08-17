@@ -3,14 +3,15 @@
 import dynamic from 'next/dynamic';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import KeywordAdder from './KeywordChooser';
 const MDEditor = dynamic(
   () => import("@uiw/react-md-editor"),
   { ssr: false, loading: () => <div className="flex items-center justify-center py-12"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div></div>  }
 );
 
-function ArticlesForm({ editingArticles, handleFormSubmit, title, setTitle, value, setValue, handleClose, submitting }) {
-  const formTitle = editingArticles ? "Edit Articles" : "Create Articles";
-  const buttonText = submitting ? (editingArticles ? "Completing Edits.." : "Creating Articles..") : (editingArticles ? "Complete Edits" : "Create Articles");
+function ArticlesForm({ editingArticles, handleFormSubmit, title, setTitle, value, setValue, handleClose, submitting, keywords, setKeywords }) {
+  const formTitle = editingArticles ? "Edit Article" : "Create Article";
+  const buttonText = submitting ? (editingArticles ? "Completing Edits.." : "Creating Articles..") : (editingArticles ? "Complete Edits" : "Create Article");
   const [mdEditorMode, setMdEditorMode] = useState('live');
   const [aiModalOpen, setAiModalOpen] = useState(false);
   const [aiPrompt, setAiPrompt] = useState('');
@@ -117,7 +118,7 @@ function ArticlesForm({ editingArticles, handleFormSubmit, title, setTitle, valu
       <div className="inline-block align-bottom bg-white dark:bg-gray-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
         <div className="bg-white dark:bg-gray-800 px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
         <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-gray-100" id="modal-title">
-                How do you want to improve your articles?
+                How do you want to improve your article?
               </h3>
           <div className="sm:flex sm:items-start">
 
@@ -215,6 +216,8 @@ function ArticlesForm({ editingArticles, handleFormSubmit, title, setTitle, valu
           maxLength: 3000,
         }}
       />
+
+      <KeywordAdder keywords={keywords} setKeywords={setKeywords} />
 
       <button
         onClick={handleFormSubmit}

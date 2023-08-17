@@ -100,6 +100,9 @@ const articleSchema = new mongoose.Schema({
   views: Number,
   createdAt: Number,
   content: String,
+  keywords: [String],
+  activeSessions: Number,
+  lastUpdatedActive: Date
 });
 
 const Opportunity = mongoose.models.Opportunity ?? mongoose.model('Opportunity', opportunitySchema);

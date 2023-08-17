@@ -1,13 +1,4 @@
-// pages/api/feed.js
-// This file is for the API route that handles the feed data for the inBDPA project. It imports necessary functions from the "utils/api" file and the "iron-session/next" package. It also imports the ironOptions object from "utils/ironConfig" and the md5 function from the "blueimp-md5" package.
-// The API route is exported as a withIronSessionApiRoute higher-order function, which provides session management for the route.
-// The main handler function is defined, which processes the incoming request and generates the feed data.
-// There are validation checks to ensure that the request method is POST and the user is logged in.
-// The feed data is fetched from the database using the getAllOpportunitiesMongo and getManyUsersFast functions, and then sorted and transformed according to certain conditions.
-// There is also functionality to paginate the feed data based on the "last" parameter in the request body.
-// The final feed data is limited to 10 items and returned as a JSON response.
-// If an error occurs during the process, an error message is returned in the response.
-import { countSessionsForOpportunity, getAllOpportunitiesMongo, getManyUsersFast, getOpportunities } from "@/utils/api";
+import { countSessionsForArticle, countSessionsForOpportunity, getAllArticlesMongo, getAllOpportunitiesMongo, getManyUsersFast, getOpportunities, getUserFromMongo } from "@/utils/api";
 import { withIronSessionApiRoute } from "iron-session/next";
 
 import { ironOptions } from "@/utils/ironConfig";
@@ -27,9 +18,26 @@ export default withIronSessionApiRoute(handler, ironOptions);
     return res.json({success: false, error: "Not logged in"});
   }
 
+  let myFirstDegreeConnections = (await getUserFromMongo(req.session.user.id))?.connections ?? [];
+  myFirstDegreeConnections = [...myFirstDegreeConnections, req.session.user.id];
   const { last } = req.body;
   try {
   let stuff = [...(await getAllOpportunitiesMongo()).map((e)=>e.toObject()), ...Object.values(await getManyUsersFast(null, true))];
+  let articles = await getAllArticlesMongo();
+  articles = articles.filter((e) => myFirstDegreeConnections.includes(e.creator_id)).map((e) => {return {
+    type: "article",
+    ...e.toObject(),
+  }});
+  await Promise.all(articles.map(async (article) => {
+    try {
+    const active = (await countSessionsForArticle(article.article_id)).active
+    return {...article, activeSessions: active}
+    } catch(e) {
+      console.log(e);
+      return article;
+    }
+  }));
+  stuff = [...stuff, ...articles];
   // Sort by createdAt
   stuff = stuff.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
@@ -46,7 +54,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
     }
     return {
       ...e,
-      type: "opportunity"
+      type: e.type === "article" ? "article" : "opportunity"
     }
   }).filter((e) => {
     if(e.user_id) {
@@ -55,7 +63,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
     return true;
   })
   if(last) {
-    let lastIndex = stuff.findIndex((item) => item.opportunity_id === last || item.user_id === last);
+    let lastIndex = stuff.findIndex((item) => item.opportunity_id === last || item.user_id === last || item.article_id === last);
     if(lastIndex > -1) {
     stuff = stuff.slice(lastIndex+1);
     }

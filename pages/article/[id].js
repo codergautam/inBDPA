@@ -48,6 +48,7 @@ export default function Article({user, article, activeSessions}) {
     const [editingArticle, setEditingArticle] = useState(null)
     const [value, setValue] = useState("");
     const [title, setTitle] = useState("")
+    const [keywords, setKeywords] = useState([]);
     const [parsedContent, setParsedContent] = useState("");
     const [formSubmitting, setFormSubmitting] = useState(false);
 
@@ -82,7 +83,7 @@ export default function Article({user, article, activeSessions}) {
         })
       }).then(res => res.json());
       if(data.success) {
-        router.push("/articles")
+        router.push("/")
         return
       } else {
         alert("Failed to delete article...")
@@ -104,7 +105,8 @@ export default function Article({user, article, activeSessions}) {
         body: JSON.stringify({
           article_id: editingArticle.article_id,
           title: title,
-          contents: value
+          contents: value,
+          keywords: keywords
         })
       }).then(res => res.json())
       setFormSubmitting(false);
@@ -123,7 +125,10 @@ export default function Article({user, article, activeSessions}) {
     return (
       <section className="text-black bg-white dark:bg-gray-800 flex flex-col min-h-screen">
   <div className="bg-gray-100 dark:bg-gray-800">
-    <Head></Head>
+    <Head>
+        <title>{article && article.title ? article.title : "inBDPA Articles"}</title>
+
+    </Head>
     <Navbar user={user}></Navbar>
     </div>
 
@@ -131,7 +136,7 @@ export default function Article({user, article, activeSessions}) {
           <div className="flex flex-col items-center justify-center h-screen bg-gray-100 dark:bg-gray-800">
           <p className="text-4xl text-gray-800 dark:text-white font-bold mb-8">{article?.error ?? "Article not found"}</p>
           <Link
-            href="/articles"
+            href="/"
             className="text-lg text-gray-800 dark:text-white font-semibold py-2 px-6 bg-blue-500 hover:bg-blue-600 rounded transition duration-200 ease-in-out"
           >
             Go back
@@ -152,7 +157,7 @@ export default function Article({user, article, activeSessions}) {
               isOpen={!!editingArticle}
               contentLabel="Edit Article"
             >
-              <ArticleForm title={title} setTitle={setTitle} value={value} setValue={setValue} handleFormSubmit={editArticle} handleClose={() => setEditingArticle(null)} editingArticles={true} submitting={formSubmitting}/>
+              <ArticleForm title={title} setTitle={setTitle} value={value} setValue={setValue} handleFormSubmit={editArticle} handleClose={() => setEditingArticle(null)} editingArticles={true} submitting={formSubmitting} keywords={keywords} setKeywords={setKeywords}/>
             </Modal>
             <div className="bg-gray-100 dark:bg-gray-700 p-12 rounded-md">
             <p className="text-l sm:text-xl md:text-2xl lg:text-3xl text-center font-bold text-gray-800 dark:text-white break-words">
@@ -160,14 +165,22 @@ export default function Article({user, article, activeSessions}) {
               {article.title}
             </p>
             <p className="flex text-gray-600 dark:text-gray-100 text-lg w-min min-w-max mx-auto mt-2 space-x-2">
-  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 rounded-xl">
+  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-lg font-medium text-gray-800 dark:text-gray-200 rounded-xl">
    Views: {views}
   </span>
-  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-sm font-medium text-gray-800 dark:text-gray-200 rounded-xl">
+  <span className="inline-flex items-center px-2.5 py-1.5 bg-gray-200 dark:bg-gray-800 text-lg font-medium text-gray-800 dark:text-gray-200 rounded-xl">
     Active Viewers:  {isNaN(active) ? active : Math.max(active, 1)}
 
   </span>
 </p>
+<div className="flex flex-row flex-wrap justify-center  dark:text-gray-100 w-full mx-auto mt-2 space-x-2">
+  {article.keywords.map((keyword, index) => (
+    <span key={index} className="items-center px-2.5 mt-2 py-1.5 bg-gray-200 dark:bg-gray-800 text-md font-medium text-gray-800 dark:text-gray-200 rounded-xl">
+      {keyword}
+    </span>
+  ))}
+</div>
+
 
             {article.creator_id == user.id ? (
               <div className='flex space-x-2 mt-2 mx-auto w-min min-w-max'>
@@ -178,6 +191,7 @@ export default function Article({user, article, activeSessions}) {
                   setEditingArticle(article)
                   setTitle(article.title)
                   setValue(article.contents)
+                  setKeywords(article.keywords)
                 }} className="cursor-pointer rounded-md flex bg-orange-600 hover:bg-orange-500 p-1 text-orange-50 transition duration-300 ease-in-out">
                   Edit <FontAwesomeIcon className="text-white w-4 h-4 my-auto ml-1" icon={faPenNib} />
                 </span>

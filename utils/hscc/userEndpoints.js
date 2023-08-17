@@ -41,6 +41,7 @@ export async function getUsers(after = null, updatedAfter = null) {
 }
 
 export async function createUser(user) {
+  console.log("Creating user: ", user);
   const url = `${BASE_URL}/users`;
 
   let res = await sendRequest(url, 'POST', user);

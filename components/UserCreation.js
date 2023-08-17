@@ -18,6 +18,7 @@ export default function UserCreation() {
   let types = ["inner", "staff", "administrator"];
   const [type, setType] = useState(types[0]);
   const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("");
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [showingForm, setShowingForm] = useState(false);
@@ -41,6 +42,7 @@ export default function UserCreation() {
       password,
       type: type == "admin" ? "administrator" : type,
       changeUser: false,
+      fullName
     };
 
     let res = await fetch("/api/auth/signup", {
@@ -58,6 +60,7 @@ export default function UserCreation() {
         setShowingForm(false);
         setUsername("");
         setPassword("");
+        setFullName("");
         setType(types[0]);
         setEmail("");
         setTimeout(() => {
@@ -91,6 +94,13 @@ export default function UserCreation() {
             Create a New User
           </p>
           <div className="w-5/6">
+          <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Full Name:</label>
+            <input
+              onChange={(e) => setFullName(e.target.value)}
+              value={fullName}
+              className="bg-transparent text-black border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"
+              type="text"
+            />
             <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Username:</label>
             <input
               onChange={(e) => setUsername(e.target.value)}
