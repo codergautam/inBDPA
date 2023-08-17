@@ -118,7 +118,7 @@ const handleRouteChangeStart = async (url, first=false) => {
     method: 'POST',
     body: JSON.stringify({
       view: parseUrl(url)[0],
-      viewed_id: parseUrl(url)[1],
+      viewed_id: ["opportunity", "profile", "article"].includes(parseUrl(url)[1]) ? parseUrl(url)[1] : null,
       user_id: pageProps.user ? pageProps.user.id : null,
     })
   });
