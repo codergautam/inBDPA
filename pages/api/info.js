@@ -4,7 +4,7 @@
 // The handler function is an async function that handles the API request. It first checks if the user type is "administrator", if not it returns an error response. Then it calls the getInfo function to fetch the data and sends it back as a JSON response.
 //
 // Overall, this file sets up an API route for retrieving information with iron session authentication.
-import { getAllSessions, getInfo, getOpportunityMongo, getProfileIdFromUserId, getUser, getUserFromMongo, getUserFromProfileId } from "@/utils/api";
+import { getAllSessions, getArticle, getArticleMongo, getInfo, getOpportunityMongo, getProfileIdFromUserId, getUser, getUserFromMongo, getUserFromProfileId } from "@/utils/api";
 import { ironOptions } from "@/utils/ironConfig";
 import { withIronSessionApiRoute } from "iron-session/next";
 import { getOpportunity } from "@/utils/api";
@@ -19,6 +19,7 @@ async function handler(req, res) {
     data.info.sessionCount = data.info.sessions
     let sessionList = await getAllSessions();
     sessionList = sessionList.sessions
+    // console.log(sessionList.splice(0,5))
     let userList = []
     for(let i = 0; i<sessionList.length; i++) {
         let session = sessionList[i]
@@ -39,15 +40,32 @@ async function handler(req, res) {
                 session.link = `/profile/${link}`
                 break;
             case "article":
+                let articleViewedId = session.viewed_id
+                console.log(`Article ID: ${articleViewedId}`)
+                if(!articleViewedId) {
+                    session.link = `/`
+                    session.message = `is on the articles page`
+                } else {
+                    let art = await getArticleMongo(articleViewedId)
+                    if(!art) art = (await getArticle(articleViewedId)).article
+                    console.log("article: ", art)
+                    session.link = `/article/${articleViewedId}`
+                    session.message = `is looking at an article: ${art.title}`
+                }
                 break;
             case "opportunity":
                 let opportunityViewId = session.viewed_id
                 console.log(`Opp ID: ${opportunityViewId}`)
-                let opp = await getOpportunityMongo(opportunityViewId)
-                if(!opp) opp = (await getOpportunity(opportunityViewId)).opportunity
-                session.link = `/opportunity/${opportunityViewId}`
-                session.message = `is looking at an opportunity: ${opp.title}`
-                console.log("opp: ", opp)
+                if(!opportunityViewId) {
+                    session.link = `/opportunities`
+                    session.message = `is on the opportunities page`
+                } else {
+                    let opp = await getOpportunityMongo(opportunityViewId)
+                    if(!opp) opp = (await getOpportunity(opportunityViewId)).opportunity
+                    console.log("opp: ", opp)
+                    session.link = `/opportunity/${opportunityViewId}`
+                    session.message = `is looking at an opportunity: ${opp.title}`
+                }
                 break;
             case "admin":
                 session.message = "is on the admin page"

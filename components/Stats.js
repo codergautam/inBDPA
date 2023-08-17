@@ -71,6 +71,8 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
   const [open, setOpen] = useState(false)
   const [userList, setUserList] = useState(listOfUsers)
   const [sessionList, setSessionList] = useState(sessions)
+  const [filteredResults, setFilteredResults] = useState(listOfUsers)
+
   const router = useRouter()
   useEffect(() => {
     setUserList(listOfUsers)
@@ -83,6 +85,10 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
 
   const properLink = session => {
     console.log(session)
+  }
+
+  const matchesQuery = (user, session) => {
+    
   }
 
   return (
@@ -129,12 +135,14 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
                           A Guest
                         </span>
                       }
-                      <p className="text-xs text-gray-400 font-semibold">
+                      <Link className="group" href={session.link}>
+                      <p className="text-xs group-hover:text-blue-500 transition duration-300 ease-in-out text-gray-400 font-semibold">
                         {session.view} view
                       </p>
-                      <p className="text-xs text-gray-400 font-semibold">
+                      <p className="text-xs group-hover:text-blue-500 transition duration-300 ease-in-out text-gray-400 font-semibold">
                         {session.message}
                       </p>
+                      </Link>
                     </div>
                   </div>
                 ))
