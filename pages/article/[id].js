@@ -156,6 +156,7 @@ export default function Article({user, article, activeSessions}) {
             <Modal
               isOpen={!!editingArticle}
               contentLabel="Edit Article"
+              className={"p-0 m-20 bg-gray-800"}
             >
               <ArticleForm title={title} setTitle={setTitle} value={value} setValue={setValue} handleFormSubmit={editArticle} handleClose={() => setEditingArticle(null)} editingArticles={true} submitting={formSubmitting} keywords={keywords} setKeywords={setKeywords}/>
             </Modal>
