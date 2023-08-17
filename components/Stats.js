@@ -150,7 +150,7 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
   }, [username, email, auth, view, userId])
 
   const views = [
-    "home", 
+    "home",
     "profile",
     "opportunity",
     "auth",
@@ -185,12 +185,12 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
             </> }
           </button>
           {
-            open && sessionList.length > 0 ? 
+            open && sessionList.length > 0 ?
             <div className="flex w-full gap-2">
             <div className="flex w-3/4 px-2 overflow-y-auto max-h-52 flex-col space-y-2">
               {
                 sessionList.map((session, i) => (
-                  <div className={`flex ${session.matchesQuery ? "opacity-100" : "opacity-20"} text-start bg-gray-600 rounded`}>
+                  <div key={`huh${i}`} className={`flex ${session.matchesQuery ? "opacity-100" : "opacity-20"} text-start bg-gray-600 rounded`}>
                     <div className="flex-col w-11/12 px-2 py-1">
                       {
                         userList[i] ?
@@ -233,8 +233,8 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
               </select>
               <select value={view} onChange={(e) => setView(e.target.value)} name="" id="" className="bg-transparent outline-none border-b-2 pb-0.5 text-white border-gray-400" >
                 <option className="text-black" value={null}>No Specific View</option>
-                {views.map((view) => (
-                    <option className="text-black" value={view}>{view}</option>
+                {views.map((view,i) => (
+                    <option key={`op${i}`} className="text-black" value={view}>{view}</option>
                 ))}
               </select>
             </div>
