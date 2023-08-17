@@ -10,7 +10,7 @@
 // The `countSessionsForUser` function sends a GET request to the `/sessions/count-for/user/{userId}` endpoint to count the number of sessions for a specific user.
 //
 // The `countSessionsForOpportunity` function counts the number of sessions for a specific opportunity. It first checks if the `activeSessions` property exists in the Opportunity model in MongoDB and if the time range since the last update is within a minute. If so, it returns the cached value. Otherwise, it falls back to making a request to the `/sessions/count-for/opportunity/{opportunityId}` endpoint, updates the `activeSessions` and `lastUpdatedActive` fields in the Opportunity model, and returns the original request.
-import { Opportunity } from "../mongo/mongoInit";
+import { Article, Opportunity } from "../mongo/mongoInit";
 import { BASE_URL, sendRequest } from "./hsccInit";
 
 export async function createSession(session) {
@@ -72,6 +72,40 @@ export async function countSessionsForOpportunity(opportunityId) {
 
   // Refetch and make sure its set
   opp = await Opportunity.findOne({opportunity_id: opportunityId})
+
+  console.log("Fallback session count: ", opp.activeSessions)
+  //Return original request
+  return { active: sessionCount }
+}
+
+export async function countSessionsForArticle(articleId) {
+  const minutes = 20/60 //Yeah, 1 min refresh
+  let opp = await Article.findOne({article_id: articleId})
+  //Check for if the activeSessions prop actually exists and then whether is a valid time range
+  if(Number.isInteger(opp?.activeSessions) && (Date.now() - new Date(opp.lastUpdatedActive).getTime()) < (Math.pow(10, 3) * minutes * 60)) {
+    console.log("Cached session count: ", opp.activeSessions)
+    return { active: opp.activeSessions }
+  }
+
+  //Fallback
+  const url = `${BASE_URL}/articles/${articleId}`;
+  let res = await sendRequest(url, 'GET');
+
+  console.log("Fetched article: ", res)
+  if(!res || !res.success || !res.article) return {success: false, error: "Could not fetch article"}
+
+  let sessionCount = res.article.sessions;
+  console.log("Session count: ", sessionCount)
+  //Update Mongo
+  await Article.updateOne({article_id: articleId}, {
+    $set: {
+      activeSessions: sessionCount,
+      lastUpdatedActive: Date.now()
+    }
+  })
+
+  // Refetch and make sure its set
+  opp = await Article.findOne({article_id: articleId})
 
   console.log("Fallback session count: ", opp.activeSessions)
   //Return original request

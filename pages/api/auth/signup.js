@@ -54,10 +54,10 @@ import { getIronOptions } from "@/utils/ironConfig";
     return res.send({ error: "Username cannot contain special characters" });
   }
 
-  if(fullName > 64) {
-    return res.send({ error: "Full name must be at most 64 characters" });
-  } else if(fullName < 4) {
-    return res.send({ error: "Full name must be at least 4 characters" });
+  if(fullName > 30) {
+    return res.send({ error: "Full name must be at most 30 characters" });
+  } else if(fullName < 1) {
+    return res.send({ error: "Full name must be at least 1 characters" });
   }
 
   const { key, salt } = await encryptPassword(password);
