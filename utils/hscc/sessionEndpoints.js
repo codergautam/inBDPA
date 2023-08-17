@@ -40,7 +40,6 @@ export async function countSessionsForUser(userId) {
 }
 
 export async function countSessionsForOpportunity(opportunityId) {
-  console.log("HAIL HITLERRRRRRRR")
   const minutes = 20/60 //Yeah, 1 min refresh
   let opp = await Opportunity.findOne({opportunity_id: opportunityId})
   //Check for if the activeSessions prop actually exists and then whether is a valid time range
