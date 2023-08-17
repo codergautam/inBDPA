@@ -228,7 +228,7 @@ export default function Page({
             {
               user ?
               <h1 className="text-xs mt-2 w-min min-w-max text-center mx-auto flex items-center group font-semibold text-gray-700 semism:text-sm break-words dark:text-gray-400">
-                  Edit your full name by hovering over the text
+                  Edit your full name or email by hovering over the text
               </h1>  : <></>
             }
             {user ? 
@@ -257,9 +257,11 @@ export default function Page({
                 console.log(data)
                 if (data.success) {
                   // Redirect to the new link
-                  console.log(r)
-                  await router.push(`/profile/${link}`)
+                  let copy = r
+                  copy.fullName = newFullName
                   setEditingFullName(false)
+                  setRequestedUser(copy)
+                  // await router.push(`/profile/${link}`)
                 } else {
                   alert(`Something went wrong, ${data.error}`)
                   setEditingFullName(false)
@@ -272,11 +274,21 @@ export default function Page({
             onChange={(e) => setNewFullName(e.target.value)}
             className="border-b-2 outline-none dark:text-white text-black bg-transparent pb-1 mt-2"
           />
+          <div className="flex space-x-2 w-full">
           <button
-                      className="px-4 py-2 text-white w-min min-w-max mx-auto bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
+                      className="px-4 py-2 text-white w-min min-w-max bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
            type="submit">
             Submit
           </button>
+          <button
+            className="px-4 py-2 w-min min-w-max text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 rounded-md duration-200 ease-in-out transition"
+            onClick={(e) => {
+              setNewFullName(r.fullName)
+              setEditingFullName(false)
+            }}>
+            Cancel
+          </button>
+          </div>
               </form>
             }
             </> : <></>}
@@ -286,46 +298,59 @@ export default function Page({
             {user ? 
             <>
             {
-              !editingEmailName  ?
-              
-            <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
-            Email: {JSON.stringify(requestedUser)}
-          </h1> : <form onSubmit={async e => {
+              !editingeEmail && r.email  ?
+              <button onClick={() => setEditingEmail(true)} className="hover:text-white duration-300 transition ease-in-out">
+                <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400 hover:text-white duration-300 transition ease-in-out">
+                  Email: {r.email}
+                </h1>
+              </button> : <form onSubmit={async e => {
                 e.preventDefault()
                 console.log(user)
-                let data = await fetch("/api/changeFullName", {
+                let data = await fetch("/api/changeEmail", {
                   method: "POST",
                   headers: {
                     "Content-Type": "application/json",
                   },
                   body: JSON.stringify({
-                    fullName: newFullName,
+                    newEmail,
                     user_id: user.id
                   })
                 }).then(res => res.json())
                 console.log(data)
                 if (data.success) {
                   // Redirect to the new link
-                  console.log(r)
-                  await router.push(`/profile/${link}`)
+                  let copy = r
+                  copy.email = newEmail
+                  setRequestedUser(copy)
                   setEditingEmail(false)
                 } else {
+                  console.log(data.error)
                   alert(`Something went wrong, ${data.error}`)
                   setEditingEmail(false)
                 }
               }} className="flex flex-col space-y-2">
               <input
             type="text"
-            placeholder="Enter your Full Name"
+            placeholder="Enter your New Email"
             value={newEmail}
             onChange={(e) => setNewEmail(e.target.value)}
             className="border-b-2 outline-none dark:text-white text-black bg-transparent pb-1 mt-2"
           />
+          <div className="space-x-2 w-full flex">
           <button
-                      className="px-4 py-2 text-white w-min min-w-max mx-auto bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
+                      className="px-4 py-2 text-white w-min min-w-max bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
            type="submit">
             Submit
           </button>
+          <button
+            className="px-4 py-2 w-min min-w-max text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 rounded-md duration-200 ease-in-out transition"
+            onClick={(e) => {
+              setNewEmail(r.email)
+              setEditingEmail(false)
+            }}>
+            Cancel
+          </button>
+          </div>
               </form>
             }
             </> : <></>}
@@ -527,7 +552,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       ...requestedUser,
       salt: null,
       key: null,
-      email: req.session.user.id == requestedUser.user_id ? requestedUser.email : null,
+      email: req.session.user?.id == requestedUser.user_id ? requestedUser.email : null,
       hashedEmail: getGravatarHash(requestedUser.email),
     };
 
