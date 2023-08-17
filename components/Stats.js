@@ -72,15 +72,26 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
   const [userList, setUserList] = useState(listOfUsers)
   const [sessionList, setSessionList] = useState(sessions)
   const [filteredResults, setFilteredResults] = useState(listOfUsers)
+  const [username, setUsername] = useState("")
+  const [email, setEmail] = useState("")
+  const [sessionId, setSessionId] = useState("")
+  const [userId, setUserId] = useState("")
+  const [auth, setAuth] = useState(0)
+  const [view, setView] = useState(0)
 
   const router = useRouter()
   useEffect(() => {
     setUserList(listOfUsers)
-    setSessionList(sessions)
-    console.log(listOfUsers)
-    console.log(sessions)
-    console.log("hi")
-    console.log("User List: ", userList)
+    if(sessions) { //If loaded in
+      console.log("has session")
+      let updated = sessions.map((session, i) => {
+        let matches = matchesQuery(userList[i], session)
+        session.matchesQuery = matches
+        return session
+      })
+      console.log(updated)
+      setSessionList(updated)
+    }
   }, [listOfUsers, sessions])
 
   const properLink = session => {
@@ -88,8 +99,64 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
   }
 
   const matchesQuery = (user, session) => {
-    
+    let authMatch
+    if(auth == 0) { //no req
+      console.log("No req")
+      authMatch = true
+    } else if(auth == 1) { //auth must be true req
+      console.log("Must be authed")
+      authMatch = (user != null && typeof user !== "undefined")
+    } else if(auth == 2) { //auth must be false req
+      console.log("Don't have to be authed")
+      authMatch = (user != null && typeof user !== "undefined")
+      authMatch = !authMatch
+    }
+    let usernameMatch = (user?.username?.indexOf(username.trim()) != -1 || username.length == 0)
+    if(username.length > 0) {
+      usernameMatch = usernameMatch && (user != null && typeof user !== "undefined")
+    }
+    let emailMatch = (user?.email?.indexOf(email.trim()) != -1 || email.length == 0)
+    if(email.length > 0) {
+      emailMatch = emailMatch && (user != null && typeof user !== "undefined")
+    }
+    let viewMatch = (session.view == view || view == 0 || view == "No Specific View")
+    let idMatch = (user?.user_id == userId || userId.length == 0)
+    if(userId.length > 0) {
+      idMatch = idMatch && (user && typeof user != null !== "undefined")
+    }
+    let sessionMatch = (session.session_id == sessionId || sessionId.length == 0)
+    console.log("Auth: ", authMatch)
+    console.log("Username: ", usernameMatch)
+    console.log("Email: ", emailMatch)
+    console.log("Session: ", sessionMatch)
+    console.log("Id: ", idMatch)
+    console.log("View: ", viewMatch)
+    const res =  authMatch && usernameMatch && emailMatch && idMatch && sessionMatch && viewMatch
+    console.log("Ending: ", res)
+    console.log("\n\n")
+    return res
   }
+
+  useEffect(()=> {
+    if(sessionList) { //If loaded in
+      console.log("has session")
+      let updated = sessionList.map((session, i) => {
+        let matches = matchesQuery(userList[i], session)
+        session.matchesQuery = matches
+        return session
+      })
+      setSessionList(updated)
+    }
+  }, [username, email, auth, view, userId])
+
+  const views = [
+    "home", 
+    "profile",
+    "opportunity",
+    "auth",
+    "article",
+    "admin"
+  ]
 
   return (
     <div className="text-center h-min min-h-max m-4 flex flex-col items-center justify-center dark:bg-gray-700 rounded-lg shadow-none bg-white border-2 dark:border-none dark:shadow-md p-4 transition-all duration-300 transform hover:scale-105">
@@ -119,18 +186,21 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
           </button>
           {
             open && sessionList.length > 0 ? 
-            <div className="flex px-2 overflow-y-auto max-h-52 w-full flex-col space-y-2">
+            <div className="flex w-full gap-2">
+            <div className="flex w-3/4 px-2 overflow-y-auto max-h-52 flex-col space-y-2">
               {
                 sessionList.map((session, i) => (
-                  <div className="flex text-start bg-gray-600 rounded">
+                  <div className={`flex ${session.matchesQuery ? "opacity-100" : "opacity-20"} text-start bg-gray-600 rounded`}>
                     <div className="flex-col w-11/12 px-2 py-1">
                       {
                         userList[i] ?
-                        <p className="inline">
+                        <>
+                        <p className="flex">
                         <Link href={`/profile/${userList[i].link}`} className={`text-base no-underline pb-0 hover:text-blue-500 transition duration-300 ease-in-out text-white group font-bold cursor-pointer`}>
-                          {userList[i].username}
+                          {userList[i].username}, <span className="font-normal">{userList[i].email}</span>
                         </Link>
-                        </p>:
+                        </p>
+                        </>:
                         <span className={`text-base cursor-default text-gray-400 font-semibold`}>
                           A Guest
                         </span>
@@ -147,6 +217,27 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
                   </div>
                 ))
               }
+            </div>
+            <div className="flex w-1/4 mb-4 flex-col space-y-1">
+              <p className="text-center font-semibold text-black dark:font-semibold dark:text-white text-md lg:text-lg xl:text-xl mb-2">
+                Queries:
+              </p>
+              <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} placeholder="Username..." className="bg-transparent outline-none border-b-2 pb-0.5 border-gray-400" />
+              <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email..." className="bg-transparent outline-none border-b-2 pb-0.5 border-gray-400" />
+              <input type="text" value={sessionId} onChange={(e) => setSessionId(e.target.value)} placeholder="Session Id..." className="bg-transparent outline-none border-b-2 pb-0.5 border-gray-400" />
+              <input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="User Id..." className="bg-transparent outline-none border-b-2 pb-0.5 border-gray-400" />
+              <select value={auth} onChange={(e) => setAuth(e.target.value)} name="" id="" className="bg-transparent outline-none border-b-2 pb-0.5 text-white border-gray-400" >
+                <option className="text-black" value={0}>Doesn't Matter</option>
+                <option className="text-black" value={1}>Authenticated</option>
+                <option className="text-black" value={2}>Unauthenticated</option>
+              </select>
+              <select value={view} onChange={(e) => setView(e.target.value)} name="" id="" className="bg-transparent outline-none border-b-2 pb-0.5 text-white border-gray-400" >
+                <option className="text-black" value={null}>No Specific View</option>
+                {views.map((view) => (
+                    <option className="text-black" value={view}>{view}</option>
+                ))}
+              </select>
+            </div>
             </div> : <></>
           }
         </> : <></>
