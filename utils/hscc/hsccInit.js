@@ -13,7 +13,7 @@ import { config } from 'dotenv';
 import msToTime from '../msToTime';
 config()
 
-export const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
+export const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v2';
 
 // Define the sendRequest function to make API requests
 const MAX_REQUESTS_RATE = 5;

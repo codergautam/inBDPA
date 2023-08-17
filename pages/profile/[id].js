@@ -160,6 +160,7 @@ export default function Page({
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                       Statistics
                     </h2>
+                    
                     <UserStats
                       views={requestedUser.views}
                       activeSessions={activeSess}
@@ -216,11 +217,15 @@ export default function Page({
             <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5 w-full">
               {requestedUser.username}
             </h1>
+            
             <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
               {requestedUser.type}
             </h1>
 
             {editable ? <LinkChanger link={link} /> : null}
+            <br />
+            <br />
+            <button  className=" bg-red-600 rounded-full block px-4 py-2 hover:bg-red-700 text-black">delete profile </button>
 
             {user ? (
               <>
@@ -289,10 +294,15 @@ export default function Page({
                   )
                   .map((section) => (
                     <div
-                      className="w-full p-4 group mt-4 border-gray-700 border-b"
+                      className="w-full p-4 group mt-4 border-gray-500 border-b"
                       key={section}
                     >
-                      <h2 className="text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
+
+                    <div className="flex items-stretch"></div>
+                    
+                      
+                    
+                      <h2 className="py-12 text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
                         {section.charAt(0).toUpperCase() +
                           section.slice(1, section.length)}
                       </h2>

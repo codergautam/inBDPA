@@ -12,7 +12,7 @@ async function handler(req, res) {
     }
 
 
-    let {view, viewed_id} = JSON.parse(req.body);
+    let {view, viewed_id, user_id} = JSON.parse(req.body);
 
     if(!view) {
         res.status(400).json({ error: "Invalid request" });
@@ -28,7 +28,8 @@ async function handler(req, res) {
         viewed_id = user.user.user_id;
     }
 
-    let out = await createSession({ view, viewed_id });
+    let out = await createSession({ view, viewed_id, user_id });
+    console.log(out);
     if(!out.success) {
         res.status(500).json({ error: "Error creating session" });
         return;

@@ -8,7 +8,7 @@ import { createUser, deleteAllUsers, deleteUser, updateUser, userExists } from '
 config();
 
 
-const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
+const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v2';
 const MONGO_URI = process.env.MONGO_URI;
 const API_WAIT_TIME = 2000;
 
@@ -243,9 +243,9 @@ export async function userExistsAPI(user_id) {
 
 export default async function fetchDataAndSaveToDB() {
   await deleteAllUsers();
-  // let usersMongo = await Profile.find();
-  // usersMongo.forEach(async (user) => {
-  //   await createUser(user.user_id, user.connections)
-  //   console.log(user.username, user.user_id, user.connections)
-  // });
+  let usersMongo = await Profile.find();
+  usersMongo.forEach(async (user) => {
+    await createUser(user.user_id, user.connections)
+    console.log(user.username, user.user_id, user.connections)
+  });
 }
