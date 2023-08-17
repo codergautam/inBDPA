@@ -127,7 +127,7 @@ export default function UserCreation() {
             <select
               onChange={(e) => setType(e.target.value)}
               value={type}
-              className="bg-transparent text-black border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"
+              className="bg-gray-700 text-black border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"
               name="type"
             >
               {types.map((type, i) => (
