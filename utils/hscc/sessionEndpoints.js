@@ -29,8 +29,14 @@ export async function deleteSession(sessionId) {
 }
 
 export async function countSessionsForUser(userId) {
-  const url = `${BASE_URL}/sessions/count-for/user/${userId}`;
-  return sendRequest(url, 'GET');
+  const url = `${BASE_URL}/users/${userId}`;
+  let res = await sendRequest(url, 'GET');
+
+  if(!res || !res.success || !res.user) return {success: false, error: "Could not fetch user"}
+
+  let sessionCount = res.user.sessions;
+
+  return { active: sessionCount }
 }
 
 export async function countSessionsForOpportunity(opportunityId) {
@@ -38,18 +44,23 @@ export async function countSessionsForOpportunity(opportunityId) {
   let opp = await Opportunity.findOne({opportunity_id: opportunityId})
   //Check for if the activeSessions prop actually exists and then whether is a valid time range
   if(Number.isInteger(opp?.activeSessions) && (Date.now() - new Date(opp.lastUpdatedActive).getTime()) < (Math.pow(10, 3) * minutes * 60)) {
+    console.log("Cached session count: ", opp.activeSessions)
     return { active: opp.activeSessions }
   }
 
   //Fallback
-  const url = `${BASE_URL}/sessions/count-for/opportunity/${opportunityId}`;
-  const req = await sendRequest(url, 'GET');
+  const url = `${BASE_URL}/opportunities/${opportunityId}`;
+  let res = await sendRequest(url, 'GET');
 
+  console.log("Fetched opportunity: ", res)
+  if(!res || !res.success || !res.opportunity) return {success: false, error: "Could not fetch opportunity"}
 
+  let sessionCount = res.opportunity.sessions;
+  console.log("Session count: ", sessionCount)
   //Update Mongo
   await Opportunity.updateOne({opportunity_id: opportunityId}, {
     $set: {
-      activeSessions: req.active,
+      activeSessions: sessionCount,
       lastUpdatedActive: Date.now()
     }
   })
@@ -57,6 +68,7 @@ export async function countSessionsForOpportunity(opportunityId) {
   // Refetch and make sure its set
   opp = await Opportunity.findOne({opportunity_id: opportunityId})
 
+  console.log("Fallback session count: ", opp.activeSessions)
   //Return original request
-  return req
+  return { active: sessionCount }
 }

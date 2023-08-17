@@ -16,6 +16,7 @@ export default function Stats() {
   const [totalViews, setTotalViews] = useState("...");
   const [sessions, setSessions] = useState("...");
   const [opportunities, setOpportunities] = useState("...");
+  const [articles, setArticles] = useState("...");
 
   const intervalRef = useRef();
 
@@ -30,6 +31,7 @@ export default function Stats() {
       setTotalViews(data.info.views);
       setSessions(data.info.sessions);
       setOpportunities(data.info.opportunities);
+      setArticles(data.info.articles);
     }
   }
 
@@ -47,6 +49,7 @@ export default function Stats() {
       <StatItem label="Active Sessions" value={sessions} />
       <StatItem label="Total Views on Platform" value={totalViews} />
       <StatItem label="Total Opportunities" value={opportunities} />
+      <StatItem label="Total Articles" value={articles} />
     </div>
   );
 }

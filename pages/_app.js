@@ -119,6 +119,7 @@ const handleRouteChangeStart = async (url, first=false) => {
     body: JSON.stringify({
       view: parseUrl(url)[0],
       viewed_id: parseUrl(url)[1],
+      user_id: pageProps.user ? pageProps.user.id : null,
     })
   });
   let makeSessionData = await makeSessionRes.json();

@@ -35,7 +35,7 @@ async function updateInfo(opportunity_id) {
         })
     }).then(res => res.json())
     if(data.opportunity) {
-        return {views: data.opportunity.views, active: data.opportunity.active}
+        return {views: data.opportunity.views, active: data.opportunity.sessions}
     } else {
         return {views: "N/A", active: "N/A"}
     }

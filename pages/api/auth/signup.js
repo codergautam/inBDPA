@@ -19,8 +19,8 @@ import { getIronOptions } from "@/utils/ironConfig";
   if(req.method !== "POST") return res.send({ error: "Method not allowed" });
 
 
-  const { email, password, username, rememberMe, type, changeUser } = req.body;
-  if(!email || !password || !username) {
+  const { email, password, username, rememberMe, type, changeUser, fullName } = req.body;
+  if(!email || !password || !username || !fullName) {
     return res.send({ error: "Missing required fields" });
   }
   // Validate email
@@ -53,12 +53,20 @@ import { getIronOptions } from "@/utils/ironConfig";
   if(!username.match(/^[a-zA-Z0-9_-]+$/)) {
     return res.send({ error: "Username cannot contain special characters" });
   }
+
+  if(fullName > 64) {
+    return res.send({ error: "Full name must be at most 64 characters" });
+  } else if(fullName < 4) {
+    return res.send({ error: "Full name must be at least 4 characters" });
+  }
+
   const { key, salt } = await encryptPassword(password);
   let user = await createUser({
     username,
     email,
     key,
     salt,
+    fullName,
     type: type || "inner"
   });
   // store in session

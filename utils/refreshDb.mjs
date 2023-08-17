@@ -8,9 +8,9 @@ import { createUser, deleteUser, updateUser, userExists } from './neo4j.mjs';
 config();
 
 
-const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
+const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v2';
 const MONGO_URI = process.env.MONGO_URI;
-const API_WAIT_TIME = 2000;
+const API_WAIT_TIME = 5000;
 
 mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
@@ -320,6 +320,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
         createdAt: latestUser.createdAt,
         sections: latestUser.sections,
         connections: userConnections,
+        fullName: latestUser.fullName,
         pfp: 'gravatar'
       });
 
@@ -350,6 +351,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
       user.createdAt = latestUser.createdAt;
       user.sections = latestUser.sections;
       user.connections = connections;
+      user.fullName = latestUser.fullName;
       await user.save();
 
       try {

@@ -9,7 +9,8 @@ export default async function createNewProfile({ user_id, username, link, pfp, e
     pfp,
     email,
     type,
-    views
+    views,
+    fullName
   });
 
   try {

@@ -8,7 +8,7 @@ import { createUser, deleteAllUsers, deleteUser, updateUser, userExists } from '
 config();
 
 
-const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v1';
+const BASE_URL = 'https://inbdpa.api.hscc.bdpa.org/v2';
 const MONGO_URI = process.env.MONGO_URI;
 const API_WAIT_TIME = 2000;
 
