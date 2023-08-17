@@ -16,6 +16,7 @@ import tlds from "tlds";
 
 export default function Signup() {
   const [name, setName] = useState("");
+  const [fullName, setFullName] = useState("")
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
@@ -27,6 +28,7 @@ export default function Signup() {
   const [submityesno, setSubmitYesNo] = useState(false);
   const [passwordstrength, setPassStrength] = useState("");
   const [nameerror, setNameError] = useState("");
+  const [fullNameerror, setFullNameerror] = useState("")
   const [emailerror, setEmailError] = useState("");
 
   // Function to check if all fields are filled
@@ -57,6 +59,18 @@ export default function Signup() {
         ? setNameError("Cannot have special characters")
         : setNameError("✓");
     }
+    
+    {
+      fullName.length === 0
+        ? setFullNameerror("Fill Full Name")
+        : name.length < 4
+        ? setFullNameerror("Must be over at least 4 characters")
+        : name.length > 16
+        ? setFullNameerror("Cannot be greater than 16 characters")
+        : !/^[a-zA-Z0-9](.*[a-zA-Z0-9])?$/.test(fullName)
+        ? setFullNameerror("Cannot have special characters (this may also happen if you have blank spaces at the start and end)")
+        : setFullNameerror("✓");
+    }
     {
       email.length === 0
         ? setEmailError("Fill Email")
@@ -77,6 +91,7 @@ export default function Signup() {
     }
   }, [
     name,
+    fullName,
     email,
     password,
     areallfieldsfilled,
@@ -128,6 +143,7 @@ export default function Signup() {
       body: JSON.stringify({
         username: name,
         email,
+        fullName,
         password,
         rememberMe,
         changeUser: true,
@@ -184,7 +200,7 @@ export default function Signup() {
                     value={name}
                     onChange={(event) => setName(event.target.value)}
                     required=""
-                    placeholder="john"
+                    placeholder="john123"
                     name="name"
                     type="text"
                     className={
@@ -206,6 +222,43 @@ export default function Signup() {
                   ) : (
                     <p className="text-sm text-green-500 text-right pt-1 pr-2">
                       {nameerror && nameerror}
+                    </p>
+                  )}
+                </div>
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  >
+                    Full Name
+                  </label>
+                  <input
+                    id="name"
+                    value={fullName}
+                    onChange={(event) => setFullName(event.target.value)}
+                    required=""
+                    placeholder="John Doe"
+                    name="name"
+                    type="text"
+                    className={
+                      fullName === ""
+                        ? `bg-gray-50 border border-gray-400 text-gray-500 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500`
+                        : fullNameerror !== "✓"
+                        ? `bg-gray-50 border border-red-400 text-gray-500 sm:text-sm rounded-lg focus:ring-red-600 focus:border-red-600 block w-full p-2.5 dark:bg-gray-700 dark:border-red-600 placeholder-gray-400 dark:text-white dark:focus:ring-red-500 dark:focus:border-red-500`
+                        : `bg-gray-50 border border-green-400 text-gray-500 sm:text-sm rounded-lg focus:ring-green-600 focus:border-green-600 block w-full p-2.5 dark:bg-gray-700 dark:border-green-600 placeholder-gray-400 dark:text-white dark:focus:ring-green-500 dark:focus:border-green-500`
+                    }
+                  />
+                  {fullName === "" ? (
+                    <p className="text-sm text-gray-200 dark:text-gray-600 text-right pt-1 pr-2">
+                      {fullNameerror && fullNameerror}
+                    </p>
+                  ) : fullNameerror !== "✓" ? (
+                    <p className="transform transition-all ease-in-out text-sm text-red-500 text-right pt-1 pr-2">
+                      {fullNameerror && fullNameerror}
+                    </p>
+                  ) : (
+                    <p className="text-sm text-green-500 text-right pt-1 pr-2">
+                      {fullNameerror && fullNameerror}
                     </p>
                   )}
                 </div>
