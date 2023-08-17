@@ -47,7 +47,7 @@ export async function createUser(user) {
   if(res.success) {
     res.user.link = generateRandomId();
     await createNewProfile({ user_id: res.user.user_id, username: res.user.username, link: res.user.link,
-      pfp: "gravatar", email: res.user.email, type: res.user.type });
+      pfp: "gravatar", email: res.user.email, type: res.user.type, fullName: res.user.fullName });
   }
   return res;
 

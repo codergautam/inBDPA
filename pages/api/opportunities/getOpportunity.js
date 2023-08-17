@@ -25,7 +25,5 @@ export default withIronSessionApiRoute(handler, ironOptions);
   if(!opportunity) {
     return res.json({success: false, error: "Opportunity doesn't exist!"});
   }
-  const active = (await countSessionsForOpportunity(opportunity_id)).active
-  opportunity.active = active
   res.json({opportunity});
 }

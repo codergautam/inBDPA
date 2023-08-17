@@ -34,6 +34,7 @@ const profileSchema = new Schema({
   banner: String,
   forceLogout: Date,
   refreshSession: Boolean,
+  fullName: String,
 });
 
 const opportunitySchema = new mongoose.Schema({
