@@ -227,7 +227,7 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
               <input type="text" value={sessionId} onChange={(e) => setSessionId(e.target.value)} placeholder="Session Id..." className="bg-transparent outline-none border-b-2 pb-0.5 border-gray-400" />
               <input type="text" value={userId} onChange={(e) => setUserId(e.target.value)} placeholder="User Id..." className="bg-transparent outline-none border-b-2 pb-0.5 border-gray-400" />
               <select value={auth} onChange={(e) => setAuth(e.target.value)} name="" id="" className="bg-transparent outline-none border-b-2 pb-0.5 text-white border-gray-400" >
-                <option className="text-black" value={0}>Doesn't Matter</option>
+                <option className="text-black" value={0}>Doesnt Matter</option>
                 <option className="text-black" value={1}>Authenticated</option>
                 <option className="text-black" value={2}>Unauthenticated</option>
               </select>
