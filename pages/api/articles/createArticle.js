@@ -42,7 +42,6 @@ export default withIronSessionApiRoute(handler, ironOptions);
     return res.json({success: false, error: "A keyword cannot exceed 20 chars"});
   }
   let data = await createArticle({title, contents, creator_id, keywords});
-  console.log(data)
   if(data.success) {
     delete data.article.updatedAt;
 
