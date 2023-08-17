@@ -111,19 +111,20 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
       authMatch = (user != null && typeof user !== "undefined")
       authMatch = !authMatch
     }
-    let usernameMatch = (user?.username?.indexOf(username.trim()) != -1 || username.length == 0)
+    let usernameMatch = (user?.username?.indexOf(username.trim()) != -1 || username.trim().length == 0)
     if(username.length > 0) {
       usernameMatch = usernameMatch && (user != null && typeof user !== "undefined")
     }
-    let emailMatch = (user?.email?.indexOf(email.trim()) != -1 || email.length == 0)
+    let emailMatch = (user?.email?.indexOf(email.trim()) != -1 || email.trim().length == 0)
     if(email.length > 0) {
       emailMatch = emailMatch && (user != null && typeof user !== "undefined")
     }
     let viewMatch = (session.view == view || view == 0 || view == "No Specific View")
-    let idMatch = (user?.user_id == userId || userId.length == 0)
+    let idMatch = (user?.user_id == userId || userId.trim().length == 0)
     if(userId.length > 0) {
       idMatch = idMatch && (user && typeof user != null !== "undefined")
     }
+    console.log("id: ", session.session_id == sessionId)
     let sessionMatch = (session.session_id == sessionId || sessionId.length == 0)
     console.log("Auth: ", authMatch)
     console.log("Username: ", usernameMatch)
