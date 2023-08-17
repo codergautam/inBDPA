@@ -42,12 +42,15 @@ export async function getUsers(after = null, updatedAfter = null) {
 
 export async function createUser(user) {
   const url = `${BASE_URL}/users`;
-
+  console.log(JSON.stringify(user))
   let res = await sendRequest(url, 'POST', user);
   if(res.success) {
     res.user.link = generateRandomId();
     await createNewProfile({ user_id: res.user.user_id, username: res.user.username, link: res.user.link,
       pfp: "gravatar", email: res.user.email, type: res.user.type, fullName: res.user.fullName });
+  } else {
+    console.log(res)
+    console.log("err: ", res.error)
   }
   return res;
 

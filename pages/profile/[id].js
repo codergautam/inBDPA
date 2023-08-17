@@ -23,6 +23,10 @@ import ConnectionList from "@/components/ConnectionList";
 import UserBanner from "@/components/UserBanner";
 import md5 from "blueimp-md5";
 import rateLimit from "@/utils/rateLimit";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { Router } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const limiter = rateLimit({
   interval: 60 * 60 * 1000, // 1 hr
@@ -66,6 +70,7 @@ export default function Page({
   error,
 }) {
   // State to store number of active sessions
+  const router = useRouter()
   const [activeSess, setActiveSessions] = useState("...");
   const [requestedUser, setRequestedUser] = useState(r);
   const [connections, setConnections] = useState(c);
@@ -73,6 +78,10 @@ export default function Page({
   const [connectionLabel, setConnectionLabel] = useState(
     connections[0]?.includes(user?.id) ? "Disconnect" : "Connect"
   );
+  const [editingFullName, setEditingFullName] = useState(false)
+  const [editingeEmail, setEditingEmail] = useState(false)
+  const [newFullName, setNewFullName] = useState(r.fullName)
+  const [newEmail, setNewEmail] = useState(r.email ?? null)
 
   const editable = user?.id === requestedUser?.user_id;
 
@@ -216,9 +225,111 @@ export default function Page({
             <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5 w-full">
               {requestedUser.username}
             </h1>
+            {
+              user ?
+              <h1 className="text-xs mt-2 w-min min-w-max text-center mx-auto flex items-center group font-semibold text-gray-700 semism:text-sm break-words dark:text-gray-400">
+                  Edit your full name by hovering over the text
+              </h1>  : <></>
+            }
+            {user ? 
+            <>
+            {
+              !editingFullName  ?
+              <button onClick={() => setEditingFullName(true)} className="text-xl cursor-pointer flex hover:opacity-100 w-min min-w-max text-center items-end group transition duration-300 ease-in-out dark:hover:text-white font-semibold text-gray-700 semism:text-3xl break-words dark:text-gray-400 mt-2 mx-auto">
+                {requestedUser.fullName ?? "Fill in your Full Name Today"}
+                {
+                  requestedUser.username == user.username ?                <FontAwesomeIcon className="ml-2 w-6 h-6" icon={faPencil}></FontAwesomeIcon>
+                  : <></>
+                }
+              </button> : <form onSubmit={async e => {
+                e.preventDefault()
+                console.log(user)
+                let data = await fetch("/api/changeFullName", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    fullName: newFullName,
+                    user_id: user.id
+                  })
+                }).then(res => res.json())
+                console.log(data)
+                if (data.success) {
+                  // Redirect to the new link
+                  console.log(r)
+                  await router.push(`/profile/${link}`)
+                  setEditingFullName(false)
+                } else {
+                  alert(`Something went wrong, ${data.error}`)
+                  setEditingFullName(false)
+                }
+              }} className="flex flex-col space-y-2">
+              <input
+            type="text"
+            placeholder="Enter your Full Name"
+            value={newFullName}
+            onChange={(e) => setNewFullName(e.target.value)}
+            className="border-b-2 outline-none dark:text-white text-black bg-transparent pb-1 mt-2"
+          />
+          <button
+                      className="px-4 py-2 text-white w-min min-w-max mx-auto bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
+           type="submit">
+            Submit
+          </button>
+              </form>
+            }
+            </> : <></>}
             <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
               {requestedUser.type}
             </h1>
+            {user ? 
+            <>
+            {
+              !editingEmailName  ?
+              
+            <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
+            Email: {JSON.stringify(requestedUser)}
+          </h1> : <form onSubmit={async e => {
+                e.preventDefault()
+                console.log(user)
+                let data = await fetch("/api/changeFullName", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    fullName: newFullName,
+                    user_id: user.id
+                  })
+                }).then(res => res.json())
+                console.log(data)
+                if (data.success) {
+                  // Redirect to the new link
+                  console.log(r)
+                  await router.push(`/profile/${link}`)
+                  setEditingEmail(false)
+                } else {
+                  alert(`Something went wrong, ${data.error}`)
+                  setEditingEmail(false)
+                }
+              }} className="flex flex-col space-y-2">
+              <input
+            type="text"
+            placeholder="Enter your Full Name"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            className="border-b-2 outline-none dark:text-white text-black bg-transparent pb-1 mt-2"
+          />
+          <button
+                      className="px-4 py-2 text-white w-min min-w-max mx-auto bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
+           type="submit">
+            Submit
+          </button>
+              </form>
+            }
+            </> : <></>}
+
 
             {editable ? <LinkChanger link={link} /> : null}
 
@@ -278,7 +389,7 @@ export default function Page({
             ) : null}
 
             {!user ? (
-              <h1 className="text-red-600">Log in to view more details</h1>
+              <h1 className="text-red-600 font-semibold">Log in to view more details</h1>
             ) : null}
             {user
               ? sections
@@ -416,7 +527,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       ...requestedUser,
       salt: null,
       key: null,
-      email: null,
+      email: req.session.user.id == requestedUser.user_id ? requestedUser.email : null,
       hashedEmail: getGravatarHash(requestedUser.email),
     };
 

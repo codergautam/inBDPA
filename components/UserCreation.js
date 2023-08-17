@@ -18,6 +18,7 @@ export default function UserCreation() {
   let types = ["inner", "staff", "administrator"];
   const [type, setType] = useState(types[0]);
   const [username, setUsername] = useState("");
+  const [fullName, setFullName] = useState("")
   const [password, setPassword] = useState("");
   const [email, setEmail] = useState("");
   const [showingForm, setShowingForm] = useState(false);
@@ -37,6 +38,7 @@ export default function UserCreation() {
 
     let obj = {
       username,
+      fullName,
       email,
       password,
       type: type == "admin" ? "administrator" : type,
@@ -95,6 +97,13 @@ export default function UserCreation() {
             <input
               onChange={(e) => setUsername(e.target.value)}
               value={username}
+              className="bg-transparent text-black border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"
+              type="text"
+            />
+            <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Full Name:</label>
+            <input
+              onChange={(e) => setFullName(e.target.value)}
+              value={fullName}
               className="bg-transparent text-black border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"
               type="text"
             />

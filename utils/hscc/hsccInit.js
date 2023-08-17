@@ -106,7 +106,7 @@ async function _sendRequest(url, method, body = null) {
     if (!response.ok) {
       switch (response.status) {
         case 400:
-          return { success: false, error: "Bad request" }
+          return { success: false, error: data.error ?? "Bad Request"}
         case 429:
           return { success: false, error: data.retryAfter ? "Too many requests. Please try again in " + msToTime(data.retryAfter) : "Too many requests. Please try again shortly." }
         case 500:

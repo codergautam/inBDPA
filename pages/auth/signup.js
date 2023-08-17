@@ -33,7 +33,7 @@ export default function Signup() {
 
   // Function to check if all fields are filled
   const areAllFieldsFilled = () => {
-    return name !== "" && email !== "" && password !== "";
+    return name !== "" && email !== "" && password !== "" && fullName !== "";
   };
   const areallfieldsfilled = areAllFieldsFilled();
   useEffect(() => {
@@ -63,10 +63,6 @@ export default function Signup() {
     {
       fullName.length === 0
         ? setFullNameerror("Fill Full Name")
-        : name.length < 4
-        ? setFullNameerror("Must be over at least 4 characters")
-        : name.length > 16
-        ? setFullNameerror("Cannot be greater than 16 characters")
         : !/^[a-zA-Z0-9](.*[a-zA-Z0-9])?$/.test(fullName)
         ? setFullNameerror("Cannot have special characters (this may also happen if you have blank spaces at the start and end)")
         : setFullNameerror("✓");
@@ -143,7 +139,7 @@ export default function Signup() {
       body: JSON.stringify({
         username: name,
         email,
-        fullName,
+        fullName: fullName.replace(" ", ""),
         password,
         rememberMe,
         changeUser: true,
