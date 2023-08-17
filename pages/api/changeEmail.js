@@ -36,7 +36,6 @@ async function handler(req, res) {
     }
 
     try {
-        console.log(req.body)
         let data = await changeProfileEmail(user_id, newEmail)
         if(data.success) {
             req.session.user = {

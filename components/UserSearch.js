@@ -176,7 +176,6 @@ export default function UserSearch() {
             await checkForUser(query, false)
         }
     }
-
     const changeUserType = async (id, newPos) => {
         clearTimeout(promotionRef)
         setOutputUser(null)
@@ -207,6 +206,37 @@ export default function UserSearch() {
             }, 5000)
         }
     }
+
+    const deleteUser = async (id) => {
+        clearTimeout(promotionRef)
+        setOutputUser(null)
+        setOutputUserStatus("...")
+        let data = await fetch("/api/deleteProfile", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                idToDelete: id
+            })
+        }).then(res => res.json());
+        if(data.success) {
+            setOutputUserStatus("Deleted User")
+            promotionRef = setTimeout(async ()=>{
+                setOutputUserStatus("")
+            await checkForUser(query, false)
+            }, 1000)
+        } else {
+            setOutputUserStatus( data.error ?? "Unexpected Error. Please try again shortly.")
+            promotionRef = setTimeout(async()=>{
+            await checkForUser(query, false)
+
+                setOutputUserStatus("")
+            }, 5000)
+        }
+    }
+    
+
 
     return (
         <div className="mt-8 mb-8 flex flex-col w-5/6 md:w-3/4 xl:w-3/5 text-center border-none dark:bg-gray-700 p-8 rounded-lg dark:shadow-xl">
@@ -253,6 +283,11 @@ export default function UserSearch() {
                       Promote to <span className="text-blue-200 dark:text-blue-300">{nextPosition}</span>
                   </button> : <></>}
                   {/* Administrators can not demote other admins!!!! */}
+                  {outputUser.type != "administrator" && (
+                  <button onClick={()=>deleteUser(outputUser.user_id)} className="bg-red-500 dark:bg-red-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
+                    Delete Account
+                    </button>
+                    )}
                   {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-red-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
                       Demote to <span className="text-rose-200 font-bold dark:text-rose-400">{previousPosition}</span>
                   </button> : <></>}

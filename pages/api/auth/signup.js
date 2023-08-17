@@ -56,8 +56,8 @@ import { getIronOptions } from "@/utils/ironConfig";
 
   // Validate full name
   // make sure alphanumeric ()
-  if(!/^[a-zA-Z0-9](.*[a-zA-Z0-9])?$/.test(fullName)) {
-    return res.send({ error: "Cannot have special characters (this may also happen if you have blank spaces at the start and end)" });
+  if(!/^[a-zA-Z0-9](.*[a-zA-Z0-9])?$/.test(fullName.trim())) {
+    return res.send({ error: "Cannot have special characters" });
   }
 
   if(fullName >= 30) {

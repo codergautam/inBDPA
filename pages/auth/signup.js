@@ -59,12 +59,12 @@ export default function Signup() {
         ? setNameError("Cannot have special characters")
         : setNameError("✓");
     }
-    
+
     {
       fullName.length === 0
         ? setFullNameerror("Fill Full Name")
-        : !/^[a-zA-Z0-9](.*[a-zA-Z0-9])?$/.test(fullName)
-        ? setFullNameerror("Cannot have special characters (this may also happen if you have blank spaces at the start and end)")
+        : !/^[a-zA-Z0-9](.*[a-zA-Z0-9])?$/.test(fullName.trim())
+        ? setFullNameerror("Cannot have special characters")
         : setFullNameerror("✓");
     }
     {
@@ -139,7 +139,7 @@ export default function Signup() {
       body: JSON.stringify({
         username: name,
         email,
-        fullName: fullName.replace(" ", ""),
+        fullName: fullName.replace(" ", "").trim(),
         password,
         rememberMe,
         changeUser: true,
