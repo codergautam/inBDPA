@@ -82,6 +82,7 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
   const router = useRouter()
   useEffect(() => {
     setUserList(listOfUsers)
+<<<<<<< HEAD
     if(sessions) { //If loaded in
       console.log("has session")
       let updated = sessions.map((session, i) => {
@@ -92,10 +93,12 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
       console.log(updated)
       setSessionList(updated)
     }
+=======
+    setSessionList(sessions)
+>>>>>>> eabaa370a99e6987aff4d5787f7b484ea06a3cfc
   }, [listOfUsers, sessions])
 
   const properLink = session => {
-    console.log(session)
   }
 
   const matchesQuery = (user, session) => {
@@ -174,7 +177,7 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
       </p></div>
       }
       {
-        type == "sessions" && value != "..." ? 
+        type == "sessions" && value != "..." ?
         <>
           <button onClick={() => setOpen(!open)} className="text-center hover:text-white duration-300 ease-in-out transition flex font-bold text-sm sm:text-base lg:text-lg text-black dark:text-gray-500">
             {!open ?  <>

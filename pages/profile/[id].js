@@ -113,6 +113,24 @@ export default function Page({
     };
   }, []);
 
+
+  function deleteProfile() {
+    fetch("/api/deleteProfile", {
+      method: "POST",
+      body: JSON.stringify({
+        user_id: requestedUser.user_id,
+      }),
+    }).then(res => res.json()).then(data => {
+      if(data.success) {
+        window.location.href = "/";
+      } else {
+        alert(data.error ?? "Unexpected error deleting profile");
+      }
+    }).catch(err => {
+      alert(err);
+    })
+  }
+
   // Sections in the user profile
   const sections = ["education", "volunteering", "skills", "experience"];
 
@@ -169,7 +187,7 @@ export default function Page({
                     <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
                       Statistics
                     </h2>
-                    
+
                     <UserStats
                       views={requestedUser.views}
                       activeSessions={activeSess}
@@ -226,74 +244,10 @@ export default function Page({
             <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5 w-full">
               {requestedUser.username}
             </h1>
-            {
-              user && r.user_id == user.id ?
-              <h1 className="text-xs mt-2 w-min min-w-max text-center mx-auto flex items-center group font-semibold text-gray-700 semism:text-sm break-words dark:text-gray-400">
-                  Enter edit ode by hovering over your full name or email and clicking it
-              </h1>  : <></>
-            }
-            {user ? 
-            <>
-            {
-              !editingFullName  ?
-                <button onClick={() => setEditingFullName(true)} className="text-xl cursor-pointer flex hover:opacity-100 w-min min-w-max text-center items-end group transition duration-300 ease-in-out dark:hover:text-white font-semibold text-gray-700 semism:text-3xl break-words dark:text-gray-400 mt-2 mx-auto">
-                  {requestedUser.fullName ? requestedUser.fullName : (r.user_id == user.id ? "Fill in your Full Name Today" : "")}
-                </button>
-             : <form onSubmit={async e => {
-                e.preventDefault()
-                console.log(user)
-                let data = await fetch("/api/changeFullName", {
-                  method: "POST",
-                  headers: {
-                    "Content-Type": "application/json",
-                  },
-                  body: JSON.stringify({
-                    fullName: newFullName,
-                    user_id: user.id
-                  })
-                }).then(res => res.json())
-                console.log(data)
-                if (data.success) {
-                  // Redirect to the new link
-                  let copy = r
-                  copy.fullName = newFullName
-                  setEditingFullName(false)
-                  setRequestedUser(copy)
-                  // await router.push(`/profile/${link}`)
-                } else {
-                  alert(`Something went wrong, ${data.error}`)
-                  setEditingFullName(false)
-                }
-              }} className="flex flex-col space-y-2">
-              <input
-            type="text"
-            placeholder="Enter your Full Name"
-            value={newFullName}
-            onChange={(e) => setNewFullName(e.target.value)}
-            className="border-b-2 outline-none dark:text-white text-black bg-transparent pb-1 mt-2"
-          />
-          <div className="flex space-x-2 w-full">
-          <button
-                      className="px-4 py-2 text-white w-min min-w-max bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
-           type="submit">
-            Submit
-          </button>
-          <button
-            className="px-4 py-2 w-min min-w-max text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 rounded-md duration-200 ease-in-out transition"
-            onClick={(e) => {
-              setNewFullName(r.fullName)
-              setEditingFullName(false)
-            }}>
-            Cancel
-          </button>
-          </div>
-              </form>
-            }
-            </> : <></>}
             <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
               {requestedUser.type}
             </h1>
-            {user && r.email ? 
+            {user && r.email ?
             <>
             {
               !editingEmail  ?
@@ -357,8 +311,9 @@ export default function Page({
             {editable ? <LinkChanger link={link} /> : null}
             <br />
             <br />
-            <button  className=" bg-red-600 rounded-full block px-4 py-2 hover:bg-red-700 text-black">delete profile </button>
-
+            { editable ? (
+            <button onClick={()=>confirm("Are you sure you want to delete your account?") && deleteProfile()} className=" bg-red-600 rounded-full block px-4 py-2 hover:bg-red-700 text-black">Delete Profile </button>
+            ) : null}
             {user ? (
               <>
                 {editable ? null : (
@@ -431,9 +386,9 @@ export default function Page({
                     >
 
                     <div className="flex items-stretch"></div>
-                    
-                      
-                    
+
+
+
                       <h2 className="py-12 text-base md:text-xl text-black dark:text-white duration-300 ease-in-out transition font-semiboldmb-2">
                         {section.charAt(0).toUpperCase() +
                           section.slice(1, section.length)}

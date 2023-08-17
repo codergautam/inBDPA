@@ -95,13 +95,6 @@ export default function UserCreation() {
             Create a New User
           </p>
           <div className="w-5/6">
-          <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Full Name:</label>
-            <input
-              onChange={(e) => setFullName(e.target.value)}
-              value={fullName}
-              className="bg-transparent text-black border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"
-              type="text"
-            />
             <label className="text-gray-500 dark:text-gray-300 text-xl mb-2 block text-left">Username:</label>
             <input
               onChange={(e) => setUsername(e.target.value)}
@@ -134,7 +127,7 @@ export default function UserCreation() {
             <select
               onChange={(e) => setType(e.target.value)}
               value={type}
-              className="bg-transparent text-black border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"
+              className="bg-gray-700 text-black border-b-4 border-gray-500 dark:border-gray-300 px-4 py-2 focus:ring-none outline-none text-lg dark:text-white mb-4 w-full"
               name="type"
             >
               {types.map((type, i) => (

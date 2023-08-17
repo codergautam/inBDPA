@@ -45,6 +45,12 @@ const App = ({ Component, pageProps }) => {
       let data = await fetch("/api/admin/userUpdates").then(res => res.json())
       // console.log("Data for Forced Logout: ", data)
       let minutes = 1
+      if(!data.success && data.error === "User not found") {
+        alert("Account not found, logging out.")
+        router.push("/api/auth/logout")
+        return;
+      }
+
       let d = (new Date(data.forceLogout))
       if(data.imp && data.leave) {
         alert("This user has been forced to logout, you're now returning to admin")
@@ -118,7 +124,7 @@ const handleRouteChangeStart = async (url, first=false) => {
     method: 'POST',
     body: JSON.stringify({
       view: parseUrl(url)[0],
-      viewed_id: ["opportunity", "profile", "article"].includes(parseUrl(url)[1]) ? parseUrl(url)[1] : null,
+      viewed_id: ["opportunity", "profile", "article"].includes(parseUrl(url)[0]) ? parseUrl(url)[1] : null,
       user_id: pageProps.user ? pageProps.user.id : null,
     })
   });

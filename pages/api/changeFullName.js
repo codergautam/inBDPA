@@ -35,7 +35,6 @@ async function handler(req, res) {
     }
 
     try {
-        console.log(req.body)
         let data = await changeProfileFullName(user_id, fullName)
         if(data.success) {
             req.session.user = {

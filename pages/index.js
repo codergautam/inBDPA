@@ -42,7 +42,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({ req, res 
     } else {
       // Log em out
       req.session.destroy()
-      return {user: null, count: userCount};
+      return {props:{user: null, count: userCount}};
     }
   }
 

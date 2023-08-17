@@ -34,7 +34,6 @@ async function handler(req, res) {
                 let profileViewId = session.viewed_id
                 let user = (await getUser(profileViewId)).user
                 let link = await getProfileIdFromUserId(user.user_id)
-                console.log(`Link: ${link}`)
                 // console.log("User: ", user)
                 session.message = `is viewing ${user.username}'s profile`
                 session.link = `/profile/${link}`
