@@ -103,7 +103,6 @@ const AboutSection = ({
 
       setAiModalOpen(false);
     } catch (error) {
-      console.log(error.response);
       setAiSubmitting(false);
       setAiError(error.response?.data?.error ?? "Unexpected Error");
     }

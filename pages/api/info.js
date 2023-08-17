@@ -33,7 +33,6 @@ async function handler(req, res) {
                 let profileViewId = session.viewed_id
                 let user = (await getUser(profileViewId)).user
                 let link = await getProfileIdFromUserId(user.user_id)
-                console.log(`Link: ${link}`)
                 // console.log("User: ", user)
                 session.message = `is viewing ${user.username}'s profile`
                 session.link = `/profile/${link}`
@@ -42,12 +41,10 @@ async function handler(req, res) {
                 break;
             case "opportunity":
                 let opportunityViewId = session.viewed_id
-                console.log(`Opp ID: ${opportunityViewId}`)
                 let opp = await getOpportunityMongo(opportunityViewId)
                 if(!opp) opp = (await getOpportunity(opportunityViewId)).opportunity
                 session.link = `/opportunity/${opportunityViewId}`
                 session.message = `is looking at an opportunity: ${opp.title}`
-                console.log("opp: ", opp)
                 break;
             case "admin":
                 session.message = "is on the admin page"

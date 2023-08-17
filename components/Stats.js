@@ -75,14 +75,9 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
   useEffect(() => {
     setUserList(listOfUsers)
     setSessionList(sessions)
-    console.log(listOfUsers)
-    console.log(sessions)
-    console.log("hi")
-    console.log("User List: ", userList)
   }, [listOfUsers, sessions])
 
   const properLink = session => {
-    console.log(session)
   }
 
   return (
@@ -100,7 +95,7 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
       </p></div>
       }
       {
-        type == "sessions" && value != "..." ? 
+        type == "sessions" && value != "..." ?
         <>
           <button onClick={() => setOpen(!open)} className="text-center hover:text-white duration-300 ease-in-out transition flex font-bold text-sm sm:text-base lg:text-lg text-black dark:text-gray-500">
             {!open ?  <>
@@ -112,7 +107,7 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
             </> }
           </button>
           {
-            open && sessionList.length > 0 ? 
+            open && sessionList.length > 0 ?
             <div className="flex px-2 overflow-y-auto max-h-52 w-full flex-col space-y-2">
               {
                 sessionList.map((session, i) => (
