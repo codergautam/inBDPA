@@ -34,15 +34,12 @@ import ReactModal from "react-modal";
 import ArticlesForm from "./ArticleForm";
 import dynamic from "next/dynamic";
 import ArticleFeedCard from "./ArticleFeedCard";
+import KeywordAdder from "./KeywordChooser";
 
-const MDEditor = dynamic(() => import("@uiw/react-md-editor"), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center py-12">
-      <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div>
-    </div>
-  ),
-});
+const MDEditor = dynamic(
+  () => import("@uiw/react-md-editor"),
+  { ssr: false, loading: () => <div className="flex items-center justify-center py-12"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div></div>  }
+);
 
 const getGreeting = () => {
   const currentHour = new Date().getHours();
@@ -60,6 +57,7 @@ export default function HomeLoggedIn({ user }) {
   const [loading, setLoading] = useState(false);
   const [lastItemId, setLastItemId] = useState(null);
   const [connectionLabel, setConnectionLabel] = useState("Connect");
+  const [keywordsSearch, setKeywordsSearch] = useState([]);
 
   // Article Creation
   const [creatingArticle, setCreatingArticle] = useState(false);
@@ -68,10 +66,16 @@ export default function HomeLoggedIn({ user }) {
   const [value, setValue] = useState("");
   const [keywords, setKeywords] = useState([]);
 
-  const makeNewArticle = async () => {
-    if (formSubmitting) return;
+  useEffect(() => {
+    setFeedData([]);
+    setLastItemId(null);
+    fetchFeedData();
+  }, [keywordsSearch]);
 
-    if (!title || !value) {
+  const makeNewArticle = async () => {
+    if(formSubmitting) return;
+
+    if(!title || !value) {
       alert("Please fill out all fields!");
       return;
     }
@@ -80,25 +84,25 @@ export default function HomeLoggedIn({ user }) {
     let data = await fetch("/api/articles/createArticle", {
       method: "POST",
       headers: {
-        "Content-Type": "application/json",
+        "Content-Type": "application/json"
       },
       body: JSON.stringify({
         title: title,
         contents: value,
-        keywords: keywords,
-      }),
-    }).then((res) => res.json());
+        keywords: keywords
+      })
+    }).then(res => res.json())
     setFormSubmitting(false);
     if (data.success) {
       setCreatingArticle(false);
       setValue("");
       setTitle("");
       setKeywords([]);
-      router.push("/article/" + data.article.article_id);
+      router.push("/article/"+data.article.article_id);
     } else {
-      alert(data.error ?? "Failed to create new article...");
+      alert(data.error??"Failed to create new article...");
     }
-  };
+  }
 
   useEffect(() => {
     AOS.init({
@@ -107,10 +111,10 @@ export default function HomeLoggedIn({ user }) {
     });
   }, []);
 
-  useEffect(() => {
-    // Fetch initial data when the component mounts
-    fetchFeedData();
-  }, []);
+  // useEffect(() => {
+  //   // Fetch initial data when the component mounts
+  //   fetchFeedData();
+  // }, []);
 
   const fetchFeedData = async (lastItem) => {
     setLoading(true);
@@ -120,7 +124,7 @@ export default function HomeLoggedIn({ user }) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ last: lastItemId }),
+        body: JSON.stringify({ last: lastItemId, keywords: keywordsSearch }),
       });
       const data = await response.json();
       setLastItemId(
@@ -128,6 +132,31 @@ export default function HomeLoggedIn({ user }) {
           data.items[data.items.length - 1]?.user_id
       );
       setFeedData((prevData) => [...prevData, ...data.items]);
+      // remove duplicates in setFeedData ids
+      setFeedData((prevData) => {
+        let ids = [];
+        let newData = [];
+        for (let i = 0; i < prevData.length; i++) {
+          let item = prevData[i];
+          if (item.type === "user") {
+            if (!ids.includes(item.user_id)) {
+              ids.push(item.user_id);
+              newData.push(item);
+            }
+          } else if (item.type === "opportunity") {
+            if (!ids.includes(item.opportunity_id)) {
+              ids.push(item.opportunity_id);
+              newData.push(item);
+            }
+          } else if (item.type === "article") {
+            if (!ids.includes(item.article_id)) {
+              ids.push(item.article_id);
+              newData.push(item);
+            }
+          }
+        }
+        return newData;
+      });
       setLoading(false);
     } catch (error) {
       console.error("Error fetching feed data:", error);
@@ -193,38 +222,27 @@ export default function HomeLoggedIn({ user }) {
           {/* Scrolling Feed */}
           <div className="lg:w-3/4 mr-auto flex-grow">
             <h1 className="text-center">Your Feed</h1>
-            <p className="mb-2 text-center">
-              Shows new users, opportunities, and articles from your
-              connections.
-            </p>
+            <p className="mb-2 text-center">{ keywordsSearch.length > 0 ? "Showing only matching opportunities" : "Showing new users, opportunities, and articles from your connections."}</p>
             <div className="flex justify-center">
-              <button
-                className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition mb-8"
-                onClick={() => setCreatingArticle(true)}
-              >
-                Create Article
-              </button>
-            </div>
-            <ReactModal
-              isOpen={creatingArticle}
-              contentLabel="Create Article"
-              ariaHideApp={false}
+            <button
+              className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition mb-8"
+              onClick={() => setCreatingArticle(true)}
             >
-              <div className="bg-gray-800">
-              <ArticlesForm
-                user={user}
-                editingArticles={false}
-                handleFormSubmit={makeNewArticle}
-                handleClose={() => setCreatingArticle(false)}
-                setTitle={setTitle}
-                setValue={setValue}
-                value={value}
-                title={title}
-                keywords={keywords}
-                setKeywords={setKeywords}
-                submitting={formSubmitting}
-              /></div>
-            </ReactModal>
+              Create Article
+            </button>
+          </div>
+          <div className="flex justify-center mb-2">
+            <KeywordAdder keywords={keywordsSearch} setKeywords={setKeywordsSearch} placeholder="Search for article keywords" />
+          </div>
+          <ReactModal
+  isOpen={creatingArticle}
+  contentLabel="Create Article"
+  ariaHideApp={false}
+>
+ <ArticlesForm user={user} editingArticles={false} handleFormSubmit={makeNewArticle} handleClose={()=>setCreatingArticle(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} keywords={keywords} setKeywords={setKeywords} submitting={formSubmitting} />
+</ReactModal>
+
+
 
             <div className="flex flex-col space-y-8 pr-6 lg:pr-0">
               {feedData.map((item, index) => (
@@ -236,7 +254,9 @@ export default function HomeLoggedIn({ user }) {
                   {item.type === "opportunity" && (
                     <OpportunityFeedCard item={item} />
                   )}
-                  {item.type === "article" && <ArticleFeedCard item={item} />}
+                  {item.type === 'article' && (
+                    <ArticleFeedCard item={item} />
+                  )}
                 </div>
               ))}
             </div>

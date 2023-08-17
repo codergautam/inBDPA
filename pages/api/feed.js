@@ -20,7 +20,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
   let myFirstDegreeConnections = (await getUserFromMongo(req.session.user.id))?.connections ?? [];
   myFirstDegreeConnections = [...myFirstDegreeConnections, req.session.user.id];
-  const { last } = req.body;
+  const { last, keywords } = req.body;
   try {
   let stuff = [...(await getAllOpportunitiesMongo()).map((e)=>e.toObject()), ...Object.values(await getManyUsersFast(null, true))];
   let articles = await getAllArticlesMongo();
@@ -37,7 +37,9 @@ export default withIronSessionApiRoute(handler, ironOptions);
       return article;
     }
   }));
+
   stuff = [...stuff, ...articles];
+  if(keywords && keywords.length > 0) stuff = articles;
   // Sort by createdAt
   stuff = stuff.sort((a, b) => {
     return new Date(b.createdAt) - new Date(a.createdAt);
@@ -69,6 +71,16 @@ export default withIronSessionApiRoute(handler, ironOptions);
     }
   }
   // Limit to 10 items
+  if(keywords && keywords.length > 0) {
+  stuff = stuff.filter((e) => {
+    console.log(e)
+    if(keywords) {
+      return e.keywords.some((keyword) => keywords.includes(keyword.toLowerCase()));
+    }
+    return true;
+  })
+}
+
   stuff = stuff.slice(0, 10);
 
 
