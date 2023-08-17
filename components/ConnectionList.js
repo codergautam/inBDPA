@@ -25,7 +25,7 @@ const ConnectionList = ({
   isYou,
   theirName,
 }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(true);
   const [userList, setUserList] = useState([]);
   const [error, setError] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,29 +85,25 @@ const ConnectionList = ({
   };
 
   return (
-    <div className="space-y-4 mt-2 text-center mx-auto">
+    <div className="max-h-[80vh] text-center w-1/4 border-2 border-gray-500 rounded-2xl flex flex-col">
       <h1
-        onClick={clickable ? openModal : null}
+        // onClick={clickable ? openModal : null}
         className={`${clickable ? "cursor-pointer" : ""} ${
           connections[1].length == 0
-            ? "text-black dark:text-gray-300 text-xs semism:text-sm md:text-lg dark:hover:text-gray-200"
-            : "text-black dark:text-white hover:text-blue-500"
+            ? "text-black dark:text-gray-300 text-xs semism:text-sm md:text-lg dark:hover:text-gray-200 bg-gray-900 w-full"
+            : "text-black dark:text-white hover:text-blue-500 bg-gray-600 w-full mx-auto py-2 rounded-t-2xl"
         } duration-300 ease-in-out transition`}
       >
         <span className="font-bold">{connections[1].length}</span> connections
       </h1>
-      {isYou ? (
-        <NetworkGraphModal data={connections[0]} user={user_id} />
-      ) : null}
-
-      <Modal
+      <div
         isOpen={isModalOpen}
-        overlayClassName="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 "
-        className="border border-gray-200 p-4 bg-white dark:bg-gray-900 max-w-2xl mx-auto mt-12 h-4/5 w-full sm:w-3/4 md:w-1/2 lg:2/5 xl:w-1/4 overflow-y-scroll pb-3"
+        overlayClassName="flex items-center justify-center"
+        className="mx-auto w-full h-full overflow-y-scroll pb-3"
         onRequestClose={closeModal}
         ariaHideApp={false} // Added to prevent the warning about appElement not being defined
       >
-        <button
+        {/* <button
           className="sticky w-full top-0 right-0 left-0 z-20"
           onClick={closeModal}
         >
@@ -137,7 +133,7 @@ const ConnectionList = ({
               ></path>
             </g>
           </svg>
-        </button>
+        </button> */}
         <h2 className="text-black dark:text-white text-2xl font-bold mb-8">
           {totalConnections}
           {isYou ? "" : " mutual"} connections
@@ -150,7 +146,7 @@ const ConnectionList = ({
                 <div
                   className={
                     // user.yourDepth == 1
-                    `w-full flex items-center py-2 px-2`
+                    `md:w-11/12 mx-auto flex items-center py-2 px-2`
                     // : user.yourDepth == 2
                     // ? `md:w-5/6 flex items-center py-2 px-2 ml-auto`
                     // : `w-2/3 flex items-center py-2 px-2 ml-auto`
@@ -199,10 +195,10 @@ const ConnectionList = ({
                     }
                     className={
                       user.yourDepth == 1
-                        ? `h-fit overflow-visible relative flex items-center gap-6 text-black text-lg font-semibold cursor-pointer rounded-lg bg-blue-400 dark:bg-blue-100 hover:bg-blue-200 dark:hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        ? `h-full overflow-visible relative flex items-center gap-6 text-black text-lg font-semibold cursor-pointer rounded-lg bg-blue-400 dark:bg-blue-100 hover:bg-blue-200 dark:hover:bg-blue-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                         : user.yourDepth == 2
-                        ? `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
-                        : `h-fit overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        ? `h-full overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
+                        : `h-full overflow-visible relative flex items-center gap-6 text-black dark:text-white text-lg font-semibold cursor-pointer rounded-lg bg-gray-100 dark:bg-gray-600 hover:bg-gray-200 dark:hover:bg-gray-700 py-2 mx-auto dark:shadow-2xl duration-200 ease-in-out transition w-full my-2`
                     }
                   >
                     {i % 2 === 0 && (
@@ -258,7 +254,8 @@ const ConnectionList = ({
                             ? "1st"
                             : user.theirDepth == 2
                             ? "2nd"
-                            : "3rd"}{" "}degree
+                            : "3rd"}{" "}
+                          degree
                         </p>
                       ) : null}
                     </div>
@@ -292,7 +289,12 @@ const ConnectionList = ({
             </button>
           )}
         </div>
-      </Modal>
+      </div>{" "}
+      {isYou ? (
+        <div className="py-2 bg-transparent border-t-4 border-black">
+          <NetworkGraphModal data={connections[0]} user={user_id} />
+        </div>
+      ) : null}
     </div>
   );
 };

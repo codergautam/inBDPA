@@ -128,7 +128,7 @@ const UserProfilePicture = ({ editable, hashedEmail, pfp }) => {
         onClick={() => setIsOpen(true)}
       >
         <img
-          className="absolute p-2 bg-white dark:bg-gray-800 rounded-full h-28 w-28 md:w-36 md:h-36 lg:h-48 lg:w-48 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out"
+          className="absolute p-2 bg-white dark:bg-gray-800 rounded-full w-28 md:w-40 shadow-2xl shadow-gray-300 dark:shadow-black hover:-translate-y-2 duration-300 ease-in-out"
           src={imageSrc}
           alt="User Profile"
         />

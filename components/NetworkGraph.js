@@ -164,7 +164,7 @@ function NetworkGraphModal({ user }) {
   }, [modalIsOpen, data]);
 
   return (
-    <div className="p-5">
+    <>
       <button
         className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
         onClick={() => setModalIsOpen(true)}
@@ -241,8 +241,7 @@ function NetworkGraphModal({ user }) {
             <div ref={visContainer} className="w-full h-full"></div>
           </>
         )}
-      </Modal>
-    </div>
+      </Modal></>
   );
 }
 

@@ -114,8 +114,8 @@ const AboutSection = ({
   };
 
   return (
-    <div className="w-full p-4 group mt-4 rounded-md border-2 dark:bg-gray-800 border-gray-700 shadow-xl">
-      <h2 className="text-base md:text-xl font-semibold text-black dark:text-white mb-2 duration-300 ease-in-out transition">
+    <div className="w-fit p-4 group mt-4 rounded-md border-2 dark:bg-gray-800 border-gray-700 shadow-xl">
+      <h2 className="text-base md:text-xl font-semibold text-black dark:text-white mb-2 duration-300 ease-in-out transition w-full">
         About
       </h2>
       {editing ? (
