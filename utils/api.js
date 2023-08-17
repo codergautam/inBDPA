@@ -23,6 +23,10 @@ import { increaseOpportunityViewCountMongo, increaseViewCountMongo } from './mon
 import getUserFromMongo from './mongo/getUserFromMongo';
 import getManyUsersFast from './mongo/getManyUsersFast';
 import getProfileIdFromUserId from './mongo/getProfileIdFromUserId';
+import updateArticleMongo from './mongo/updateArticleMongo';
+import getAllArticlesMongo from './mongo/getAllArticlesMongo';
+import deleteArticleMongo from './mongo/deleteArticleMongo';
+
 
 // Misc Imports
 import { refreshSession, setForceLogout, changeUserPassword, incrementOpportunityViews, incrementUserViews, loginUser } from './misc/miscHelpers';
@@ -33,7 +37,6 @@ import { createSession, renewSession, deleteSession, countSessionsForOpportunity
 import getInfo from './hscc/getInfo';
 import { getUsers, createUser, getUser, getUserByUsername, updateUser, deleteUser, addConnection, removeConnection, authenticateUser, getUserConnections } from './hscc/userEndpoints';
 import { getArticle, getArticles, deleteArticle, updateArticle, createArticle } from './hscc/articleEndpoints';
-
 // MONGO EXPORTS
 export {
   createNewProfile,
@@ -62,7 +65,10 @@ export {
   increaseViewCountMongo,
   getUserFromMongo,
   getManyUsersFast,
-  getProfileIdFromUserId
+  getProfileIdFromUserId,
+  updateArticleMongo,
+  getAllArticlesMongo,
+  deleteArticleMongo
 }
 
 // HSCC EXPORTS
