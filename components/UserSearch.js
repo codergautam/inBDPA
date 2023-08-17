@@ -254,14 +254,14 @@ export default function UserSearch() {
                   </button> : <></>}
                   {/* Administrators can not demote other admins!!!! */}
                   {(outputUser.type != "inner" && outputUser.type != "administrator") ? <button onClick={()=>changeUserType(outputUser.user_id, previousPosition)} className="bg-red-500 dark:bg-blue-600 cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                      Demote to <span className="text-rose-200 font-bold dark:text-red-500">{previousPosition}</span>
+                      Demote to <span className="text-rose-200 font-bold dark:text-rose-400">{previousPosition}</span>
                   </button> : <></>}
                   {outputUser.type !== "administrator" ? <button onClick={()=>impersonateUser(outputUser.user_id)} className="bg-yellow-500 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                          Impersonate <FontAwesomeIcon className="my-auto ml-2 text-yellow-200 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
+                          Impersonate <FontAwesomeIcon className="my-auto ml-2 text-yellow-200 dark:text-blue-300 group-hover:text-white transition duration-300 ease-in-out" icon={faMask}></FontAwesomeIcon>
                       </button>: <></>}
 
                   {outputUser.type !== "administrator" ? <button onClick={()=>forceLogoutUser(outputUser.user_id)} className="bg-rose-600 dark:bg-blue-600 group flex cursor-pointer hover:scale-105 transition duration-300 ease-in-out w-min min-w-max mx-auto mt-2 rounded text-white px-6 py-3 text-xl">
-                          Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-rose-300 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
+                          Force to Log Out <FontAwesomeIcon className="my-auto ml-2 text-rose-300 dark:text-blue-300 group-hover:text-white transition duration-300 ease-in-out" icon={faRightFromBracket}></FontAwesomeIcon>
                       </button>: <></>}
               </div>
           </div> : <></>}

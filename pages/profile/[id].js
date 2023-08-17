@@ -23,6 +23,10 @@ import ConnectionList from "@/components/ConnectionList";
 import UserBanner from "@/components/UserBanner";
 import md5 from "blueimp-md5";
 import rateLimit from "@/utils/rateLimit";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { Router } from "react-router-dom";
+import { useRouter } from "next/router";
 
 const limiter = rateLimit({
   interval: 60 * 60 * 1000, // 1 hr
@@ -66,6 +70,7 @@ export default function Page({
   error,
 }) {
   // State to store number of active sessions
+  const router = useRouter()
   const [activeSess, setActiveSessions] = useState("...");
   const [requestedUser, setRequestedUser] = useState(r);
   const [connections, setConnections] = useState(c);
@@ -73,6 +78,10 @@ export default function Page({
   const [connectionLabel, setConnectionLabel] = useState(
     connections[0]?.includes(user?.id) ? "Disconnect" : "Connect"
   );
+  const [editingFullName, setEditingFullName] = useState(false)
+  const [editingEmail, setEditingEmail] = useState(false)
+  const [newFullName, setNewFullName] = useState(r.fullName)
+  const [newEmail, setNewEmail] = useState(r.email ?? null)
 
   const editable = user?.id === requestedUser?.user_id;
 
@@ -217,10 +226,133 @@ export default function Page({
             <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5 w-full">
               {requestedUser.username}
             </h1>
-            
+            {
+              user && r.user_id == user.id ?
+              <h1 className="text-xs mt-2 w-min min-w-max text-center mx-auto flex items-center group font-semibold text-gray-700 semism:text-sm break-words dark:text-gray-400">
+                  Enter edit ode by hovering over your full name or email and clicking it
+              </h1>  : <></>
+            }
+            {user ? 
+            <>
+            {
+              !editingFullName  ?
+                <button onClick={() => setEditingFullName(true)} className="text-xl cursor-pointer flex hover:opacity-100 w-min min-w-max text-center items-end group transition duration-300 ease-in-out dark:hover:text-white font-semibold text-gray-700 semism:text-3xl break-words dark:text-gray-400 mt-2 mx-auto">
+                  {requestedUser.fullName ? requestedUser.fullName : (r.user_id == user.id ? "Fill in your Full Name Today" : "")}
+                </button>
+             : <form onSubmit={async e => {
+                e.preventDefault()
+                console.log(user)
+                let data = await fetch("/api/changeFullName", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    fullName: newFullName,
+                    user_id: user.id
+                  })
+                }).then(res => res.json())
+                console.log(data)
+                if (data.success) {
+                  // Redirect to the new link
+                  let copy = r
+                  copy.fullName = newFullName
+                  setEditingFullName(false)
+                  setRequestedUser(copy)
+                  // await router.push(`/profile/${link}`)
+                } else {
+                  alert(`Something went wrong, ${data.error}`)
+                  setEditingFullName(false)
+                }
+              }} className="flex flex-col space-y-2">
+              <input
+            type="text"
+            placeholder="Enter your Full Name"
+            value={newFullName}
+            onChange={(e) => setNewFullName(e.target.value)}
+            className="border-b-2 outline-none dark:text-white text-black bg-transparent pb-1 mt-2"
+          />
+          <div className="flex space-x-2 w-full">
+          <button
+                      className="px-4 py-2 text-white w-min min-w-max bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
+           type="submit">
+            Submit
+          </button>
+          <button
+            className="px-4 py-2 w-min min-w-max text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 rounded-md duration-200 ease-in-out transition"
+            onClick={(e) => {
+              setNewFullName(r.fullName)
+              setEditingFullName(false)
+            }}>
+            Cancel
+          </button>
+          </div>
+              </form>
+            }
+            </> : <></>}
             <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400">
               {requestedUser.type}
             </h1>
+            {user && r.email ? 
+            <>
+            {
+              !editingEmail  ?
+              <button onClick={() => setEditingEmail(true)} className="hover:text-white duration-300 transition ease-in-out">
+                <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400 hover:text-white duration-300 transition ease-in-out">
+                  Email: {r.email}
+                </h1>
+              </button> : <form onSubmit={async e => {
+                e.preventDefault()
+                console.log(user)
+                let data = await fetch("/api/changeEmail", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    newEmail,
+                    user_id: user.id
+                  })
+                }).then(res => res.json())
+                console.log(data)
+                if (data.success) {
+                  // Redirect to the new link
+                  let copy = r
+                  copy.email = newEmail
+                  setRequestedUser(copy)
+                  setEditingEmail(false)
+                } else {
+                  console.log(data.error)
+                  alert(`Something went wrong, ${data.error}`)
+                  setEditingEmail(false)
+                }
+              }} className="flex flex-col space-y-2">
+              <input
+            type="text"
+            placeholder="Enter your New Email"
+            value={newEmail}
+            onChange={(e) => setNewEmail(e.target.value)}
+            className="border-b-2 outline-none dark:text-white text-black bg-transparent pb-1 mt-2"
+          />
+          <div className="space-x-2 w-full flex">
+          <button
+                      className="px-4 py-2 text-white w-min min-w-max bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition"
+           type="submit">
+            Submit
+          </button>
+          <button
+            className="px-4 py-2 w-min min-w-max text-white bg-red-600 hover:bg-red-700 dark:bg-red-700 dark:hover:bg-red-600 rounded-md duration-200 ease-in-out transition"
+            onClick={(e) => {
+              setNewEmail(r.email)
+              setEditingEmail(false)
+            }}>
+            Cancel
+          </button>
+          </div>
+              </form>
+            }
+            </> : <></>}
+
 
             {editable ? <LinkChanger link={link} /> : null}
             <br />
@@ -283,7 +415,7 @@ export default function Page({
             ) : null}
 
             {!user ? (
-              <h1 className="text-red-600">Log in to view more details</h1>
+              <h1 className="text-red-600 font-semibold">Log in to view more details</h1>
             ) : null}
             {user
               ? sections
@@ -426,7 +558,7 @@ export const getServerSideProps = withIronSessionSsr(async function ({
       ...requestedUser,
       salt: null,
       key: null,
-      email: null,
+      email: req.session.user?.id == requestedUser.user_id ? requestedUser.email : null,
       hashedEmail: getGravatarHash(requestedUser.email),
     };
 

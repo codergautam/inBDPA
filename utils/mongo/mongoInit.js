@@ -50,8 +50,8 @@ const opportunitySchema = new mongoose.Schema({
 });
 
 
-const Opportunity = mongoose.models.Opportunity ?? mongoose.model('Opportunity', opportunitySchema);
 
+const Opportunity = mongoose.models.Opportunity ?? mongoose.model('Opportunity', opportunitySchema);
 const resetSchema = new Schema({
   id: ObjectId,
   user_id: String,

@@ -7,7 +7,7 @@
 // Sensitive user details like 'salt' and 'key' are removed before sending the user data in the response.
 // This route uses 'withIronSessionApiRoute' middleware for session management with options provided by 'getIronOptions' function. The 'rememberMe' property from the request body controls the session persistence.
 
-import { authenticateUser, createUser } from "@/utils/api";
+import { createUser } from "@/utils/api";
 import { encryptPassword } from "@/utils/encryptPassword";
 import { NextResponse } from "next/server";
 import { withIronSessionApiRoute } from "iron-session/next";
@@ -54,10 +54,16 @@ import { getIronOptions } from "@/utils/ironConfig";
     return res.send({ error: "Username cannot contain special characters" });
   }
 
-  if(fullName > 30) {
+  // Validate full name
+  // make sure alphanumeric ()
+  if(!/^[a-zA-Z0-9](.*[a-zA-Z0-9])?$/.test(fullName)) {
+    return res.send({ error: "Cannot have special characters (this may also happen if you have blank spaces at the start and end)" });
+  }
+
+  if(fullName >= 30) {
     return res.send({ error: "Full name must be at most 30 characters" });
-  } else if(fullName < 1) {
-    return res.send({ error: "Full name must be at least 1 characters" });
+  } else if(fullName <= 1) {
+    return res.send({ error: "Full name must be at least 1 character" });
   }
 
   const { key, salt } = await encryptPassword(password);
@@ -71,7 +77,7 @@ import { getIronOptions } from "@/utils/ironConfig";
   });
   // store in session
   if(user.success && changeUser) {
-    req.session.user = {id: user.user.user_id, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link, salt, key};
+    req.session.user = {id: user.user.user_id, fullName: user.user.fullName, username: user.user.username, email: user.user.email, type: user.user.type, link: user.user.link, salt, key};
   await createUserNode(user.user.user_id, []);
     await req.session.save();
   }
