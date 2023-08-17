@@ -108,11 +108,12 @@ export async function getConnectionSuggestions(user_id) {
 
 export async function deleteUser(user_id) {
   const session = driver.session();
+  let query;
 
   try {
     // Then, delete the user itself.
     query = 'MATCH (a:User {id: $user_id}) DETACH DELETE a';
-    await session.run(query, params);
+    await session.run(query, { user_id });
 
   } catch (error) {
     console.error('Error deleting user and its connections:', error);
