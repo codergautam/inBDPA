@@ -294,7 +294,7 @@ export default function Page({
                   )
                   .map((section) => (
                     <div
-                      className="w-full p-4 group mt-4 border-gray-700 border-b"
+                      className="w-full p-4 group mt-4 border-gray-500 border-b"
                       key={section}
                     >
 
