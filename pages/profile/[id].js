@@ -243,18 +243,14 @@ export default function Page({
             </div>
             <h1 className="text-3xl font-semibold text-gray-900 semism:text-7xl break-words dark:text-white pt-5 w-full">
               {requestedUser.username}
-            </h1>{
-              user && r.user_id == user.id ?
-              <h1 className="text-xs mt-2 w-min min-w-max text-center mx-auto flex items-center group font-semibold text-gray-700 semism:text-sm break-words dark:text-gray-400">
-                  Enter edit ode by hovering over your full name or email and clicking it
-              </h1>  : <></>
-            }
-            {user ? 
+            </h1>
+            {user ?
             <>
             {
               !editingFullName  ?
                 <button onClick={() => setEditingFullName(true)} className="text-xl cursor-pointer flex hover:opacity-100 w-min min-w-max text-center items-end group transition duration-300 ease-in-out dark:hover:text-white font-semibold text-gray-700 semism:text-3xl break-words dark:text-gray-400 mt-2 mx-auto">
-                  {requestedUser.fullName ? requestedUser.fullName : (r.user_id == user.id ? "Fill in your Full Name Today" : "")}
+                  {requestedUser.fullName ? requestedUser.fullName : (r.user_id == user.id ? "Add your full name" : "")}
+                {editable? "✏️": ""}
                 </button>
              : <form onSubmit={async e => {
                 e.preventDefault()
@@ -317,6 +313,8 @@ export default function Page({
               <button onClick={() => setEditingEmail(true)} className="hover:text-white duration-300 transition ease-in-out">
                 <h1 className="text-base semism:text-xl text-gray-700 dark:text-gray-400 hover:text-white duration-300 transition ease-in-out">
                   Email: {r.email}
+                {editable? "✏️": ""}
+
                 </h1>
               </button> : <form onSubmit={async e => {
                 e.preventDefault()

@@ -9,9 +9,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
  async function handler(req, res) {
 
-  if(req.session.user.type == "inner") {
-    return res.json({success: false, message: "smh, inners :(", error: "Unauthorized"})
-  }
+
 
   const { article_id } = req.body
 
