@@ -26,19 +26,19 @@ const KeywordAdder = ({ keywords, setKeywords,placeholder="Add Keywords" }) => {
   };
 
   return (
-    <div className="flex flex-col space-y-4">
-      <div className='flex flex-wrap space-x-2'>
+    <div className="flex flex-col">
+      <div className='flex flex-wrap justify-start items-center'>
               {keywords.map((keyword, index) => (
-          <div key={index} className="bg-blue-200 text-blue-700 rounded p-2 flex items-center space-x-1">
+          <div key={index} className="bg-blue-200 text-blue-700 rounded p-2 m-1 items-center">
             <span>{keyword}</span>
-            <button onClick={() => handleKeywordRemove(index)} className="text-red-500 hover:text-red-700 cursor-pointer">
+            <button onClick={() => handleKeywordRemove(index)} className="text-red-500 hover:text-red-700 cursor-pointer pl-1">
               x
             </button>
           </div>
         ))}
       </div>
       {keywords.length < 10 ? (
-        <div className="flex space-x-2">
+        <div className="flex space-x-2 mx-auto pt-1">
       <input
         type="text"
         value={input}
@@ -53,7 +53,7 @@ const KeywordAdder = ({ keywords, setKeywords,placeholder="Add Keywords" }) => {
       </button>
       </div>
       ) : (
-        <p className="text-red-500">You can only have up to 10 keywords</p>
+        <p className="text-red-500 text-center">You can only have up to 10 keywords</p>
       )}
     </div>
   );
