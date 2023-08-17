@@ -49,6 +49,7 @@ const opportunitySchema = new mongoose.Schema({
   lastUpdatedActive: Date
 });
 
+
 const Opportunity = mongoose.models.Opportunity ?? mongoose.model('Opportunity', opportunitySchema);
 
 const resetSchema = new Schema({
@@ -59,7 +60,17 @@ const resetSchema = new Schema({
   used: Boolean
 });
 
+const articleSchema = new mongoose.Schema({
+  id: ObjectId,
+  article_id: String,
+  creator_id: String,
+  title: String,
+  views: Number,
+  createdAt: Number,
+  content: String,
+});
+const Article = mongoose.models.Article ?? mongoose.model('Article', articleSchema);
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
 const Reset = mongoose.models.Reset ?? mongoose.model('Reset', resetSchema);
 
-export { Profile, Reset, Opportunity, mongoose };
+export { Profile, Reset, Opportunity, Article, mongoose };
