@@ -26,6 +26,7 @@ import getProfileIdFromUserId from './mongo/getProfileIdFromUserId';
 import updateArticleMongo from './mongo/updateArticleMongo';
 import getAllArticlesMongo from './mongo/getAllArticlesMongo';
 import deleteArticleMongo from './mongo/deleteArticleMongo';
+import getArticleMongo from './mongo/getArticleMongo';
 
 // Misc Imports
 import { refreshSession, setForceLogout, changeUserPassword, incrementOpportunityViews, incrementUserViews, incrementArticleViews, loginUser } from './misc/miscHelpers';
@@ -68,7 +69,8 @@ export {
   getProfileIdFromUserId,
   updateArticleMongo,
   getAllArticlesMongo,
-  deleteArticleMongo
+  deleteArticleMongo,
+  getArticleMongo
 }
 
 // HSCC EXPORTS

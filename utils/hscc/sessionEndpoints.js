@@ -79,7 +79,7 @@ export async function countSessionsForOpportunity(opportunityId) {
 }
 
 export async function countSessionsForArticle(articleId) {
-  const minutes = 20/60 //Yeah, 1 min refresh
+  const minutes = 20/60
   let opp = await Article.findOne({article_id: articleId})
   //Check for if the activeSessions prop actually exists and then whether is a valid time range
   if(Number.isInteger(opp?.activeSessions) && (Date.now() - new Date(opp.lastUpdatedActive).getTime()) < (Math.pow(10, 3) * minutes * 60)) {
@@ -103,11 +103,6 @@ export async function countSessionsForArticle(articleId) {
       lastUpdatedActive: Date.now()
     }
   })
-
-  // Refetch and make sure its set
-  opp = await Article.findOne({article_id: articleId})
-
-  console.log("Fallback session count: ", opp.activeSessions)
   //Return original request
   return { active: sessionCount }
 }

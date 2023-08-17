@@ -19,11 +19,7 @@ export default withIronSessionApiRoute(handler, ironOptions);
 
  async function handler(req, res) {
 
-  if(req.session.user.type == "inner") {
-    return res.json({success: false, message: "smh, inners :(", error: "Unauthorized"})
-  }
-
-  const { title, contents } = req.body
+  let { title, contents,keywords } = req.body
   const user = req.session.user;
   if(!user) {
     return res.json({success: false, error: "Not logged in"});
@@ -38,7 +34,15 @@ export default withIronSessionApiRoute(handler, ironOptions);
   if(title.length > 100) {
     return res.json({success: false, error: "Title too long"});
   }
-  let data = await createArticle({title, contents, creator_id});
+  if(!keywords) keywords = [];
+  if(keywords.length > 10) {
+    return res.json({success: false, error: "Too many keywords, max 10"});
+  }
+  if(keywords.some((keyword) => keyword.length > 20)) {
+    return res.json({success: false, error: "A keyword cannot exceed 20 chars"});
+  }
+  let data = await createArticle({title, contents, creator_id, keywords});
+  console.log(data);
   if(data.success) {
     delete data.article.updatedAt;
 

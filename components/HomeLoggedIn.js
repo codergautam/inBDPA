@@ -30,6 +30,15 @@ import msToTime from "@/utils/msToTime";
 import { useRouter } from "next/router";
 import UserFeedCard from "./UserFeedCard";
 import OpportunityFeedCard from "./OpportunityFeedCard";
+import ReactModal from "react-modal";
+import ArticlesForm from "./ArticleForm";
+import dynamic from "next/dynamic";
+import ArticleFeedCard from "./ArticleFeedCard";
+
+const MDEditor = dynamic(
+  () => import("@uiw/react-md-editor"),
+  { ssr: false, loading: () => <div className="flex items-center justify-center py-12"><div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-500"></div></div>  }
+);
 
 const getGreeting = () => {
   const currentHour = new Date().getHours();
@@ -47,6 +56,45 @@ export default function HomeLoggedIn({ user }) {
   const [loading, setLoading] = useState(false);
   const [lastItemId, setLastItemId] = useState(null);
   const [connectionLabel, setConnectionLabel] = useState("Connect");
+
+  // Article Creation
+  const [creatingArticle, setCreatingArticle] = useState(false);
+  const [formSubmitting, setFormSubmitting] = useState(false);
+  const [title, setTitle] = useState("");
+  const [value, setValue] = useState("");
+  const [keywords, setKeywords] = useState([]);
+
+  const makeNewArticle = async () => {
+    if(formSubmitting) return;
+
+    if(!title || !value) {
+      alert("Please fill out all fields!");
+      return;
+    }
+    setFormSubmitting(true);
+
+    let data = await fetch("/api/articles/createArticle", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        title: title,
+        contents: value,
+        keywords: keywords
+      })
+    }).then(res => res.json())
+    setFormSubmitting(false);
+    if (data.success) {
+      setCreatingArticle(false);
+      setValue("");
+      setTitle("");
+      setKeywords([]);
+      router.push("/article/"+data.article.article_id);
+    } else {
+      alert(data.error??"Failed to create new article...");
+    }
+  }
 
   useEffect(() => {
     AOS.init({
@@ -140,7 +188,26 @@ export default function HomeLoggedIn({ user }) {
         <div className="lg:flex md:justify-center">
           {/* Scrolling Feed */}
           <div className="lg:w-3/4 mr-auto flex-grow">
-            <h1 className="mb-2 text-center">Your Feed</h1>
+            <h1 className="text-center">Your Feed</h1>
+            <p className="mb-2 text-center">Shows new users, opportunities, and articles from your connections.</p>
+            <div className="flex justify-center">
+            <button
+              className="px-4 py-2 text-white bg-blue-600 hover:bg-blue-700 rounded-md duration-200 ease-in-out transition mb-8"
+              onClick={() => setCreatingArticle(true)}
+            >
+              Create Article
+            </button>
+          </div>
+          <ReactModal
+  isOpen={creatingArticle}
+  contentLabel="Create Article"
+  ariaHideApp={false}
+>
+ <ArticlesForm user={user} editingArticles={false} handleFormSubmit={makeNewArticle} handleClose={()=>setCreatingArticle(false)} setTitle={setTitle} setValue={setValue} value={value} title={title} keywords={keywords} setKeywords={setKeywords} submitting={formSubmitting} />
+</ReactModal>
+
+
+
             <div className="flex flex-col space-y-8 pr-6 lg:pr-0">
               {feedData.map((item, index) => (
                 <div
@@ -150,6 +217,9 @@ export default function HomeLoggedIn({ user }) {
                   {item.type === "user" && <UserFeedCard item={item} />}
                   {item.type === "opportunity" && (
                     <OpportunityFeedCard item={item} />
+                  )}
+                  {item.type === 'article' && (
+                    <ArticleFeedCard item={item} />
                   )}
                 </div>
               ))}
