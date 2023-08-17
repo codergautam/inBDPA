@@ -49,7 +49,6 @@ export async function countSessionsForOpportunity(opportunityId) {
   let opp = await Opportunity.findOne({opportunity_id: opportunityId})
   //Check for if the activeSessions prop actually exists and then whether is a valid time range
   if(Number.isInteger(opp?.activeSessions) && (Date.now() - new Date(opp.lastUpdatedActive).getTime()) < (Math.pow(10, 3) * minutes * 60)) {
-    console.log("Cached session count: ", opp.activeSessions)
     return { active: opp.activeSessions }
   }
 
@@ -83,7 +82,6 @@ export async function countSessionsForArticle(articleId) {
   let opp = await Article.findOne({article_id: articleId})
   //Check for if the activeSessions prop actually exists and then whether is a valid time range
   if(Number.isInteger(opp?.activeSessions) && (Date.now() - new Date(opp.lastUpdatedActive).getTime()) < (Math.pow(10, 3) * minutes * 60)) {
-    console.log("Cached session count: ", opp.activeSessions)
     return { active: opp.activeSessions }
   }
 
@@ -91,11 +89,9 @@ export async function countSessionsForArticle(articleId) {
   const url = `${BASE_URL}/articles/${articleId}`;
   let res = await sendRequest(url, 'GET');
 
-  console.log("Fetched article: ", res)
   if(!res || !res.success || !res.article) return {success: false, error: "Could not fetch article"}
 
   let sessionCount = res.article.sessions;
-  console.log("Session count: ", sessionCount)
   //Update Mongo
   await Article.updateOne({article_id: articleId}, {
     $set: {

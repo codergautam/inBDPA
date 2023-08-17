@@ -57,7 +57,6 @@ export async function increaseArticleViewCountMongo(articleId) {
       { $inc: { views: 1 } },
       { new: true, upsert: true }
     );
-    console.log('Article views successfully updated: ', updatedArticle);
     return true;
   } catch (error) {
     console.log('Error while trying to update opportunity views: ', error);

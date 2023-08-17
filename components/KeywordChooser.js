@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const KeywordAdder = ({ keywords, setKeywords }) => {
+const KeywordAdder = ({ keywords, setKeywords,placeholder="Add Keywords" }) => {
   const [input, setInput] = useState('');
 
   const handleInputChange = (e) => {
@@ -44,8 +44,8 @@ const KeywordAdder = ({ keywords, setKeywords }) => {
         value={input}
         onChange={handleInputChange}
         onKeyDown={handleKeyDown}
-        placeholder="Add a keyword and press Enter"
-        className="border rounded p-2 w-96 focus:border-blue-500"
+        placeholder={placeholder}
+        className="border rounded p-2 md:w-96 sm:w-48 focus:border-blue-500"
         maxLength={20}
       />
       <button onClick={addKeyword} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
