@@ -30,9 +30,11 @@ async function getOpportunities(after = null, updatedAfter = null) {
   let url = `${BASE_URL}/opportunities`;
   if (after) {
     url += `?after=${after}`;
-  }
-  if (updatedAfter) {
-    url += `&updatedAfter=${updatedAfter}`;
+    if(updatedAfter) {
+      url += `&updatedAfter=${updatedAfter}`;
+    }
+  } else if (updatedAfter) {
+    url += `?updatedAfter=${updatedAfter}`;
   }
   return sendRequest(url, 'GET');
 }
@@ -52,6 +54,19 @@ try {
   return false;
 }
 }
+
+async function updateArticleMongo(articleId, article) {
+  // Create if not exists
+  try {
+    const updated = await Article.findOneAndUpdate( { article_id: articleId }, article, { new: true, upsert: true } );
+    return true;
+  } catch (error) {
+    console.log('Error while trying to update opportunity: ', error);
+    return false;
+  }
+  }
+
+
 
 const ObjectId = mongoose.Schema.ObjectId;
 const profileSchema = new mongoose.Schema({
@@ -77,9 +92,19 @@ const opportunitySchema = new mongoose.Schema({
   createdAt: Number,
   content: String,
 });
+const articleSchema = new mongoose.Schema({
+  id: ObjectId,
+  article_id: String,
+  creator_id: String,
+  title: String,
+  views: Number,
+  createdAt: Number,
+  content: String,
+});
 
 const Opportunity = mongoose.models.Opportunity ?? mongoose.model('Opportunity', opportunitySchema);
 const Profile = mongoose.models.Profile ?? mongoose.model('Profile', profileSchema);
+const Article = mongoose.models.Article ?? mongoose.model('Article', articleSchema);
 
 async function sendRequest(url, method, body = null) {
   // Define the common headers for all requests
@@ -206,6 +231,37 @@ async function getAllOpportunities(lastUpdated) {
   return opportunities;
 }
 
+async function getAllArticles(lastUpdated) {
+  let articles = [];
+  let stop = false;
+  let after = undefined;
+  while(!stop) {
+    let d;
+     d = await getArticles(after, lastUpdated);
+     if(!d.articles) {
+      return false;
+     }
+    if(d.articles.length == 100) {
+      after = d.articles[99].article_id;
+    } else {
+      stop = true;
+    }
+
+    for(let i = 0; i < d.articles.length; i++) {
+      let article = d.articles[i];
+      let fullData = await getArticle(article.article_id);
+      if(fullData && fullData.success && fullData.article) {
+        d.articles[i].content = fullData.article.contents;
+      }
+      await wait(API_WAIT_TIME);
+    }
+
+    articles.push(...d.articles);
+    await wait(API_WAIT_TIME);
+  }
+  return articles;
+}
+
 async function deleteOpportunityMongo(opportunityId) {
   try {
     // Attempt to delete the opportunity from the database
@@ -219,6 +275,54 @@ async function deleteOpportunityMongo(opportunityId) {
     console.error(err);
     return false;
   }
+}
+
+async function deleteArticleMongo(articleId) {
+  try {
+    // Attempt to delete the article from the database
+    const result = await Article.deleteOne({ article_id: articleId });
+    if (result.deletedCount === 1) {
+      return true;
+    } else {
+      return false;
+    }
+  } catch (err) {
+    console.error(err);
+    return false;
+  }
+}
+
+export async function getArticles(after = null, updatedAfter = null) {
+  let url = `${BASE_URL}/articles`;
+  if (after) {
+    url += `?after=${after}`;
+    if(updatedAfter) {
+      url += `&updatedAfter=${updatedAfter}`;
+    }
+  } else if (updatedAfter) {
+    url += `?updatedAfter=${updatedAfter}`;
+  }
+  return sendRequest(url, 'GET');
+}
+
+export async function createArticle(article) {
+  const url = `${BASE_URL}/articles`;
+  return sendRequest(url, 'POST', article);
+}
+
+export async function getArticle(articleId) {
+  const url = `${BASE_URL}/articles/${articleId}`;
+  return sendRequest(url, 'GET');
+}
+
+export async function updateArticle(articleId, updates) {
+  const url = `${BASE_URL}/articles/${articleId}`;
+  return sendRequest(url, 'PATCH', updates);
+}
+
+export async function deleteArticle(articleId) {
+  const url = `${BASE_URL}/articles/${articleId}`;
+  return sendRequest(url, 'DELETE');
 }
 
 export async function userExistsAPI(user_id) {
@@ -246,6 +350,35 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   console.log("Fetching data from HSCC API...");
   let latestUsers = [];
   await userExists('0')
+  let startTime = Date.now();
+    // Process articles
+    console.log("Fetching articles from HSCC API...");
+    let latestArticles = await getAllArticles(lastUpdated);
+    if(latestArticles && latestArticles.length > 0) {
+    console.log("Updating database...", latestArticles.length, "articles");
+    startTime = Date.now();
+    for(let latestArticle of latestArticles) {
+      // Update articles in MongoDB
+      console.log("Updating article", latestArticle.article_id, latestArticle.title);
+      await updateArticleMongo(latestArticle.article_id, latestArticle);
+    }
+
+    if(!lastUpdated) {
+      // Remove articles that were not updated
+      let articles = await Article.find({});
+      for(let article of articles) {
+        if(!latestArticles.find(o => o.article_id === article.article_id)) {
+          console.log("Removing article", article.article_id, article.title);
+          await deleteArticleMongo(article.article_id);
+        }
+      }
+    }
+    console.log("Done! Processed "+latestArticles.length+" articles in "+(Date.now()-startTime)+"ms ✨");
+    } else {
+      console.log("No articles found to update");
+    }
+
+    startTime = Date.now();
   let stop = false;
   let after = undefined;
   while(!stop) {
@@ -269,7 +402,6 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   latestUsers.reverse()
   // console.log(latestUsers)
   console.log("Updating database...", latestUsers.length, "users");
-  let startTime = Date.now();
   if(!lastUpdated) {
     // Remove users that were not updated
     let users = await Profile.find({});
@@ -371,7 +503,7 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   }
 
   console.log("Done! Processed "+latestUsers.length+" users in "+(Date.now()-startTime)+"ms ✨");
-  startTime = Date.now();
+
   // Process opportunities
   console.log("Fetching opportunities from HSCC API...");
   let latestOpportunities = await getAllOpportunities(lastUpdated);
@@ -380,7 +512,6 @@ export default async function fetchDataAndSaveToDB(lastUpdated) {
   startTime = Date.now();
   for(let latestOpportunity of latestOpportunities) {
     // Update opportunity in MongoDB
-
     await updateOpportunityMongo(latestOpportunity.opportunity_id, latestOpportunity);
   }
 

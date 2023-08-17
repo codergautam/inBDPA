@@ -29,9 +29,10 @@ import { refreshSession, setForceLogout, changeUserPassword, incrementOpportunit
 
 // HSCC Imports
 import { getOpportunity, getOpportunities, createOpportunity, deleteOpportunity, updateOpportunity } from './hscc/opportunityEndpoints';
-import { createSession, renewSession, deleteSession, countSessionsForOpportunity, countSessionsForUser } from './hscc/sessionEndpoints';
+import { createSession, renewSession, deleteSession, countSessionsForOpportunity, countSessionsForUser, getAllSessions } from './hscc/sessionEndpoints';
 import getInfo from './hscc/getInfo';
 import { getUsers, createUser, getUser, getUserByUsername, updateUser, deleteUser, addConnection, removeConnection, authenticateUser, getUserConnections } from './hscc/userEndpoints';
+import { getArticle, getArticles, deleteArticle, updateArticle, createArticle } from './hscc/articleEndpoints';
 
 // MONGO EXPORTS
 export {
@@ -74,6 +75,7 @@ export {
   createSession,
   renewSession,
   deleteSession,
+  getAllSessions,
   countSessionsForOpportunity,
   countSessionsForUser,
   getInfo,
@@ -86,7 +88,12 @@ export {
   addConnection,
   removeConnection,
   authenticateUser,
-  getUserConnections
+  getUserConnections,
+  getArticle,
+  getArticles,
+  deleteArticle,
+  updateArticle,
+  createArticle
 }
 
 // MISC EXPORTS

@@ -28,6 +28,11 @@ export async function deleteSession(sessionId) {
   return sendRequest(url, 'DELETE');
 }
 
+export async function getAllSessions() {
+  const url = `${BASE_URL}/sessions`;
+  return sendRequest(url, 'GET');
+}
+
 export async function countSessionsForUser(userId) {
   const url = `${BASE_URL}/users/${userId}`;
   let res = await sendRequest(url, 'GET');
