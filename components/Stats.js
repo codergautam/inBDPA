@@ -82,7 +82,6 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
   const router = useRouter()
   useEffect(() => {
     setUserList(listOfUsers)
-<<<<<<< HEAD
     if(sessions) { //If loaded in
       console.log("has session")
       let updated = sessions.map((session, i) => {
@@ -93,9 +92,6 @@ function StatItem({ label, listOfUsers, sessions, type, value }) {
       console.log(updated)
       setSessionList(updated)
     }
-=======
-    setSessionList(sessions)
->>>>>>> eabaa370a99e6987aff4d5787f7b484ea06a3cfc
   }, [listOfUsers, sessions])
 
   const properLink = session => {
