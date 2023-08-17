@@ -14,7 +14,7 @@
 // The `loginUser` function handles user login by authenticating the user, generating a new profile if necessary, and returning the user information.
 //
 // Overall, these functions are important for managing user profiles, updating data, and handling user authentication in the inBDPA project.
-import { authenticateUser, createNewProfile, getProfileIdFromUserId, getUser, getUserByUsername, getUserFromEmail, updateOpportunity, updateUser } from "../api"
+import { authenticateUser, createNewProfile, getProfileIdFromUserId, getUser, getUserByUsername, getUserFromEmail, updateArticle, updateOpportunity, updateUser } from "../api"
 import { convertHexToBuffer, deriveKeyFromPassword } from "../encryptPassword"
 import generateRandomId from "../generateRandomProfileId"
 import { Profile } from "../mongo/mongoInit"
@@ -78,6 +78,10 @@ export async function incrementUserViews(userId) {
 
 export async function incrementOpportunityViews(opportunityId) {
   return updateOpportunity(opportunityId, { views: "increment" });
+}
+
+export async function incrementArticleViews(articleId) {
+  return updateArticle(articleId, { views: "increment" });
 }
 
 export async function loginUser(username, password) {

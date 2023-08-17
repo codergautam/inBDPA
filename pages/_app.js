@@ -19,7 +19,7 @@ function parseUrl(url) {
   if (dir === "") {
     dir = "home";
   }
-  if(!["home", "admin","profile","opportunity"].includes(dir)) {
+  if(!["home", "admin","profile","opportunity","article"].includes(dir)) {
     return null;
   }
 

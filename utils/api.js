@@ -19,7 +19,7 @@ import getUserCount from './mongo/getUserCount';
 import changeProfileLink from './mongo/changeProfileLink';
 import updateUserTypeInMongo from './mongo/updateUserTypeInMongo';
 import { setUserBanner, setUserPfp, getUserBanner, getUserPfp, getUserPfpAndBanner } from './mongo/userVisualHelpers';
-import { increaseOpportunityViewCountMongo, increaseViewCountMongo } from './mongo/viewCountHelpers';
+import { increaseArticleViewCountMongo, increaseOpportunityViewCountMongo, increaseViewCountMongo } from './mongo/viewCountHelpers';
 import getUserFromMongo from './mongo/getUserFromMongo';
 import getManyUsersFast from './mongo/getManyUsersFast';
 import getProfileIdFromUserId from './mongo/getProfileIdFromUserId';
@@ -27,13 +27,12 @@ import updateArticleMongo from './mongo/updateArticleMongo';
 import getAllArticlesMongo from './mongo/getAllArticlesMongo';
 import deleteArticleMongo from './mongo/deleteArticleMongo';
 
-
 // Misc Imports
-import { refreshSession, setForceLogout, changeUserPassword, incrementOpportunityViews, incrementUserViews, loginUser } from './misc/miscHelpers';
+import { refreshSession, setForceLogout, changeUserPassword, incrementOpportunityViews, incrementUserViews, incrementArticleViews, loginUser } from './misc/miscHelpers';
 
 // HSCC Imports
 import { getOpportunity, getOpportunities, createOpportunity, deleteOpportunity, updateOpportunity } from './hscc/opportunityEndpoints';
-import { createSession, renewSession, deleteSession, countSessionsForOpportunity, countSessionsForUser, getAllSessions } from './hscc/sessionEndpoints';
+import { createSession, renewSession, deleteSession, countSessionsForOpportunity, countSessionsForUser, getAllSessions, countSessionsForArticle } from './hscc/sessionEndpoints';
 import getInfo from './hscc/getInfo';
 import { getUsers, createUser, getUser, getUserByUsername, updateUser, deleteUser, addConnection, removeConnection, authenticateUser, getUserConnections } from './hscc/userEndpoints';
 import { getArticle, getArticles, deleteArticle, updateArticle, createArticle } from './hscc/articleEndpoints';
@@ -61,6 +60,7 @@ export {
   getUserBanner,
   getUserPfp,
   getUserPfpAndBanner,
+  increaseArticleViewCountMongo,
   increaseOpportunityViewCountMongo,
   increaseViewCountMongo,
   getUserFromMongo,
@@ -99,7 +99,8 @@ export {
   getArticles,
   deleteArticle,
   updateArticle,
-  createArticle
+  createArticle,
+  countSessionsForArticle
 }
 
 // MISC EXPORTS
@@ -109,5 +110,6 @@ export {
   changeUserPassword,
   incrementOpportunityViews,
   incrementUserViews,
+  incrementArticleViews,
   loginUser
 }
