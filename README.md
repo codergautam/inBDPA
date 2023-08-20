@@ -3,8 +3,8 @@ Part 1: https://github.com/nhscc/problem-statements/blob/main/2023/inbdpa/inbdpa
 
 Credits: 
 
-Gautam Anand
-Samuel Kaspar
-King-Diorr Wilsun
-Lucy Evans
-Isha Jeyakumar
+- Gautam Anand
+- Samuel Kaspar
+- King-Diorr Wilsun
+- Lucy Evans
+- Isha Jeyakumar
